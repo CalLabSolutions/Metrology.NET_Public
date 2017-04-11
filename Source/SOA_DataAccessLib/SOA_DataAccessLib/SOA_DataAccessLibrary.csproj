@@ -7,8 +7,8 @@
     <ProjectGuid>{7AF4B06C-7888-431F-AC46-DB9B1A722990}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MII_UNC_DataAccessLib</RootNamespace>
-    <AssemblyName>MII_UNC_DataAccessLib</AssemblyName>
+    <RootNamespace>SOA_DataAccessLibrary</RootNamespace>
+    <AssemblyName>SOA_DataAccessLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

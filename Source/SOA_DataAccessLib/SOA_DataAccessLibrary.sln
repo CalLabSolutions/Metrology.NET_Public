@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOA_DataAccessLibrary", "MII_UNC_DataAccessLib\SOA_DataAccessLibrary.csproj", "{7AF4B06C-7888-431F-AC46-DB9B1A722990}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOA_DataAccessLibrary", "SOA_DataAccessLib\SOA_DataAccessLibrary.csproj", "{7AF4B06C-7888-431F-AC46-DB9B1A722990}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOA_DataAccessLibrary_UnitTest1", "UnitTestLoad\SOA_DataAccessLibrary_UnitTest1.csproj", "{903E070B-3662-4092-BFEC-18BAEBD710E6}"
 EndProject

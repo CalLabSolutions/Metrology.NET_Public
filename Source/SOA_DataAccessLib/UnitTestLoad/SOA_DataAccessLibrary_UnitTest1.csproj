@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MII_UNC_DataAccessLib\SOA_DataAccessLibrary.csproj">
+    <ProjectReference Include="..\SOA_DataAccessLib\SOA_DataAccessLibrary.csproj">
       <Project>{7af4b06c-7888-431f-ac46-db9b1a722990}</Project>
       <Name>SOA_DataAccessLibrary</Name>
     </ProjectReference>

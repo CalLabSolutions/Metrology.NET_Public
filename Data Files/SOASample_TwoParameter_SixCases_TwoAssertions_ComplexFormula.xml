@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soa:SOADataMaster xmlns:soa="http://schema.metrology.net/ScopeOfAccreditation"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:uom="http://schema.metrology.net/UnitsOfMeasure"
+    xmlns:unc="http://schema.metrology.net/Uncertainty"
+    xmlns:mml="http://www.w3.org/1998/Math/MathML"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:mtc="http://schema.metrology.net/MetrologyTaxononyCatatalog"
+    xsi:schemaLocation="http://schema.metrology.net/ScopeOfAccreditation http://schema.metrology.net/SOA_Master_Datafile.xsd">
+    <soa:AB_ID></soa:AB_ID>
+    <soa:AB_Logo-Signature></soa:AB_Logo-Signature>
+    <soa:Scope_ID_Number></soa:Scope_ID_Number>
+    <soa:Criteria></soa:Criteria>
+    <soa:EffectiveDate>3/29/2017</soa:EffectiveDate>
+    <soa:ExpirationDate>3/29/2018</soa:ExpirationDate>
+    <soa:Statement></soa:Statement>
+    <soa:CapabilityScope>
+        <soa:MeasuringEntity>Acme Calibration Laboratory</soa:MeasuringEntity>
+        <soa:Locations>
+            <soa:Location>
+                <soa:OrganizationAddress>
+                    <soa:Street>1234 Metrology Ave</soa:Street>
+                    <soa:City>Accura</soa:City>
+                    <soa:State>Ohio</soa:State>
+                    <soa:Zip>31416</soa:Zip>
+                </soa:OrganizationAddress>
+                <soa:ContactName>Al P. Pie</soa:ContactName>
+                <soa:ContactInfo></soa:ContactInfo>
+            </soa:Location>
+        </soa:Locations>
+        <soa:Activities>
+            <soa:Activity>
+                <unc:CMCs>
+                    
+                    <unc:ProcessType name=""> <!-- uncProcessType name attribute is not needed by the object model... Recommend removal from the schema -->
+                        <mtc:ProcessType name="Measure.Voltage.AC">
+                        <mtc:ProcessResult>
+                            <uom:Quantity name="voltage"/>
+                        </mtc:ProcessResult>
+                            <mtc:ProcessParameter name="nominal">
+                                <uom:Quantity name="voltage"/>
+                            </mtc:ProcessParameter>
+                            <mtc:ProcessParameter name="frequency">
+                                <uom:Quantity name="frequency"/>
+                            </mtc:ProcessParameter>
+                            <mtc:Documentation>                     
+                            <xhtml:html>
+                                <xhtml:head>
+                                    <xhtml:title>Measure.Voltage</xhtml:title>
+                                </xhtml:head>
+                                <xhtml:body></xhtml:body>
+                            </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:ProcessType>
+                    </unc:ProcessType>
+                    
+                    <unc:Technique name="Measure.Voltage.AC.LowVoltage">               
+                        <mtc:Technique name="Measure.Voltage.AC.LowVoltage" process="Measure.Voltage.AC">
+                            <mtc:ProcessResultRange>
+                                <mtc:Start test="at">0</mtc:Start>
+                                <mtc:End test="at" uom_alternative="kilovolts">0.110</mtc:End>
+                            </mtc:ProcessResultRange>
+                            <mtc:ProcessParameterRange name="nominal">
+                                <mtc:Start test="at" >0</mtc:Start>
+                                <mtc:End test="at">110</mtc:End>
+                            </mtc:ProcessParameterRange>
+                            <mtc:ProcessParameterRange name="frequency">
+                                <mtc:Start test="at" >0</mtc:Start>
+                                <mtc:End test="at">1000</mtc:End>
+                            </mtc:ProcessParameterRange>
+                            <mtc:RequiredEquipment>
+                                <mtc:Role name="source" equipment_type="Meter Calibrator"/>
+                            </mtc:RequiredEquipment>
+                            <mtc:CMCUncertainty proccess_function_name="Measure.Voltage.AC.LowVoltage.Uncertainty.Certified">
+                                <mtc:CMCFormula>k_nominal * nominal + k_range * range</mtc:CMCFormula>
+                                <mtc:CMCValue>
+                                    <uom:Quantity name="voltage"/>
+                                </mtc:CMCValue>
+                                <mtc:CMCParameter name="nominal" type="Variable">
+                                    <uom:Quantity name="voltage"/>
+                                </mtc:CMCParameter>
+                                <mtc:CMCParameter name="range" type="Variable">
+                                    <uom:Quantity name="voltage"/>
+                                </mtc:CMCParameter>
+                                <mtc:CMCParameter name="k_nominal" type="Constant">
+                                    <uom:Quantity name="ratio"/>
+                                </mtc:CMCParameter>
+                                <mtc:CMCParameter name="k_range" type="Constant">
+                                    <uom:Quantity name="ratio"/>
+                                </mtc:CMCParameter>
+                            </mtc:CMCUncertainty>
+                            <mtc:Documentation>                     
+                                <xhtml:html>
+                                    <xhtml:head>
+                                        <xhtml:title>Measure.Voltage.AC.LowVoltage</xhtml:title>
+                                    </xhtml:head>
+                                    <xhtml:body></xhtml:body>
+                                </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:Technique>
+                    </unc:Technique>
+                   
+                    <unc:CMC>
+                        <unc:Category name="elctrical.low_frequency.low_voltage"/>                       
+                        <unc:DUT_Type>
+                            Voltmeter.AC.low_voltage
+                        </unc:DUT_Type>
+                        
+                        <unc:Template>
+                            <unc:Technique name="Measure.Voltage.AC.LowVoltage">
+                            </unc:Technique>
+                            <unc:CMCFunction name="Measure.Voltage.AC.LowVoltage.Uncertainty.Certified">                         
+                              <unc:Switch>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>6-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>4 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges>
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0001</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0002</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0001</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0002</unc:ConstantValue>                                                   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.0003</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.003</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>5-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>4 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges>
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.002</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.02</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.003</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.03</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>4-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>4 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges>
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.02</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.2</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.03</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.3</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>6-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>2 Wire</unc:Value>
+                                    </unc:Assertion>                                   
+                                    <unc:Ranges>
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.00035</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.00025</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.002</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.00045</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.00035</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="parameter">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.003</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>                                  
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>5-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>2 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges>
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.0035</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.0025</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.02</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.0045</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.0035</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.03</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>                                  
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>4-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>2 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges>
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.035</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.025</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.2</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range variable_name="frequency" variable_type="influence_quantity">
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.045</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty" quantity="voltage">0.035</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range variable_name="nominal" variable_type="influence_quantity">
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="uncertainty">0.3</unc:ConstantValue>
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>                                  
+                                </unc:Case>
+                                
+                              </unc:Switch>
+                            </unc:CMCFunction>
+                        </unc:Template>
+                           
+                    </unc:CMC>
+                    <xi:include
+                        href="http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_Database.xml"
+                    />
+                </unc:CMCs>
+            </soa:Activity>
+        </soa:Activities>
+        <soa:ScopeNotes></soa:ScopeNotes>
+        <soa:Version></soa:Version>
+        <soa:LocaleLanguage></soa:LocaleLanguage>
+    </soa:CapabilityScope>
+    <soa:HumanReadableDocument></soa:HumanReadableDocument>
+    <soa:VisualAidsScript></soa:VisualAidsScript>
+</soa:SOADataMaster>

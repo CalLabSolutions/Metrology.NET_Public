@@ -121,6 +121,18 @@ namespace SOA_DataAccessLibrary
     /// </summary>
     public static class UomDataSource 
     {
+        private static string uomDatabaseFilePath = null;
+
+        public static string DatabasePath
+        {
+            get {
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://schema.metrology.net/UOM_Database.xml";
+            }
+
+            set {
+                uomDatabaseFilePath = value;
+            }
+        } 
 
         /// <summary>
         /// object type held in UomDataSource.Quantity.altCache that is used as a faster alternative to repeated LINQ queries returning the same results over and over again
@@ -241,14 +253,12 @@ namespace SOA_DataAccessLibrary
                 if (doc == null)
                 {
                     XMLDataSource datasource = new XMLDataSource();
-                    OpResult op = datasource.load("http://schema.metrology.net/UOM_Database.xml");
+                    OpResult op = datasource.load(UomDataSource.DatabasePath);
                     if (op.Success) doc = datasource.Doc;
                 }
                 return doc; 
             }
         }
-
-        private static XElement database;
 
         public static XElement Database
         {
@@ -2067,8 +2077,6 @@ namespace SOA_DataAccessLibrary
         private string name = "";
         private Unc_Cases cases = null;
         private Unc_Template template = null;
-        private XElement casesElement = null;
-
 
         public string Name
         {

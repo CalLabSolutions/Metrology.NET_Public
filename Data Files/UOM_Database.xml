@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uom:UOMDatabase xmlns:uom="http://schema.metrology.net/UnitsOfMeasure"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schema.metrology.net/UnitsOfMeasure http://schema.metrology.net/UOM_Database.xsd"
+	xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+	xmlns:m="http://www.w3.org/1998/Math/MathML">
+	<uom:Categories>
+		<uom:Category id="physical"/>
+		<uom:Category id="optical"/>
+		<uom:Category id="electrical"/>
+	</uom:Categories>
+	<uom:Dimensions>
+		<uom:Dimension m="0" cd="0" mol="0" K="0" A="0" s="0" kg="0">
+			<uom:UOMs>
+				<uom:UOM symbol="rad" base_name="radians">
+					<uom:Quantities>
+						<uom:Quantity name="plane-angle"/>
+						<uom:Quantity name="phase-change"/>
+						<uom:Quantity name="phase"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+						<uom:CategoryReference ref="optical"/>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>㎭</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="seconds" symbol="&quot;" metric="false">
+							<uom:LinearConverter Offset="0.0"
+								ScaleFactor="4.8481368110953599358991410235795e-6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>"</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="minutes" symbol="'" metric="false">
+							<uom:LinearConverter Offset="0.0"
+								ScaleFactor="2.9088820866572159615394846141477e-4"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>'</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="degrees" symbol="°" metric="false">
+							<uom:LinearConverter Offset="0.0"
+								ScaleFactor="0.01745329251994329576923690768489"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>°</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<uom:Aliases>
+								<uom:Alias symbol="deg"> </uom:Alias>
+							</uom:Aliases>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="" base_name="ratio">
+					<uom:Quantities>
+						<uom:Quantity name="ratio"/>
+						<uom:Quantity name="attenuation"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+						<uom:CategoryReference ref="optical"/>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi/>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="percent" symbol="%" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.01"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>%</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="parts-per-million" symbol="ppm" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.000001"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>ppm</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="decibels-field-ratio" symbol="dB" metric="false">
+							<uom:LogarithmicConverter LogScaleFactor="20.0" LinScaleFactor="1.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>dB</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="decibels-power-ratio" symbol="dB" metric="false">
+							<uom:LogarithmicConverter LogScaleFactor="10.0" LinScaleFactor="1.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>dB</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="Pl" base_name="piseuille">
+					<uom:Quantities>
+						<uom:Quantity name="dynamic-viscosity"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+				</uom:UOM>
+				<uom:UOM symbol="St" base_name="stokes">
+					<uom:Quantities>
+						<uom:Quantity name="kinematic-viscosity"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+				</uom:UOM>
+				<uom:UOM symbol="W/W" base_name="watts-per-watt">
+					<uom:Quantities>
+						<uom:Quantity name="power-ratio"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>W</m:mi>
+								<m:mi>W</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+				</uom:UOM>
+				<uom:UOM symbol="V/V" base_name="volts-per-volt">
+					<uom:Quantities>
+						<uom:Quantity name="voltage-ratio"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>V</m:mi>
+								<m:mi>V</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+				</uom:UOM>
+				<uom:UOM symbol="m/m" base_name="meters-per-meter">
+					<uom:Quantities>
+						<uom:Quantity name="length-ratio"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>m</m:mi>
+								<m:mi>m</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="micro-inch-per-inch" symbol="uin/in" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="2.54e-6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>µin</m:mi>
+										<m:mi>in</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="W" base_name="watts">
+					<uom:Quantities>
+						<uom:Quantity name="power"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+						<uom:CategoryReference ref="electrical"/>
+						<uom:CategoryReference ref="optical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>W</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="decibels-milliwatts" symbol="dBm" metric="false">
+							<uom:LogarithmicConverter LogScaleFactor="10.0" LinScaleFactor="1.0e-3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>dBm</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="milliwatts" symbol="mW" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>undefined</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="megawatts" symbol="MW" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>undefined</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="kilowatts" symbol="kW" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>undefined</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="microwatts" symbol="µW" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>µW</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<uom:Aliases>
+								<uom:Alias symbol="uW">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>uW</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+							</uom:Aliases>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="1" cd="0" mol="0" K="0" A="0" s="0" kg="0">
+			<uom:UOMs>
+				<uom:UOM symbol="m" base_name="meters">
+					<uom:Quantities>
+						<uom:Quantity name="length"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>m</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="inch" symbol="in" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="2.54"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>in</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="micro-inch" symbol="μin" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="2.54e-6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>μ</m:mi>
+									<m:mi>in</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="centimeter" symbol="cm" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="100.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>cm</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="0" cd="0" mol="0" K="0" A="0" s="0" kg="1">
+			<uom:UOMs>
+				<uom:UOM symbol="kg" base_name="kilograms">
+					<uom:Quantities>
+						<uom:Quantity name="mass"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+					<uom:Alternatives>
+						<uom:Alternative name="pound-mass" symbol="lbm" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.453592"/>
+							<uom:Presentation>
+								<m:math>
+									<m:msub>
+										<m:mi>lb</m:mi>
+										<m:mi>m</m:mi>
+									</m:msub>
+								</m:math>
+							</uom:Presentation>
+							<uom:Aliases>
+								<uom:Alias symbol="lb">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>lb</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+								<uom:Alias symbol="lbs">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>lbs</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+							</uom:Aliases>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="0" cd="0" mol="0" K="1" A="0" s="0" kg="0">
+			<uom:UOMs>
+				<uom:UOM symbol="K" base_name="kelvin">
+					<uom:Quantities>
+						<uom:Quantity name="temperature"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+					<uom:Aliases>
+						<uom:Alias symbol="deg K">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>deg</m:mi>
+									<m:mi>K</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alias>
+						<uom:Alias symbol="°K">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>°K</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alias>
+					</uom:Aliases>
+					<uom:Alternatives>
+						<uom:Alternative name="fahrenheit" symbol="F" metric="false">
+							<uom:LinearConverter Offset="459.67"
+								ScaleFactor="0.55555555555555555555555555555556"/>
+							<uom:Aliases>
+								<uom:Alias symbol="def F"/>
+								<uom:Alias symbol="°F"/>
+							</uom:Aliases>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="0" cd="0" mol="0" K="0" A="0" s="-1" kg="0">
+			<uom:UOMs>
+				<uom:UOM symbol="Hz" base_name="hertz">
+					<uom:Quantities>
+						<uom:Quantity name="frequency"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+						<uom:CategoryReference ref="optical"/>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>Hz</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="kilohertz" symbol="kHz" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0E3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>kHz</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="gigahertz" symbol="GHz" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0E9"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>GHz</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="megahertz" symbol="MHz" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>MHz</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="millihertz" symbol="mHz" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0E-3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mHz</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="terahertz" symbol="THz" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0E12"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>THz</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="1" cd="0" mol="0" K="0" A="0" s="-3" kg="2">
+			<uom:UOMs>
+				<uom:UOM symbol="VA" base_name="volt-amps">
+					<uom:Quantities>
+						<uom:Quantity name="power:complex"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>VA</m:mi>
+						</m:math>
+					</uom:Presentation>
+				</uom:UOM>
+				<uom:UOM symbol="NM" base_name="newton-meters">
+					<uom:Quantities>
+						<uom:Quantity name="torque"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>N</m:mi>
+							<m:mi>M</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="foot-pounds" symbol="ftlb" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.35581795"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>ft</m:mi>
+									<m:mi>lb</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<uom:Aliases>
+								<uom:Alias symbol="ftlbf">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>ft</m:mi>
+											<m:msub>
+												<m:mi>lb</m:mi>
+												<m:mi>f</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+							</uom:Aliases>
+						</uom:Alternative>
+						<uom:Alternative name="inch-pounds" symbol="inlb" metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.112984829"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>in</m:mi>
+									<m:mi>lb</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<uom:Aliases>
+								<uom:Alias symbol="inlbf">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>in</m:mi>
+											<m:msub>
+												<m:mi>lb</m:mi>
+												<m:mi>f</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+							</uom:Aliases>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="0" cd="0" mol="0" K="0" A="0" s="1" kg="0">
+			<uom:UOMs>
+				<uom:UOM symbol="1/Hz" base_name="attenuation-per-hertz">
+					<uom:Quantities>
+						<uom:Quantity name="attenuation-per-unit-frequency"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mn>1</m:mn>
+								<m:mi>Hz</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="decibels-power-ratio-per-gigahertz" symbol="dB/GHz"
+							metric="true">
+							<uom:LogarithmicConverter LogScaleFactor="10.0" LinScaleFactor="1.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mn>dB</m:mn>
+										<m:mi>GHz</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="rad/Hz" base_name="radians-per-hertz">
+					<uom:Quantities>
+						<uom:Quantity name="phase-change-per-unit-frequency"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>㎭/Hz</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="degrees-per-gigahertz" symbol="deg/GHz"
+							metric="false">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="5.72957795130823E-08"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>°</m:mi>
+										<m:mi>GHz</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="s" base_name="seconds">
+					<uom:Quantities>
+						<uom:Quantity name="time"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+						<uom:CategoryReference ref="optical"/>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>s</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Aliases>
+						<uom:Alias symbol="sec">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>sec</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alias>
+					</uom:Aliases>
+					<uom:Alternatives>
+						<uom:Alternative name="microseconds" symbol="µs" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>µs</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<uom:Aliases>
+								<uom:Alias symbol="us">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>us</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+							</uom:Aliases>
+						</uom:Alternative>
+						<uom:Alternative name="nanoseconds" symbol="ns" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-9"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>ns</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="milliseconds" symbol="ms" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>ms</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="2" cd="0" mol="0" K="0" A="0" s="-3" kg="1">
+			<uom:UOMs>
+				<uom:UOM symbol="V" base_name="volts">
+					<uom:Quantities>
+						<uom:Quantity name="voltage"/>
+						<uom:Quantity name="electrical-potential-difference"/>
+						<uom:Quantity name="elctromotive-force"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>V</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+						<uom:Alternative name="millivolts" symbol="mV" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.001"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mV</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="microvolts" symbol="µV" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>µV</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="kilovolts" symbol="kV" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1000.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>kV</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="megavolts" symbol="MV" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e6"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>MV</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="J" base_name="joules">
+					<uom:Quantities>
+						<uom:Quantity name="work"/>
+						<uom:Quantity name="energy"/>
+						<uom:Quantity name="heat"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="physical"/>
+						<uom:CategoryReference ref="optical"/>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>W</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Alternatives>
+
+
+						<uom:Alternative name="newton-meters" symbol="NM" metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>N</m:mi>
+									<m:mi>M</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+				<uom:UOM symbol="V" base_name="volts-sinusoidal">
+					<uom:Quantities>
+						<uom:Quantity name="voltage-sinusoidal"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>V</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<uom:Aliases>
+						<uom:Alias symbol="Vpk">
+							<uom:Presentation>
+								<m:math>
+									<m:msub>
+										<m:mi>V</m:mi>
+										<m:mn>pk</m:mn>
+									</m:msub>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alias>
+					</uom:Aliases>
+					<uom:Alternatives>
+						<uom:Alternative name="volts-sinusoidal-root-mean-square" symbol="Vrms"
+							metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.7071067811865475"/>
+							<uom:Presentation>
+								<m:math>
+									<m:msub>
+										<m:mi>V</m:mi>
+										<m:mi>rms</m:mi>
+									</m:msub>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+						<uom:Alternative name="volts-sinusoidal-peak-to-peak" symbol="Vpp"
+							metric="true">
+							<uom:LinearConverter Offset="0.0" ScaleFactor="0.5"/>
+							<uom:Presentation>
+								<m:math>
+									<m:msub>
+										<m:mi>V</m:mi>
+										<m:mi>pp</m:mi>
+									</m:msub>
+								</m:math>
+							</uom:Presentation>
+						</uom:Alternative>
+					</uom:Alternatives>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="0" cd="0" mol="0" K="0" A="1" s="0" kg="0">
+			<uom:UOMs>
+				<uom:UOM symbol="A" base_name="amperes">
+					<uom:Quantities>
+						<uom:Quantity name="current"/>
+					</uom:Quantities>
+					<uom:CategoryReferences>
+						<uom:CategoryReference ref="electrical"/>
+					</uom:CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>A</m:mi>
+						</m:math>
+					</uom:Presentation>
+				</uom:UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+	</uom:Dimensions>
+</uom:UOMDatabase>

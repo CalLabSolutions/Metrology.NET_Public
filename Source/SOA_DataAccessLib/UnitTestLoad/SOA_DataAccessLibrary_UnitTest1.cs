@@ -15,8 +15,17 @@ namespace SOA_DataAccessLibrary_UnitTest1
             OpResult op;
 
             // An SOA_DataAccess object can be loaded from a string, stream, local file, or remote file
-            op = dao.load("http://schema.metrology.net/SOASample_TwoParameter_SixCases_TwoAssertions_ComplexFormula.xml");
-            Assert.IsTrue(op.Success, "remote file test " + op.Error);
+
+            // uncomment next 5 lines if using local files 
+            string binDebugPath = new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath;      
+            string DataFilesPath = binDebugPath.Replace(@"\Source\SOA_DataAccessLib\UnitTestLoad\bin\Debug", @"\Data Files\");
+            UomDataSource.DatabasePath = DataFilesPath + "UOM_Database.xml";
+            op = dao.load( DataFilesPath + "SOASample_TwoParameter_SixCases_TwoAssertions_ComplexFormula.xml"); 
+            Assert.IsTrue(op.Success, "local files test " + op.Error);
+
+            //uncomment next 2 lines if using remote files
+            //op = dao.load("http://schema.metrology.net/SOASample_TwoParameter_SixCases_TwoAssertions_ComplexFormula.xml");
+            //Assert.IsTrue(op.Success, "remote file test " + op.Error);
 
             // Once the SOA_DataAccess object is loaded, the Object Model is accessed via the SOA_DataAccess object's SOADataMaster property
             Soa SampleSOA = dao.SOADataMaster;

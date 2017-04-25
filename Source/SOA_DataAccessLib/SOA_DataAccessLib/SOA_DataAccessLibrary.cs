@@ -506,7 +506,7 @@ namespace SOA_DataAccessLibrary
     public class Mtc_ProcessResult
     {
         private string name = "";
-        private Uom_Quantity quantity = null;
+        private UomDataSource.Quantity quantity = null;
 
         public string Name
         {
@@ -514,10 +514,21 @@ namespace SOA_DataAccessLibrary
             //set { name = value; }
         }
 
-        public Uom_Quantity Quantity
+        public UomDataSource.Quantity Quantity
         {
             get { return quantity; }
             //set { quantity = value; }
+        }
+
+        private void setQuantity(UomSpaceHelper uomSpaceHelper)
+        {
+            var qtyElement = uomSpaceHelper.getElement("Quantity");
+            if (qtyElement != null)
+            {
+                uomSpaceHelper = new UomSpaceHelper(qtyElement);
+                string qty = uomSpaceHelper.getAttribute("name");
+                quantity = UomDataSource.getQuantityByName(qty);
+            }
         }
 
         private Mtc_ProcessResult() { }
@@ -526,8 +537,8 @@ namespace SOA_DataAccessLibrary
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
             name = mtcSpaceHelper.getAttribute("name");
-            var el = new UomSpaceHelper(datasource).getElement("Quantity");
-            if (el != null) quantity = new Uom_Quantity(el);
+            UomSpaceHelper uomSpaceHelper = new UomSpaceHelper(datasource);
+            setQuantity(uomSpaceHelper);
         }
     }
 
@@ -555,7 +566,7 @@ namespace SOA_DataAccessLibrary
 
         private void loadResults(MtcSpaceHelper mtcSpaceHelper)
         {
-            var els = mtcSpaceHelper.getElements("ProcessResult");
+            var els = mtcSpaceHelper.getElements("Result");
             foreach (XElement el in els)
             {
                 Mtc_ProcessResult result = new Mtc_ProcessResult(el);
@@ -581,11 +592,24 @@ namespace SOA_DataAccessLibrary
         }
     }
 
-    public class Mtc_ProcessParameter 
+    public class Mtc_Parameter 
     {
+        public class Mtc_ParameterComparer : IEqualityComparer<Mtc_Parameter> // required to support creating lists with unique entries
+        {
+            public bool Equals(Mtc_Parameter x, Mtc_Parameter y)
+            {
+                return x.Name.Equals(y.Name);
+            }
+
+            public int GetHashCode(Mtc_Parameter parameter)
+            {
+                return parameter.Name.GetHashCode();
+            }
+        }
+
         private string name = "";
         private bool optional = false;
-        private Uom_Quantity quantity = null;
+        private UomDataSource.Quantity quantity = null;
 
         public string Name
         {
@@ -599,34 +623,43 @@ namespace SOA_DataAccessLibrary
             //set { optional = value; }
         }
 
-        public Uom_Quantity Quantity
+        public UomDataSource.Quantity Quantity
         {
             get { return quantity; }
             //set { quantity = value; }
         }
 
-        private Mtc_ProcessParameter() { }
+        private void setQuantity(XElement datasource)
+        {
+            var qtyElement = new UomSpaceHelper(datasource).getElement("Quantity");
+            if (qtyElement != null)
+            {
+                string qty = new UomSpaceHelper(qtyElement).getAttribute("name");
+                quantity = UomDataSource.getQuantityByName(qty);
+            }
+        }
 
-        public Mtc_ProcessParameter(XElement datasource)
+        private Mtc_Parameter() { }
+
+        public Mtc_Parameter(XElement datasource)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
             name = mtcSpaceHelper.getAttribute("name");
             optional = mtcSpaceHelper.getAttribute("optional").ToLower() == "true";
-            var el = new UomSpaceHelper(datasource).getElement("Quantity");
-            if (el != null) quantity = new Uom_Quantity(el);
+            setQuantity(datasource);
         }
     }
 
-    public class Mtc_ProcessParameters : IEnumerable<Mtc_ProcessParameter>
+    public class Mtc_Parameters : IEnumerable<Mtc_Parameter>
     {
-        private List<Mtc_ProcessParameter> parameters = new List<Mtc_ProcessParameter>();
+        private List<Mtc_Parameter> parameters = new List<Mtc_Parameter>();
 
-        public Mtc_ProcessParameter this[int index]
+        public Mtc_Parameter this[int index]
         {
             get { return parameters[index]; }
         }
 
-        public Mtc_ProcessParameter this[string name]
+        public Mtc_Parameter this[string name]
         {
             get {
                 var set = parameters.Where(x => x.Name == name);
@@ -641,22 +674,30 @@ namespace SOA_DataAccessLibrary
 
         private void loadParameters(MtcSpaceHelper mtcSpaceHelper)
         {
-            var els = mtcSpaceHelper.getElements("ProcessParameter");
+            var els = mtcSpaceHelper.getElements("Parameter");
             foreach(XElement el in els)
             {
-                Mtc_ProcessParameter parameter = new Mtc_ProcessParameter(el);
+                Mtc_Parameter parameter = new Mtc_Parameter(el);
                 parameters.Add(parameter);
             }
         }
 
-        public Mtc_ProcessParameters() { } // Needed when Mtc_ProcessType is null.  Returns an empty Mtc_ProcessParameters
+        public Mtc_Parameters() { } // Needed when Mtc_ProcessType is null.  Returns an empty Mtc_ProcessParameters
 
-        public Mtc_ProcessParameters(XElement datasource)
+        public Mtc_Parameters(XElement datasource)
         {
             loadParameters(new MtcSpaceHelper(datasource));
         }
+ 
+        public static Mtc_Parameters createDistinctUnion(Mtc_Parameters a, Mtc_Parameters b)
+        {
+            var union =  a.Union(b, new Mtc_Parameter.Mtc_ParameterComparer());
+            Mtc_Parameters result = new Mtc_Parameters();
+            result.parameters = union.ToList();
+            return result;
+        }
 
-        public IEnumerator<Mtc_ProcessParameter> GetEnumerator()
+        public IEnumerator<Mtc_Parameter> GetEnumerator()
         {
             return parameters.GetEnumerator();
         }
@@ -672,7 +713,7 @@ namespace SOA_DataAccessLibrary
         private string name = "";
         private Mtc_Documentation documentation = null;
         private Mtc_ProcessResults processResults = null;
-        private Mtc_ProcessParameters processParameters = null;
+        private Mtc_Parameters parameters = null;
         private Mtc_Documentation documenation = null;
 
 
@@ -682,14 +723,14 @@ namespace SOA_DataAccessLibrary
             set { name = value; }
         }
 
-        public Mtc_ProcessResults ProcessResult
+        public Mtc_ProcessResults ProcessResults
         {
             get { return processResults; }
         }
 
-        public Mtc_ProcessParameters ProcessParameter
+        public Mtc_Parameters Parameters
         {
-            get { return processParameters; }
+            get { return parameters; }
         }
 
         public Mtc_Documentation Documentation
@@ -702,6 +743,38 @@ namespace SOA_DataAccessLibrary
             get { return processResults.Select(x => x.Quantity.Name).ToList(); }
         }
 
+        public UomDataSource.Quantity getQuantity()
+        {
+            UomDataSource.Quantity result = null;
+            if (processResults.Count() == 1)
+            {
+                var qty = processResults[0].Quantity;
+                result = (qty != null) ? UomDataSource.getQuantityByName(qty.Name) : null;
+            }
+            return result; 
+        }
+
+        public UomDataSource.Quantity getQuantity(string parameterName)
+        {
+            UomDataSource.Quantity result = null;
+            var procResult = processResults[parameterName]; 
+            if (procResult != null) {
+                var qty = procResult.Quantity;
+                result = (qty != null) ? UomDataSource.getQuantityByName(qty.Name) : null;
+            } else {
+                var param = Parameters[parameterName];
+                if (param != null)
+                {
+                    var qty = param.Quantity;
+                    if (qty != null)
+                    {
+                        result = UomDataSource.getQuantityByName(qty.Name);
+                    }
+                }
+            }
+            return result;
+        }
+
         private Mtc_ProcessType() { }
 
         public Mtc_ProcessType(XElement datasource)
@@ -709,22 +782,22 @@ namespace SOA_DataAccessLibrary
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
             name = mtcSpaceHelper.getAttribute("name");
             processResults = new Mtc_ProcessResults(datasource);
-            processParameters = new Mtc_ProcessParameters(datasource);
+            parameters = new Mtc_Parameters(datasource);
             var el = mtcSpaceHelper.getElement("Documentation");
             if (el != null) documenation = new Mtc_Documentation(el);
         }    
     }
 
 
-    public class Mtc_CMCParameter
+    public class Mtc_Symbol
     {
-        private string name = "";
+        private string parameterName = "";
         private string type = "";
-        private Uom_Quantity quantity = null;
+        private UomDataSource.Quantity quantity = null;
 
-        public string Name
+        public string ParameterName
         {
-            get { return name; }
+            get { return parameterName; }
             //set { name = value; }
         }
 
@@ -734,67 +807,71 @@ namespace SOA_DataAccessLibrary
             //set { type = value; }
         }
 
-        public Uom_Quantity Quantity
+        public UomDataSource.Quantity Quantity
         {
             get { return quantity; }
-            //set { quantity = value; }
         }
 
-        private Mtc_CMCParameter() { }
+        private void setQuantity(Mtc_Technique technique)
+        {
+            var param = technique.Parameters[parameterName];
+            if (param != null) quantity = param.Quantity;
+        }
 
-        public Mtc_CMCParameter(XElement datasource)
+        private Mtc_Symbol() { }
+
+        public Mtc_Symbol(XElement datasource, Mtc_Technique technique)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            name = mtcSpaceHelper.getAttribute("name");
+            parameterName = mtcSpaceHelper.getAttribute("parameter");
             type = mtcSpaceHelper.getAttribute("type");
-            var el = new UomSpaceHelper(datasource).getElement("Quantity");
-            if (el != null) quantity = new Uom_Quantity(el);
+            setQuantity(technique);
         }
 
     }
 
-    public class Mtc_CMCParameters : IEnumerable<Mtc_CMCParameter>
+    public class Mtc_Symbols : IEnumerable<Mtc_Symbol>
     {
-        private List<Mtc_CMCParameter> parameters = new List<Mtc_CMCParameter>();
+        private List<Mtc_Symbol> symbols = new List<Mtc_Symbol>();
 
-        public Mtc_CMCParameter this[int index]
+        public Mtc_Symbol this[int index]
         {
-            get { return parameters[index]; }
+            get { return symbols[index]; }
         }
 
-        public Mtc_CMCParameter this[string name]
+        public Mtc_Symbol this[string parameterName]
         {
             get { 
-                var set = parameters.Where(x => x.Name == name);
+                var set = symbols.Where(x => x.ParameterName == parameterName);
                 return (set.Count() > 0) ? set.First() : null;
             }
         }
 
         public int Count()
         {
-            return parameters.Count();
+            return symbols.Count();
         }
 
-        private void loadParameters(MtcSpaceHelper mtcSpaceHelper)
+        private void loadSymbols(MtcSpaceHelper mtcSpaceHelper, Mtc_Technique technique)
         {
-            var els = mtcSpaceHelper.getElements("CMCParameter");
+            var els = mtcSpaceHelper.getElements("Symbol");
             foreach(XElement el in els)
             {
-                Mtc_CMCParameter parameter = new Mtc_CMCParameter(el);
-                parameters.Add(parameter);
+                Mtc_Symbol symbol = new Mtc_Symbol(el, technique);
+                symbols.Add(symbol);
             }
         }
 
-        private Mtc_CMCParameters() { }
+        private Mtc_Symbols() { }
 
-        public Mtc_CMCParameters(XElement datasource)
+        public Mtc_Symbols(XElement datasource, Mtc_Technique technique)
         {
-            loadParameters(new MtcSpaceHelper(datasource));
+            loadSymbols(new MtcSpaceHelper(datasource), technique);
         }
 
-        public IEnumerator<Mtc_CMCParameter> GetEnumerator()
+        public IEnumerator<Mtc_Symbol> GetEnumerator()
         {
-            return parameters.GetEnumerator();
+            return symbols.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -806,53 +883,54 @@ namespace SOA_DataAccessLibrary
     public class Mtc_CMCUncertainty 
     {
 
-        private string proccess_function_name = "";
-        private string formula = "";
-        private Mtc_CMCParameters parameters = null;
+        private string function_name = "";
+        private string expression = "";
+        private Mtc_Symbols symbolDefinitions = null;
         private EvaluationEngine evaluator = new EvaluationEngine();
-        private Uom_Quantity quantity = null;
+        private UomDataSource.Quantity quantity = null;
 
-        public string Proccess_function_name
+        public string Function_name
         {
-            get { return proccess_function_name; }
+            get { return function_name; }
             //set { proccess_function_name = value; }
         }
 
-        public string FunctionText
+        public string Expression
         {
-            get { return formula; }
+            get { return expression; }
             //set { formula = value; }
         }
 
-        public Uom_Quantity Quantity 
+        public UomDataSource.Quantity Quantity 
         {
             get { return quantity; }
         }
 
-        public Mtc_CMCParameters CMCParameters
+        public Mtc_Symbols SymbolDefinitions
         {
-            get { return parameters; }
+            get { return symbolDefinitions; }
         }
 
-        private void loadFormula(XElement datasource)
+        private void loadExpression(MtcSpaceHelper mtcSpaceHelper)
         {
-            if (datasource != null) formula = fixWhiteSpace(datasource.Value);
-            evaluator.Parse(formula);
+            var expressionElement = mtcSpaceHelper.getElement("Expression");
+            if (expressionElement != null) expression = fixWhiteSpace(expressionElement.Value);
+            evaluator.Parse(expression);
         }
 
-        public IList<string> Symbols
+        public IList<string> ExpressionSymbols
         {
             get { return evaluator.GetVariables().Keys.ToList(); }
         }
 
         public IList<string> Variables
         {
-            get { return CMCParameters.Where(x => x.Type == "Variable").Select(y => y.Name).ToList(); }
+            get { return SymbolDefinitions.Where(x => x.Type == "Variable").Select(y => y.ParameterName).ToList(); }
         }
 
         public IList<string> Constants
         {
-            get { return CMCParameters.Where(x => x.Type == "Constant").Select(y => y.Name).ToList(); }
+            get { return SymbolDefinitions.Where(x => x.Type == "Constant").Select(y => y.ParameterName).ToList(); }
         }
 
         public void setSymbol(string name, double value) {
@@ -872,7 +950,7 @@ namespace SOA_DataAccessLibrary
         private string fixWhiteSpace(string raw)
         {
             string r1, r2, r3;
-            r3 = raw;
+            r3 = raw.Trim();
             do {
                r1 = Regex.Replace(r3, "\t", " ");
                r2 = Regex.Replace(r1, "\n", " ");
@@ -883,26 +961,32 @@ namespace SOA_DataAccessLibrary
 
         private void setQuantity(MtcSpaceHelper mtcSpaceHelper)
         {
-            var valueElement = mtcSpaceHelper.getElement("CMCValue");
-            if (valueElement != null)
+            var resultElement = mtcSpaceHelper.getElement("Result");
+            if (resultElement != null)
             {
-                var qtyElement = new UomSpaceHelper(valueElement).getElement("Quantity");
+                var qtyElement = new UomSpaceHelper(resultElement).getElement("Quantity");
                 if (qtyElement != null)
                 {
-                    quantity = new Uom_Quantity(qtyElement);
+                    string qty = new UomSpaceHelper(qtyElement).getAttribute("name");
+                    quantity = UomDataSource.getQuantityByName(qty);
                 }
             }
         }
 
         private Mtc_CMCUncertainty() { }
 
-        public Mtc_CMCUncertainty(XElement datasource)
+        public Mtc_CMCUncertainty(XElement datasource, Mtc_Technique technique)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            proccess_function_name = mtcSpaceHelper.getAttribute("proccess_function_name");      
-            loadFormula(mtcSpaceHelper.getElement("CMCFormula"));
-            setQuantity(mtcSpaceHelper);
-            parameters = new Mtc_CMCParameters(datasource);
+            function_name = mtcSpaceHelper.getAttribute("function_name");
+            var functionElement = mtcSpaceHelper.getElement("Function");
+            if (functionElement != null)
+            {
+                mtcSpaceHelper = new MtcSpaceHelper(functionElement);
+                loadExpression(mtcSpaceHelper);
+                setQuantity(mtcSpaceHelper);
+                symbolDefinitions = new Mtc_Symbols(functionElement, technique);
+            }
         }    
     }
 
@@ -918,7 +1002,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_CMCUncertainty this[string name]
         {
             get { 
-                var set = uncertainties.Where(x => x.Proccess_function_name == name);
+                var set = uncertainties.Where(x => x.Function_name == name);
                 return (set.Count() > 0) ? set.First() : null;
             }
         }
@@ -928,21 +1012,21 @@ namespace SOA_DataAccessLibrary
             return uncertainties.Count();
         }
 
-        private void loadUncertainties(MtcSpaceHelper mtcSpaceHelper)
+        private void loadUncertainties(MtcSpaceHelper mtcSpaceHelper, Mtc_Technique technique)
         {
             var els = mtcSpaceHelper.getElements("CMCUncertainty");
             foreach (XElement el in els)
             {
-                Mtc_CMCUncertainty uncertainty = new Mtc_CMCUncertainty(el);
+                Mtc_CMCUncertainty uncertainty = new Mtc_CMCUncertainty(el, technique);
                 uncertainties.Add(uncertainty);
             }
         }
 
         private Mtc_CMCUncertainties() { }
 
-        public Mtc_CMCUncertainties(XElement datasource)
+        public Mtc_CMCUncertainties(XElement datasource, Mtc_Technique technique)
         {
-            loadUncertainties(new MtcSpaceHelper(datasource));
+            loadUncertainties(new MtcSpaceHelper(datasource), technique);
         }
 
         public IEnumerator<Mtc_CMCUncertainty> GetEnumerator()
@@ -1062,45 +1146,31 @@ namespace SOA_DataAccessLibrary
             get { return test; }
             //set { test = value; }
         }
-
-        private void setQuantity(string qtyName, Mtc_ProcessType processType, string rangeName, Mtc_Range_Boundary.RangeType rType)
-        {
-            if (processType != null)
-            {
-                Uom_Quantity uomQty = null;
-                switch (rType)
-                {
-                    case Mtc_Range_Boundary.RangeType.Result:
-                        var parentResultRange = (rangeName != "") ? processType.ProcessResult[rangeName] : processType.ProcessResult[0];
-                        if (parentResultRange != null) uomQty = parentResultRange.Quantity;
-                        break;
-
-                    case Mtc_Range_Boundary.RangeType.Parameter:
-                        var parentParameterRange = (rangeName != "") ? processType.ProcessParameter[rangeName] : null;
-                        if (parentParameterRange != null) uomQty = parentParameterRange.Quantity;
-                        break;
-                }
-                if (uomQty != null)
-                {
-                    if ((qtyName == "") || (qtyName == uomQty.Name))
-                        quantity = UomDataSource.getQuantityByName(uomQty.Name);
-                    else
-                        throw new Exception("quantity mismatch");
-                }     
-            }
-        }
-     
+ 
         protected Mtc_Range_Boundary() { }
 
         public Mtc_Range_Boundary(XElement datasource, Mtc_ProcessType processType, string rangeName, Mtc_Range_Boundary.RangeType rType)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
             test = mtcSpaceHelper.getAttribute("test");
-            setQuantity(mtcSpaceHelper.getAttribute("quantity"), processType, rangeName, rType);
             uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
             uom_alias_symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
             format = mtcSpaceHelper.getAttribute("format");
             if (datasource != null) value = datasource.Value;
+            switch (rType)
+            {
+                case RangeType.Result:
+                    if (processType.ProcessResults.Count() == 1)
+                        quantity = processType.getQuantity();
+                    else
+                        quantity = processType.getQuantity(rangeName);
+                    break;
+                case RangeType.Parameter:
+                    quantity = processType.getQuantity(rangeName);
+                    break;
+                default:
+                    break;
+            }            
         }
     }
 
@@ -1158,7 +1228,7 @@ namespace SOA_DataAccessLibrary
     }
 
 
-    public class Mtc_ProccessResultRanges : IEnumerable<Mtc_Range>
+    public class Mtc_ResultRanges : IEnumerable<Mtc_Range>
     {
         private List<Mtc_Range> ranges = new List<Mtc_Range>();
         private Mtc_ProcessType processType = null;
@@ -1183,7 +1253,7 @@ namespace SOA_DataAccessLibrary
 
         private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_ProcessType processType)
         {
-            var els = mtcSpaceHelper.getElements("ProcessResultRange");
+            var els = mtcSpaceHelper.getElements("ResultRange");
             foreach (XElement el in els)
             {
                 Mtc_Range range = new Mtc_Range(el, processType, Mtc_Range_Boundary.RangeType.Result);
@@ -1191,9 +1261,9 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_ProccessResultRanges() { }
+        private Mtc_ResultRanges() { }
 
-        public Mtc_ProccessResultRanges(XElement datasource, Mtc_ProcessType processType)
+        public Mtc_ResultRanges(XElement datasource, Mtc_ProcessType processType)
         {
             this.processType = processType;
             loadRanges(new MtcSpaceHelper(datasource),  processType);
@@ -1210,7 +1280,7 @@ namespace SOA_DataAccessLibrary
         }
     }
 
-    public class Mtc_ProccessParameterRanges : IEnumerable<Mtc_Range>
+    public class Mtc_ParameterRanges : IEnumerable<Mtc_Range>
     {
         private List<Mtc_Range> ranges = new List<Mtc_Range>();
         private Mtc_ProcessType processType = null;
@@ -1235,7 +1305,7 @@ namespace SOA_DataAccessLibrary
 
         private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_ProcessType processType)
         {
-            var els = mtcSpaceHelper.getElements("ProccessParameterRanges");
+            var els = mtcSpaceHelper.getElements("ParameterRange");
             foreach (XElement el in els)
             {
                 Mtc_Range range = new Mtc_Range(el, processType, Mtc_Range_Boundary.RangeType.Parameter);
@@ -1243,9 +1313,9 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_ProccessParameterRanges() { }
+        private Mtc_ParameterRanges() { }
 
-        public Mtc_ProccessParameterRanges(XElement datasource, Mtc_ProcessType processType)
+        public Mtc_ParameterRanges(XElement datasource, Mtc_ProcessType processType)
         {
             this.processType = processType;
             loadRanges(new MtcSpaceHelper(datasource), processType);
@@ -1268,8 +1338,9 @@ namespace SOA_DataAccessLibrary
 
         private string name = "";
         private string process = "";
-        private Mtc_ProccessResultRanges proccessResultRanges = null;
-        private Mtc_ProccessParameterRanges proccessParameterRanges = null;
+        private Mtc_ResultRanges resultRanges = null;
+        private Mtc_Parameters parameters = null;
+        private Mtc_ParameterRanges parameterRanges = null;
         private Mtc_RequiredEquipment requiredEquipment = null;
         private Mtc_CMCUncertainties cmcUncertainties = null;
         private Mtc_Documentation documentation = null;
@@ -1293,14 +1364,20 @@ namespace SOA_DataAccessLibrary
             get { return processType; }
         }
 
-        public Mtc_ProccessResultRanges ProccessResultRange
+        public Mtc_Parameters Parameters
         {
-            get { return proccessResultRanges; }
+            get { return parameters; }
         }
 
-        public Mtc_ProccessParameterRanges ProccessParameterRange
+
+        public Mtc_ResultRanges ResultRanges
         {
-            get { return proccessParameterRanges; }
+            get { return resultRanges; }
+        }
+
+        public Mtc_ParameterRanges ParameterRanges
+        {
+            get { return parameterRanges; }
         }
 
         public Mtc_RequiredEquipment RequiredEquipment
@@ -1326,6 +1403,27 @@ namespace SOA_DataAccessLibrary
             var mtcProcessTypes = cMCs.ProcessTypes.Select( x => x.ProcessType).Where(y => y.Name == processName);
             processType = (mtcProcessTypes.Count() > 0) ? mtcProcessTypes.First() : null;
         }
+
+        private void loadParameters(Mtc_Parameters procParameters, Mtc_Parameters thisParameters)
+        {
+            parameters = Mtc_Parameters.createDistinctUnion(procParameters, thisParameters);
+        }
+
+        public UomDataSource.Quantity getQuantity(string parameterName)
+        {
+
+            UomDataSource.Quantity result = null;
+            var param = Parameters[parameterName];
+            if (param != null)
+            {
+                var qty = param.Quantity;
+                if (qty != null)
+                {
+                    result = UomDataSource.getQuantityByName(qty.Name);
+                }
+            }
+            return result;
+        }
         
         private Mtc_Technique() { }
 
@@ -1336,12 +1434,13 @@ namespace SOA_DataAccessLibrary
             name = mtcSpaceHelper.getAttribute("name");
             process = mtcSpaceHelper.getAttribute("process");
             setProcessType(cMCs, process);
-            proccessResultRanges = new Mtc_ProccessResultRanges(datasource, processType);
-            proccessParameterRanges = new Mtc_ProccessParameterRanges(datasource, processType);
+            loadParameters(this.processType.Parameters, new Mtc_Parameters(datasource));
+            resultRanges = new Mtc_ResultRanges(datasource, processType);
+            parameterRanges = new Mtc_ParameterRanges(datasource, processType);
             var el1 = mtcSpaceHelper.getElement("RequiredEquipment");
             var el2 = mtcSpaceHelper.getElement("Documentation");
             if (el1 != null) requiredEquipment = new Mtc_RequiredEquipment(el1);
-            if (el2 != null) cmcUncertainties = new Mtc_CMCUncertainties(datasource);
+            if (el2 != null) cmcUncertainties = new Mtc_CMCUncertainties(datasource, this);
             documentation = new Mtc_Documentation(el2);
         }
     }
@@ -1358,29 +1457,6 @@ namespace SOA_DataAccessLibrary
             //set { _const_parameter_name = value; }
         }
 
-        private void setQuantity(string qtyName, Unc_Template template, string functionName, string variableName)
-        {
-            Mtc_CMCUncertainty cmcUncertainty = null;
-            var technique = template.MtcTechnique;
-            if (technique != null)
-            {
-                cmcUncertainty = technique.CMCUncertainties[functionName];
-            }
-            if (cmcUncertainty != null)
-            {
-                Uom_Quantity uomQty = null;
-                var parentCMCValue = (variableName != "") ? cmcUncertainty.CMCParameters[variableName] : null;
-                if (parentCMCValue != null) uomQty = parentCMCValue.Quantity;
-                if (uomQty != null)
-                {
-                    if ((qtyName == "") || (qtyName == uomQty.Name))
-                        quantity = UomDataSource.getQuantityByName(uomQty.Name);
-                    else
-                        throw new Exception("quantity mismatch");
-                }
-            }
-        }
-
         public Unc_ConstantValue(XElement datasource, Unc_Template template, string functionName)
         {
             this.template = template;
@@ -1389,8 +1465,8 @@ namespace SOA_DataAccessLibrary
             uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
             uom_alias_symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
             format = uncSpaceHelper.getAttribute("format");
-            setQuantity(uncSpaceHelper.getAttribute("quantity"), template, functionName, _const_parameter_name);
             loadValue(datasource);
+            quantity = template.getQuantity(_const_parameter_name);
         }
     }
 
@@ -1457,23 +1533,6 @@ namespace SOA_DataAccessLibrary
             //set { test = value; }
         }
 
-        private void setQuantity(string qtyName, Mtc_ProcessType processType, string variableName)
-        {
-            if (processType != null)
-            {
-                Uom_Quantity uomQty = null;
-                var parentParameterRange = (variableName != "") ? processType.ProcessParameter[variableName] : null;
-                if (parentParameterRange != null) uomQty = parentParameterRange.Quantity;
-                if (uomQty != null)
-                {
-                    if ((qtyName == "") || (qtyName == uomQty.Name))
-                        quantity = UomDataSource.getQuantityByName(uomQty.Name);
-                    else
-                        throw new Exception("quantity mismatch");
-                }
-            }
-        }
-
         protected Unc_Range_Boundary() { }
 
         public Unc_Range_Boundary(XElement datasource, Unc_Template template, string variableName)
@@ -1481,11 +1540,11 @@ namespace SOA_DataAccessLibrary
             this.template = template;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
             test = uncSpaceHelper.getAttribute("test");
-            setQuantity(uncSpaceHelper.getAttribute("quantity"), template.MtcProcessType, variableName);
             uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
             uom_alias_symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
             format = uncSpaceHelper.getAttribute("format");
             loadValue(datasource);
+            quantity = template.getQuantity(variableName);
         }
     }
 
@@ -1508,13 +1567,13 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Range 
     {
-        private string variable_name = "";
-        private string variable_type = "";
         private Unc_Range_Start start = null;
         private Unc_Range_End end = null;
         private Unc_ConstantValues constansts = null;
         private Unc_Ranges ranges = null;
         private Unc_Template template = null;
+        private string variable_name = "";
+        private string variable_type = "";
 
         public string Variable_name
         {
@@ -1554,12 +1613,12 @@ namespace SOA_DataAccessLibrary
 
         protected Unc_Range() { }
 
-        public Unc_Range(XElement datasource, Unc_Template template, string functionName)
+        public Unc_Range(XElement datasource, Unc_Template template, Unc_Ranges parent, string functionName)
         {
             this.template = template;
+            variable_name = parent.Variable_name;
+            variable_type = parent.Variable_type;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            variable_name = uncSpaceHelper.getAttribute("variable_name");
-            variable_type = uncSpaceHelper.getAttribute("variable_type");
             var el1 = uncSpaceHelper.getElement("Start");
             var el2 = uncSpaceHelper.getElement("End");
             if (el1 != null) start = new Unc_Range_Start(el1, template, Variable_name);
@@ -1574,6 +1633,20 @@ namespace SOA_DataAccessLibrary
     {
         private List<Unc_Range> ranges = new List<Unc_Range>();
         private Unc_Template template = null;
+        private string variable_name = "";
+        private string variable_type = "";
+       
+        public string Variable_name
+        {
+            get { return variable_name; }
+            //set { variable_name = value; }
+        }
+
+        public string Variable_type
+        {
+            get { return variable_type; }
+            //set { variable_type = value; }
+        }
 
         public Unc_Range this[int index]
         {
@@ -1595,7 +1668,7 @@ namespace SOA_DataAccessLibrary
             var els = uncSpaceHelper.getElements("Range");
             foreach (XElement el in els)
             {
-                Unc_Range range = new Unc_Range(el, template, functionName);
+                Unc_Range range = new Unc_Range(el, template, this, functionName);
                 ranges.Add(range);
             }
         }
@@ -1605,7 +1678,10 @@ namespace SOA_DataAccessLibrary
         public Unc_Ranges(XElement datasource, Unc_Template template, string functionName) 
         {
             this.template = template;
-            loadRanges(new UncSpaceHelper(datasource), template, functionName);
+            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+            variable_name = uncSpaceHelper.getAttribute("variable_name");
+            variable_type = uncSpaceHelper.getAttribute("variable_type");
+            loadRanges(uncSpaceHelper, template, functionName);
         }
 
         private  Unc_Ranges(List<Unc_Range>  ranges)
@@ -2228,7 +2304,7 @@ namespace SOA_DataAccessLibrary
             //set { templateTechnique = value; }
         }
 
-        public Unc_CMCFunctions CMCFunctions
+        public Unc_CMCFunctions CMCUncertaintyFunctions
         {
             get { return cmcFunctions; }
             //set { cmcFunctions = value; }
@@ -2248,7 +2324,7 @@ namespace SOA_DataAccessLibrary
 
         public Mtc_ProcessResults ProcessResults
         {
-            get { return (mtcProcessType != null) ? mtcProcessType.ProcessResult : new Mtc_ProcessResults(); }
+            get { return (mtcProcessType != null) ? mtcProcessType.ProcessResults : new Mtc_ProcessResults(); }
         }
 
         public IList<string> ResultTypes
@@ -2261,16 +2337,16 @@ namespace SOA_DataAccessLibrary
             return (mtcTechnique != null) ? mtcTechnique.CMCUncertainties[functionName] : null;
         }
 
-        public string getCMCFunctionText(string functionName)
+        public string getCMCUncertaintyFunctionExpression(string functionName)
         {
             var unc = getCMCUncertaintyByFunctionName(functionName);
-            return (unc != null) ? unc.FunctionText : "";
+            return (unc != null) ? unc.Expression : "";
         }
 
-        public IList<string> getCMCFunctionSymbols(string functionName)
+        public IList<string> getCMCUncertaintyFunctionSymbols(string functionName)
         {
             var unc = getCMCUncertaintyByFunctionName(functionName);
-            return (unc != null) ? unc.Symbols : new List<string>();
+            return (unc != null) ? unc.ExpressionSymbols : new List<string>();
         }
 
         public IList<string> getCMCFunctionVariables(string functionName)
@@ -2299,20 +2375,25 @@ namespace SOA_DataAccessLibrary
 
         public IList<string> getCMCFunctionRangeVariables(string functionName)
         {
-            var fnc = CMCFunctions[functionName];
+            var fnc = CMCUncertaintyFunctions[functionName];
             return (fnc != null) ? fnc.RangeVariables : new List<string>();
         }
 
         public IList<string> getCMCFunctionAssertionNames(string functionName)
         {
-            var fnc = CMCFunctions[functionName];
+            var fnc = CMCUncertaintyFunctions[functionName];
             return (fnc != null) ? fnc.AssertionNames : new List<string>();
         }
 
         public IList<string> getCMCFunctionAssertionValues(string functionName, string assertionName)
         {
-            var fnc = CMCFunctions[functionName];
+            var fnc = CMCUncertaintyFunctions[functionName];
             return fnc.getAssertionValuesByAssertionName(assertionName);
+        }
+
+        public UomDataSource.Quantity getQuantity(string parameterName)
+        {
+            return (mtcTechnique != null) ? mtcTechnique.getQuantity(parameterName) : null;
         }
 
         public Unc_Template(XElement datasource, Unc_CMCs cMCs)

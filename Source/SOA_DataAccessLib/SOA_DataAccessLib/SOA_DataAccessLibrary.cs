@@ -1043,7 +1043,7 @@ namespace SOA_DataAccessLibrary
     public class Mtc_Role
     {
         private string name = "";
-        private string equipment_type = "";
+        private List<string> deviceTypes = new List<string>();
 
         public string Name
         {
@@ -1051,10 +1051,23 @@ namespace SOA_DataAccessLibrary
             //set { name = value; }
         }
 
-        public string Equipment_type
+        public ICollection<string> DeviceTypes
         {
-            get { return equipment_type; }
-            //set { equipment_type = value; }
+            get { return deviceTypes; }
+        }
+
+        private void loadDeviceTypes(MtcSpaceHelper mtcSpaceHelper)
+        {
+            var el1 = mtcSpaceHelper.getElement("DeviceTypes");
+            if (el1 != null)
+            {
+                deviceTypes = new UncSpaceHelper(el1).getValues("DeviceType");
+            }
+            else
+            {
+                var el2 = mtcSpaceHelper.getElement("DeviceType");
+                if (el2 != null) deviceTypes.Add(el2.Value);
+            }
         }
 
         private Mtc_Role() { }
@@ -1063,7 +1076,7 @@ namespace SOA_DataAccessLibrary
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
             name = mtcSpaceHelper.getAttribute("name");
-            equipment_type = mtcSpaceHelper.getAttribute("equipment_type");
+            loadDeviceTypes(mtcSpaceHelper);
         }
     }
 
@@ -2475,10 +2488,42 @@ namespace SOA_DataAccessLibrary
         }
     }
 
+    public class Unc_DUT
+    {
+        private List<string> deviceTypes = new List<string>();
+
+        public ICollection<string> DeviceTypes
+        {
+            get { return deviceTypes; }
+        }
+
+        private void loadDeviceTypes(MtcSpaceHelper mtcSpaceHelper)
+        {
+            var el1 = mtcSpaceHelper.getElement("DeviceTypes");
+            if (el1 != null)
+            {
+                deviceTypes = new UncSpaceHelper(el1).getValues("DeviceType");
+            }
+            else
+            {
+                var el2 = mtcSpaceHelper.getElement("DeviceType");
+                if (el2 != null) deviceTypes.Add(el2.Value);
+            }
+        }
+
+        private Unc_DUT() { }
+
+        public Unc_DUT(XElement datasource)
+        {
+            MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
+            loadDeviceTypes(mtcSpaceHelper);
+        }
+    }
+
     public class Unc_CMC 
     {
         private Unc_CmcCategory category = null;
-        private List<string> dut_Types = new List<string>();
+        private Unc_DUT dut = null; 
         private Unc_Templates templates = null;
         private Unc_CMCs cMCs = null;
 
@@ -2487,31 +2532,17 @@ namespace SOA_DataAccessLibrary
             get { return category; }
             //set { categgory = value; }
         }
- 
-        public List<string> Dut_Types
+
+        public Unc_DUT DUT
         {
-            get { return dut_Types; }
-            //set { dut_Types = value; }
+            get { return dut; }
         }
+
 
         public Unc_Templates Templates
         {
             get { return templates; }
             //set { template = value; }
-        }
-
-        private void loadDutTypes(UncSpaceHelper uncSpaceHelper)
-        {
-            var el1 = uncSpaceHelper.getElement("DUT_Types");
-            if (el1 != null)
-            {
-                dut_Types = new UncSpaceHelper(el1).getValues("DUT_Type");
-            }
-            else
-            {
-                var el2 = uncSpaceHelper.getElement("DUT_Type");
-                if (el2 != null) dut_Types.Add(el2.Value);
-            }
         }
 
         private Unc_CMC() {}
@@ -2522,7 +2553,9 @@ namespace SOA_DataAccessLibrary
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
             var el = uncSpaceHelper.getElement("Category");
             if (el != null) category = new Unc_CmcCategory(el);
-            loadDutTypes(uncSpaceHelper);
+            el = uncSpaceHelper.getElement("DUT");
+            if (el != null) dut = new Unc_DUT(el);
+
             templates = new Unc_Templates(datasource, cMCs);
         }
 

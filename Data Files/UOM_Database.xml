@@ -1,4 +1,4 @@
-<!-- version 053 -->
+<!-- Version 066 -->
 <uom:UOMDatabase xmlns:uom="http://schema.metrology.net/UnitsOfMeasure"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
@@ -32,21 +32,21 @@
 							<uom:LinearConverter Offset="0.0" ScaleFactor="0.01"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>%</m:mi>
+									<m:mi>&amp;percnt;</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
-								<Alias symbol="% RH">
-									<uom:Presentation>
-										<m:math>
-											<m:mi>% RH</m:mi>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
 								<Alias symbol="% of full scale">
 									<uom:Presentation>
 										<m:math>
 											<m:mi>% of full scale</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="%CO2">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>%CO2</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -97,6 +97,15 @@
 									<m:mi>pphb</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="parts in 10^11">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>parts in 10^11</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
 							name="parts-per-trillion" symbol="ppt" metric="false">
@@ -106,6 +115,65 @@
 									<m:mi>ppt</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="parts in 10^12">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>parts in 10^12</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="parts-per-ten-million" symbol="pptm" metric="false">
+							<LinearConverter ScaleFactor="1.0e-7" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>pptm</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="parts in 10^7">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>parts in 10^7</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="parts-per-ten-billion" symbol="pptb" metric="false">
+							<LinearConverter ScaleFactor="1.0e-10" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>pptb</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="parts in 10^10">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>parts in 10^10</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="parts-per-hundred-million" symbol="pphm" metric="false">
+							<LinearConverter ScaleFactor="1.0e-8" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>pphm</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="parts in 10^8">
+									<uom:Presentation/>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
@@ -125,7 +193,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives xmlns="http://schema.metrology.net/UnitsOfMeasure">
-						<Alternative name="nanowatts-per-watt" symbol="nW/W" metric="false">
+						<Alternative name="nanowatts-per-watt" symbol="nW/W" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -136,7 +204,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="picowatts-per-watt" symbol="pW/W" metric="false">
+						<Alternative name="picowatts-per-watt" symbol="pW/W" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -147,7 +215,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="milliwatts-per-watt" symbol="mW/W" metric="false">
+						<Alternative name="milliwatts-per-watt" symbol="mW/W" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -158,18 +226,18 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microwatts-per-watt" symbol="μW/W" metric="false">
+						<Alternative name="microwatts-per-watt" symbol="μW/W" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼W</m:mi>
+										<m:mi>&amp;mu;W</m:mi>
 										<m:mi>W</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microwatts-per-microwatt" symbol="μW/μW" metric="false">
+						<Alternative name="microwatts-per-microwatt" symbol="μW/μW" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -180,7 +248,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="milliwatts-per-milliwatt" symbol="mW/mW" metric="false">
+						<Alternative name="milliwatts-per-milliwatt" symbol="mW/mW" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -209,19 +277,19 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<uom:Alternative name="microvolts-per-volt" symbol="μV/V" metric="false">
+						<uom:Alternative name="microvolts-per-volt" symbol="μV/V" metric="true">
 							<uom:LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼V</m:mi>
+										<m:mi>&amp;mu;V</m:mi>
 										<m:mi>V</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</uom:Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="nanovolts-per-volt" symbol="nV/V" metric="false">
+							name="nanovolts-per-volt" symbol="nV/V" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -233,7 +301,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millivolts-per-volt" symbol="mV/V" metric="false">
+							name="millivolts-per-volt" symbol="mV/V" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -245,19 +313,19 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microvolts-per-millivolt" symbol="μV/mV" metric="false">
+							name="microvolts-per-millivolt" symbol="μV/mV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼V</m:mi>
+										<m:mi>&amp;mu;V</m:mi>
 										<m:mi>mV</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millivolts-per-millivolt" symbol="mV/mV" metric="false">
+							name="millivolts-per-millivolt" symbol="mV/mV" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -269,7 +337,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="volts-per-kilovolt" symbol="V/kV" metric="false">
+							name="volts-per-kilovolt" symbol="V/kV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -281,7 +349,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="nanovolts-per-millivolt" symbol="nV/mV" metric="false">
+							name="nanovolts-per-millivolt" symbol="nV/mV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -293,19 +361,19 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millivolts-per-microvolt" symbol="mV/μV" metric="false">
+							name="millivolts-per-microvolt" symbol="mV/μV" metric="true">
 							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
 										<m:mi>mV</m:mi>
-										<m:mi>Î¼V</m:mi>
+										<m:mi>&amp;mu;V</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="kilovolts-per-kilovolt" symbol="kV/kV" metric="false">
+							name="kilovolts-per-kilovolt" symbol="kV/kV" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -321,6 +389,7 @@
 				<uom:UOM symbol="m/m" base_name="meters-per-meter">
 					<uom:Quantities>
 						<uom:Quantity name="length-ratio"/>
+						<uom:Quantity name="strain"/>
 					</uom:Quantities>
 					<uom:CategoryReferences>
 						<uom:CategoryReference ref="physical"/>
@@ -340,11 +409,20 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼in</m:mi>
+										<m:mi>&amp;mu;in</m:mi>
 										<m:mi>in</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="μin/inch">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>μin/inch</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
 							name="inches-per-foot" symbol="in/ft" metric="false">
@@ -358,6 +436,15 @@
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="in per foot">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>in per foot</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
 							name="microinches-per-foot" symbol="μin/ft" metric="false">
@@ -366,7 +453,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>&gt;Î¼in</m:mi>
+										<m:mi>&amp;mu;in</m:mi>
 										<m:mi>ft</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -384,7 +471,49 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="micrometers-per-millimeter" symbol="μm/mm" metric="true">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;m</m:mi>
+										<m:mi>mm</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="micrometers-per-meter" symbol="μm/m" metric="true">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;m</m:mi>
+										<m:mi>m</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="μe">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>μe</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
 					</uom:Alternatives>
+					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+						<Alias symbol="E">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>E</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</uom:UOM>
 				<uom:UOM base_name="ohms-per-ohm" symbol="Ω/Ω">
 					<uom:Quantities>
@@ -396,92 +525,92 @@
 					<uom:Presentation>
 						<m:math>
 							<m:mfrac>
-								<m:mi>Î©</m:mi>
-								<m:mi>Î©</m:mi>
+								<m:mi>&amp;Omega;</m:mi>
+								<m:mi>&amp;Omega;</m:mi>
 							</m:mfrac>
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microohms-per-ohm" symbol="μΩ/Ω" metric="false">
+							name="microohms-per-ohm" symbol="μΩ/Ω" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼Î©</m:mi>
-										<m:mi>Î©</m:mi>
+										<m:mi>&amp;mu;&amp;Omega;</m:mi>
+										<m:mi>&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="milliohms-per-ohm" symbol="mΩ/Ω" metric="false">
+							name="milliohms-per-ohm" symbol="mΩ/Ω" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>mÎ©</m:mi>
-										<m:mi>Î©</m:mi>
+										<m:mi>m&amp;Omega;</m:mi>
+										<m:mi>&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="ohms-per-kiloohm" symbol="Ω/kΩ" metric="false">
+							name="ohms-per-kiloohm" symbol="Ω/kΩ" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î©</m:mi>
-										<m:mi>kÎ©</m:mi>
+										<m:mi>&amp;Omega;</m:mi>
+										<m:mi>k&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="ohms-per-megaohm" symbol="Ω/MΩ" metric="false">
+							name="ohms-per-megaohm" symbol="Ω/MΩ" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î©</m:mi>
-										<m:mi>MÎ©</m:mi>
+										<m:mi>&amp;Omega;</m:mi>
+										<m:mi>M&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="kiloohms-per-megaohm" symbol="kΩ/MΩ" metric="false">
+							name="kiloohms-per-megaohm" symbol="kΩ/MΩ" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>kÎ©</m:mi>
-										<m:mi>MÎ©</m:mi>
+										<m:mi>k&amp;Omega;</m:mi>
+										<m:mi>M&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="megaohms-per-megaohm" symbol="MΩ/MΩ" metric="false">
+							name="megaohms-per-megaohm" symbol="MΩ/MΩ" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>MÎ©</m:mi>
-										<m:mi>MÎ©</m:mi>
+										<m:mi>M&amp;Omega;</m:mi>
+										<m:mi>M&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="megaohms-per-ohm" symbol="MΩ/Ω" metric="false">
+							name="megaohms-per-ohm" symbol="MΩ/Ω" metric="true">
 							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>MÎ©</m:mi>
-										<m:mi>Î©</m:mi>
+										<m:mi>M&amp;Omega;</m:mi>
+										<m:mi>&amp;Omega;</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -505,18 +634,18 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="microamperes-per-ampere" symbol="μA/A" metric="false">
+						<Alternative name="microamperes-per-ampere" symbol="μA/A" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼A</m:mi>
+										<m:mi>&amp;mu;A</m:mi>
 										<m:mi>A</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="milliamperes-per-ampere" symbol="mA/A" metric="false">
+						<Alternative name="milliamperes-per-ampere" symbol="mA/A" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -527,7 +656,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="nanoamperes-per-ampere" symbol="nA/A" metric="false">
+						<Alternative name="nanoamperes-per-ampere" symbol="nA/A" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -539,19 +668,19 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative name="microamperes-per-milliampere" symbol="μA/mA"
-							metric="false">
+							metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼A</m:mi>
+										<m:mi>&amp;mu;A</m:mi>
 										<m:mi>mA</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative name="microamperes-per-microampere" symbol="μA/μA"
-							metric="false">
+							metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -563,7 +692,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative name="milliamperes-per-milliampere" symbol="mA/mA"
-							metric="false">
+							metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -574,14 +703,13 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="nanoamperes-per-microampere" symbol="nA/μA"
-							metric="false">
+						<Alternative name="nanoamperes-per-microampere" symbol="nA/μA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
 										<m:mi>nA</m:mi>
-										<m:mi>Î¼A</m:mi>
+										<m:mi>&amp;mu;A</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -605,18 +733,18 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="microfarads-per-farad" symbol="μF/F" metric="false">
+						<Alternative name="microfarads-per-farad" symbol="μF/F" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>μF</m:mi>
+										<m:mi>&amp;mu;F</m:mi>
 										<m:mi>F</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="picofarads-per-nanofarad" symbol="pF/nF" metric="false">
+						<Alternative name="picofarads-per-nanofarad" symbol="pF/nF" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -627,18 +755,18 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="nanofarads-per-microfarad" symbol="nF/μF" metric="false">
+						<Alternative name="nanofarads-per-microfarad" symbol="nF/μF" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
 										<m:mi>nF</m:mi>
-										<m:mi>Î¼F</m:mi>
+										<m:mi>&amp;mu;F</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millifarads-per-farad" symbol="mF/F" metric="false">
+						<Alternative name="millifarads-per-farad" symbol="mF/F" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -649,7 +777,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="nanofarads-per-farad" symbol="nF/F" metric="false">
+						<Alternative name="nanofarads-per-farad" symbol="nF/F" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -660,7 +788,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="nanofarads-per-nanofarad" symbol="nF/nF" metric="false">
+						<Alternative name="nanofarads-per-nanofarad" symbol="nF/nF" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -671,7 +799,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microfarads-per-microfarad" symbol="μF/μF" metric="false">
+						<Alternative name="microfarads-per-microfarad" symbol="μF/μF" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -682,18 +810,18 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microfarads-per-millifarad" symbol="μF/mF" metric="false">
+						<Alternative name="microfarads-per-millifarad" symbol="μF/mF" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼F</m:mi>
+										<m:mi>&amp;mu;F</m:mi>
 										<m:mi>mF</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millifarads-per-millifarad" symbol="mF/mF" metric="false">
+						<Alternative name="millifarads-per-millifarad" symbol="mF/mF" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -730,7 +858,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼s</m:mi>
+										<m:mi>&amp;mu;s</m:mi>
 										<m:mi>s</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -793,14 +921,24 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="picoseconds-per-microsecond" symbol="ps/μs"
-							metric="false">
+						<Alternative name="picoseconds-per-microsecond" symbol="ps/μs" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
 										<m:mi>ps</m:mi>
-										<m:mi>Î¼s</m:mi>
+										<m:mi>&amp;mu;s</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="picoseconds-per-nanosecond" symbol="ps/ns" metric="true">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>ps</m:mi>
+										<m:mi>ns</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -826,7 +964,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="picohertz-per-hertz" symbol="pHz/Hz" metric="false">
+						<Alternative name="picohertz-per-hertz" symbol="pHz/Hz" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -837,7 +975,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="nanohertz-per-hertz" symbol="nHz/Hz" metric="false">
+						<Alternative name="nanohertz-per-hertz" symbol="nHz/Hz" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -848,18 +986,18 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microhertz-per-hertz" symbol="μHz/Hz" metric="false">
+						<Alternative name="microhertz-per-hertz" symbol="μHz/Hz" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼Hz</m:mi>
+										<m:mi>&amp;mu;Hz</m:mi>
 										<m:mi>Hz</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millihertz-per-hertz" symbol="mHz/Hz" metric="false">
+						<Alternative name="millihertz-per-hertz" symbol="mHz/Hz" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -870,12 +1008,23 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="hertz-per-kilohertz" symbol="Hz/kHz" metric="false">
+						<Alternative name="hertz-per-kilohertz" symbol="Hz/kHz" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
 										<m:mi>Hz</m:mi>
+										<m:mi>kHz</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="millihertz-per-kilohertz" symbol="mHz/kHz" metric="true">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mHz</m:mi>
 										<m:mi>kHz</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -915,7 +1064,15 @@
 							</uom:Presentation>
 						</Alternative>
 					</Alternatives>
-					<Aliases/>
+					<Aliases>
+						<Alias symbol="counts">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>counts</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
 					base_name="cubic-meters-per-cubic-meter" symbol="m3/m3">
@@ -940,20 +1097,31 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="microliters-per-liter" symbol="μL/L" metric="false">
+						<Alternative name="microliters-per-liter" symbol="μL/L" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>μL</m:mi>
+										<m:mi>&amp;mu;L</m:mi>
 										<m:mi>L</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="microliters-per-microliter" symbol="μL/μL" metric="true">
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;L</m:mi>
+										<m:mi>&amp;mu;L</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<uom:UOM symbol="rad" base_name="radians">
+				<uom:UOM symbol="rad" base_name="radian">
 					<uom:Quantities>
 						<uom:Quantity name="plane-angle"/>
 						<uom:Quantity name="phase-change"/>
@@ -966,44 +1134,44 @@
 					</uom:CategoryReferences>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>㎭</m:mi>
+							<m:mi>rad</m:mi>
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<uom:Alternative name="degrees" symbol="°" metric="false">
-							<uom:LinearConverter Offset="0.0"
-								ScaleFactor="0.01745329251994329576923690768489"/>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="degree" symbol="°" metric="false">
+							<LinearConverter ScaleFactor="0.01745329251994329576923690768489"
+								Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>°</m:mi>
+									<m:mi>&amp;deg;</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<uom:Aliases>
-								<uom:Alias symbol="deg">
+							<Aliases>
+								<Alias symbol="deg">
 									<uom:Presentation/>
-								</uom:Alias>
-								<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure"
-									symbol="Deg">
+								</Alias>
+								<Alias symbol="Deg">
 									<uom:Presentation>
 										<m:math>
 											<m:mi>Deg</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
-							</uom:Aliases>
-						</uom:Alternative>
+							</Aliases>
+						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millidegrees" symbol="m°" metric="false">
+							name="millidegree" symbol="m°" metric="false">
 							<LinearConverter ScaleFactor="0.01745329251994329576923690768489e-3"
 								Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>m°</m:mi>
+									<m:mi>m&amp;deg;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="seconds-angle" symbol="&quot;" metric="false">
+							name="second-angle" symbol="&quot;" metric="false">
 							<LinearConverter ScaleFactor="4.8481368110953599358991410235795e-6"
 								Offset="0.0"/>
 							<uom:Presentation>
@@ -1040,10 +1208,17 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="arc-sec">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>arc-sec</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="minutes-angle" symbol="'" metric="false">
+							name="minute-angle" symbol="'" metric="false">
 							<LinearConverter ScaleFactor="2.9088820866572159615394846141477e-4"
 								Offset="0.0"/>
 							<uom:Presentation>
@@ -1084,7 +1259,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="steradians"
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="steradian"
 					symbol="sr">
 					<uom:Quantities>
 						<uom:Quantity name="solid-angle"/>
@@ -1111,6 +1286,7 @@
 					base_name="counts-per-unit-length" symbol="">
 					<uom:Quantities>
 						<uom:Quantity name="counts-per-unit-length"/>
+						<uom:Quantity name="pitch"/>
 					</uom:Quantities>
 					<CategoryReferences>
 						<CategoryReference ref="physical"/>
@@ -1122,6 +1298,22 @@
 							<m:mi/>
 						</m:math>
 					</uom:Presentation>
+					<Aliases>
+						<Alias symbol="pitch">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>pitch</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+						<Alias symbol="p">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>p</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pH-scale"
 					symbol="pH">
@@ -1136,6 +1328,15 @@
 							<m:mi>pH</m:mi>
 						</m:math>
 					</uom:Presentation>
+					<Aliases>
+						<Alias symbol="pH units">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>pH units</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="henrys-per-henry"
 					symbol="H/H">
@@ -1159,7 +1360,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼H</m:mi>
+										<m:mi>&amp;mu;H</m:mi>
 										<m:mi>H</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -1182,7 +1383,7 @@
 								<m:math>
 									<m:mfrac>
 										<m:mi>nH</m:mi>
-										<m:mi>Î¼H</m:mi>
+										<m:mi>&amp;mu;H</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -1192,118 +1393,8 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼H</m:mi>
+										<m:mi>&amp;mu;H</m:mi>
 										<m:mi>mH</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-					</Alternatives>
-				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="kilograms-per-kilogram" symbol="kg/kg">
-					<uom:Quantities>
-						<uom:Quantity name="mass-ratio"/>
-					</uom:Quantities>
-					<CategoryReferences>
-						<CategoryReference ref="physical"/>
-					</CategoryReferences>
-					<uom:Presentation>
-						<m:math>
-							<m:mfrac>
-								<m:mi>kg</m:mi>
-								<m:mi>kg</m:mi>
-							</m:mfrac>
-						</m:math>
-					</uom:Presentation>
-					<Alternatives>
-						<Alternative name="grams-per-gram" symbol="g/g" metric="true">
-							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>g</m:mi>
-										<m:mi>g</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="pounds-per-pound" symbol="lb/lb" metric="false">
-							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>lb</m:mi>
-										<m:mi>lb</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="milligrams-per-gram" symbol="mg/g" metric="false">
-							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>mg</m:mi>
-										<m:mi>g</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="mg / g">
-									<uom:Presentation>
-										<m:math>
-											<m:mfrac>
-												<m:mi>mg</m:mi>
-												<m:mi>g</m:mi>
-											</m:mfrac>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
-							</Aliases>
-						</Alternative>
-						<Alternative name="milligrams-per-pound" symbol="mg/lb" metric="false">
-							<LinearConverter ScaleFactor="2.2046226218487758072297380134503e-6"
-								Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>mg</m:mi>
-										<m:mi>lb</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="mg / lb">
-									<uom:Presentation>
-										<m:math>
-											<m:mfrac>
-												<m:mi>mg</m:mi>
-												<m:mi>lb</m:mi>
-											</m:mfrac>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
-							</Aliases>
-						</Alternative>
-						<Alternative name="milligrams-per-milligram" symbol="mg/mg" metric="false">
-							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>mg</m:mi>
-										<m:mi>mg</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="grams-per-kilogram" symbol="g/kg" metric="false">
-							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>g</m:mi>
-										<m:mi>kg</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -1350,12 +1441,33 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="psia/psia">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>psia</m:mi>
+												<m:mi>psia</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
+						</Alternative>
+						<Alternative name="micropascals-per-pascal" symbol="μPa/Pa" metric="false">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;Pa</m:mi>
+										<m:mi>Pa</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
 						</Alternative>
 					</Alternatives>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="newton-meters-per-newton-meter" symbol="Nm/Nm">
+					base_name="newton-meters-per-newton-meter" symbol="(N · m)/(N · m)">
 					<uom:Quantities>
 						<uom:Quantity name="torque-ratio"/>
 					</uom:Quantities>
@@ -1364,7 +1476,10 @@
 					</CategoryReferences>
 					<uom:Presentation>
 						<m:math>
-							<m:mi/>
+							<m:mfrac>
+								<m:mi>N &amp;middot; m</m:mi>
+								<m:mi>N &amp;middot; m</m:mi>
+							</m:mfrac>
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
@@ -1374,41 +1489,89 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>lbfâin</m:mi>
-										<m:mi>lbfâin</m:mi>
+										<m:mi>lbf &amp;middot; in</m:mi>
+										<m:mi>lbf &amp;middot; in</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="in∙lbf/in∙lbf">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>in &amp;middot; lbf</m:mi>
+												<m:mi>in &amp;middot; lbf</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative name="pound-force-feet-per-pound-force-foot"
+							symbol="lbf∙ft/lbf∙ft" metric="false">
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>lbf &amp;middot; ft</m:mi>
+										<m:mi>lbf &amp;middot; ft</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="ft∙lbf/ft∙lbf">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>ft &amp;middot; lbf</m:mi>
+												<m:mi>ft &amp;middot; lbf</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</Alternatives>
+					<Aliases>
+						<Alias symbol="Nm/Nm">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>Nm</m:mi>
+										<m:mi>Nm</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pascals-gage"
-					symbol="Pag">
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pascal-gage"
+					symbol="Pa">
 					<uom:Quantities>
 						<uom:Quantity name="pressure-gage"/>
 					</uom:Quantities>
 					<CategoryReferences/>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>Pag</m:mi>
+							<m:mi>Pa</m:mi>
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="pounds-force-per-square-inch-gage" symbol="psig"
-							metric="false">
-							<LinearConverter ScaleFactor="6894.757293168" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>psig</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
 						<Alternative name="kilopounds-force-per-square-inch-gage" symbol="kpsig"
 							metric="false">
 							<LinearConverter ScaleFactor="6894.757293168e3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>kpsig</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="pounds-force-per-square-inch-gage" symbol="psig"
+							metric="false">
+							<LinearConverter ScaleFactor="6894.757293168" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>psig</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
@@ -1455,15 +1618,6 @@
 							</uom:Presentation>
 						</Alternative>
 					</Alternatives>
-				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="degree" symbol="">
-					<uom:Quantities/>
-					<CategoryReferences/>
-					<uom:Presentation>
-						<m:math>
-							<m:mi/>
-						</m:math>
-					</uom:Presentation>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
 					base_name="kelvin-per-kelvin" symbol="K/K">
@@ -1550,6 +1704,30 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
+						<Alternative name="millidegrees-celsius-per-degree-celsius" symbol="mC/C"
+							metric="false">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mC</m:mi>
+										<m:mi>C</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="m°C/°C">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>m°C</m:mi>
+												<m:mi>°C</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
 					</Alternatives>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="moles-per-mole"
@@ -1562,7 +1740,10 @@
 					</CategoryReferences>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>mol/mol</m:mi>
+							<m:mfrac>
+								<m:mi>mol</m:mi>
+								<m:mi>mol</m:mi>
+							</m:mfrac>
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
@@ -1571,7 +1752,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼mol</m:mi>
+										<m:mi>&amp;mu;mol</m:mi>
 										<m:mi>mol</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -1598,7 +1779,7 @@
 					<CategoryReferences/>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>Â°Bx</m:mi>
+							<m:mi>&amp;deg;Bx</m:mi>
 						</m:math>
 					</uom:Presentation>
 					<Aliases>
@@ -1618,29 +1799,6 @@
 						</Alias>
 					</Aliases>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="gloss-units"
-					symbol="GU">
-					<uom:Quantities>
-						<uom:Quantity name="specular-reflection-gloss"/>
-					</uom:Quantities>
-					<CategoryReferences>
-						<CategoryReference ref="optical"/>
-					</CategoryReferences>
-					<uom:Presentation>
-						<m:math>
-							<m:mi>GU</m:mi>
-						</m:math>
-					</uom:Presentation>
-					<Aliases>
-						<Alias symbol="SGU">
-							<uom:Presentation>
-								<m:math>
-									<m:mi>SGU</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alias>
-					</Aliases>
-				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
 					base_name="radians-per-second-per-radians-per-second" symbol="(rad/s)/(rad/s)">
 					<uom:Quantities>
@@ -1652,27 +1810,19 @@
 					<uom:Presentation>
 						<m:math>
 							<m:mfrac>
-								<m:mi>rad</m:mi>
-								<m:mfrac>
-									<m:mrow>
-										<m:mi>rad</m:mi>
-										<m:mo>⁢</m:mo>
-										<m:mi>s</m:mi>
-									</m:mrow>
-									<m:mi>s</m:mi>
-								</m:mfrac>
+								<m:mi>rad/s</m:mi>
+								<m:mi>rad/s</m:mi>
 							</m:mfrac>
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
 						<Alternative name="microrevolutions-per-minute-per-revolutions-per-minute"
 							symbol="μrpm/rpm" metric="false">
-							<LinearConverter ScaleFactor="0.10471975511965977461542144610932e-6"
-								Offset="0.0"/>
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼rpm</m:mi>
+										<m:mi>&amp;mu;rpm</m:mi>
 										<m:mi>rpm</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -1713,73 +1863,6 @@
 					</Alternatives>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="volts-per-volt-square" symbol="V/V">
-					<uom:Quantities>
-						<uom:Quantity name="voltage-sqaure-ratio"/>
-					</uom:Quantities>
-					<CategoryReferences>
-						<CategoryReference ref="electrical"/>
-					</CategoryReferences>
-					<uom:Presentation>
-						<m:math>
-							<m:mfrac>
-								<m:mi>V</m:mi>
-								<m:mi>V</m:mi>
-							</m:mfrac>
-						</m:math>
-					</uom:Presentation>
-					<Alternatives>
-						<Alternative name="millivolts-per-volt-sinusoidal-peak-to-peak"
-							symbol="mV/Vpp" metric="false">
-							<LinearConverter ScaleFactor="0.5e-3" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>mV</m:mi>
-										<m:mi>Vpp</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="mV/V pk-pk">
-									<uom:Presentation>
-										<m:math>
-											<m:mfrac>
-												<m:mi>mV</m:mi>
-												<m:mi>V pk-pk</m:mi>
-											</m:mfrac>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
-							</Aliases>
-						</Alternative>
-						<Alternative name="millivolts-per-volt-square-peak-to-peak" symbol="V/Vpp"
-							metric="false">
-							<LinearConverter ScaleFactor="0.5" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>V</m:mi>
-										<m:mi>Vpp</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="V/V pk-pk">
-									<uom:Presentation>
-										<m:math>
-											<m:mfrac>
-												<m:mi>V</m:mi>
-												<m:mi>V pk-pk</m:mi>
-											</m:mfrac>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
-							</Aliases>
-						</Alternative>
-					</Alternatives>
-				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
 					base_name="decibels-per-decibel" symbol="dB/dB">
 					<uom:Quantities>
 						<uom:Quantity name="attenuation-ratio"/>
@@ -1798,11 +1881,346 @@
 						</m:math>
 					</uom:Presentation>
 				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="seconds-per-division" symbol="s/Div">
+					<uom:Quantities>
+						<uom:Quantity name="oscilloscope-horizontal-scale"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+						<CategoryReference ref="optical"/>
+						<CategoryReference ref="electrical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>s</m:mi>
+								<m:mi>Div</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<Aliases>
+						<Alias symbol="s/div">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>s</m:mi>
+										<m:mi>div</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="meters-per-meter-per-second" symbol="m/m/s">
+					<uom:Quantities>
+						<uom:Quantity name="strain-rate"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>m/m/s</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<Alternatives>
+						<Alternative name="inches-per-inch-per-minute" symbol="in/in/min"
+							metric="false">
+							<LinearConverter ScaleFactor="0.01666666666666666666666666666667"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>in/in/min</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="strain-per-strain" symbol="E/E">
+					<uom:Quantities>
+						<uom:Quantity name="strain-ratio"/>
+					</uom:Quantities>
+					<CategoryReferences/>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>E/E</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<Aliases>
+						<Alias symbol="(m/m)/(m/m)">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>(m/m)/(m/m)</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
+					<Alternatives>
+						<Alternative name="microstrain-per-strain" symbol="μE/E" metric="false">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;ⅇ</m:mi>
+										<m:mi>ⅇ</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="kilograms-per-cubic-meter-per-kilograms-per-cubic-meter"
+					symbol="(kg·m-3)/(kg·m-3)">
+					<uom:Quantities>
+						<uom:Quantity name="density-ratio"/>
+					</uom:Quantities>
+					<CategoryReferences/>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>(kg·m-3)/(kg·m-3)</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<Alternatives>
+						<Alternative name="specific-gravity" symbol="SG" metric="false">
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>SG</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="SP.G">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>SP.G</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="sp. gr">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>sp. gr</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="kilograms-per-kilogram" symbol="kg/kg">
+					<uom:Quantities>
+						<uom:Quantity name="mass-ratio"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>kg</m:mi>
+								<m:mi>kg</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<Alternatives>
+						<Alternative name="grams-per-gram" symbol="g/g" metric="true">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>g</m:mi>
+										<m:mi>g</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+						</Alternative>
+						<Alternative name="pounds-per-pound" symbol="lb/lb" metric="false">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>lb</m:mi>
+										<m:mi>lb</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+						</Alternative>
+						<Alternative name="milligrams-per-gram" symbol="mg/g" metric="true">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mg</m:mi>
+										<m:mi>g</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
+						</Alternative>
+						<Alternative name="milligrams-per-pound" symbol="mg/lb" metric="false">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mg</m:mi>
+										<m:mi>lb</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<LinearConverter ScaleFactor="2.2046226218487758072297380134503e-6"
+								Offset="0.0"/>
+						</Alternative>
+						<Alternative name="milligrams-per-milligram" symbol="mg/mg" metric="true">
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mg</m:mi>
+										<m:mi>mg</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+						</Alternative>
+						<Alternative name="grams-per-kilogram" symbol="g/kg" metric="true">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>g/kg</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="micrograms-per-gram" symbol="μg/g" metric="true">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;g</m:mi>
+										<m:mi>g</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="pascals-gage-per-pascal-gage" symbol="Pa/Pa">
+					<uom:Quantities>
+						<uom:Quantity name="pressure-gage-ratio"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>Pa</m:mi>
+								<m:mi>Pa</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<Alternatives>
+						<Alternative
+							name="micropounds-force-per-square-inch-gage-per-pounds-force-per-square-inch-gage"
+							symbol="μpsig/psig" metric="false">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;psig</m:mi>
+										<m:mi>psig</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="millivolts-per-G"
+					symbol="mV/G">
+					<uom:Quantities>
+						<uom:Quantity name="accelerometer-sensitivity"/>
+					</uom:Quantities>
+					<CategoryReferences/>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>mV</m:mi>
+								<m:mi>G</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="percent-relative-humidity" symbol="% RH">
+					<uom:Quantities>
+						<uom:Quantity name="relative-humidity"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>&amp;percnt; RH</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<Aliases>
+						<Alias symbol="%RH">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>%RH</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="percent-relative-humidity-per-percent-relative-humidity"
+					symbol="(% RH)/(% RH)">
+					<uom:Quantities>
+						<uom:Quantity name="relative-humidity-ratio"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>&amp;percnt; RH</m:mi>
+								<m:mi>&amp;percnt; RH</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<Aliases>
+						<Alias symbol="% RH/% RH">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>% RH/% RH</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
+				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="nephelometric-turbitity-unit" symbol="NTU">
+					<uom:Quantities>
+						<uom:Quantity name="nephelometric-turbidity"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="optical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>NTU</m:mi>
+						</m:math>
+					</uom:Presentation>
+				</UOM>
 			</uom:UOMs>
 		</uom:Dimension>
 		<uom:Dimension m="1" cd="0" mol="0" K="0" A="0" s="0" kg="0">
 			<uom:UOMs>
-				<uom:UOM symbol="m" base_name="meters">
+				<uom:UOM symbol="m" base_name="meter">
 					<uom:Quantities>
 						<uom:Quantity name="length"/>
 					</uom:Quantities>
@@ -1815,8 +2233,8 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="inches" symbol="in" metric="false">
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="inch"
+							symbol="in" metric="false">
 							<LinearConverter ScaleFactor="0.0254" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -1841,7 +2259,7 @@
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="centimeters" symbol="cm" metric="true">
+							name="centimeter" symbol="cm" metric="true">
 							<LinearConverter ScaleFactor="0.01" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -1850,7 +2268,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millimeters" symbol="mm" metric="true">
+							name="millimeter" symbol="mm" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -1859,11 +2277,11 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="micrometers" symbol="μm" metric="true">
+							name="micrometer" symbol="μm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼m</m:mi>
+									<m:mi>&amp;mu;m</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases>
@@ -1874,10 +2292,17 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="microns">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>microns</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="nanometers" symbol="nm" metric="true">
+							name="nanometer" symbol="nm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -1886,7 +2311,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="picometers" symbol="pm" metric="true">
+							name="picometer" symbol="pm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -1894,16 +2319,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microinches" symbol="μin" metric="false">
-							<LinearConverter ScaleFactor="2.54e-8" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>Î¼in</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="feet"
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="foot"
 							symbol="ft" metric="false">
 							<LinearConverter ScaleFactor="0.3048" Offset="0.0"/>
 							<uom:Presentation>
@@ -1912,7 +2328,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="mils"
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="mil"
 							symbol="mil" metric="false">
 							<LinearConverter ScaleFactor="2.54e-5" Offset="0.0"/>
 							<uom:Presentation>
@@ -1930,13 +2346,22 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="microinch" symbol="μin" metric="false">
+							<LinearConverter ScaleFactor="2.54e-8" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>&amp;mu;in</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
 			</uom:UOMs>
 		</uom:Dimension>
 		<uom:Dimension m="0" cd="0" mol="0" K="0" A="0" s="0" kg="1">
 			<uom:UOMs>
-				<uom:UOM symbol="kg" base_name="kilograms">
+				<uom:UOM symbol="kg" base_name="kilogram">
 					<uom:Quantities>
 						<uom:Quantity name="mass"/>
 					</uom:Quantities>
@@ -1944,36 +2369,8 @@
 						<uom:CategoryReference ref="physical"/>
 					</uom:CategoryReferences>
 					<uom:Alternatives>
-						<uom:Alternative name="pound-mass" symbol="lbm" metric="false">
-							<uom:LinearConverter Offset="0.0"
-								ScaleFactor="0.45359236999974812718762087486107"/>
-							<uom:Presentation>
-								<m:math>
-									<m:msub>
-										<m:mi>lb</m:mi>
-										<m:mi>m</m:mi>
-									</m:msub>
-								</m:math>
-							</uom:Presentation>
-							<uom:Aliases>
-								<uom:Alias symbol="lb">
-									<uom:Presentation>
-										<m:math>
-											<m:mi>lb</m:mi>
-										</m:math>
-									</uom:Presentation>
-								</uom:Alias>
-								<uom:Alias symbol="lbs">
-									<uom:Presentation>
-										<m:math>
-											<m:mi>lbs</m:mi>
-										</m:math>
-									</uom:Presentation>
-								</uom:Alias>
-							</uom:Aliases>
-						</uom:Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="milligrams" symbol="mg" metric="true">
+							name="milligram" symbol="mg" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -1981,7 +2378,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="grams"
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="gram"
 							symbol="g" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -1991,13 +2388,61 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="micrograms" symbol="μg" metric="true">
+							name="microgram" symbol="μg" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼g</m:mi>
+									<m:mi>&amp;mu;g</m:mi>
 								</m:math>
 							</uom:Presentation>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="pound-mass" symbol="lbm" metric="false">
+							<LinearConverter ScaleFactor="0.45359236999974812718762087486107"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:msub>
+										<m:mi>lb</m:mi>
+										<m:mi>m</m:mi>
+									</m:msub>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="lb">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>lb</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="lbs">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>lbs</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="ton-short" symbol="t" metric="false">
+							<LinearConverter ScaleFactor="9.0718473999949625437524174972214e2"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>t</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="ton">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>ton</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</uom:Alternatives>
 					<uom:Presentation>
@@ -2036,7 +2481,47 @@
 					</uom:Aliases>
 					<uom:Alternatives>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="degrees-celsius" symbol="C" metric="false">
+							name="millikelvin" symbol="mK" metric="true">
+							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mK</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="millidegree-celsius" symbol="m°C" metric="false">
+							<LinearConverter ScaleFactor="0.001" Offset="-273.15e3"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mÂ°C</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="degree-fahrenheit" symbol="F" metric="false">
+							<LinearConverter ScaleFactor="0.55555555555555555555555555555556"
+								Offset="-459.67"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>F</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="°F">
+									<uom:Presentation/>
+								</Alias>
+								<Alias symbol="deg F">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>deg F</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="degree-celsius" symbol="C" metric="false">
 							<LinearConverter ScaleFactor="1.0" Offset="-273.15"/>
 							<uom:Presentation>
 								<m:math>
@@ -2059,46 +2544,6 @@
 									</uom:Presentation>
 								</Alias>
 							</Aliases>
-						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="degrees-fahrenheit" symbol="F" metric="false">
-							<LinearConverter ScaleFactor="0.55555555555555555555555555555556"
-								Offset="-459.67"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>F</m:mi>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="°F">
-									<uom:Presentation/>
-								</Alias>
-								<Alias symbol="deg F">
-									<uom:Presentation>
-										<m:math>
-											<m:mi>deg F</m:mi>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
-							</Aliases>
-						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millidegrees-celsius" symbol="m°C" metric="false">
-							<LinearConverter ScaleFactor="0.001" Offset="-273.15e3"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>mÂ°C</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millikelvin" symbol="mK" metric="false">
-							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>mK</m:mi>
-								</m:math>
-							</uom:Presentation>
 						</Alternative>
 					</uom:Alternatives>
 					<uom:Presentation>
@@ -2176,11 +2621,11 @@
 							</uom:Presentation>
 						</uom:Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microhertz" symbol="µHz" metric="false">
+							name="microhertz" symbol="µHz" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>µHz</m:mi>
+									<m:mi>&amp;mu;Hz</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
@@ -2192,6 +2637,33 @@
 									<m:mi>FPM</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="fpm">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>fpm</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="kiloflashes-per-minute" symbol="KFPM" metric="false">
+							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>KFPM</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="kfpm">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>kfpm</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</uom:Alternatives>
 					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure"/>
@@ -2219,7 +2691,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Â°</m:mi>
+										<m:mi>&amp;deg;</m:mi>
 										<m:mi>s</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -2261,6 +2733,15 @@
 									</uom:Presentation>
 								</Alias>
 							</Aliases>
+						</Alternative>
+						<Alternative name="revolutions-per-second" symbol="rps" metric="false">
+							<LinearConverter ScaleFactor="6.283185307179586476925286766559"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>rps</m:mi>
+								</m:math>
+							</uom:Presentation>
 						</Alternative>
 					</Alternatives>
 				</UOM>
@@ -2337,7 +2818,7 @@
 						</uom:Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<uom:UOM symbol="rad/Hz" base_name="radians-per-hertz">
+				<uom:UOM symbol="rad · Hz-1" base_name="radians-per-hertz">
 					<uom:Quantities>
 						<uom:Quantity name="phase-change-per-unit-frequency"/>
 					</uom:Quantities>
@@ -2353,7 +2834,7 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<uom:Alternative name="degrees-per-gigahertz" symbol="deg/GHz"
+						<uom:Alternative name="degrees-per-gigahertz" symbol="deg · GHz-1"
 							metric="false">
 							<uom:LinearConverter Offset="0.0" ScaleFactor="1.74532925e-11"/>
 							<uom:Presentation>
@@ -2376,7 +2857,7 @@
 						</uom:Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<uom:UOM symbol="s" base_name="seconds-time">
+				<uom:UOM symbol="s" base_name="second-time">
 					<uom:Quantities>
 						<uom:Quantity name="time"/>
 					</uom:Quantities>
@@ -2405,34 +2886,42 @@
 								</m:math>
 							</uom:Presentation>
 						</Alias>
-					</uom:Aliases>
-					<uom:Alternatives>
-						<uom:Alternative name="microseconds" symbol="µs" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-6"/>
+						<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure" symbol="seconds">
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Âµs</m:mi>
+									<m:mi>seconds</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<uom:Aliases>
-								<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure"
-									symbol="µS">
+						</Alias>
+					</uom:Aliases>
+					<uom:Alternatives>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="microsecond" symbol="µs" metric="true">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>&amp;mu;s</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="µS">
 									<uom:Presentation>
 										<m:math>
 											<m:mi>µS</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
-							</uom:Aliases>
-						</uom:Alternative>
-						<uom:Alternative name="nanoseconds" symbol="ns" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-9"/>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="nanosecond" symbol="ns" metric="true">
+							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>ns</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+							<Aliases>
 								<Alias symbol="nS">
 									<uom:Presentation>
 										<m:math>
@@ -2441,15 +2930,16 @@
 									</uom:Presentation>
 								</Alias>
 							</Aliases>
-						</uom:Alternative>
-						<uom:Alternative name="milliseconds" symbol="ms" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-3"/>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="millisecond" symbol="ms" metric="true">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>ms</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+							<Aliases>
 								<Alias symbol="mS">
 									<uom:Presentation>
 										<m:math>
@@ -2458,9 +2948,9 @@
 									</uom:Presentation>
 								</Alias>
 							</Aliases>
-						</uom:Alternative>
+						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="picoseconds" symbol="ps" metric="false">
+							name="picosecond" symbol="ps" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2477,7 +2967,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="hours"
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="hour"
 							symbol="h" metric="false">
 							<LinearConverter ScaleFactor="3.6e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -2496,7 +2986,7 @@
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="femtoseconds" symbol="fs" metric="false">
+							name="femtosecond" symbol="fs" metric="true">
 							<LinearConverter ScaleFactor="1.0e-15" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2514,7 +3004,7 @@
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="minutes-time" symbol="min" metric="false">
+							name="minute-time" symbol="min" metric="false">
 							<LinearConverter ScaleFactor="60" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2534,7 +3024,7 @@
 					</uom:Alternatives>
 				</uom:UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="decibels-c-per-hertz" symbol="dBc/Hz">
+					base_name="decibels-c-per-hertz" symbol="dBc · Hz-1">
 					<uom:Quantities>
 						<uom:Quantity name="phase-noise"/>
 					</uom:Quantities>
@@ -2556,7 +3046,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="2" cd="0" mol="0" K="0" A="0" s="-3" kg="1">
 			<uom:UOMs>
-				<uom:UOM symbol="W" base_name="watts">
+				<uom:UOM symbol="W" base_name="watt">
 					<uom:Quantities>
 						<uom:Quantity name="power"/>
 					</uom:Quantities>
@@ -2571,38 +3061,57 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<uom:Alternative name="decibels-milliwatts" symbol="dBm" metric="false">
-							<uom:LogarithmicConverter LogScaleFactor="10.0" LinScaleFactor="1.0e-3"/>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="british-thermal-units-IT-per-hour" symbol="Btu/h" metric="false">
+							<LinearConverter ScaleFactor="2.930711e-1" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>dBm</m:mi>
+									<m:mfrac>
+										<m:mi>Btu</m:mi>
+										<m:mi>h</m:mi>
+									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
-						<uom:Alternative name="milliwatts" symbol="mW" metric="false">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-3"/>
+							<Aliases>
+								<Alias symbol="BTU/Hr">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>BTU</m:mi>
+												<m:mi>Hr</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="milliwatt" symbol="mW" metric="true">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>mW</m:mi>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
-						<uom:Alternative name="megawatts" symbol="MW" metric="false">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e6"/>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="megawatt" symbol="MW" metric="true">
+							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>MW</m:mi>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
-						<uom:Alternative name="kilowatts" symbol="kW" metric="false">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e3"/>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="kilowatt" symbol="kW" metric="true">
+							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>kW</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+							<Aliases>
 								<Alias symbol="Kw">
 									<uom:Presentation>
 										<m:math>
@@ -2611,13 +3120,13 @@
 									</uom:Presentation>
 								</Alias>
 							</Aliases>
-						</uom:Alternative>
+						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microwatts" symbol="µW" metric="false">
+							name="microwatt" symbol="µW" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>µW</m:mi>
+									<m:mi>&amp;mu;W</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases>
@@ -2630,9 +3139,27 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="nanowatt" symbol="nW" metric="true">
+							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>nW</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="decibel-milliwatt" symbol="dBm" metric="false">
+							<LogarithmicConverter LinScaleFactor="1.0e-3" LogScaleFactor="10.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>dBm</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<uom:UOM symbol="VA" base_name="volt-amps">
+				<uom:UOM symbol="VA" base_name="volt-ampere">
 					<uom:Quantities>
 						<uom:Quantity name="power:complex"/>
 					</uom:Quantities>
@@ -2649,7 +3176,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" cd="0" mol="0" K="0" A="1" s="0" kg="0">
 			<uom:UOMs>
-				<uom:UOM symbol="A" base_name="amperes">
+				<uom:UOM symbol="A" base_name="ampere">
 					<uom:Quantities>
 						<uom:Quantity name="current"/>
 					</uom:Quantities>
@@ -2663,7 +3190,7 @@
 					</uom:Presentation>
 					<uom:Alternatives>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="femtoamperes" symbol="fA" metric="false">
+							name="femtoampere" symbol="fA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-15" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2672,16 +3199,25 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="nanoamperes" symbol="nA" metric="false">
+							name="nanoampere" symbol="nA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>nA</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="ŋA">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>ÅA</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="picoamperes" symbol="pA" metric="false">
+							name="picoampere" symbol="pA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2690,7 +3226,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="milliamperes" symbol="mA" metric="false">
+							name="milliampere" symbol="mA" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2699,11 +3235,20 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microamperes" symbol="μA" metric="false">
+							name="microampere" symbol="μA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼A</m:mi>
+									<m:mi>&amp;mu;A</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="kiloampere" symbol="kA" metric="true">
+							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>kA</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
@@ -2713,7 +3258,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="2" kg="1" s="-3" A="-1" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<uom:UOM symbol="V" base_name="volts-sinusoidal">
+				<uom:UOM symbol="V" base_name="volt-sinusoidal">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-sinusoidal"/>
 					</uom:Quantities>
@@ -2736,11 +3281,18 @@
 								</m:math>
 							</uom:Presentation>
 						</uom:Alias>
+						<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure" symbol="V AC">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>V AC</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
 					</uom:Aliases>
 					<uom:Alternatives>
-						<uom:Alternative name="volts-sinusoidal-root-mean-square" symbol="Vrms"
-							metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="0.7071067811865475"/>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="volt-sinusoidal-root-mean-square" symbol="Vrms" metric="true">
+							<LinearConverter ScaleFactor="0.7071067811865475" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:msub>
@@ -2749,10 +3301,10 @@
 									</m:msub>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
-						<uom:Alternative name="volts-sinusoidal-peak-to-peak" symbol="Vpp"
-							metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="0.5"/>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="volt-sinusoidal-peak-to-peak" symbol="Vpp" metric="true">
+							<LinearConverter ScaleFactor="0.5" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:msub>
@@ -2761,7 +3313,7 @@
 									</m:msub>
 								</m:math>
 							</uom:Presentation>
-							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+							<Aliases>
 								<Alias symbol="V p-p">
 									<uom:Presentation>
 										<m:math>
@@ -2779,10 +3331,20 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="V(p-p)">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>V</m:mi>
+												<m:mi>(p-p)</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
-						</uom:Alternative>
+						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millivolts-sinusoidal-peak-to-peak" symbol="mVpp" metric="true">
+							name="millivolt-sinusoidal-peak-to-peak" symbol="mVpp" metric="true">
 							<LinearConverter ScaleFactor="0.5e-3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2810,15 +3372,25 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="mV(p-p)">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>mV</m:mi>
+												<m:mi>(p-p)</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microvolts-sinusoidal-peak-to-peak" symbol="μVpp" metric="false">
+							name="microvolt-sinusoidal-peak-to-peak" symbol="μVpp" metric="false">
 							<LinearConverter ScaleFactor="0.5e-6" Offset="0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:msub>
-										<m:mi>Î¼V</m:mi>
+										<m:mi>&amp;mu;V</m:mi>
 										<m:mi>pp</m:mi>
 									</m:msub>
 								</m:math>
@@ -2827,7 +3399,20 @@
 								<Alias symbol="μVp-p">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>Î¼Vp-p</m:mi>
+											<m:msub>
+												<m:mi>μV</m:mi>
+												<m:mi>p-p</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="μV(p-p)">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>μV</m:mi>
+												<m:mi>(p-p)</m:mi>
+											</m:msub>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -2835,7 +3420,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<uom:UOM symbol="V" base_name="volts">
+				<uom:UOM symbol="V" base_name="volt">
 					<uom:Quantities>
 						<uom:Quantity name="voltage"/>
 						<uom:Quantity name="electrical-potential-difference"/>
@@ -2850,32 +3435,35 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<uom:Alternative name="microvolts" symbol="µV" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e-6"/>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="microvolt" symbol="µV" metric="true">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>µV</m:mi>
+									<m:mi>&amp;mu;V</m:mi>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
-						<uom:Alternative name="kilovolts" symbol="kV" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1000.0"/>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="kilovolt" symbol="kV" metric="true">
+							<LinearConverter ScaleFactor="1000.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>kV</m:mi>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
-						<uom:Alternative name="megavolts" symbol="MV" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0e6"/>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="megavolt" symbol="MV" metric="true">
+							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>MV</m:mi>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
+						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="nanovolts" symbol="nV" metric="true">
+							name="nanovolt" symbol="nV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2884,7 +3472,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millivolts" symbol="mV" metric="true">
+							name="millivolt" symbol="mV" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2901,9 +3489,23 @@
 								</m:math>
 							</uom:Presentation>
 						</Alias>
+						<Alias symbol="V DC">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>V DC</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+						<Alias symbol="VDC">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>VDC</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
 					</Aliases>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-square"
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volt-square"
 					symbol="V">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-square"/>
@@ -2917,7 +3519,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="volts-square-peak-to-peak" symbol="Vpp" metric="false">
+						<Alternative name="volt-square-peak-to-peak" symbol="Vpp" metric="false">
 							<LinearConverter ScaleFactor="0.5" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2942,9 +3544,19 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="V(p-p)">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>V</m:mi>
+												<m:mi>(p-p)</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="millivolts-square-peak-to-peak" symbol="mVpp"
+						<Alternative name="millivolt-square-peak-to-peak" symbol="mVpp"
 							metric="false">
 							<LinearConverter ScaleFactor="0.5e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -2965,9 +3577,53 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
+						<Alternative name="microvolt-square-peak-to-peak" symbol="μVpp"
+							metric="false">
+							<LinearConverter ScaleFactor="0.5e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:msub>
+										<m:mi>&amp;mu;V</m:mi>
+										<m:mi>pp</m:mi>
+									</m:msub>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="μV(p-p)">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>μV</m:mi>
+												<m:mi>(p-p)</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="μVpk-pk">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>μV</m:mi>
+												<m:mi>pk-pk</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="μVp-p">
+									<uom:Presentation>
+										<m:math>
+											<m:msub>
+												<m:mi>μV</m:mi>
+												<m:mi>p-p</m:mi>
+											</m:msub>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-triangular"
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volt-triangular"
 					symbol="V">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-triangular"/>
@@ -2981,8 +3637,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="volts-triangular-peak-to-peak" symbol="Vpp"
-							metric="false">
+						<Alternative name="volt-triangular-peak-to-peak" symbol="Vpp" metric="false">
 							<LinearConverter ScaleFactor="0.5" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -2993,7 +3648,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millivolts-triangular-peak-to-peak" symbol="mVpp"
+						<Alternative name="millivolt-triangular-peak-to-peak" symbol="mVpp"
 							metric="false">
 							<LinearConverter ScaleFactor="0.5e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3026,11 +3681,30 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="volts-per-division" symbol="V/div">
+					<uom:Quantities>
+						<uom:Quantity name="oscilloscope-vertical-scale"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+						<CategoryReference ref="optical"/>
+						<CategoryReference ref="electrical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>V</m:mi>
+								<m:mi>div</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+				</UOM>
 			</uom:UOMs>
 		</uom:Dimension>
 		<uom:Dimension m="2" kg="1" s="-2" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<uom:UOM symbol="J" base_name="joules">
+				<uom:UOM symbol="J" base_name="joule">
 					<uom:Quantities>
 						<uom:Quantity name="work"/>
 						<uom:Quantity name="energy"/>
@@ -3047,17 +3721,33 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
-						<uom:Alternative name="newton-meters" symbol="NM" metric="true">
-							<uom:LinearConverter Offset="0.0" ScaleFactor="1.0"/>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="newton-meter" symbol="N · m" metric="true">
+							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>N</m:mi>
-									<m:mi>M</m:mi>
+									<m:mi>N · m</m:mi>
 								</m:math>
 							</uom:Presentation>
-						</uom:Alternative>
+							<Aliases>
+								<Alias symbol="N m">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>N m</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="N·m">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>N·m</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="millijoules" symbol="mJ" metric="false">
+							name="millijoule" symbol="mJ" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3066,7 +3756,7 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="nanojoules" symbol="nJ" metric="false">
+							name="nanojoule" symbol="nJ" metric="false">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3075,26 +3765,44 @@
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="watt-hours" symbol="W·h" metric="false">
+							name="watt-hour" symbol="W · h" metric="false">
 							<LinearConverter ScaleFactor="3.6e3" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>W·h</m:mi>
+									<m:mi>W · h</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="Wh">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>Wh</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="kilowatt-hours" symbol="kW·h" metric="false">
+							name="kilowatt-hour" symbol="kW · h" metric="false">
 							<LinearConverter ScaleFactor="3.6e6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>kW·h</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="kWh">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>kWh</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<uom:UOM symbol="Nm" base_name="newton-meters">
+				<uom:UOM symbol="N · m" base_name="newton-meter">
 					<uom:Quantities>
 						<uom:Quantity name="torque"/>
 					</uom:Quantities>
@@ -3103,18 +3811,16 @@
 					</uom:CategoryReferences>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>N</m:mi>
-							<m:mi>m</m:mi>
+							<m:mi>N &amp;middot; m</m:mi>
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="pound-force-feet" symbol="ftlb" metric="false">
+							name="pound-force-foot" symbol="lbf · ft" metric="false">
 							<LinearConverter ScaleFactor="1.35581795" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>ft</m:mi>
-									<m:mi>lb</m:mi>
+									<m:mi>lbf &amp;middot; ft</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases>
@@ -3132,7 +3838,7 @@
 								<Alias symbol="ft∙lbf">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>ft∙lbf</m:mi>
+											<m:mi>ft&amp;middot;lbf</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -3146,14 +3852,14 @@
 								<Alias symbol="lbf∙ft">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>lbf∙ft</m:mi>
+											<m:mi>lbf&amp;middot;ft</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
 								<Alias symbol="lb·ft">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>lb·ft</m:mi>
+											<m:mi>lb&amp;middot;ft</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -3171,15 +3877,34 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="ft/lbf">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>ft</m:mi>
+												<m:mi>lbf</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+								<Alias symbol="ft/lbs">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>ft</m:mi>
+												<m:mi>lbs</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="pound-force-inches" symbol="inlb" metric="false">
+							name="pound-force-inch" symbol="lbf · in" metric="false">
 							<LinearConverter ScaleFactor="0.112984829" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>in</m:mi>
-									<m:mi>lb</m:mi>
+									<m:mi>lbf &amp;middot; in</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases>
@@ -3197,7 +3922,7 @@
 								<Alias symbol="in∙lbf">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>in∙lbf</m:mi>
+											<m:mi>in&amp;middot;lbf</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -3211,14 +3936,14 @@
 								<Alias symbol="lbf∙in">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>lbf∙in</m:mi>
+											<m:mi>lbf&amp;middot;in</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
 								<Alias symbol="lb·in">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>lb·in</m:mi>
+											<m:mi>lb&amp;middot;in</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -3236,24 +3961,24 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
-							</Aliases>
-						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="ounce-force-inches" symbol="in·ozf" metric="false">
-							<LinearConverter ScaleFactor="7.061552e-3" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>in·ozf</m:mi>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="ozf·in">
+								<Alias symbol="in·lbs">
 									<uom:Presentation>
 										<m:math>
-											<m:mi>ozf·in</m:mi>
+											<m:mi>in&amp;middot;lbs</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+							name="ounce-force-inch" symbol="ozf · in" metric="false">
+							<LinearConverter ScaleFactor="7.061552e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>ozf &amp;middot; in</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
 								<Alias symbol="in oz">
 									<uom:Presentation>
 										<m:math>
@@ -3261,9 +3986,32 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="in · ozf">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>in &amp;middot; ozf</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
 					</uom:Alternatives>
+					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+						<Alias symbol="N·m">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>N·m</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+						<Alias symbol="N m">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>N m</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</uom:UOM>
 			</uom:UOMs>
 		</uom:Dimension>
@@ -3288,7 +4036,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives xmlns="http://schema.metrology.net/UnitsOfMeasure">
-						<Alternative name="centistokes" symbol="cSt" metric="false">
+						<Alternative name="centistoke" symbol="cSt" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3311,13 +4059,13 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="stokes" symbol="St" metric="false">
+						<Alternative name="stoke" symbol="St" metric="false">
+							<LinearConverter ScaleFactor="1.0e-4" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>St</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<LinearConverter ScaleFactor="1.0e-4" Offset="0.0"/>
 						</Alternative>
 					</Alternatives>
 				</uom:UOM>
@@ -3325,7 +4073,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-1" kg="1" s="-1" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<uom:UOM symbol="Pa·s" base_name="pascal-second">
+				<uom:UOM symbol="Pa · s" base_name="pascal-second">
 					<uom:Quantities>
 						<uom:Quantity name="dynamic-viscosity"/>
 					</uom:Quantities>
@@ -3334,14 +4082,14 @@
 					</uom:CategoryReferences>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>Pa·s</m:mi>
+							<m:mi>Pa &amp;middot; s</m:mi>
 						</m:math>
 					</uom:Presentation>
 					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
 						<Alias symbol="Pa·s">
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Pa·s</m:mi>
+									<m:mi>Pa &amp;middot; s</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alias>
@@ -3387,7 +4135,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="2" kg="1" s="-3" A="-2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<uom:UOM base_name="ohms" symbol="Ω">
+				<uom:UOM base_name="ohm" symbol="Ω">
 					<uom:Quantities>
 						<uom:Quantity name="impedance"/>
 						<uom:Quantity name="electrical-resistance"/>
@@ -3397,61 +4145,61 @@
 					</uom:CategoryReferences>
 					<uom:Presentation>
 						<m:math>
-							<m:mi>Î©</m:mi>
+							<m:mi>&amp;Omega;</m:mi>
 						</m:math>
 					</uom:Presentation>
 					<uom:Alternatives>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="microohms" symbol="μΩ" metric="false">
+							name="microohm" symbol="μΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼Î©</m:mi>
+									<m:mi>&amp;mu;&amp;Omega;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="kiloohms" symbol="kΩ" metric="false">
+							name="kiloohm" symbol="kΩ" metric="false">
 							<LinearConverter ScaleFactor="1000" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>kÎ©</m:mi>
+									<m:mi>k&amp;Omega;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="milliohms" symbol="mΩ" metric="false">
+							name="milliohm" symbol="mΩ" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>mÎ©</m:mi>
+									<m:mi>m&amp;Omega;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="teraohms" symbol="TΩ" metric="false">
+							name="teraohm" symbol="TΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>TÎ©</m:mi>
+									<m:mi>T&amp;Omega;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="megaohms" symbol="MΩ" metric="false">
+							name="megaohm" symbol="MΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>MÎ©</m:mi>
+									<m:mi>M&amp;Omega;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
 						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
-							name="gigaohms" symbol="GΩ" metric="false">
+							name="gigaohm" symbol="GΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>GÎ©</m:mi>
+									<m:mi>G&amp;Omega;</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
@@ -3461,7 +4209,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-1" kg="1" s="-2" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pascals"
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pascal"
 					symbol="Pa">
 					<uom:Quantities>
 						<uom:Quantity name="pressure"/>
@@ -3475,32 +4223,8 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="kilopascals" symbol="kPa" metric="true">
-							<LinearConverter ScaleFactor="1000.0" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>kPa</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="megapascals" symbol="MPa" metric="true">
-							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>MPa</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="millipascals" symbol="mPa" metric="true">
-							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>mPa</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
 						<Alternative name="torr" symbol="Torr" metric="false">
-							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
+							<LinearConverter ScaleFactor="1.333224e2" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>Torr</m:mi>
@@ -3516,14 +4240,6 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="micropascals" symbol="μPa" metric="false">
-							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>μPa</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
 						<Alternative name="bar" symbol="bar" metric="false">
 							<LinearConverter ScaleFactor="1.0e5" Offset="0.0"/>
 							<uom:Presentation>
@@ -3531,6 +4247,15 @@
 									<m:mi>bar</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="Bar">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>Bar</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative name="millibar" symbol="mbar" metric="false">
 							<LinearConverter ScaleFactor="1.0e2" Offset="0.0"/>
@@ -3540,7 +4265,48 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="hectopascals" symbol="hPa" metric="true">
+						<Alternative name="kilopascal" symbol="kPa" metric="true">
+							<LinearConverter ScaleFactor="1000.0" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>kPa</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="kpa">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>kpa</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative name="megapascal" symbol="MPa" metric="true">
+							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>MPa</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="millipascal" symbol="mPa" metric="true">
+							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mPa</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="micropascal" symbol="μPa" metric="true">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>&amp;mu;Pa</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="hectopascal" symbol="hPa" metric="true">
 							<LinearConverter ScaleFactor="1.0e2" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3548,7 +4314,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="pounds-force-per-square-inch" symbol="psi" metric="false">
+						<Alternative name="pound-force-per-square-inch" symbol="psi" metric="false">
 							<LinearConverter ScaleFactor="6894.757293168" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3570,9 +4336,16 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="psi vacuum">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>psi vacuum</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="inches-of-mercury-conventional" symbol="inHg"
+						<Alternative name="inch-of-mercury-conventional" symbol="inHg"
 							metric="false">
 							<LinearConverter ScaleFactor="3386.388666666666667" Offset="0.0"/>
 							<uom:Presentation>
@@ -3588,36 +4361,51 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="inHga">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>inHga</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="inches-of-water-conventional" symbol="inH²O"
-							metric="false">
+						<Alternative name="inch-of-water-conventional" symbol="inH²O" metric="false">
 							<LinearConverter ScaleFactor="2.490889e2" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>inHÂ²O</m:mi>
+									<m:mi>inH2O</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="inch H2O">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>inch H2O</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
-						<Alternative name="microinches-of-water-conventional" symbol="μinH²O"
+						<Alternative name="microinch-of-water-conventional" symbol="μinH²O"
 							metric="false">
 							<LinearConverter ScaleFactor="2.490889e-4" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼inHÂ²O</m:mi>
+									<m:mi>&amp;mu;inH²O</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microinches-of-mercury-conventional" symbol="μinHg"
+						<Alternative name="microinch-of-mercury-conventional" symbol="μinHg"
 							metric="false">
 							<LinearConverter ScaleFactor="3386.388666666666667e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼inHg</m:mi>
+									<m:mi>&amp;mu;inHg</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millimeters-of-water-conventional" symbol="mmH2O"
+						<Alternative name="millimeter-of-water-conventional" symbol="mmH2O"
 							metric="false">
 							<LinearConverter ScaleFactor="9.80665" Offset="0.0"/>
 							<uom:Presentation>
@@ -3635,14 +4423,22 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
+						<Alternative name="millimeter-of-mercury-conventional" symbol="mmHg"
+							metric="false">
+							<LinearConverter ScaleFactor="1.333224e2" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mmHg</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
 					</Alternatives>
 				</UOM>
 			</uom:UOMs>
 		</uom:Dimension>
 		<uom:Dimension m="2" kg="1" s="-2" A="-2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="henrys"
-					symbol="H">
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="henry" symbol="H">
 					<uom:Quantities>
 						<uom:Quantity name="inductance"/>
 					</uom:Quantities>
@@ -3655,15 +4451,15 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="microhenrys" symbol="μH" metric="false">
+						<Alternative name="microhenry" symbol="μH" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼H</m:mi>
+									<m:mi>&amp;mu;H</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millihenrys" symbol="mH" metric="false">
+						<Alternative name="millihenry" symbol="mH" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3677,8 +4473,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-2" kg="-1" s="4" A="2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="farads"
-					symbol="F">
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="farad" symbol="F">
 					<uom:Quantities>
 						<uom:Quantity name="capacitance"/>
 					</uom:Quantities>
@@ -3691,7 +4486,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="nanofarads" symbol="nF" metric="false">
+						<Alternative name="nanofarad" symbol="nF" metric="false">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3699,7 +4494,15 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="picofarads" symbol="pF" metric="false">
+						<Alternative name="microfarad" symbol="μF" metric="false">
+							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>&amp;mu;F</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="picofarad" symbol="pF" metric="false">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3707,15 +4510,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="microfarads" symbol="μF" metric="false">
-							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>Î¼F</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="millifarads" symbol="mF" metric="false">
+						<Alternative name="millifarad" symbol="mF" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3730,7 +4525,7 @@
 		<uom:Dimension m="-3" kg="1" s="0" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="kilograms-per-cubic-meter" symbol="kg·m-3">
+					base_name="kilograms-per-cubic-meter" symbol="kg · m-3">
 					<uom:Quantities>
 						<uom:Quantity name="density-mass"/>
 						<uom:Quantity name="soot-concentration"/>
@@ -3750,7 +4545,8 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="grams-per-cubic-centimeter" symbol="g·cm-3" metric="true">
+						<Alternative name="grams-per-cubic-centimeter" symbol="g · cm-3"
+							metric="true">
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
@@ -3776,7 +4572,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="pounds-per-cubic-foot" symbol="lb/ft³" metric="false">
+						<Alternative name="pounds-per-cubic-foot" symbol="lb · ft-3" metric="false">
 							<LinearConverter ScaleFactor="16.01846" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3789,6 +4585,15 @@
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="pcf">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>pcf</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative name="filter-smoke-number" symbol="FSN" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
@@ -3805,7 +4610,7 @@
 		<uom:Dimension m="3" kg="0" s="-1" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="cubic-meters-per-second" symbol="m^3/s">
+					base_name="cubic-meters-per-second" symbol="m³/s">
 					<uom:Quantities>
 						<uom:Quantity name="volume-divided-by-time"/>
 						<uom:Quantity name="flow-volume"/>
@@ -3832,6 +4637,15 @@
 									<m:mi>gpm</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="GPM">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>GPM</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative name="liters-per-hour" symbol="L/h" metric="false">
 							<LinearConverter
@@ -3865,7 +4679,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="cubic-meters-per-minute" symbol="m^3/min" metric="false">
+						<Alternative name="cubic-meters-per-minute" symbol="m³/min" metric="false">
 							<LinearConverter ScaleFactor="0.01666666666666666666666666666667"
 								Offset="0.0"/>
 							<uom:Presentation>
@@ -3880,7 +4694,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="cubic-feet-per-minute" symbol="ft^3/min" metric="false">
+						<Alternative name="cubic-feet-per-minute" symbol="ft³/min" metric="false">
 							<LinearConverter ScaleFactor="4.719474432e-4" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3894,7 +4708,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="cubic-feet-per-hour" symbol="ft^3/h" metric="false">
+						<Alternative name="cubic-feet-per-hour" symbol="ft³/h" metric="false">
 							<LinearConverter ScaleFactor="7.86579072e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -3926,9 +4740,16 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="LPM">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>LPM</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="cubic-centimeters-per-minute" symbol="cm^3/min"
+						<Alternative name="cubic-centimeters-per-minute" symbol="cm³/min"
 							metric="true">
 							<LinearConverter ScaleFactor="1.6666666666666666667e-8" Offset="0.0"/>
 							<uom:Presentation>
@@ -3964,6 +4785,74 @@
 									<uom:Presentation>
 										<m:math>
 											<m:mi>CCM</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative name="cubic-meters-per-hour" symbol="m³/h" metric="false">
+							<LinearConverter ScaleFactor="2.7777777777777777777777777777778e-4"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:msup>
+											<m:mi>m</m:mi>
+											<m:mn>3</m:mn>
+										</m:msup>
+										<m:mi>h</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="m^3/hr">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:msup>
+												<m:mi>m</m:mi>
+												<m:mn>3</m:mn>
+												</m:msup>
+												<m:mi>hr</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative name="liters-per-second" symbol="L/s" metric="true">
+							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>L</m:mi>
+										<m:mi>s</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="l/s">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>l/s</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
+						</Alternative>
+						<Alternative name="milliliters-per-hour" symbol="mL/h" metric="false">
+							<LinearConverter ScaleFactor="2.7777777777777777777777777777778e-10"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>mL/h</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="mL/hr">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>mL/hr</m:mi>
 										</m:math>
 									</uom:Presentation>
 								</Alias>
@@ -4068,7 +4957,7 @@
 		<uom:Dimension m="-3" kg="0" s="0" A="0" K="0" mol="1" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="mols-per-cubic-meter" symbol="mol·m-3">
+					base_name="moles-per-cubic-meter" symbol="mol · m-3">
 					<uom:Quantities>
 						<uom:Quantity name="molar-concentration"/>
 					</uom:Quantities>
@@ -4087,7 +4976,7 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="particles-per-cubic-centimeter" symbol="particles·cm-3"
+						<Alternative name="particles-per-cubic-centimeter" symbol="particles · cm-3"
 							metric="false">
 							<LinearConverter ScaleFactor="1.66057788e-18" Offset="0.0"/>
 							<uom:Presentation>
@@ -4135,6 +5024,15 @@
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="fpm">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>fpm</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative name="inches-per-microsecond" symbol="in/μs" metric="false">
 							<LinearConverter ScaleFactor="2.54e4" Offset="0.0"/>
@@ -4142,7 +5040,7 @@
 								<m:math>
 									<m:mfrac>
 										<m:mi>in</m:mi>
-										<m:mi>Î¼s</m:mi>
+										<m:mi>&amp;mu;s</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -4222,7 +5120,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼Gy</m:mi>
+										<m:mi>&amp;mu;Gy</m:mi>
 										<m:mi>s</m:mi>
 									</m:mfrac>
 								</m:math>
@@ -4238,6 +5136,29 @@
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
+						</Alternative>
+						<Alternative name="rad-per-second" symbol="rd/s" metric="false">
+							<LinearConverter ScaleFactor="0.01" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>rd</m:mi>
+										<m:mi>s</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="rad/s">
+									<uom:Presentation>
+										<m:math>
+											<m:mfrac>
+												<m:mi>rad</m:mi>
+												<m:mi>s</m:mi>
+											</m:mfrac>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</Alternatives>
 				</UOM>
@@ -4258,24 +5179,13 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="roentgens-per-hour" symbol="R/h" metric="false">
-							<LinearConverter ScaleFactor="2.7777777777777777778e-6" Offset="0.0"/>
+						<Alternative name="rem-per-second" symbol="rem/s" metric="false">
+							<LinearConverter ScaleFactor="0.01" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>R</m:mi>
-										<m:mi>h</m:mi>
-									</m:mfrac>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="milliroentgens-per-hour" symbol="mR/h" metric="false">
-							<LinearConverter ScaleFactor="2.7777777777777777778e-9" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mfrac>
-										<m:mi>mR</m:mi>
-										<m:mi>h</m:mi>
+										<m:mi>rem</m:mi>
+										<m:mi>s</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
@@ -4342,23 +5252,6 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="pounds-force" symbol="lbf" metric="false">
-							<LinearConverter ScaleFactor="4.4482216152605" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>lbf</m:mi>
-								</m:math>
-							</uom:Presentation>
-							<Aliases>
-								<Alias symbol="Lbf">
-									<uom:Presentation>
-										<m:math>
-											<m:mi>Lbf</m:mi>
-										</m:math>
-									</uom:Presentation>
-								</Alias>
-							</Aliases>
-						</Alternative>
 						<Alternative name="millinewton" symbol="mN" metric="false">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -4374,6 +5267,31 @@
 									<m:mi>kN</m:mi>
 								</m:math>
 							</uom:Presentation>
+						</Alternative>
+						<Alternative name="kilopound-force" symbol="klbf" metric="false">
+							<LinearConverter ScaleFactor="4.4482216152605e3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>klbf</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="pound-force" symbol="lbf" metric="false">
+							<LinearConverter ScaleFactor="4.4482216152605" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>lbf</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="Lbf">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>Lbf</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 					</Alternatives>
 				</UOM>
@@ -4427,7 +5345,7 @@
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼L</m:mi>
+									<m:mi>&amp;mu;L</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases>
@@ -4440,15 +5358,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative name="gallons-US" symbol="gal" metric="false">
-							<LinearConverter ScaleFactor="3.7854117840007e-3" Offset="0.0"/>
-							<uom:Presentation>
-								<m:math>
-									<m:mi>gal</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alternative>
-						<Alternative name="cubic-inches" symbol="in^3" metric="false">
+						<Alternative name="cubic-inch" symbol="in^3" metric="false">
 							<LinearConverter ScaleFactor="1.6387064e-5" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -4459,6 +5369,14 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
+						<Alternative name="gallon-US" symbol="gal" metric="false">
+							<LinearConverter ScaleFactor="3.7854117840007e-3" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>gal</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
 					</Alternatives>
 				</UOM>
 			</uom:UOMs>
@@ -4466,7 +5384,8 @@
 		<uom:Dimension m="-1" kg="1" s="-3" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="watts-per-steradian-per-square-meter-per-meter" symbol="W⋅sr−1⋅m−3">
+					base_name="watts-per-steradian-per-square-meter-per-meter"
+					symbol="W ⋅ sr−1 ⋅ m−3">
 					<uom:Quantities>
 						<uom:Quantity name="spectral-radiance"/>
 					</uom:Quantities>
@@ -4492,7 +5411,7 @@
 					</uom:Presentation>
 					<Alternatives>
 						<Alternative name="watts-per-steradian-per-square-centimeter-per-nanometer"
-							symbol="W⋅cm-2⋅sr-1⋅nm-1" metric="false">
+							symbol="W ⋅ cm-2 ⋅ sr-1 ⋅ nm-1" metric="false">
 							<LinearConverter ScaleFactor="1.0e13" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -4555,12 +5474,28 @@
 										</m:math>
 									</uom:Presentation>
 								</Alias>
+								<Alias symbol="ft/candles">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>ft/candles</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
 							</Aliases>
 						</Alternative>
 					</Alternatives>
+					<Aliases>
+						<Alias symbol="Lux">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>Lux</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alias>
+					</Aliases>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="candelas-per-square-meter" symbol="cd·m-2">
+					base_name="candelas-per-square-meter" symbol="cd · m-2">
 					<uom:Quantities>
 						<uom:Quantity name="luminance"/>
 					</uom:Quantities>
@@ -4647,7 +5582,7 @@
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼W</m:mi>
+										<m:mi>&amp;mu;W</m:mi>
 										<m:msup>
 											<m:mi>cm</m:mi>
 											<m:mn>2</m:mn>
@@ -4740,7 +5675,7 @@
 		<uom:Dimension m="3" kg="0" s="-1" A="-2" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="ohms-per-pascal"
-					symbol="Ω/Pa">
+					symbol="Ω · Pa-1">
 					<uom:Quantities>
 						<uom:Quantity name="resistance-pressure-ratio"/>
 					</uom:Quantities>
@@ -4750,7 +5685,7 @@
 					<uom:Presentation>
 						<m:math>
 							<m:mfrac>
-								<m:mi>Î©</m:mi>
+								<m:mi>&amp;Omega;</m:mi>
 								<m:mi>Pa</m:mi>
 							</m:mfrac>
 						</m:math>
@@ -4761,7 +5696,7 @@
 		<uom:Dimension m="3" kg="0" s="-1" A="-1" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-per-pascal"
-					symbol="V/Pa">
+					symbol="V · Pa-1">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-pressure-ratio"/>
 					</uom:Quantities>
@@ -4777,7 +5712,8 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="nanovolts-per-hectopascal" symbol="nV/hPa" metric="false">
+						<Alternative name="nanovolts-per-hectopascal" symbol="nV · hPa-1"
+							metric="false">
 							<LinearConverter ScaleFactor="1.0e-11" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
@@ -4815,7 +5751,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-2" kg="-1" s="3" A="2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="siemens"
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="siemen"
 					symbol="S">
 					<uom:Quantities>
 						<uom:Quantity name="electrical-conductance"/>
@@ -4829,11 +5765,11 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="microsiemens" symbol="μS" metric="false">
+						<Alternative name="microsiemen" symbol="μS" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>Î¼S</m:mi>
+									<m:mi>&amp;mu;S</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
@@ -4844,7 +5780,7 @@
 		<uom:Dimension m="-3" kg="-1" s="3" A="2" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="siemens-per-meter" symbol="S/m">
+					base_name="siemens-per-meter" symbol="S · m-1">
 					<uom:Quantities>
 						<uom:Quantity name="electrical-conductivity"/>
 					</uom:Quantities>
@@ -4860,19 +5796,19 @@
 						</m:math>
 					</uom:Presentation>
 					<Alternatives>
-						<Alternative name="microsiemens-per-centimeter" symbol="μS/cm"
+						<Alternative name="microsiemens-per-centimeter" symbol="μS · cm-1"
 							metric="false">
 							<LinearConverter ScaleFactor="1.0e-4" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mfrac>
-										<m:mi>Î¼S</m:mi>
+										<m:mi>&amp;mu;S</m:mi>
 										<m:mi>cm</m:mi>
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative name="millisiemens-per-centimeter" symbol="mS/cm"
+						<Alternative name="millisiemens-per-centimeter" symbol="mS · cm-1"
 							metric="false">
 							<LinearConverter ScaleFactor="0.1" Offset="0.0"/>
 							<uom:Presentation>
@@ -4928,6 +5864,15 @@
 									<m:mi>G</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<Aliases>
+								<Alias symbol="Gauss">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>Gauss</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</Alias>
+							</Aliases>
 						</Alternative>
 						<Alternative name="kilogauss" symbol="kG" metric="false">
 							<LinearConverter ScaleFactor="1.0e-1" Offset="0.0"/>
@@ -5030,6 +5975,54 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
+						<Alternative name="grams-per-minute" symbol="g/min" metric="false">
+							<LinearConverter ScaleFactor="0.01666666666666666666666666666667e-3"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>g</m:mi>
+										<m:mi>min</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="kilograms-per-minute" symbol="kg/min" metric="false">
+							<LinearConverter ScaleFactor="0.01666666666666666666666666666667"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>kg</m:mi>
+										<m:mi>min</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="milligrams-per-minute" symbol="mg/min" metric="false">
+							<LinearConverter ScaleFactor="1.6666666666666666666666666666667e-8"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mg</m:mi>
+										<m:mi>min</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="micrograms-per-minute" symbol="μg/min" metric="false">
+							<LinearConverter ScaleFactor="1.6666666666666666666666666666667e-11"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>&amp;mu;g</m:mi>
+										<m:mi>min</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
 					</Alternatives>
 				</UOM>
 			</uom:UOMs>
@@ -5037,7 +6030,7 @@
 		<uom:Dimension m="0" kg="-1" s="1" A="1" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="coulombs-per-kilogram" symbol="C/kg">
+					base_name="coulombs-per-kilogram" symbol="C · kg-1">
 					<uom:Quantities>
 						<uom:Quantity name="radiation-exposure"/>
 					</uom:Quantities>
@@ -5060,6 +6053,88 @@
 								</m:math>
 							</uom:Presentation>
 							<LinearConverter ScaleFactor="2.58e-4" Offset="0.0"/>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="-1" kg="0" s="1" A="0" K="0" mol="0" cd="0">
+			<uom:UOMs>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="kilograms-per-pascal-second-square-meter"
+					symbol="kg · Pa-1 · s-1 · m-2">
+					<uom:Quantities>
+						<uom:Quantity name="permeability"/>
+					</uom:Quantities>
+					<CategoryReferences/>
+					<uom:Presentation>
+						<m:math>
+							<m:mi>kg·Pa-1·s-1·m-2</m:mi>
+						</m:math>
+					</uom:Presentation>
+					<Alternatives>
+						<Alternative name="perm-0-degrees-celsius" symbol="perm" metric="false">
+							<LinearConverter ScaleFactor="5.72135e-11" Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mi>perm</m:mi>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="perm-23-degrees-celsius" symbol="perm" metric="false">
+							<uom:Presentation>
+								<m:math>
+									<m:mi>perm</m:mi>
+								</m:math>
+							</uom:Presentation>
+							<LinearConverter ScaleFactor="5.74525e-11" Offset="0.0"/>
+						</Alternative>
+					</Alternatives>
+				</UOM>
+			</uom:UOMs>
+		</uom:Dimension>
+		<uom:Dimension m="0" kg="-1" s="0" A="1" K="0" mol="0" cd="0">
+			<uom:UOMs>
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+					base_name="coulombs-per-kilogram-second" symbol="C · kg-1 · s-1">
+					<uom:Quantities>
+						<uom:Quantity name="radiation-exposure-rate"/>
+					</uom:Quantities>
+					<CategoryReferences>
+						<CategoryReference ref="physical"/>
+					</CategoryReferences>
+					<uom:Presentation>
+						<m:math>
+							<m:mfrac>
+								<m:mi>C</m:mi>
+								<m:mi>kg &amp;middot; s</m:mi>
+							</m:mfrac>
+						</m:math>
+					</uom:Presentation>
+					<Alternatives>
+						<Alternative name="milliroentgens-per-hour" symbol="mR/h" metric="false">
+							<LinearConverter ScaleFactor="7.1666666666666666666666666666667e-11"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>mR</m:mi>
+										<m:mi>h</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
+						</Alternative>
+						<Alternative name="roentgens-per-hour" symbol="R/h" metric="false">
+							<LinearConverter ScaleFactor="7.1666666666666666666666666666667e-8"
+								Offset="0.0"/>
+							<uom:Presentation>
+								<m:math>
+									<m:mfrac>
+										<m:mi>R</m:mi>
+										<m:mi>h</m:mi>
+									</m:mfrac>
+								</m:math>
+							</uom:Presentation>
 						</Alternative>
 					</Alternatives>
 				</UOM>

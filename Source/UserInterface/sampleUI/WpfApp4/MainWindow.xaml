@@ -1,0 +1,162 @@
+﻿<Window x:Class="WpfApp4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        
+        xmlns:local="clr-namespace:WpfApp4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+  <Window.Resources>
+
+    <!--
+            XML Source
+            
+            The actual file is saved in the root directory of the
+            project and its Build Action is set to "Resource" in
+            the file's properties window. This causes the file to
+            be included in the assembly, and makes it available
+            to the application as a resource.
+        -->
+    <XmlDataProvider x:Key="xmldata"
+                     Source="testdata.xml"
+                     XPath="/root" />
+
+    <!--Data Templates for each XML tag type expected in file.DataType        - Matches the tag name            ItemsSource     - For tags that have descendents this                              Henables the tree view to find them.XPath           - Specifies the attribute name to use.            
+            When the Xaml parser sees a tag with one of the names            specified in DataType, it will use the associated            template to display data about that node. -->
+    <HierarchicalDataTemplate DataType="Node"
+                              ItemsSource="{Binding XPath=./*}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Margin="0"
+                   Text="Node:" />
+        <TextBlock Margin="5,0,0,0"
+                   Text="{Binding XPath=@name}" />
+      </StackPanel>
+    </HierarchicalDataTemplate>
+    <HierarchicalDataTemplate DataType="leaf">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Margin="0"
+                   Text="Leaf:" />
+        <TextBlock Margin="5,0,0,0"
+                   Text="{Binding XPath=@name}" />
+      </StackPanel>
+    </HierarchicalDataTemplate>
+    <HierarchicalDataTemplate DataType="root"
+                              ItemsSource="{Binding XPath=./*}">
+      <TextBlock Margin="0"
+                 Text="ROOT" />
+    </HierarchicalDataTemplate>
+  </Window.Resources>
+  <Grid Margin="10,10,10.333,80.667">
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="5"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0">
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="5" />
+      </Grid.ColumnDefinitions>
+      <Grid DataContext="{StaticResource xmldata}" Grid.ColumnSpan="3" Margin="206,32,0,-130">
+
+        <!--Setting the ItemsSource to "{Binding}" causes the TreeViewto use the Grid's DataContext as its source, and thetemplates describe how each tag is to be displayed and
+            handled, in case the node has descendent nodes. -->
+        <StackPanel Margin="0,10,0,-10">
+          <Expander HorizontalAlignment="Stretch"
+                    Header="Expander Example 1a">
+            <StackPanel Orientation="Vertical"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                        Margin="24,8,24,16">
+              <TextBlock Text="Your Content" />
+              <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                         TextWrapping="Wrap"/>
+            </StackPanel>
+          </Expander>
+          <Expander HorizontalAlignment="Stretch"
+                    Header="Expander Example 1b">
+            <StackPanel Orientation="Vertical"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                        Margin="24,8,24,16">
+              <TextBlock Text="Your Content" />
+              <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                         TextWrapping="Wrap"/>
+            </StackPanel>
+          </Expander>
+          <Expander HorizontalAlignment="Stretch"
+                    Header="Expander Example 1c">
+            <StackPanel Orientation="Vertical"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                        Margin="24,8,24,16">
+              <TextBlock Text="Your Content" />
+              <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                         TextWrapping="Wrap"/>
+            </StackPanel>
+          </Expander>
+        </StackPanel>
+        <TreeView Name="dirTree"
+                  ItemsSource="{Binding}"
+                  VirtualizingStackPanel.IsVirtualizing="False"
+                  VirtualizingStackPanel.VirtualizationMode="Standard" Margin="-201,6,583,-355" />
+
+      </Grid>
+      <!-- <TextBox Name="txtFilePath" IsReadOnly="True"
+                     Grid.Column="0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,38,99.333,-38" />-->
+      <!--<Button Margin="5.667,38,97.333,-38" Content="Browse..." 
+                    Click="BrowseXmlFile" Grid.Column="1" Grid.ColumnSpan="2"/>-->
+
+      <DockPanel Margin="0,0,0.333,-1" Grid.ColumnSpan="4">
+        <Menu IsMainMenu="True" Height="26" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="733" RenderTransformOrigin="0.5,0.5" Margin="0,1,0,-0.333" >
+          <Menu.RenderTransform>
+            <TransformGroup>
+              <ScaleTransform/>
+              <SkewTransform/>
+              <RotateTransform Angle="-0.006"/>
+              <TranslateTransform/>
+            </TransformGroup>
+          </Menu.RenderTransform>
+          <MenuItem Height="27" Header="_File">
+            <MenuItem Click="BrowseXmlFile"  Header="Open" InputGestureText="Ctrl+O">
+
+            </MenuItem>
+            <MenuItem Header="Save As.." />
+            <MenuItem Header="Exit" InputGestureText="Ctrl+E">
+
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
+            <MenuItem Header="Rubbish" IsCheckable="True" />
+            <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
+              <MenuItem Header="Enlightenment?" IsCheckable="True" />
+              <MenuItem Header="Disappointment" IsCheckable="True" />
+            </MenuItem>
+            <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
+              <MenuItem Header="Plain" />
+              <MenuItem Header="Ice Cream" />
+            </MenuItem>
+          </MenuItem>
+
+          <MenuItem Header="_Edit " Height="27" />
+          <MenuItem Header="_View " Height="27" />
+          <MenuItem Header="_Help " Height="27"  />
+        </Menu>
+
+      </DockPanel>
+
+    </Grid>
+
+
+  </Grid>
+
+
+
+
+
+
+</Window>

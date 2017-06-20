@@ -21,8 +21,11 @@ namespace WpfApp4
     /// </summary>
     public partial class MainWindow : Window
     {
+        private object tv;
+
         public MainWindow()
         {
+
             XmlDocument xmldoc;
             InitializeComponent();
         }
@@ -50,6 +53,21 @@ namespace WpfApp4
             //vXMLViwer.xmlDocument = XMLdoc;
             //xmldata = XMLdoc;
             XMLdoc.Save("test-doc.xml");
+        }
+        private void DooSomething(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            MessageBox.Show("Do Something in TreeView!");
+            //expander1.Header = "fff";
+            TreeViewItem childItem = e.Source as TreeViewItem;
+            if (childItem != null)
+            {
+
+                MessageBox.Show("xx");
+                MessageBox.Show(childItem.Header.ToString()); // or MessageBox.Show(childItem.toString);
+                childItem.IsSelected = true;
+            }
+            else
+                MessageBox.Show("No Selected Item!");
         }
     }
 }

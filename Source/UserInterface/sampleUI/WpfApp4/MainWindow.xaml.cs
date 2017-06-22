@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using MaterialDesignColors;
 
 namespace WpfApp4
 {
@@ -56,18 +57,44 @@ namespace WpfApp4
         }
         private void DooSomething(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            MessageBox.Show("Do Something in TreeView!");
+            //MessageBox.Show("Do Something in TreeView!");
             //expander1.Header = "fff";
-            TreeViewItem childItem = e.Source as TreeViewItem;
+            //MessageBox.Show(((TreeViewItem)e.NewValue).Header.ToString());
+            TreeViewItem childItem = e.NewValue as TreeViewItem;
+            
+            /*TreeViewItem treeItem = null;
+            treeItem = new TreeViewItem();
+            treeItem.Header = "North America";
+            treeItem.Items.Add(new TreeViewItem() { Header = "USA" });
+            treeItem.Items.Add(new TreeViewItem() { Header = "Canada" });
+            treeItem.Items.Add(new TreeViewItem() { Header = "Mexico" });
+            tvMain.Items.Add(treeItem);*/
+            
             if (childItem != null)
             {
-
-                MessageBox.Show("xx");
+                //childItem.Visibility = Visibility.Collapsed;
+                process_name.Text = childItem.Header.ToString();
                 MessageBox.Show(childItem.Header.ToString()); // or MessageBox.Show(childItem.toString);
                 childItem.IsSelected = true;
+
+                //MessageBox.Show(childItem.Name);
             }
             else
                 MessageBox.Show("No Selected Item!");
         }
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                string h = combo1.Text + "." + combo2.Text + "." + fill.Text;
+                source_voltage.Text = h;
+            }
+        }
+        private void comboselection(object sender, SelectionChangedEventArgs e)
+        {
+            string h = combo1.Text + "." + combo2.Text + "." + fill.Text;
+            source_voltage.Text = h;
+        }
+
     }
 }

@@ -4,17 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
         
         xmlns:local="clr-namespace:WpfApp4"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
     <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- note you only need bring in these extra resource dictionaries when using non-default styles, so only bring them into your controls where the default style is not what you want -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+            <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource MaterialDesignPasswordBox}">
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+            <Style TargetType="{x:Type Viewbox}">
+                <Setter Property="Width" Value="18" />
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Margin" Value="0 0 8 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MaterialDesignSlider}">
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+            
+        
         <XmlDataProvider x:Key="SalesInfo"
            Source="testdata.xml"
            XPath="child::node()"></XmlDataProvider>
-        <HierarchicalDataTemplate DataType="soa:AB_ID">
-            <TextBlock Text="ID" />
-        </HierarchicalDataTemplate>
+
         <HierarchicalDataTemplate DataType="soa:AB_Logo-Signature"
     ItemsSource ="{Binding XPath=child::node()}">
             <TextBlock Text="CapabilityScope" />
@@ -25,32 +53,35 @@
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="soa:OrganizationAddress"
     ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="{Binding XPath=child::node()}" />
+            <TextBlock Text="OrganizationAddress" />
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="soa:Activities"
     ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="{Binding XPath=@name}" />
+            <TextBlock Text="Activities" />
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="soa:Activity"
     ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="{Binding XPath=@name}" />
+            <TextBlock Text="Activity" />
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="unc:CMCs"
     ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="{Binding XPath=@name}" />
+            <TextBlock Text="CMCs" />
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="unc:ProcessType"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="{Binding XPath=@name}" />
+        >
+            <TreeView SelectedItemChanged="DooSomething" Name="idblock">
+                <TreeViewItem Header="{Binding XPath=@name}"></TreeViewItem>
+            </TreeView>
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="Locations"
   ItemsSource ="{Binding}">
-            <TextBlock Text="{Binding XPath=@PeriodName}" />
+            <TextBlock Text="Locations" />
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="Order"
   ItemsSource ="{Binding}" >
             <TextBlock Text="{Binding XPath=@OrderNumber}" />
-        </HierarchicalDataTemplate>
+            </HierarchicalDataTemplate>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid Margin="10,10,10.333,80.667">
 
@@ -68,16 +99,39 @@
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
-            <Grid  Grid.ColumnSpan="3" Margin="206,32,0,-130">
+            <Grid Grid.ColumnSpan="3" Margin="206,32,0,-130">
 
                 <!--Setting the ItemsSource to "{Binding}" causes the TreeViewto use the Grid's DataContext as its source, and thetemplates describe how each tag is to be displayed and
             handled, in case the node has descendent nodes. -->
-                <StackPanel Margin="0,10,0,-10">
-                    <Expander x:Name="expander1" HorizontalAlignment="Stretch"
+                <Grid Margin="0,10,0,-111">
+
+                    <TextBlock TextWrapping="Wrap" x:Name="process_name" FontSize="22"><Run Text="Process "/><InlineUIContainer>
+                            
+                        </InlineUIContainer><Run Text="Name"/><InlineUIContainer/></TextBlock>
+                    <TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="413,39,-0.333,182.667">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <ComboBox Name="combo1"
+                  IsEditable="True" Margin="0,39,412,176" Height="30" Width="150" >
+                        <ComboBoxItem Content="Source"/>
+
+                    </ComboBox>
+                    <ComboBox Name="combo2" SelectionChanged="comboselection"
+                  IsEditable="True" HorizontalContentAlignment="Stretch" Width="150" Height="30" VerticalAlignment="Top" Margin="205,39,207,0"  >
+                        <ComboBoxItem Content="Voltage"/>
+                        <ComboBoxItem Content="Voltage1"/>
+
+                    </ComboBox>
+                    <TextBlock x:Name="source_voltage"  TextWrapping="Wrap" Text="" Margin="0,74,-0.333,148"/>
+
+                    <!--<Expander x:Name="expander1" HorizontalAlignment="Stretch"
                     Header="Expander Example 1a">
                         <StackPanel Orientation="Vertical"
                         TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
                         Margin="24,8,24,16">
+                            <Button Content="a button"/>
                             <TextBlock Text="Your Content" />
                             <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                          TextWrapping="Wrap"/>
@@ -102,12 +156,13 @@
                             <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                          TextWrapping="Wrap"/>
                         </StackPanel>
-                    </Expander>
-                </StackPanel>
-                <TreeView SelectedItemChanged="DooSomething" Margin="-204,0,0,-363" HorizontalAlignment="Left" Width="199" Height="507" VerticalAlignment="Top" >
+                    </Expander>-->
+                </Grid>
+                <TreeView Name="tvMain" SelectedItemChanged="DooSomething" Margin="-204,0,0,-363" HorizontalAlignment="Left" Width="199" Height="507" VerticalAlignment="Top" >
                     <TreeViewItem 
        ItemsSource="{Binding Source={StaticResource SalesInfo}, XPath=*}"
      Header="SOADataMaster" />
+
                 </TreeView>
 
             </Grid>

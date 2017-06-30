@@ -9,7 +9,7 @@
         
         xmlns:local="clr-namespace:WpfApp4"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="SoA XML Editor" Height="646" Width="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -37,53 +37,14 @@
             <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MaterialDesignSlider}">
                 <Setter Property="Margin" Value="0 8 0 8" />
             </Style>
-            
-        
-        <XmlDataProvider x:Key="SalesInfo"
-           Source="testdata.xml"
-           XPath="child::node()"></XmlDataProvider>
 
-        <HierarchicalDataTemplate DataType="soa:AB_Logo-Signature"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="CapabilityScope" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="soa:CapabilityScope"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="CapabilityScope" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="soa:OrganizationAddress"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="OrganizationAddress" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="soa:Activities"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="Activities" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="soa:Activity"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="Activity" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="unc:CMCs"
-    ItemsSource ="{Binding XPath=child::node()}">
-            <TextBlock Text="CMCs" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="unc:ProcessType"
-        >
-            <TreeView SelectedItemChanged="DooSomething" Name="idblock">
-                <TreeViewItem Header="{Binding XPath=@name}"></TreeViewItem>
-            </TreeView>
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="Locations"
-  ItemsSource ="{Binding}">
-            <TextBlock Text="Locations" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="Order"
-  ItemsSource ="{Binding}" >
-            <TextBlock Text="{Binding XPath=@OrderNumber}" />
-            </HierarchicalDataTemplate>
+
+
+
+
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Margin="10,10,10.333,80.667">
+    <Grid Margin="10,10,10.333,-0.333">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -103,28 +64,83 @@
 
                 <!--Setting the ItemsSource to "{Binding}" causes the TreeViewto use the Grid's DataContext as its source, and thetemplates describe how each tag is to be displayed and
             handled, in case the node has descendent nodes. -->
-                <Grid Margin="0,10,0,-111">
+                <Grid Margin="0,10,-1,-426" Height="560" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
 
-                    <TextBlock TextWrapping="Wrap" x:Name="process_name" FontSize="22"><Run Text="Process "/><InlineUIContainer>
-                            
-                        </InlineUIContainer><Run Text="Name"/><InlineUIContainer/></TextBlock>
-                    <TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="413,39,-0.333,182.667">
+                    <TextBlock TextWrapping="Wrap" Text="Process Name" x:Name="process_name" FontSize="22" Margin="26,0,0,0" HorizontalAlignment="Left" Width="637" Height="56" VerticalAlignment="Top" Foreground="#FF3F51B5"><Run Text="Process"/><Run Text="h"/><Run Text=" "/><InlineUIContainer/><Run Text="Name"/><InlineUIContainer/></TextBlock>
+                    <TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="474,61,39,0" VerticalAlignment="Top">
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
                         </TextBox.InputBindings>
                     </TextBox>
-                    <ComboBox Name="combo1"
-                  IsEditable="True" Margin="0,39,412,176" Height="30" Width="150" >
-                        <ComboBoxItem Content="Source"/>
-
-                    </ComboBox>
                     <ComboBox Name="combo2" SelectionChanged="comboselection"
-                  IsEditable="True" HorizontalContentAlignment="Stretch" Width="150" Height="30" VerticalAlignment="Top" Margin="205,39,207,0"  >
+                  IsEditable="True" HorizontalContentAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="26,61,256,0"  >
                         <ComboBoxItem Content="Voltage"/>
                         <ComboBoxItem Content="Voltage1"/>
 
                     </ComboBox>
-                    <TextBlock x:Name="source_voltage"  TextWrapping="Wrap" Text="" Margin="0,74,-0.333,148"/>
+                    <TextBlock x:Name="source_voltage"  TextWrapping="Wrap" Text="" Margin="463,96,0,422" FontWeight="Bold" FontSize="16"/>
+                    <Button Content="Save" HorizontalAlignment="Left" Margin="332,518,0,0" VerticalAlignment="Top" Width="75"/>
+                    <CheckBox Content="Save to local library" HorizontalAlignment="Left" Margin="60,525,0,0" VerticalAlignment="Top"/>
+                    <GroupBox Header="Results" HorizontalAlignment="Right" Height="172" Margin="0,157,367,0" VerticalAlignment="Top" Width="270"/>
+                    <GroupBox Header="Parameters" HorizontalAlignment="Left" Height="172" Margin="354,157,0,0" VerticalAlignment="Top" Width="270"/>
+
+                    <ListView Height="143" Margin="0,186,372,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" HorizontalAlignment="Right" Width="265">
+                        <ListView.View >
+                            <GridView >
+                                <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                <GridViewColumn Width="100" Header="Quantity" />
+
+                            </GridView>
+                        </ListView.View>
+
+                        <ListViewItem Width="241">
+                            <ComboBox x:Name="Frequency"
+                  IsEditable="True" Width="91"  VerticalAlignment="Top" Margin="0"  >
+                                <ComboBoxItem Content="Frequency1"/>
+                                <ComboBoxItem Content="Frequency2"/>
+                                <ComboBoxItem Content="Frequency3"/>
+                            </ComboBox>
+                        </ListViewItem>
+                        <ListViewItem  Width="241">
+                            <ComboBox x:Name="Amplitude"
+                  IsEditable="True" Width="91" Height="31"  Margin="0"  >
+                                <ComboBoxItem Content="Voltage1"/>
+                                <ComboBoxItem Content="Voltage2"/>
+                                <ComboBoxItem Content="Voltage3"/>
+                            </ComboBox>
+                        </ListViewItem>
+                    </ListView>
+                    <ListView HorizontalAlignment="Left" Height="143" Margin="354,186,0,0" VerticalAlignment="Top" Width="270" FontSize="12" FontWeight="Bold">
+                        <ListView.View >
+                            <GridView >
+                                <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                <GridViewColumn Width="100" Header="Quantity" />
+
+                            </GridView>
+                        </ListView.View>
+
+                        <ListViewItem Width="241">
+                            <ComboBox x:Name="Stimulus"
+                  IsEditable="True" Width="91"  VerticalAlignment="Top" Margin="0"  >
+                                <ComboBoxItem Content="Frequency1"/>
+                                <ComboBoxItem Content="Frequency2"/>
+                                <ComboBoxItem Content="Frequency3"/>
+                            </ComboBox>
+                        </ListViewItem>
+                        <ListViewItem  Width="241">
+                            <ComboBox x:Name="Range"
+                  IsEditable="True" Width="91" Height="31"  Margin="0"  >
+                                <ComboBoxItem Content="Voltage1"/>
+                                <ComboBoxItem Content="Voltage2"/>
+                                <ComboBoxItem Content="Voltage3"/>
+                            </ComboBox>
+                        </ListViewItem>
+                    </ListView>
+                    <GridSplitter HorizontalAlignment="Left" Height="560" VerticalAlignment="Top" Width="5"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="60,348,0,0" TextWrapping="Wrap" Text="Documentation" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
+                    <CheckBox Content="External URL:" HorizontalAlignment="Left" Margin="60,376,0,0" VerticalAlignment="Top" Width="107" />
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="182,371,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442"/>
+                    <CheckBox Content="Imbedded XHTML Document" HorizontalAlignment="Left" Margin="60,399,0,0" VerticalAlignment="Top" Width="201"/>
 
                     <!--<Expander x:Name="expander1" HorizontalAlignment="Stretch"
                     Header="Expander Example 1a">
@@ -158,12 +174,7 @@
                         </StackPanel>
                     </Expander>-->
                 </Grid>
-                <TreeView Name="tvMain" SelectedItemChanged="DooSomething" Margin="-204,0,0,-363" HorizontalAlignment="Left" Width="199" Height="507" VerticalAlignment="Top" >
-                    <TreeViewItem 
-       ItemsSource="{Binding Source={StaticResource SalesInfo}, XPath=*}"
-     Header="SOADataMaster" />
-
-                </TreeView>
+                <TreeView Background="#3f51b5" Foreground="White" Name="tvMain" SelectedItemChanged="DooSomething" Margin="-204,0,0,-55" Height="199" VerticalAlignment="Top" HorizontalAlignment="Left" Width="199" />
 
             </Grid>
             <!-- <TextBox Name="txtFilePath" IsReadOnly="True"
@@ -171,8 +182,8 @@
             <!--<Button Margin="5.667,38,97.333,-38" Content="Browse..." 
                     Click="BrowseXmlFile" Grid.Column="1" Grid.ColumnSpan="2"/>-->
 
-            <DockPanel Margin="0,0,0.333,-1" Grid.ColumnSpan="4">
-                <Menu IsMainMenu="True" Height="26" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="733" RenderTransformOrigin="0.5,0.5" Margin="0,1,0,-0.333" >
+            <DockPanel Margin="0,0,0,-1" Grid.ColumnSpan="3">
+                <Menu IsMainMenu="True" Height="26" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="868" RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
                     <Menu.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -185,7 +196,7 @@
                         <MenuItem Click="BrowseXmlFile"  Header="Open" InputGestureText="Ctrl+O">
 
                         </MenuItem>
-                        <MenuItem Header="Save As.." />
+                        <MenuItem Header="Save As.." Click="SaveFile"/>
                         <MenuItem Header="Exit" InputGestureText="Ctrl+E">
 
                         </MenuItem>
@@ -210,8 +221,21 @@
             </DockPanel>
 
         </Grid>
+        <GroupBox Header="Company Info" HorizontalAlignment="Left" Margin="0,203.667,0,0" Grid.Row="2" Width="204" Height="342" VerticalAlignment="Top">
 
+        </GroupBox>
+        <TextBlock x:Name="id_box" HorizontalAlignment="Left" Margin="10,246.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="Name:"/><LineBreak/><Run/></TextBlock>
+        <TextBox Name="name" HorizontalAlignment="Left" Height="23" Margin="10,266.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" Grid.Row="2"/>
+        <TextBox Name="street" HorizontalAlignment="Left" Height="23" Margin="55,299.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
+        <TextBox Name="city" HorizontalAlignment="Left" Height="23" Margin="55,327.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
+        <TextBox Name="state" HorizontalAlignment="Left" Height="23" Margin="55,355.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
+        <TextBox Name="zip" HorizontalAlignment="Left" Height="23" Margin="55,383.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
 
+        <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="10,306.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer>
+            </InlineUIContainer></TextBlock>
+        <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="10,337.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="10,365.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="10,393.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
     </Grid>
 
 

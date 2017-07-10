@@ -26,13 +26,32 @@ namespace WpfApp4
     {
         private object tv;
         XmlDocument XMLdoc = new XmlDocument();
+        XmlDocument db = new XmlDocument();
         SOA_DataAccess dao = new SOA_DataAccess();
+        SOA_DataAccess dao2 = new SOA_DataAccess();
         OpResult op;
         public MainWindow()
         {
-
-            XmlDocument xmldoc;
             InitializeComponent();
+            db.Load("MetrologyNET_Taxonomy_v2.xml");
+            dao2.load("MetrologyNET_Taxonomy_v2.xml");
+
+            int process_count = db.GetElementsByTagName("mtc:ProcessType").Count;
+            //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType").Count.ToString());
+            ComboBoxItem comboitem2 = null;
+            comboitem2 = new ComboBoxItem();
+            for (int i = 0; i < process_count; i++)
+            {
+                comboitem2 = new ComboBoxItem();
+                comboitem2.Uid = i.ToString();
+                comboitem2.Content = db.GetElementsByTagName("mtc:ProcessType")[i].Attributes["name"].Value;
+                combo2.Items.Add(comboitem2);
+                //comboitem2.IsSelected = true;
+            }
+
+            //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
+            //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
+
         }
         private void BrowseXmlFile(object sender, RoutedEventArgs e)
         {
@@ -63,7 +82,7 @@ namespace WpfApp4
             Soa SampleSOA = dao.SOADataMaster;
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
             //MessageBox.Show(process_name1);
-            MessageBox.Show(process_name1.ToString());
+            //MessageBox.Show(process_name1.ToString());
             //MessageBox.Show(XMLdoc.GetElementsByTagName("mtc:ProcessType")[0].Attributes["name"].Value);
 
             //id_box.Text =  +", "+ +", " +  + ", " + 
@@ -74,14 +93,15 @@ namespace WpfApp4
             zip.Text= SampleSOA.CapabilityScope.Locations[0].OrganizationAddress.Zip;
             process_name.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Name;
 
+            //load the exsiting process name into combobox
             ComboBoxItem comboitem = null;
             comboitem = new ComboBoxItem();
             comboitem.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
             combo2.Items.Add(comboitem);
             comboitem.IsSelected = true;
 
-
-        }
+            
+            }
         private void SaveFile(object sender, RoutedEventArgs e)
         {
             //freeArea.Text = XMLdoc.GetElementsByTagName("soa:AB_ID")[0].Value;
@@ -112,9 +132,7 @@ namespace WpfApp4
             //expander1.Header = "fff";
             //MessageBox.Show(((TreeViewItem)e.NewValue).Header.ToString());
             
-
             TreeViewItem childItem = e.NewValue as TreeViewItem;
-
             
             //treeItem.Header = XMLdoc.GetElementsByTagName("soa:City")[0].InnerText;
             //"North America";
@@ -122,16 +140,21 @@ namespace WpfApp4
             //treeItem.Items.Add(new TreeViewItem() { Header = "Canada" });
             //treeItem.Items.Add(new TreeViewItem() { Header = "Mexico" });
             
-
             if (childItem != null)
             {
                 //childItem.Visibility = Visibility.Collapsed;
                 process_name.Text = childItem.Header.ToString();
                 //MessageBox.Show(childItem.Header.ToString()); // or MessageBox.Show(childItem.toString);
-                childItem.IsSelected = true;
+                //childItem.IsSelected = true;
 
                 //MessageBox.Show(childItem.Name);
             }
+
+            
+        }
+        private void DoSomething(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            MessageBox.Show("Do Something!");
             
         }
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
@@ -144,8 +167,66 @@ namespace WpfApp4
         }
         private void comboselection(object sender, SelectionChangedEventArgs e)
         {
+            ComboBox c_item = new ComboBox();
+            ComboBoxItem cb_item = new ComboBoxItem();
             string h =  combo2.Text + "." + fill.Text;
             source_voltage.Text = h;
+
+            int s_index = combo2.SelectedIndex;
+            XmlNode s_node = db.GetElementsByTagName("mtc:ProcessType")[s_index];
+            //MessageBox.Show("rslt cnt:" + db.GetElementsByTagName("mtc:ProcessType")[1].Name);
+            if(s_node.HasChildNodes)
+            {
+                listview1.Items.Clear();
+                listview2.Items.Clear();
+                int chld_cnt = s_node.ChildNodes.Count;//GetType.ToString();// Count;
+                //MessageBox.Show("rslt cnt:" + chld_cnt.ToString());
+                for (int i = 0; i < chld_cnt; i++)
+                {
+                    
+                    if (s_node.ChildNodes[i].Name == "mtc:Result")
+                    {
+
+                        //MyData data = getDataItem(index);
+                        c_item = new ComboBox();
+                        if (s_node.ChildNodes[i].Attributes["name"] != null)
+                            c_item.Name = s_node.ChildNodes[i].Attributes["name"].Value;
+                        else
+                            c_item.Name = "";
+                        //c_item.Name = s_node.ChildNodes[i].FirstChild.Attributes["name"].Value;
+                        cb_item = new ComboBoxItem();
+                        cb_item.Content = s_node.ChildNodes[i].FirstChild.Attributes["name"].Value;
+                        c_item.Items.Add(cb_item);
+                        cb_item.IsSelected = true;
+                        listview1.Items.Add(c_item);
+                    }
+                    else if (s_node.ChildNodes[i].Name == "mtc:Parameter")
+                    {
+
+                        //MyData data = getDataItem(index);
+                        c_item = new ComboBox();
+                        c_item.Name = s_node.ChildNodes[i].Attributes["name"].Value;
+                        //c_item.Name = s_node.ChildNodes[i].FirstChild.Attributes["name"].Value;
+                        cb_item = new ComboBoxItem();
+                        cb_item.Content = s_node.ChildNodes[i].FirstChild.Attributes["name"].Value;
+                        c_item.Items.Add(cb_item);
+                        //c_item.Height = 23;
+                        cb_item.IsSelected = true;
+                        listview2.Items.Add(c_item);
+
+                    }
+                }
+                d_box.Header = s_node.LastChild.FirstChild.FirstChild.FirstChild.InnerText;
+                int x = s_node.LastChild.FirstChild.LastChild.ChildNodes.Count;
+                d_text.Text = "";
+                for (int i = 0; i < x; i++)
+                {
+                    d_text.Text += s_node.LastChild.FirstChild.LastChild.ChildNodes[i].InnerText + "\n";
+                }
+            }
+            
+            // MessageBox.Show("rslt cnt:"+result_cnt.ToString());
+            //ComboBoxItem childItem = e as ComboBoxItem;
         }
 
     }

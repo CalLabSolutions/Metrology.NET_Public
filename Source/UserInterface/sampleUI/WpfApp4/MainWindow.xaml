@@ -9,7 +9,7 @@
         
         xmlns:local="clr-namespace:WpfApp4"
         mc:Ignorable="d"
-        Title="SoA XML Editor" Height="646" Width="900">
+        Title="SoA XML Editor" Height="680" Width="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -44,6 +44,7 @@
 
         </ResourceDictionary>
     </Window.Resources>
+
     <Grid Margin="10,10,10.333,-0.333">
 
         <Grid.RowDefinitions>
@@ -64,85 +65,69 @@
 
                 <!--Setting the ItemsSource to "{Binding}" causes the TreeViewto use the Grid's DataContext as its source, and thetemplates describe how each tag is to be displayed and
             handled, in case the node has descendent nodes. -->
-                <Grid Margin="0,10,-1,-426" Height="560" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
+                <TabControl HorizontalAlignment="Left" Width="663" Margin="10,0,-11,-468">
+                    <TabItem Header="Process">
+                        <Grid Margin="-2,0,-6.333,-583" Height="700" VerticalAlignment="Top" HorizontalAlignment="Left" Width="665">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16*"/>
+                                <ColumnDefinition Width="117*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="-1,-1" EndPoint="1.5,1.5">
+                                    <GradientStop Color="#ffdcbc" Offset="0.5"/>
+                                    <GradientStop Color="#e7ffbc" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <TextBlock TextWrapping="Wrap" Text="Process Name" x:Name="process_name" FontSize="22" Margin="26,0,0,0" HorizontalAlignment="Left" Width="637" Height="26" VerticalAlignment="Top" Foreground="Orange" Grid.ColumnSpan="2"><InlineUIContainer/><InlineUIContainer/></TextBlock>
+                            <TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="397.667,31,37,0" VerticalAlignment="Top" Grid.Column="1">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <ComboBox Name="combo2" SelectionChanged="comboselection"
+                  IsEditable="True" HorizontalContentAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="26,31,256,0" Grid.ColumnSpan="2"  >
 
-                    <TextBlock TextWrapping="Wrap" Text="Process Name" x:Name="process_name" FontSize="22" Margin="26,0,0,0" HorizontalAlignment="Left" Width="637" Height="56" VerticalAlignment="Top" Foreground="#FF3F51B5"><Run Text="Process"/><Run Text="h"/><Run Text=" "/><InlineUIContainer/><Run Text="Name"/><InlineUIContainer/></TextBlock>
-                    <TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="474,61,39,0" VerticalAlignment="Top">
-                        <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
-                        </TextBox.InputBindings>
-                    </TextBox>
-                    <ComboBox Name="combo2" SelectionChanged="comboselection"
-                  IsEditable="True" HorizontalContentAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="26,61,256,0"  >
-                        <ComboBoxItem Content="Voltage"/>
-                        <ComboBoxItem Content="Voltage1"/>
 
-                    </ComboBox>
-                    <TextBlock x:Name="source_voltage"  TextWrapping="Wrap" Text="" Margin="463,96,0,422" FontWeight="Bold" FontSize="16"/>
-                    <Button Content="Save" HorizontalAlignment="Left" Margin="332,518,0,0" VerticalAlignment="Top" Width="75"/>
-                    <CheckBox Content="Save to local library" HorizontalAlignment="Left" Margin="60,525,0,0" VerticalAlignment="Top"/>
-                    <GroupBox Header="Results" HorizontalAlignment="Right" Height="172" Margin="0,157,367,0" VerticalAlignment="Top" Width="270"/>
-                    <GroupBox Header="Parameters" HorizontalAlignment="Left" Height="172" Margin="354,157,0,0" VerticalAlignment="Top" Width="270"/>
-
-                    <ListView Height="143" Margin="0,186,372,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" HorizontalAlignment="Right" Width="265">
-                        <ListView.View >
-                            <GridView >
-                                <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
-                                <GridViewColumn Width="100" Header="Quantity" />
-
-                            </GridView>
-                        </ListView.View>
-
-                        <ListViewItem Width="241">
-                            <ComboBox x:Name="Frequency"
-                  IsEditable="True" Width="91"  VerticalAlignment="Top" Margin="0"  >
-                                <ComboBoxItem Content="Frequency1"/>
-                                <ComboBoxItem Content="Frequency2"/>
-                                <ComboBoxItem Content="Frequency3"/>
                             </ComboBox>
-                        </ListViewItem>
-                        <ListViewItem  Width="241">
-                            <ComboBox x:Name="Amplitude"
-                  IsEditable="True" Width="91" Height="31"  Margin="0"  >
-                                <ComboBoxItem Content="Voltage1"/>
-                                <ComboBoxItem Content="Voltage2"/>
-                                <ComboBoxItem Content="Voltage3"/>
-                            </ComboBox>
-                        </ListViewItem>
-                    </ListView>
-                    <ListView HorizontalAlignment="Left" Height="143" Margin="354,186,0,0" VerticalAlignment="Top" Width="270" FontSize="12" FontWeight="Bold">
-                        <ListView.View >
-                            <GridView >
-                                <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
-                                <GridViewColumn Width="100" Header="Quantity" />
+                            <TextBlock x:Name="source_voltage"  TextWrapping="Wrap" Text="" Margin="382.667,96,-1,422" FontWeight="Bold" FontSize="16" Grid.Column="1"/>
+                            <Button Content="Save" HorizontalAlignment="Left" Margin="238.667,545,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1"/>
+                            <CheckBox Content="Save to local library" HorizontalAlignment="Left" Margin="49,552,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
 
-                            </GridView>
-                        </ListView.View>
+                            <TextBlock HorizontalAlignment="Left" Margin="26,285,0,0" TextWrapping="Wrap" Text="Documentation" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Grid.ColumnSpan="2"/>
+                            <CheckBox Content="External URL:" HorizontalAlignment="Left" Margin="26,311,0,0" VerticalAlignment="Top" Width="107" Grid.ColumnSpan="2" />
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="57.667,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="510" Grid.Column="1"/>
+                            <CheckBox Content="Embedded XHTML Document" HorizontalAlignment="Left" Margin="26,334,0,0" VerticalAlignment="Top" Width="201" Grid.ColumnSpan="2"/>
+                            <!--GroupBox Header="Outputs" HorizontalAlignment="Left" Height="206" Margin="262,75,0,0" VerticalAlignment="Top" Width="306" Grid.Column="1"/-->
+                            <GroupBox Header="Inputs" HorizontalAlignment="Left" Height="206" Margin="10,74,0,0" VerticalAlignment="Top" Width="316" Grid.ColumnSpan="2"/>
+                            <ListView Name="listview1" Height="181" Margin="0,96,17.333,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" HorizontalAlignment="Right" Width="306" Grid.Column="1">
+                                <ListView.View >
+                                    <GridView >
+                                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                        <GridViewColumn Width="100" Header="Quantity" />
 
-                        <ListViewItem Width="241">
-                            <ComboBox x:Name="Stimulus"
-                  IsEditable="True" Width="91"  VerticalAlignment="Top" Margin="0"  >
-                                <ComboBoxItem Content="Frequency1"/>
-                                <ComboBoxItem Content="Frequency2"/>
-                                <ComboBoxItem Content="Frequency3"/>
-                            </ComboBox>
-                        </ListViewItem>
-                        <ListViewItem  Width="241">
-                            <ComboBox x:Name="Range"
-                  IsEditable="True" Width="91" Height="31"  Margin="0"  >
-                                <ComboBoxItem Content="Voltage1"/>
-                                <ComboBoxItem Content="Voltage2"/>
-                                <ComboBoxItem Content="Voltage3"/>
-                            </ComboBox>
-                        </ListViewItem>
-                    </ListView>
-                    <GridSplitter HorizontalAlignment="Left" Height="560" VerticalAlignment="Top" Width="5"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="60,348,0,0" TextWrapping="Wrap" Text="Documentation" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
-                    <CheckBox Content="External URL:" HorizontalAlignment="Left" Margin="60,376,0,0" VerticalAlignment="Top" Width="107" />
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="182,371,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442"/>
-                    <CheckBox Content="Imbedded XHTML Document" HorizontalAlignment="Left" Margin="60,399,0,0" VerticalAlignment="Top" Width="201"/>
+                                    </GridView>
+                                </ListView.View>
 
-                    <!--<Expander x:Name="expander1" HorizontalAlignment="Stretch"
+
+                            </ListView>
+                            <ListView Name="listview2" HorizontalAlignment="Left" Height="184" Margin="10,96,0,0" VerticalAlignment="Top" Width="316" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2">
+                                <ListView.View >
+                                    <GridView >
+                                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                        <GridViewColumn Width="100" Header="Quantity" />
+
+                                    </GridView>
+                                </ListView.View>
+
+
+                            </ListView>
+
+                            <GroupBox Name="d_box" Header="Title" HorizontalAlignment="Left" Height="172" Margin="26,357,0,0" VerticalAlignment="Top" Width="627" Grid.ColumnSpan="2">
+                                <TextBlock Name="d_text" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="601" Height="130" Margin="0,0,0,-9.333"/>
+                            </GroupBox>
+
+
+                            <!--<Expander x:Name="expander1" HorizontalAlignment="Stretch"
                     Header="Expander Example 1a">
                         <StackPanel Orientation="Vertical"
                         TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
@@ -173,8 +158,29 @@
                          TextWrapping="Wrap"/>
                         </StackPanel>
                     </Expander>-->
-                </Grid>
-                <TreeView Background="#3f51b5" Foreground="White" Name="tvMain" SelectedItemChanged="DooSomething" Margin="-204,0,0,-55" Height="199" VerticalAlignment="Top" HorizontalAlignment="Left" Width="199" />
+                        </Grid>
+
+                    </TabItem>
+                    <TabItem Header="Technique">
+                        <Grid Margin="0,0,-0.333,-3" >
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="-1,-1" EndPoint="1.5,1.5">
+                                    <GradientStop Color="#ffdcbc" Offset="0.75"/>
+                                    <GradientStop Color="#e7ffbc" Offset="0.05"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="314*"/>
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Grid.Column="1" Header="Input Parameters" HorizontalAlignment="Left" Height="137" Margin="0,70,0,0" VerticalAlignment="Top" Width="305"/>
+                            <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="137" Margin="323,70,0,0" VerticalAlignment="Top" Width="288"/>
+                            <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="483"/>
+                            <GroupBox Grid.Column="1" Header="Formulas" HorizontalAlignment="Left" Height="161" Margin="0,234,0,0" VerticalAlignment="Top" Width="305"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+                <TreeView Background="#ffdcbc" Foreground="White" Name="tvMain" SelectedItemChanged="DooSomething" Margin="-207,274,0,-583" Height="453" VerticalAlignment="Top" HorizontalAlignment="Left" Width="217" />
 
             </Grid>
             <!-- <TextBox Name="txtFilePath" IsReadOnly="True"
@@ -183,7 +189,7 @@
                     Click="BrowseXmlFile" Grid.Column="1" Grid.ColumnSpan="2"/>-->
 
             <DockPanel Margin="0,0,0,-1" Grid.ColumnSpan="3">
-                <Menu IsMainMenu="True" Height="26" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="868" RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
+                <Menu Background="#ffdcbc" IsMainMenu="True" Height="27" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="868" RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
                     <Menu.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -194,7 +200,9 @@
                     </Menu.RenderTransform>
                     <MenuItem Height="27" Header="_File">
                         <MenuItem Click="BrowseXmlFile"  Header="Open" InputGestureText="Ctrl+O">
-
+                            <MenuItem.InputBindings>
+                                <KeyBinding Key="A" Modifiers="control" />
+                            </MenuItem.InputBindings>
                         </MenuItem>
                         <MenuItem Header="Save As.." Click="SaveFile"/>
                         <MenuItem Header="Exit" InputGestureText="Ctrl+E">
@@ -221,21 +229,20 @@
             </DockPanel>
 
         </Grid>
-        <GroupBox Header="Company Info" HorizontalAlignment="Left" Margin="0,203.667,0,0" Grid.Row="2" Width="204" Height="342" VerticalAlignment="Top">
+        <GroupBox Header="Company Info" HorizontalAlignment="Left" Background="#ffdcbc" Width="216" Height="274" VerticalAlignment="Top" Grid.RowSpan="3" Margin="0,32,0,0"/>
+        <TextBlock x:Name="id_box" Margin="10,42.667,794,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875"><Run Text="Nam"/><Run Text="e"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBox Name="name" HorizontalAlignment="Left" Height="23" Margin="13,65.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" Grid.Row="2"/>
+        <TextBox Name="street" HorizontalAlignment="Left" Height="23" Margin="58,93.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
+        <TextBox Name="city" HorizontalAlignment="Left" Height="23" Margin="58,121.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
+        <TextBox Name="state" HorizontalAlignment="Left" Height="23" Margin="55,149.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
+        <TextBox Name="zip" HorizontalAlignment="Left" Height="23" Margin="55,177.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
 
-        </GroupBox>
-        <TextBlock x:Name="id_box" HorizontalAlignment="Left" Margin="10,246.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="Name:"/><LineBreak/><Run/></TextBlock>
-        <TextBox Name="name" HorizontalAlignment="Left" Height="23" Margin="10,266.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" Grid.Row="2"/>
-        <TextBox Name="street" HorizontalAlignment="Left" Height="23" Margin="55,299.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-        <TextBox Name="city" HorizontalAlignment="Left" Height="23" Margin="55,327.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-        <TextBox Name="state" HorizontalAlignment="Left" Height="23" Margin="55,355.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-        <TextBox Name="zip" HorizontalAlignment="Left" Height="23" Margin="55,383.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-
-        <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="10,306.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer>
+        <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="12,103.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer>
             </InlineUIContainer></TextBlock>
-        <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="10,337.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="10,365.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="10,393.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="12,131.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="12,159.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41" FontWeight="Bold"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="12,187.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+
     </Grid>
 
 

@@ -8,6 +8,7 @@
 
         
         xmlns:local="clr-namespace:WpfApp4"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         Title="SoA XML Editor" Height="680" Width="900">
     <Window.Resources>
@@ -65,9 +66,54 @@
 
                 <!--Setting the ItemsSource to "{Binding}" causes the TreeViewto use the Grid's DataContext as its source, and thetemplates describe how each tag is to be displayed and
             handled, in case the node has descendent nodes. -->
-                <TabControl HorizontalAlignment="Left" Width="663" Margin="10,0,-11,-468">
-                    <TabItem Header="Process">
-                        <Grid Margin="-2,0,-6.333,-583" Height="700" VerticalAlignment="Top" HorizontalAlignment="Left" Width="665">
+                <TabControl Name="tabs" HorizontalAlignment="Left" Width="663" Margin="10,31,-11,-468" >
+                    <TabItem Header="Start Page">
+                        <Grid Margin="-4,0,-11.333,-4" >
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="0,-1" EndPoint="-1,0">
+                                    <GradientStop Color="#ffdcbc" Offset="0.75"/>
+                                    <GradientStop Color="#e7ffbc" Offset="-1"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="314*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Foreground="DarkOrange" x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,36,0,0" TextWrapping="Wrap" Text="Welcome to SoA XML Editor!" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" FontSize="22"/>
+                            <TextBlock x:Name="textBlock1" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,107,0,0" TextWrapping="Wrap" Text="Start to edit your file" VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Company Info">
+                        <Grid Margin="-4,0,-11.333,-4" >
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="-1,0" EndPoint="0,-1">
+                                    <GradientStop Color="#ffdcbc" Offset="0.75"/>
+                                    <GradientStop Color="#e7ffbc" Offset="0.05"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="314*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="id_box" Margin="10.333,0,0,450.333" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="70" Grid.Column="1"><Run Text="Nam"/><Run Text="e"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                            <TextBox Name="name" HorizontalAlignment="Left" Height="23" Margin="80.333,0,0,455.333" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="515" Grid.Column="1"/>
+                            <TextBox Name="street" HorizontalAlignment="Left" Height="23" Margin="80.333,0,0,427.333" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="330" Grid.Column="1"/>
+                            <TextBox Name="city" HorizontalAlignment="Left" Height="23" Margin="80.333,0,0,399.333" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="330" Grid.Column="1"/>
+                            <TextBox Name="state" HorizontalAlignment="Left" Height="23" Margin="80.333,0,0,371.333" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="330" Grid.Column="1"/>
+                            <TextBox Name="zip" HorizontalAlignment="Left" Height="23" Margin="80.333,0,0,343.333" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="330" Grid.Column="1"/>
+
+                            <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="10.333,0,0,419.333" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" Grid.Column="1"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer>
+            </InlineUIContainer></TextBlock>
+                            <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="10.333,0,0,391.333" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold" Grid.Column="1"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                            <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="10.333,0,0,363.333" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold" Grid.Column="1" RenderTransformOrigin="0.439,0.609"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                            <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="10.333,0,0,335.333" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold" Grid.Column="1"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                            <TextBlock Foreground="Orange" Grid.Column="1" HorizontalAlignment="Left" Margin="227.333,19,0,0" TextWrapping="Wrap" Text="Company Information" VerticalAlignment="Top" FontWeight="Bold" Height="40" Width="193" FontSize="18"/>
+                            <Button Background="Orange" Foreground="LightYellow" x:Name="button" Content="OK" Grid.Column="1" HorizontalAlignment="Left" Margin="520.333,191,0,0" VerticalAlignment="Top" Width="75"/>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Name="process_tab" Header="Process">
+                        <Grid Margin="-5,0,-3.333,-583" Height="588" VerticalAlignment="Top" HorizontalAlignment="Left" Width="665">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="16*"/>
                                 <ColumnDefinition Width="117*"/>
@@ -78,14 +124,14 @@
                                     <GradientStop Color="#e7ffbc" Offset="1.0"/>
                                 </LinearGradientBrush>
                             </Grid.Background>
-                            <TextBlock TextWrapping="Wrap" Text="Process Name" x:Name="process_name" FontSize="22" Margin="26,0,0,0" HorizontalAlignment="Left" Width="637" Height="26" VerticalAlignment="Top" Foreground="Orange" Grid.ColumnSpan="2"><InlineUIContainer/><InlineUIContainer/></TextBlock>
-                            <TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="397.667,31,37,0" VerticalAlignment="Top" Grid.Column="1">
+                            <!--TextBlock TextWrapping="Wrap" Text="Process Name" x:Name="process_name" FontSize="22" Margin="26,10,0,0" HorizontalAlignment="Left" Width="637" Height="26" VerticalAlignment="Top" Foreground="Orange" Grid.ColumnSpan="2"><InlineUIContainer/><InlineUIContainer/></-->
+                            <!--TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="397.667,31,37,0" VerticalAlignment="Top" Grid.Column="1">
                                 <TextBox.InputBindings>
                                     <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
                                 </TextBox.InputBindings>
-                            </TextBox>
+                            </-->
                             <ComboBox Name="combo2" SelectionChanged="comboselection"
-                  IsEditable="True" HorizontalContentAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="26,31,256,0" Grid.ColumnSpan="2"  >
+                  IsEditable="True" HorizontalContentAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="10,10,271.333,0" Grid.ColumnSpan="2"  >
 
 
                             </ComboBox>
@@ -97,8 +143,8 @@
                             <CheckBox Content="External URL:" HorizontalAlignment="Left" Margin="26,311,0,0" VerticalAlignment="Top" Width="107" Grid.ColumnSpan="2" />
                             <TextBox HorizontalAlignment="Left" Height="23" Margin="57.667,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="510" Grid.Column="1"/>
                             <CheckBox Content="Embedded XHTML Document" HorizontalAlignment="Left" Margin="26,334,0,0" VerticalAlignment="Top" Width="201" Grid.ColumnSpan="2"/>
-                            <!--GroupBox Header="Outputs" HorizontalAlignment="Left" Height="206" Margin="262,75,0,0" VerticalAlignment="Top" Width="306" Grid.Column="1"/-->
-                            <GroupBox Header="Inputs" HorizontalAlignment="Left" Height="206" Margin="10,74,0,0" VerticalAlignment="Top" Width="316" Grid.ColumnSpan="2"/>
+                            <GroupBox BorderThickness="1"  Header="Output Results" HorizontalAlignment="Left" Height="206" Margin="262,75,0,0" VerticalAlignment="Top" Width="306" Grid.Column="1"/>
+                            <GroupBox Foreground="Purple" Header="Input Parameters" HorizontalAlignment="Left" Height="206" Margin="10,74,0,0" VerticalAlignment="Top" Width="327" Grid.ColumnSpan="2"/>
                             <ListView Name="listview1" Height="181" Margin="0,96,17.333,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" HorizontalAlignment="Right" Width="306" Grid.Column="1">
                                 <ListView.View >
                                     <GridView >
@@ -110,11 +156,19 @@
 
 
                             </ListView>
-                            <ListView Name="listview2" HorizontalAlignment="Left" Height="184" Margin="10,96,0,0" VerticalAlignment="Top" Width="316" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2">
+                            <ListView Name="listview2" HorizontalAlignment="Left" Height="184" Margin="10,96,0,0" VerticalAlignment="Top" Width="327" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2">
                                 <ListView.View >
                                     <GridView >
+
                                         <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
                                         <GridViewColumn Width="100" Header="Quantity" />
+                                        <GridViewColumn  Header="Optional">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox  Tag="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
 
                                     </GridView>
                                 </ListView.View>
@@ -122,7 +176,7 @@
 
                             </ListView>
 
-                            <GroupBox Name="d_box" Header="Title" HorizontalAlignment="Left" Height="172" Margin="26,357,0,0" VerticalAlignment="Top" Width="627" Grid.ColumnSpan="2">
+                            <GroupBox Name="d_box" Header="Title" HorizontalAlignment="Left" Height="172" Margin="10,357,0,0" VerticalAlignment="Top" Width="638" Grid.ColumnSpan="2">
                                 <TextBlock Name="d_text" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="601" Height="130" Margin="0,0,0,-9.333"/>
                             </GroupBox>
 
@@ -162,7 +216,7 @@
 
                     </TabItem>
                     <TabItem Header="Technique">
-                        <Grid Margin="0,0,-0.333,-3" >
+                        <Grid Margin="-4,0,-11.333,-4" >
                             <Grid.Background>
                                 <LinearGradientBrush StartPoint="-1,-1" EndPoint="1.5,1.5">
                                     <GradientStop Color="#ffdcbc" Offset="0.75"/>
@@ -173,14 +227,102 @@
                                 <ColumnDefinition Width="9*"/>
                                 <ColumnDefinition Width="314*"/>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Grid.Column="1" Header="Input Parameters" HorizontalAlignment="Left" Height="137" Margin="0,70,0,0" VerticalAlignment="Top" Width="305"/>
-                            <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="137" Margin="323,70,0,0" VerticalAlignment="Top" Width="288"/>
-                            <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="483"/>
-                            <GroupBox Grid.Column="1" Header="Formulas" HorizontalAlignment="Left" Height="161" Margin="0,234,0,0" VerticalAlignment="Top" Width="305"/>
+                            <GroupBox Grid.Column="1" Header="Input Parameters" HorizontalAlignment="Left" Height="234" Margin="0,100,0,0" VerticalAlignment="Top" Width="318"/>
+                            <ListView Name="listview3" HorizontalAlignment="Left" Height="213" Margin="0,121,0,0" VerticalAlignment="Top" Width="318" FontSize="12" FontWeight="Bold" Grid.Column="1">
+                                <ListView.View >
+                                    <GridView >
+                                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                        <GridViewColumn Width="100" Header="Range" />
+
+
+                                    </GridView>
+                                </ListView.View>
+
+
+                            </ListView>
+                            <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="234" Margin="323.333,100,0,0" VerticalAlignment="Top" Width="316"/>
+                            <ListView Name="listview4" HorizontalAlignment="Left" Height="213" Margin="323,121,-0.333,0" VerticalAlignment="Top" Width="316" FontSize="12" FontWeight="Bold" Grid.Column="1">
+                                <ListView.View >
+                                    <GridView >
+                                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                        <GridViewColumn Width="100" Header="Range" />
+
+                                    </GridView>
+                                </ListView.View>
+
+
+                            </ListView>
+
+                            <TextBox Name="t_extension" KeyDown="setTechName" Grid.Column="1" HorizontalAlignment="Left" Height="34" Margin="273,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="338" FontSize="14" >
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <GroupBox Grid.Column="1" Header="Formulas" HorizontalAlignment="Left" Height="187" Margin="0.333,351,0,0" VerticalAlignment="Top" Width="318"/>
+                            <TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text="Technique Name" FontSize="22" Foreground="Orange" />
+                            <StackPanel Name="sp2" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="89.333,384,0,0" VerticalAlignment="Top" Width="108"/>
+                            <StackPanel Name="sp1" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="0.333,384,0,0" VerticalAlignment="Top" Width="89"/>
+                            <StackPanel Name="sp3" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="197.333,384,0,0" VerticalAlignment="Top" Width="121"/>
                         </Grid>
                     </TabItem>
+
                 </TabControl>
-                <TreeView Background="#ffdcbc" Foreground="White" Name="tvMain" SelectedItemChanged="DooSomething" Margin="-207,274,0,-583" Height="453" VerticalAlignment="Top" HorizontalAlignment="Left" Width="217" />
+
+                <TreeView Background="#ffdcbc" Foreground="Black" Name="tvMain"  Margin="-207,0,0,-468" Height="612" VerticalAlignment="Top" HorizontalAlignment="Left" Width="217" FontWeight="Bold">
+                    <TreeViewItem  Header="Company Info" Selected="slct_info" Name="cmp_info">
+                    </TreeViewItem>
+                    <TreeViewItem Selected="slct_prcss" Name="prcss" Header="Process" >
+                        <TreeViewItem Name="tech_tree0" Selected="slct_tech" Header="Technique">
+
+                        </TreeViewItem>
+                    </TreeViewItem>
+                </TreeView>
+                <!--SelectedItemChanged="DooSomething"-->
+                <Popup Name="MyPopup"
+               Placement="Bottom"
+               HorizontalOffset="-100"
+               VerticalOffset="-100"
+                Margin="0,0,0,-35">
+                    <Grid Background="LightYellow" Height="214" Width="407">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="362*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Foreground="LightYellow" Click="Hide_Click" Margin="280.333,0,0,18" HorizontalAlignment="Left" Width="72" VerticalAlignment="Bottom" Grid.Column="1">OK</Button>
+
+                    </Grid>
+                </Popup>
+                <Popup Name="formula_popup"
+               Placement="Bottom"
+               HorizontalOffset="-100"
+               VerticalOffset="-100"
+                Margin="0,0,0,-35">
+                    <Grid Background="LightYellow" Height="256" Width="407">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="362*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Background="Orange" Foreground="LightYellow" Click="Hide_Click" Margin="280.333,0,0,20" HorizontalAlignment="Left" Width="72" VerticalAlignment="Bottom" Grid.Column="1" Height="26">OK</Button>
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="89.333,10,0,0" TextWrapping="Wrap" Text="Formula Editor" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="formula_text"  HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" Text="Formula Name" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="338"/>
+                        <TextBox x:Name="formula_def" HorizontalAlignment="Left" Height="23" Margin="10,89,0,0" TextWrapping="Wrap" Text="Formula Definition" VerticalAlignment="Top" Width="305" Grid.ColumnSpan="2"/>
+                        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Height="27"/>
+                        <Button x:Name="button1" Foreground="LightYellow" Background="Orange" Content="Apply" Grid.Column="1" HorizontalAlignment="Left" Margin="280.333,89,0,0" VerticalAlignment="Top" Width="72" Height="27"/>
+                        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="10,138,0,0" TextWrapping="Wrap" Text="P" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="10,179,0,0" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="10,217,0,0" TextWrapping="Wrap" Text="L" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                        <TextBox x:Name="textBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="20.333,140,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="65"/>
+                        <TextBox x:Name="textBox1" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="20.333,180,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="65"/>
+                        <TextBox x:Name="textBox2" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="20.333,215,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="65"/>
+                        <ComboBox x:Name="comboBox1" Grid.Column="1" HorizontalAlignment="Left" Margin="132.333,134,0,0" VerticalAlignment="Top" Width="86"/>
+                        <ComboBox x:Name="comboBox1_Copy" Grid.Column="1" HorizontalAlignment="Left" Margin="132.333,175,0,0" VerticalAlignment="Top" Width="86"/>
+                        <ComboBox x:Name="comboBox1_Copy1" Grid.Column="1" HorizontalAlignment="Left" Margin="132.333,210,0,0" VerticalAlignment="Top" Width="86"/>
+
+                    </Grid>
+                </Popup>
 
             </Grid>
             <!-- <TextBox Name="txtFilePath" IsReadOnly="True"
@@ -229,19 +371,6 @@
             </DockPanel>
 
         </Grid>
-        <GroupBox Header="Company Info" HorizontalAlignment="Left" Background="#ffdcbc" Width="216" Height="274" VerticalAlignment="Top" Grid.RowSpan="3" Margin="0,32,0,0"/>
-        <TextBlock x:Name="id_box" Margin="10,42.667,794,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875"><Run Text="Nam"/><Run Text="e"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-        <TextBox Name="name" HorizontalAlignment="Left" Height="23" Margin="13,65.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" Grid.Row="2"/>
-        <TextBox Name="street" HorizontalAlignment="Left" Height="23" Margin="58,93.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-        <TextBox Name="city" HorizontalAlignment="Left" Height="23" Margin="58,121.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-        <TextBox Name="state" HorizontalAlignment="Left" Height="23" Margin="55,149.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-        <TextBox Name="zip" HorizontalAlignment="Left" Height="23" Margin="55,177.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="146" Grid.Row="2"/>
-
-        <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="12,103.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer>
-            </InlineUIContainer></TextBlock>
-        <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="12,131.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="12,159.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41" FontWeight="Bold"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="12,187.667,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
 
     </Grid>
 

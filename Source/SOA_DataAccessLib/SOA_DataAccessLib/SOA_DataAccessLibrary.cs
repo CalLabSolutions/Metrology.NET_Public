@@ -98,6 +98,37 @@ namespace SOA_DataAccessLibrary
             return opResult;
         }
 
+        /// <summary>
+        ///     opens the xml document.
+        /// </summary>
+        /// <param name="source">
+        ///     a valid Uri to a .xml file, or an XML string
+        /// </param>
+        /// <returns>success or failure status</returns>
+        public OpResult load(Uri source)
+        {
+            OpResult opResult = new OpResult();
+            try
+            {
+                WebRequest request = WebRequest.Create(source);
+                request.Timeout = 1000 * 60; // 1 minute;
+                request.UseDefaultCredentials = true;
+                request.Proxy.Credentials = request.Credentials;
+                WebResponse response = (WebResponse)request.GetResponse();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    opResult = load(stream);
+                }
+            }
+            catch (Exception e)
+            {
+                opResult.Success = false;
+                opResult.Error = e.Message;
+            }
+            if (!opResult.Success) doc = null;
+            return opResult;
+        }
+
         public OpResult load(Stream stream)
         {
             OpResult opResult = new OpResult();
@@ -114,7 +145,6 @@ namespace SOA_DataAccessLibrary
             return opResult;
         }
     }
-
 
     /// <summary>
     /// Singleton wrapper for the UoM_Database
@@ -530,6 +560,11 @@ namespace SOA_DataAccessLibrary
                 }
             }
 
+            public void writeTo(XElement parent)
+            {
+                new UomSpaceHelper(parent).addChild("Quantity").addAttribute("name", name);
+            }
+
             private Quantity() { }
 
             public Quantity(XElement qtyElement)
@@ -586,22 +621,37 @@ namespace SOA_DataAccessLibrary
 
     }
 
-
     public class NameSpaces
     {
         private Dictionary<string, string> map = new Dictionary<string, string>(){
             {"soa", @"http://schema.metrology.net/ScopeOfAccreditation"},
+            {"xsi", @"http://www.w3.org/2001/XMLSchema-instance"}, 
+            {"xi", @"http://www.w3.org/2001/XInclude"},
             {"uom", @"http://schema.metrology.net/UnitsOfMeasure"},
             {"unc", @"http://schema.metrology.net/Uncertainty"},
-            {"mtc", @"http://schema.metrology.net/MetrologyTaxononyCatatalog"},
-            {"xi", @"http://www.w3.org/2001/XInclude"},
-            {"xhtml", @"http://www.w3.org/1999/xhtml"}
+            {"mml", @"http://www.w3.org/1998/Math/MathML"},
+            {"xhtml", @"http://www.w3.org/1999/xhtml"},
+            {"mtc", @"http://schema.metrology.net/MetrologyTaxonomyCatalog"}
         };
 
         public string this[string key]
         {
             get { return map[key]; }
         }
+
+        public XAttribute[] NameSpaceDeclarations
+        {
+            get
+            {
+                List<XAttribute> list = new List<XAttribute>();
+                foreach (string key in map.Keys)
+                {
+                    XNamespace ns = XNamespace.Get(map[key]);
+                    list.Add(new XAttribute(key, ns)); 
+                }
+                return list.ToArray();
+            }
+        } 
     }
 
     static class Configuration
@@ -612,20 +662,104 @@ namespace SOA_DataAccessLibrary
         {
            get { return Configuration.nameSpaces; }    
         }
+
+        public static String UomDatabaseURL
+        {
+            get { return "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_Database.xml"; }
+        }
     }
+
+
+    public class XmlNameSpaceElement
+    {
+        private XNamespace ns;
+        private XElement element;
+
+        public XElement Element
+        {
+            get { return element; }
+        }
+
+        public XmlNameSpaceElement addChild(string name)
+        {
+            XmlNameSpaceElement child = new XmlNameSpaceElement(name, this.ns);
+            return addElement(child);
+        }
+
+        private XmlNameSpaceElement addElement(XmlNameSpaceElement child)
+        {
+            element.Add(child.element);
+            return child;
+        }
+
+        public XmlNameSpaceElement addAttribute(string name)
+        {
+            XAttribute attribute = new XAttribute(name, "");
+            element.Add(attribute);
+            return this;
+        }
+
+        public XmlNameSpaceElement addAttribute(string name, string value)
+        {
+            XAttribute attribute = new XAttribute(name, value);
+            element.Add(attribute);
+            return this;
+        }
+
+        public XmlNameSpaceElement addAttributes(params string[] names)
+        {
+            foreach (string name in names)
+            {
+                addAttribute(name);
+            }
+            return this;
+        }
+
+        public string getAttribute(string attributeName)
+        {
+            string value = "";
+            var atr = element.Attribute(attributeName);
+            value = (atr != null) ? atr.Value : "";
+            return value;
+        }
+
+        public String Value
+        {
+            get { return Element.Value; }
+            set { Element.Value = value;  }
+        }
+
+        public XmlNameSpaceElement setValue(string Value)
+        {
+            this.Value = Value;
+            return this;
+        }
+
+        public XmlNameSpaceElement(string name, XNamespace ns) {
+            this.ns = ns;
+            this.element = new XElement(ns + name);
+        }
+
+        public XmlNameSpaceElement(XElement Element) {
+            this.ns = Element.GetDefaultNamespace();
+            this.element = Element;
+        }
+
+    }
+
 
     public class XmlNameSpaceHelper
     {
         private XNamespace ns;
 
-        private XElement datasource = null;
+        private XContainer datasource = null;
 
         public XNamespace Ns
         {
             get { return ns; }
         }
 
-        public XElement Datasource
+        public XContainer Datasource
         {
             get { return datasource; }
         }
@@ -641,10 +775,49 @@ namespace SOA_DataAccessLibrary
             return (els.Count() > 0) ? els.First() : null;
         }
 
+        public XElement getElement()
+        {
+            return (datasource is XElement) ? (datasource as XElement) : null;
+        }
+
+        public XmlNameSpaceHelper getNameSpaceHelper(string elementName) {
+            var element = getElement(elementName);
+            if (element != null) {
+                var ns = element.GetDefaultNamespace();
+                return new XmlNameSpaceHelper(element, ns.NamespaceName);
+            } else return null;
+        }
+
+        public String Value {
+            get {return getValue();}
+            set {setValue(value);}
+        }
+
+        public string getValue()
+        {
+            return (datasource is XElement) ? (datasource as XElement).Value : "";
+        }
+
+        public XmlNameSpaceHelper setValue(string value)
+        {
+            if (datasource is XElement) {
+                (datasource as XElement).Value = value;
+            }
+            return this;
+        }
+
         public string getValue(string elementName)
         {
             XElement element = getElement(elementName);
             return (element != null) ? element.Value : "";
+        }
+
+        public XmlNameSpaceHelper setValue(string elementName, string value)
+        {           
+            var helper = getNameSpaceHelper(elementName);
+            if (helper != null) {
+                return helper.setValue(value);
+            } else return null;
         }
 
         public List<string> getValues(string elementName)
@@ -660,16 +833,31 @@ namespace SOA_DataAccessLibrary
 
         public string getAttribute(string attributeName)
         {
-            var atr = datasource.Attribute(attributeName);
-            return (atr != null) ? atr.Value : "";
+            string value = "";
+            if (datasource is XElement) { 
+              var atr = (datasource as XElement).Attribute(attributeName);
+              value = (atr != null) ? atr.Value : "";
+            }
+            return value;
+        }
+
+        public XmlNameSpaceElement addChild(string name)
+        {
+            XmlNameSpaceElement child = new XmlNameSpaceElement(name, ns);
+            if (datasource != null)
+            {
+               if (datasource is XElement) (datasource as XElement).Add(child.Element);
+               if (datasource is XDocument) (datasource as XDocument).Add(child.Element);
+            }
+            return child;
         }
 
         protected XmlNameSpaceHelper() { }
 
-        public XmlNameSpaceHelper(XElement datasource, string namespaceValue)
+        public XmlNameSpaceHelper(XContainer datasource, string namespaceValue)
         {
             this.datasource = datasource;
-            ns = namespaceValue;
+            ns = XNamespace.Get(namespaceValue);
         }
     }
 
@@ -697,28 +885,37 @@ namespace SOA_DataAccessLibrary
             :base(datasource, Configuration.NameSpaces["unc"]) {}
     }
 
+    public class XiSpaceHelper : XmlNameSpaceHelper
+    {
+        private XiSpaceHelper() { }
+
+        public XiSpaceHelper(XElement datasource)
+            : base(datasource, Configuration.NameSpaces["xi"]) { }
+    }
+
     public class SoaSpaceHelper : XmlNameSpaceHelper
     {
         private SoaSpaceHelper() { }
 
-        public SoaSpaceHelper(XElement datasource)
+        public SoaSpaceHelper(XContainer datasource)
             : base(datasource, Configuration.NameSpaces["soa"]) { }
+
     }
 
     public abstract class AbstractValue
     {
         protected UomDataSource.Quantity quantity = null;
-        protected string uom_alternative = "";
+        protected string _uom_alternative = "";
         protected string _symbol = "";
-        protected string format = "";
+        protected string _format = "";
         protected string valueString = "";
 
         private decimal toBase(decimal value)
         {
             if (quantity == null) throw new Exception("invalid quantity");
-            if (Uom_alternative != "")
+            if (uom_alternative != "")
             {
-                var alt = quantity.getAlternative(Uom_alternative);
+                var alt = quantity.getAlternative(uom_alternative);
                 if (alt == null) throw new Exception("invalid UOM alternative");
                 value = alt.ConvertToBase(value);
             }
@@ -728,9 +925,9 @@ namespace SOA_DataAccessLibrary
         private decimal fromBase(decimal value)
         {
             if (quantity == null) throw new Exception("invalid quantity");
-            if (Uom_alternative != "")
+            if (uom_alternative != "")
             {
-                var alt = quantity.getAlternative(Uom_alternative);
+                var alt = quantity.getAlternative(uom_alternative);
                 if (alt == null) throw new Exception("invalid UOM alternative");
                 value = alt.ConvertFromBase(value);
             }
@@ -746,7 +943,7 @@ namespace SOA_DataAccessLibrary
                 {
                     // if quantity is changed or reset, reset everything tied to quantity
                     quantity = null;
-                    uom_alternative = "";
+                    _uom_alternative = "";
                     _symbol = "";
                 }
                 if (value != "")
@@ -764,31 +961,31 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        public string Uom_alternative
+        public string uom_alternative
         {
-            get { return uom_alternative; }
+            get { return _uom_alternative; }
             set 
             {
                 if (quantity == null) throw new Exception("invalid quantity");
-                if (uom_alternative != value)
+                if (_uom_alternative != value)
                 {   // new alternative
                     decimal old_base_value = BaseValue;
                     if (value.Trim() == "")
                     {
-                        uom_alternative = "";
+                        _uom_alternative = "";
                     }
                     else if (quantity.hasAlternative(value))
                     {
-                        uom_alternative = value;
+                        _uom_alternative = value;
                     }
                     else
                     {
                         throw new Exception("invalid alternative");
                     }
-                    if (uom_alternative != "")
+                    if (_uom_alternative != "")
                     {
                         // set symbol to default symbol of new alternative
-                        UomDataSource.Alternative alternative = quantity.getAlternative(uom_alternative);
+                        UomDataSource.Alternative alternative = quantity.getAlternative(_uom_alternative);
                         _symbol = alternative.symbol;
                     }
                     else
@@ -815,14 +1012,14 @@ namespace SOA_DataAccessLibrary
             get
             {
                 if (quantity == null) throw new Exception("invalid quantity");
-                if (uom_alternative == "")
+                if (_uom_alternative == "")
                 {
                     return quantity.UoM.symbols;
                 }
                 else
                 {
-                    if (!quantity.hasAlternative(uom_alternative)) throw new Exception("invalid uom_alternative");
-                    var alternative = quantity.getAlternative(uom_alternative);
+                    if (!quantity.hasAlternative(_uom_alternative)) throw new Exception("invalid uom_alternative");
+                    var alternative = quantity.getAlternative(_uom_alternative);
                     return alternative.symbols;
                 }
             }
@@ -834,7 +1031,7 @@ namespace SOA_DataAccessLibrary
             set 
             {
                 if (quantity == null) throw new Exception("invalid quantity");
-                if (uom_alternative == "") 
+                if (_uom_alternative == "") 
                 {
                     var UoM = quantity.UoM;
                     if (UoM.hasSymbol(value))
@@ -846,7 +1043,7 @@ namespace SOA_DataAccessLibrary
                 } 
                 else  
                 {
-                    var alternative = quantity.getAlternative(uom_alternative);
+                    var alternative = quantity.getAlternative(_uom_alternative);
                     if (alternative.hasSymbol(value))
                         _symbol = value;
                     else if (value == "")
@@ -857,16 +1054,16 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        public string Format
+        public string format
         {
-            get { return format; }
+            get { return _format; }
             set {             
                 try
                 {  
                     // validate value is good format string by trying it
                     decimal v = 1.0m;
                     v.ToString(value); 
-                    format = value;
+                    _format = value;
                 }
                 catch (Exception e)
                 {
@@ -918,45 +1115,56 @@ namespace SOA_DataAccessLibrary
                 if (quantity == null) throw new Exception("invalid quantity");
                 decimal value = BaseValue;
                 string units;
-                if (Uom_alternative != "")
+                if (uom_alternative != "")
                 {
-                    UomDataSource.Alternative alternative = quantity.getAlternative(Uom_alternative);
+                    UomDataSource.Alternative alternative = quantity.getAlternative(uom_alternative);
                     value = alternative.ConvertFromBase(value);
                     units = alternative.getPresentation(symbol);
                 } else {
                     UomDataSource.UofM UoM =  quantity.UoM;
                     units = UoM.getPresentation(symbol);
                 }
-                return String.Format("<span><span>{0}</span>{1}</span>", value.ToString(Format), units);
+                return String.Format("<span><span>{0}</span>{1}</span>", value.ToString(format), units);
             }
         }
 
         protected void loadValue (XElement datasource)
         {
             if (datasource != null) valueString = datasource.Value;
-        } 
- 
+        }
+
+        protected void writeTo(XElement myElement) {
+            var me = new XmlNameSpaceElement(myElement);
+            me.addAttribute("uom_alternative", uom_alternative);
+            me.addAttribute("uom_alias_symbol", symbol);
+            me.addAttribute("format", format);
+        }
+
     }
 
     public class Uom_Quantity 
     {
-        private string name = "";
+        private string _name = "";
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public void writeTo(XElement Parent) {
+            new UncSpaceHelper(Parent).addChild("Quantity").addAttribute("name", name);
         }
 
         private Uom_Quantity() {}
 
         public Uom_Quantity(String Name) {
-            this.name = Name;
+            this._name = Name;
         }
 
         public Uom_Quantity(XElement datasource)
         {
-            name = new UomSpaceHelper(datasource).getAttribute("name");
+            _name = new UomSpaceHelper(datasource).getAttribute("name");
         }
     }
 
@@ -970,11 +1178,17 @@ namespace SOA_DataAccessLibrary
             set { document = value; }
         }
 
-        private Mtc_Documentation() { }
+        public void writeTo(XElement Parent)
+        {
+            new MtcSpaceHelper(Parent).addChild("Documentation").Value = document;
+        }
+
+        public Mtc_Documentation() { }
 
         public Mtc_Documentation(XElement datasource)
         {
-            ///TODO
+            System.Xml.XmlReader reader = datasource.CreateReader();
+            document = reader.ReadInnerXml();
         }
     }
 
@@ -1004,6 +1218,13 @@ namespace SOA_DataAccessLibrary
                 string qty = uomSpaceHelper.getAttribute("name");
                 quantity = UomDataSource.getQuantity(qty);
             }
+        }
+
+        public void writeTo(XElement ProcessType)
+        {
+            MtcSpaceHelper ProcessTypeHelper = new MtcSpaceHelper(ProcessType);
+            var Result = ProcessTypeHelper.addChild("Result").addAttribute("name", Name);
+            quantity.writeTo(Result.Element);
         }
 
         private Mtc_ProcessResult() { }
@@ -1049,6 +1270,14 @@ namespace SOA_DataAccessLibrary
             }
         }
 
+        public void writeTo(XElement ProcessType)
+        {
+            foreach (Mtc_ProcessResult result in results)
+            {
+                result.writeTo(ProcessType);
+            }
+        }
+
         public Mtc_ProcessResults() { } // Needed when Mtc_ProcessType is null.  Returns an empty Mtc_ProcessResults
 
         public Mtc_ProcessResults(XElement datasource)
@@ -1067,51 +1296,122 @@ namespace SOA_DataAccessLibrary
         }
     }
 
+    public class Mtc_Enumeration : IEnumerable<string>
+    {
+        HashSet<string> items = new HashSet<string>();
+
+        public void remove(string value)
+        {
+            if (items.Contains(value)) items.Remove(value);
+        }
+
+        public void add(string value) {
+            items.Add(value);
+        }
+             
+        public int Count()
+        {
+            return items.Count();
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private void loadItems(XElement datasource)
+        {
+            var Items = new MtcSpaceHelper(datasource).getValues("Item");
+            foreach (string value in Items)
+            {
+                add(value);
+            }
+        }
+
+        public Mtc_Enumeration() { }
+
+        public Mtc_Enumeration(XElement datasource)
+        {
+            loadItems(datasource);
+        }
+    }
+
     public class Mtc_Parameter 
     {
         public class Mtc_ParameterComparer : IEqualityComparer<Mtc_Parameter> // required to support creating lists with unique entries
         {
             public bool Equals(Mtc_Parameter x, Mtc_Parameter y)
             {
-                return x.Name.Equals(y.Name);
+                return x.name.Equals(y.name);
             }
 
             public int GetHashCode(Mtc_Parameter parameter)
             {
-                return parameter.Name.GetHashCode();
+                return parameter.name.GetHashCode();
             }
         }
 
-        private string name = "";
-        private bool optional = false;
+        private string _name = "";
+        private bool _optional = false;
         private UomDataSource.Quantity quantity = null;
+        private Mtc_Enumeration enumeration = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            //set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
-        public bool Optional
+        public bool optional
         {
-            get { return optional; }
-            //set { optional = value; }
+            get { return _optional; }
+            set { _optional = value; }
         }
 
         public UomDataSource.Quantity Quantity
         {
             get { return quantity; }
-            //set { quantity = value; }
+            set { quantity = value; }
         }
 
-        private void setQuantity(XElement datasource)
+        public void writeTo(XElement Parent)
         {
+            var Parameter = new MtcSpaceHelper(Parent).addChild("Parameter").addAttribute("name", name).addAttribute("optional", optional.ToString());
+            if (quantity != null) quantity.writeTo(Parameter.Element);
+
+
+        }
+
+        private bool setQuantity(XElement datasource)
+        {
+            quantity = null;
             var qtyElement = new UomSpaceHelper(datasource).getElement("Quantity");
             if (qtyElement != null)
             {
                 string qty = new UomSpaceHelper(qtyElement).getAttribute("name");
                 quantity = UomDataSource.getQuantity(qty);
             }
+            return quantity != null;
+        }
+
+        private bool setEnumeration(XElement datasource)
+        {
+            enumeration = null;
+            var Enumeration = new MtcSpaceHelper(datasource).getElement("Enumeration");
+            if (Enumeration != null)
+            {
+                enumeration = new Mtc_Enumeration(Enumeration);
+            }
+            else
+            {
+                enumeration = new Mtc_Enumeration();
+            }
+            return enumeration != null;
         }
 
         private Mtc_Parameter() { }
@@ -1119,9 +1419,12 @@ namespace SOA_DataAccessLibrary
         public Mtc_Parameter(XElement datasource)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            name = mtcSpaceHelper.getAttribute("name");
-            optional = mtcSpaceHelper.getAttribute("optional").ToLower() == "true";
-            setQuantity(datasource);
+            _name = mtcSpaceHelper.getAttribute("name");
+            _optional = mtcSpaceHelper.getAttribute("optional").ToLower() == "true";
+            if (!setQuantity(datasource))
+            {
+                setEnumeration(datasource);
+            };
         }
     }
 
@@ -1137,7 +1440,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_Parameter this[string name]
         {
             get {
-                var set = parameters.Where(x => x.Name == name);
+                var set = parameters.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -1154,6 +1457,12 @@ namespace SOA_DataAccessLibrary
             {
                 Mtc_Parameter parameter = new Mtc_Parameter(el);
                 parameters.Add(parameter);
+            }
+        }
+        public void writeTo(XElement Parent)
+        {
+            foreach (Mtc_Parameter parameter in parameters) {
+                parameter.writeTo(Parent);
             }
         }
 
@@ -1183,14 +1492,19 @@ namespace SOA_DataAccessLibrary
         }
     }
 
-    public class Mtc_ProcessType 
+    public interface IParameterSource
     {
+        Mtc_Parameters Parameters { get; }
+    }
+
+    public class Mtc_ProcessType : IParameterSource
+    {
+        private Unc_ProcessType parent = null;
         private string name = "";
         private Mtc_Documentation documentation = null;
         private Mtc_ProcessResults processResults = null;
         private Mtc_Parameters parameters = null;
         private Mtc_Documentation documenation = null;
-
 
         public string Name
         {
@@ -1250,13 +1564,29 @@ namespace SOA_DataAccessLibrary
             return result;
         }
 
-        private Mtc_ProcessType() { }
+        public void writeTo(XElement UncProcessType)
+        {
+            MtcSpaceHelper UncProcessTypeHelper = new MtcSpaceHelper(UncProcessType);
+            var ProcessType = UncProcessTypeHelper.addChild("ProcessType");
+            processResults.writeTo(ProcessType.Element);
+            //parameters.writeTo(ProcessType.Element);
+            //documenation.writeTo(ProcessType.Element);
+        }
 
-        public Mtc_ProcessType(XElement datasource)
+        public Mtc_ProcessType(Unc_ProcessType parent) {
+            this.parent = parent;
+            name = parent.name;
+            processResults = new Mtc_ProcessResults();
+            parameters = new Mtc_Parameters();
+            documenation = new Mtc_Documentation();
+        }
+
+        public Mtc_ProcessType(Unc_ProcessType parent, XElement datasource)
         {
             try
             {
                 MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
+                this.parent = parent; 
                 name = mtcSpaceHelper.getAttribute("name");
                 processResults = new Mtc_ProcessResults(datasource);
                 parameters = new Mtc_Parameters(datasource);
@@ -1273,20 +1603,20 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Symbol
     {
-        private string parameterName = "";
-        private string type = "";
+        private string _parameter = "";
+        private string _type = "";
         private UomDataSource.Quantity quantity = null;
 
-        public string ParameterName
+        public string parameter
         {
-            get { return parameterName; }
-            //set { name = value; }
+            get { return _parameter; }
+            set { _parameter = value; }
         }
 
-        public string Type
+        public string type
         {
-            get { return type; }
-            //set { type = value; }
+            get { return _type; }
+            set { _type = value; }
         }
 
         public UomDataSource.Quantity Quantity
@@ -1294,20 +1624,25 @@ namespace SOA_DataAccessLibrary
             get { return quantity; }
         }
 
-        private void setQuantity(Mtc_Technique technique)
+        private void setQuantity(IParameterSource parameterSource)
         {
-            var param = technique.Parameters[parameterName];
+            var param = parameterSource.Parameters[_parameter];
             if (param != null) quantity = param.Quantity;
+        }
+
+        public void writeTo(XElement Function) 
+        {
+            new MtcSpaceHelper(Function).addChild("Symbol").addAttribute("parameter", parameter).addAttribute("type", type);
         }
 
         private Mtc_Symbol() { }
 
-        public Mtc_Symbol(XElement datasource, Mtc_Technique technique)
+        public Mtc_Symbol(XElement datasource, IParameterSource parameterSource)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            parameterName = mtcSpaceHelper.getAttribute("parameter");
-            type = mtcSpaceHelper.getAttribute("type");
-            setQuantity(technique);
+            _parameter = mtcSpaceHelper.getAttribute("parameter");
+            _type = mtcSpaceHelper.getAttribute("type");
+            setQuantity(parameterSource);
         }
 
     }
@@ -1324,7 +1659,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_Symbol this[string parameterName]
         {
             get { 
-                var set = symbols.Where(x => x.ParameterName == parameterName);
+                var set = symbols.Where(x => x.parameter == parameterName);
                 return (set.Count() > 0) ? set.First() : null;
             }
         }
@@ -1334,21 +1669,29 @@ namespace SOA_DataAccessLibrary
             return symbols.Count();
         }
 
-        private void loadSymbols(MtcSpaceHelper mtcSpaceHelper, Mtc_Technique technique)
+        private void loadSymbols(MtcSpaceHelper mtcSpaceHelper, IParameterSource parameterSource)
         {
             var els = mtcSpaceHelper.getElements("Symbol");
             foreach(XElement el in els)
             {
-                Mtc_Symbol symbol = new Mtc_Symbol(el, technique);
+                Mtc_Symbol symbol = new Mtc_Symbol(el, parameterSource);
                 symbols.Add(symbol);
+            }
+        }
+
+        public void writeTo(XElement Function)
+        {
+            foreach (Mtc_Symbol symbol in symbols)
+            {
+                symbol.writeTo(Function);
             }
         }
 
         private Mtc_Symbols() { }
 
-        public Mtc_Symbols(XElement datasource, Mtc_Technique technique)
+        public Mtc_Symbols(XElement datasource, IParameterSource parameterSource)
         {
-            loadSymbols(new MtcSpaceHelper(datasource), technique);
+            loadSymbols(new MtcSpaceHelper(datasource), parameterSource);
         }
 
         public IEnumerator<Mtc_Symbol> GetEnumerator()
@@ -1362,25 +1705,27 @@ namespace SOA_DataAccessLibrary
         }
     }
 
-    public class Mtc_CMCUncertainty 
+ 
+
+    public class Mtc_Function 
     {
 
-        private string function_name = "";
+        private string _function_name = "";
         private string expression = "";
         private Mtc_Symbols symbolDefinitions = null;
         private EvaluationEngine evaluator = new EvaluationEngine();
         private UomDataSource.Quantity quantity = null;
 
-        public string Function_name
+        public string function_name
         {
-            get { return function_name; }
-            //set { proccess_function_name = value; }
+            get { return _function_name; }
+            set { _function_name = value; }
         }
 
         public string Expression
         {
             get { return expression; }
-            //set { formula = value; }
+            set { expression = value; }
         }
 
         public UomDataSource.Quantity Quantity 
@@ -1393,7 +1738,7 @@ namespace SOA_DataAccessLibrary
             get { return symbolDefinitions; }
         }
 
-        private void loadExpression(MtcSpaceHelper mtcSpaceHelper)
+        protected void loadExpression(MtcSpaceHelper mtcSpaceHelper)
         {
             var expressionElement = mtcSpaceHelper.getElement("Expression");
             if (expressionElement != null) expression = fixWhiteSpace(expressionElement.Value);
@@ -1407,12 +1752,12 @@ namespace SOA_DataAccessLibrary
 
         public IList<string> Variables
         {
-            get { return SymbolDefinitions.Where(x => x.Type == "Variable").Select(y => y.ParameterName).ToList(); }
+            get { return SymbolDefinitions.Where(x => x.type == "Variable").Select(y => y.parameter).ToList(); }
         }
 
         public IList<string> Constants
         {
-            get { return SymbolDefinitions.Where(x => x.Type == "Constant").Select(y => y.ParameterName).ToList(); }
+            get { return SymbolDefinitions.Where(x => x.type == "Constant").Select(y => y.parameter).ToList(); }
         }
 
         public void setSymbol(string name, double value) {
@@ -1441,7 +1786,7 @@ namespace SOA_DataAccessLibrary
             return r3;
         }
 
-        private void setQuantity(MtcSpaceHelper mtcSpaceHelper)
+        protected void setQuantity(MtcSpaceHelper mtcSpaceHelper)
         {
             var resultElement = mtcSpaceHelper.getElement("Result");
             if (resultElement != null)
@@ -1455,21 +1800,94 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_CMCUncertainty() { }
+        public void writeTo(XElement Parent)
+        {
+            var Function = new MtcSpaceHelper(Parent).addChild("Function").addAttribute("function_name", function_name);
+            Function.addChild("Expression").Value = expression;
+            quantity.writeTo(Function.addChild("Result").Element);
+            symbolDefinitions.writeTo(Function.Element);
+        } 
 
-        public Mtc_CMCUncertainty(XElement datasource, Mtc_Technique technique)
+        private Mtc_Function() { }
+
+        public Mtc_Function(XElement datasource, IParameterSource parameterSource)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            function_name = mtcSpaceHelper.getAttribute("function_name");
+            _function_name = mtcSpaceHelper.getAttribute("function_name");
             var functionElement = mtcSpaceHelper.getElement("Function");
             if (functionElement != null)
             {
                 mtcSpaceHelper = new MtcSpaceHelper(functionElement);
                 loadExpression(mtcSpaceHelper);
                 setQuantity(mtcSpaceHelper);
-                symbolDefinitions = new Mtc_Symbols(functionElement, technique);
+                symbolDefinitions = new Mtc_Symbols(functionElement, parameterSource);
             }
         }    
+    }
+
+    public class Mtc_CMCUncertainty : Mtc_Function {
+
+        public Mtc_CMCUncertainty(XElement datasource, Mtc_Technique technique)
+            : base(datasource, technique){}  
+    }
+
+    public class Mtc_Functions : IEnumerable<Mtc_Function>
+    {
+        private List<Mtc_Function> functions = new List<Mtc_Function>();
+
+        public Mtc_Function this[int index]
+        {
+            get { return functions[index]; }
+        }
+
+        public Mtc_Function this[string name]
+        {
+            get
+            {
+                var set = functions.Where(x => x.function_name == name);
+                return (set.Count() > 0) ? set.First() : null;
+            }
+        }
+
+        public int Count()
+        {
+            return functions.Count();
+        }
+
+        private void loadFunctions(MtcSpaceHelper mtcSpaceHelper, IParameterSource parameterSource)
+        {
+            var els = mtcSpaceHelper.getElements("Function");
+            foreach (XElement el in els)
+            {
+                Mtc_Function uncertainty = new Mtc_Function(el, parameterSource);
+                functions.Add(uncertainty);
+            }
+        }
+
+        public void writeTo(XElement Technique)
+        {
+            foreach (Mtc_Function function in functions)
+            {
+                function.writeTo(Technique);
+            }
+        }
+
+        public Mtc_Functions() { }
+
+        public Mtc_Functions(XElement datasource, IParameterSource parameterSource)
+        {
+            loadFunctions(new MtcSpaceHelper(datasource), parameterSource);
+        }
+
+        public IEnumerator<Mtc_Function> GetEnumerator()
+        {
+            return functions.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     public class Mtc_CMCUncertainties : IEnumerable<Mtc_CMCUncertainty>
@@ -1484,7 +1902,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_CMCUncertainty this[string name]
         {
             get { 
-                var set = uncertainties.Where(x => x.Function_name == name);
+                var set = uncertainties.Where(x => x.function_name == name);
                 return (set.Count() > 0) ? set.First() : null;
             }
         }
@@ -1504,11 +1922,19 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_CMCUncertainties() { }
+        public Mtc_CMCUncertainties() {}
 
         public Mtc_CMCUncertainties(XElement datasource, Mtc_Technique technique)
         {
             loadUncertainties(new MtcSpaceHelper(datasource), technique);
+        }
+
+        public void writeTo(XElement Technique)
+        {
+            foreach (Mtc_CMCUncertainty uncertainty in uncertainties)
+            {
+                uncertainty.writeTo(Technique);
+            }
         }
 
         public IEnumerator<Mtc_CMCUncertainty> GetEnumerator()
@@ -1524,13 +1950,13 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Role
     {
-        private string name = "";
+        private string _name = "";
         private List<string> deviceTypes = new List<string>();
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            //set { name = value; }
+            get { return _name; }
+            set { name = value; }
         }
 
         public ICollection<string> DeviceTypes
@@ -1552,12 +1978,29 @@ namespace SOA_DataAccessLibrary
             }
         }
 
+        public void writeTo(XElement RequiredEquipment)
+        {
+            var Role = new MtcSpaceHelper(RequiredEquipment).addChild("Role").addAttribute("name", name);
+            if (deviceTypes.Count() == 1)
+            {
+                Role.addChild("DeviceType").Value = deviceTypes[0];
+            }
+            else if (deviceTypes.Count > 1)
+            {
+                var DeviceTypes = Role.addChild("DeviceTypes");
+                foreach (string value in deviceTypes)
+                {
+                    DeviceTypes.addChild("DeviceType").Value = value;
+                }
+            }
+        }
+
         private Mtc_Role() { }
 
         public Mtc_Role(XElement datasource)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            name = mtcSpaceHelper.getAttribute("name");
+            _name = mtcSpaceHelper.getAttribute("name");
             loadDeviceTypes(mtcSpaceHelper);
         }
     }
@@ -1574,7 +2017,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_Role this[string name]
         {
             get { 
-                var set = roles.Where(x => x.Name == name);
+                var set = roles.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -1593,7 +2036,15 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_Roles() { }
+        public void writeTo(XElement RequiredEquipment)
+        {
+            foreach (Mtc_Role role in roles)
+            {
+                role.writeTo(RequiredEquipment);
+            }
+        }
+
+        public Mtc_Roles() { }
 
         public Mtc_Roles(XElement datasource)
         {
@@ -1620,8 +2071,15 @@ namespace SOA_DataAccessLibrary
         {
             get { return roles; }
         }
+
+        public void writeTo(XElement Technique) {
+            var RequiredEquipment = new MtcSpaceHelper(Technique).addChild("RequiredEquipment");
+            roles.writeTo(RequiredEquipment.Element);
+        }
          
-        private Mtc_RequiredEquipment() { }
+        public Mtc_RequiredEquipment() {
+            this.roles = new Mtc_Roles();
+        }
 
         public Mtc_RequiredEquipment(XElement datasource)
         {
@@ -1632,16 +2090,16 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Range_Boundary : AbstractValue
     {
-        private string test = "";
+        private string _test = "";
 
         public enum RangeType {Result, Parameter};
 
-        public string Test
+        public string test
         {
-            get { return test; }
-            //set { test = value; }
+            get { return _test; }
+            set { _test = value; }
         }
- 
+
         protected Mtc_Range_Boundary() { }
 
         public Mtc_Range_Boundary(XElement datasource, Mtc_ProcessType processType, string rangeName, Mtc_Range_Boundary.RangeType rType)
@@ -1665,9 +2123,9 @@ namespace SOA_DataAccessLibrary
                         break;
                 }
                 test = mtcSpaceHelper.getAttribute("test");
-                uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
+                _uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
                 symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
-                format = mtcSpaceHelper.getAttribute("format");
+                _format = mtcSpaceHelper.getAttribute("format");
             }
             catch (Exception e)
             {
@@ -1678,6 +2136,14 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Range_End : Mtc_Range_Boundary
     {
+        public void writeTo(XElement Parent)
+        {
+            var End = new MtcSpaceHelper(Parent).addChild("End");
+            End.addAttribute("uom_alternative", _uom_alternative);
+            End.addAttribute("uom_alias_symbol", symbol);
+            End.addAttribute("format", _format);
+            End.addAttribute("test", this.test);
+        }
         private Mtc_Range_End() { }
 
         public Mtc_Range_End(XElement datasource, Mtc_ProcessType processType, string rangeName, Mtc_Range_Boundary.RangeType rType)
@@ -1686,6 +2152,16 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Range_Start : Mtc_Range_Boundary 
     {
+
+        public void writeTo(XElement Parent)
+        {
+            var Start = new MtcSpaceHelper(Parent).addChild("Start");
+            Start.addAttribute("uom_alternative", _uom_alternative);
+            Start.addAttribute("uom_alias_symbol", symbol);
+            Start.addAttribute("format", _format);
+            Start.addAttribute("test", this.test);
+        }
+
         private Mtc_Range_Start() { }
 
         public Mtc_Range_Start(XElement datasource, Mtc_ProcessType processType, string rangeName, Mtc_Range_Boundary.RangeType rType)
@@ -1694,14 +2170,14 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Range 
     {
-        private string name = "";   
+        private string _name = "";   
         private Mtc_Range_Start start = null;
         private Mtc_Range_End end = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public Mtc_Range_Start Start
@@ -1714,7 +2190,14 @@ namespace SOA_DataAccessLibrary
         {
             get { return end; }
             set { end = value; }
-        }        
+        }
+
+        public void writeTo(XElement Technique)
+        {
+            var ResultRange = new MtcSpaceHelper(Technique).addChild("ResultRange").addAttribute("name", name);
+            start.writeTo(ResultRange.Element);
+            end.writeTo(ResultRange.Element);
+        }
         
         private Mtc_Range() { }
 
@@ -1750,7 +2233,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_Range this[string name]
         {
             get {
-                var set = ranges.Where(x => x.Name == name);
+                var set = ranges.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null;
             }
         }
@@ -1770,7 +2253,17 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_ResultRanges() { }
+        public void writeTo(XElement Technique)
+        {
+            foreach (Mtc_Range range in ranges)
+            {
+                range.writeTo(Technique);
+            }
+        }
+
+        public Mtc_ResultRanges() { 
+        
+        }
 
         public Mtc_ResultRanges(XElement datasource, Mtc_ProcessType processType)
         {
@@ -1802,7 +2295,7 @@ namespace SOA_DataAccessLibrary
         public Mtc_Range this[string name]
         {
             get {
-                var set = ranges.Where(x => x.Name == name);
+                var set = ranges.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -1822,7 +2315,14 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Mtc_ParameterRanges() { }
+        public void writeTo(XElement Technique)
+        {
+            foreach (Mtc_Range range in ranges) {
+                range.writeTo(Technique);
+            }
+        }
+
+        public Mtc_ParameterRanges() { }
 
         public Mtc_ParameterRanges(XElement datasource, Mtc_ProcessType processType)
         {
@@ -1842,30 +2342,32 @@ namespace SOA_DataAccessLibrary
     }
 
 
-    public class Mtc_Technique 
+    public class Mtc_Technique : IParameterSource
     {
-
+        private Unc_Technique parent = null;
         private string name = "";
         private string process = "";
         private Mtc_ResultRanges resultRanges = null;
         private Mtc_Parameters parameters = null;
         private Mtc_ParameterRanges parameterRanges = null;
         private Mtc_RequiredEquipment requiredEquipment = null;
+        private Mtc_Functions functions = null;
         private Mtc_CMCUncertainties cmcUncertainties = null;
         private Mtc_Documentation documentation = null;
+        
         private Unc_CMCs cMCs;
         private Mtc_ProcessType processType = null;
 
         public string Name
         {
             get { return name; }
-            //set { name = value; }
+            set { name = value; }
         }
 
         public string ProcessTypeName
         {
             get { return process; }
-            //set { process = value; }
+            set { process = value; }
         }
 
         public Mtc_ProcessType ProcessType
@@ -1907,6 +2409,18 @@ namespace SOA_DataAccessLibrary
             //set { documentation = value; }
         }
 
+        public void writeTo(XElement UncTechnique)
+        {
+            var Technique = new MtcSpaceHelper(UncTechnique).addChild("Technique").addAttribute("name", name).addAttribute("process", process);
+            resultRanges.writeTo(Technique.Element);
+            parameters.writeTo(Technique.Element);
+            parameterRanges.writeTo(Technique.Element);
+            requiredEquipment.writeTo(Technique.Element);
+            if (functions != null) functions.writeTo(Technique.Element);
+            cmcUncertainties.writeTo(Technique.Element);
+            documentation.writeTo(Technique.Element);
+        }
+
         private void setProcessType(Unc_CMCs cMCs, string processName)
         {
             var mtcProcessTypes = cMCs.ProcessTypes.Select( x => x.ProcessType).Where(y => y.Name == processName);
@@ -1933,13 +2447,27 @@ namespace SOA_DataAccessLibrary
             }
             return result;
         }
-        
-        private Mtc_Technique() { }
 
-        public Mtc_Technique(XElement datasource, Unc_CMCs cMCs)
+        public Mtc_Technique(Unc_Technique parent, Unc_CMCs cMCs)
+        {
+            this.parent = parent;
+            this.cMCs = cMCs;
+            this.name = "";
+            this.process = "";
+            this.processType = null;
+            this.parameters = new Mtc_Parameters();
+            this.resultRanges = new Mtc_ResultRanges();
+            this.parameterRanges = new Mtc_ParameterRanges();
+            this.requiredEquipment = new Mtc_RequiredEquipment();
+            this.cmcUncertainties = new Mtc_CMCUncertainties();
+            this.documentation = new Mtc_Documentation();
+        }
+
+        public Mtc_Technique(XElement datasource, Unc_Technique parent, Unc_CMCs cMCs)
         {
             try
             {
+                this.parent = parent;
                 this.cMCs = cMCs;
                 MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
                 name = mtcSpaceHelper.getAttribute("name");
@@ -1973,6 +2501,12 @@ namespace SOA_DataAccessLibrary
             //set { _const_parameter_name = value; }
         }
 
+        public void writeTo(XElement Range)
+        {
+            var ConstantValue = new UncSpaceHelper(Range).addChild("ConstantValue").addAttribute("const_parameter_name", const_parameter_name);
+            base.writeTo(ConstantValue.Element);
+        }
+
         public Unc_ConstantValue(XElement datasource, Unc_Template template, string functionName)
         {
             try
@@ -1981,9 +2515,9 @@ namespace SOA_DataAccessLibrary
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
                 _const_parameter_name = uncSpaceHelper.getAttribute("const_parameter_name");
                 quantity = template.getQuantity(_const_parameter_name);
-                uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
+                _uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
                 symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
-                format = uncSpaceHelper.getAttribute("format");
+                _format = uncSpaceHelper.getAttribute("format");
                 loadValue(datasource);
             }
             catch (Exception e)
@@ -2026,6 +2560,14 @@ namespace SOA_DataAccessLibrary
             }
         }
 
+        public void writeTo(XElement Range)
+        {
+            foreach (Unc_ConstantValue constant in constants)
+            {
+                constant.writeTo(Range);
+            }
+        }
+
         private Unc_ConstantValues() { }
 
         public Unc_ConstantValues(XElement datasource, Unc_Template template, string functionName)
@@ -2047,13 +2589,19 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Range_Boundary : AbstractValue
     {
-        private string test = "";
+        private string _test = "";
         private Unc_Template template = null;
 
-        public string Test
+        public string test
         {
-            get { return test; }
+            get { return _test; }
             //set { test = value; }
+        }
+
+        protected void writeTo(XElement myElement) {
+            var me = new XmlNameSpaceElement(myElement);
+            me.addAttribute("test", test);
+            base.writeTo(myElement);
         }
 
         protected Unc_Range_Boundary() { }
@@ -2064,11 +2612,11 @@ namespace SOA_DataAccessLibrary
             {
                 this.template = template;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-                test = uncSpaceHelper.getAttribute("test");
+                _test = uncSpaceHelper.getAttribute("test");
                 quantity = template.getQuantity(variableName);
-                uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
+                _uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
                 symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
-                format = uncSpaceHelper.getAttribute("format");
+                _format = uncSpaceHelper.getAttribute("format");
                 loadValue(datasource);
             }
             catch (Exception e)
@@ -2080,6 +2628,11 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Range_End : Unc_Range_Boundary 
     {
+         public void writeTo(XElement Parent) {
+            var End = new UncSpaceHelper(Parent).addChild("End");
+            base.writeTo(End.Element);
+        }
+
         private Unc_Range_End() { }
 
         public Unc_Range_End(XElement datasource, Unc_Template template, string variableName)
@@ -2088,6 +2641,11 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Range_Start : Unc_Range_Boundary 
     {
+
+        public void writeTo(XElement Parent) {
+            var Start = new UncSpaceHelper(Parent).addChild("Start");
+            base.writeTo(Start.Element);
+        }
 
         private Unc_Range_Start() { }
 
@@ -2099,7 +2657,7 @@ namespace SOA_DataAccessLibrary
     {
         private Unc_Range_Start start = null;
         private Unc_Range_End end = null;
-        private Unc_ConstantValues constansts = null;
+        private Unc_ConstantValues constants = null;
         private Unc_Ranges ranges = null;
         private Unc_Template template = null;
         private string variable_name = "";
@@ -2131,14 +2689,28 @@ namespace SOA_DataAccessLibrary
 
         public Unc_ConstantValues ConstantValues
         {
-            get { return constansts; }
-            set { constansts = value; }
+            get { return constants; }
+            set { constants = value; }
         }
 
         public Unc_Ranges Ranges
         {
             get { return ranges; }
             set { ranges = value; }
+        }
+
+        public void writeTo(XElement Ranges)
+        {
+            var Range = new UncSpaceHelper(Ranges).addChild("Range");
+            start.writeTo(Range.Element);
+            end.writeTo(Range.Element);
+            if (ranges.Count() > 0)
+            {
+                ranges.writeTo(Range.Element);
+            }
+            else { 
+                constants.writeTo(Range.Element);
+            }
         }
 
         protected Unc_Range() { }
@@ -2148,14 +2720,14 @@ namespace SOA_DataAccessLibrary
             try
             {
                 this.template = template;
-                variable_name = parent.Variable_name;
-                variable_type = parent.Variable_type;
+                variable_name = parent.variable_name;
+                variable_type = parent.variable_type;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
                 var el1 = uncSpaceHelper.getElement("Start");
                 var el2 = uncSpaceHelper.getElement("End");
                 if (el1 != null) start = new Unc_Range_Start(el1, template, Variable_name);
                 if (el2 != null) end = new Unc_Range_End(el2, template, Variable_name);
-                constansts = new Unc_ConstantValues(datasource, template, functionName);
+                constants = new Unc_ConstantValues(datasource, template, functionName);
                 var rgsElement = uncSpaceHelper.getElement("Ranges");
                 ranges = (rgsElement != null) ? new Unc_Ranges(rgsElement, template, functionName) : new Unc_Ranges();
             }
@@ -2170,19 +2742,19 @@ namespace SOA_DataAccessLibrary
     {
         private List<Unc_Range> ranges = new List<Unc_Range>();
         private Unc_Template template = null;
-        private string variable_name = "";
-        private string variable_type = "";
+        private string _variable_name = "";
+        private string _variable_type = "";
        
-        public string Variable_name
+        public string variable_name
         {
-            get { return variable_name; }
-            set { variable_name = value; }
+            get { return _variable_name; }
+            set { _variable_name = value; }
         }
 
-        public string Variable_type
+        public string variable_type
         {
-            get { return variable_type; }
-            set { variable_type = value; }
+            get { return _variable_type; }
+            set { _variable_type = value; }
         }
 
         public Unc_Range this[int index]
@@ -2222,13 +2794,22 @@ namespace SOA_DataAccessLibrary
             return this;
         }
 
+        public void writeTo(XElement Parent)
+        {
+            var Ranges = new UncSpaceHelper(Parent).addChild("Ranges").addAttribute("variable_name", variable_name).addAttribute("variable_type", variable_type);
+            foreach (Unc_Range range in ranges)
+            {
+                range.writeTo(Ranges.Element);
+            }
+        }
+
         public Unc_Ranges() {} // Needed if parent has no Ranges element.  Return empty Unc_Ranges 
 
         public Unc_Ranges(Unc_Template Template, string FunctionName, String VariableName, String VariableType, IEnumerable<Unc_Range> Ranges)
         {
             this.template = Template;
-            this.variable_name = VariableName;
-            this.variable_type = VariableType;
+            this._variable_name = VariableName;
+            this._variable_type = VariableType;
             ranges.AddRange(Ranges);
         }
 
@@ -2236,8 +2817,8 @@ namespace SOA_DataAccessLibrary
         {
             this.template = template;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            variable_name = uncSpaceHelper.getAttribute("variable_name");
-            variable_type = uncSpaceHelper.getAttribute("variable_type");
+            _variable_name = uncSpaceHelper.getAttribute("variable_name");
+            _variable_type = uncSpaceHelper.getAttribute("variable_type");
             loadRanges(uncSpaceHelper, template, functionName);
         }
 
@@ -2259,27 +2840,33 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_RangeOverride
     {     
-        private string name = "";
+        private string _name = "";
         private Unc_Range_Start start = null;
         private Unc_Range_End end = null;
         private Unc_Template template = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            //set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public Unc_Range_Start Start
         {
             get { return start; }
-            //set { start = value; }
+            set { start = value; }
         }
 
         public Unc_Range_End End
         {
             get { return end; }
-            //set { end = value; }
+            set { end = value; }
+        }
+
+        public void writeTo(XElement Technique) {
+            var RangeOverride = new UncSpaceHelper(Technique).addChild("RangeOverride").addAttribute("name", name);
+            start.writeTo(RangeOverride.Element);
+            end.writeTo(RangeOverride.Element);
         }
 
         protected Unc_RangeOverride() { }
@@ -2288,11 +2875,11 @@ namespace SOA_DataAccessLibrary
         {
             this.template = template;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            name = uncSpaceHelper.getAttribute("name");
+            _name = uncSpaceHelper.getAttribute("name");
             var el1 = uncSpaceHelper.getElement("Start");
             var el2 = uncSpaceHelper.getElement("End");
-            if (el1 != null) start = new Unc_Range_Start(el1, template, name);
-            if (el2 != null) end = new Unc_Range_End(el2, template, name);
+            if (el1 != null) start = new Unc_Range_Start(el1, template, _name);
+            if (el2 != null) end = new Unc_Range_End(el2, template, _name);
         }
     }
 
@@ -2309,7 +2896,7 @@ namespace SOA_DataAccessLibrary
         public Unc_RangeOverride this[string name]
         {
             get { 
-                var set = rangeOverrides.Where(x => x.Name == name);
+                var set = rangeOverrides.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -2328,7 +2915,16 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_ParameterRangeOverrides() { }
+        public void writeTo(XElement Technique)
+        {
+            foreach (Unc_RangeOverride rangeOverride in rangeOverrides) {
+                rangeOverride.writeTo(Technique);
+            }
+        }
+        
+        public Unc_ParameterRangeOverrides(Unc_Template template) {
+            this.template = template;
+        }
 
         public Unc_ParameterRangeOverrides(XElement datasource, Unc_Template template)
         {
@@ -2360,7 +2956,7 @@ namespace SOA_DataAccessLibrary
         public Unc_RangeOverride this[string name]
         {
             get { 
-                var set = rangeOverrides.Where(x => x.Name == name);
+                var set = rangeOverrides.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -2380,7 +2976,16 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_ResultOverrides() { }
+        public void writeTo(XElement Technique) {
+            foreach (Unc_RangeOverride rangeOverride in rangeOverrides) {
+                rangeOverride.writeTo(Technique);
+            }
+        }
+
+        public Unc_ResultOverrides(Unc_Template template)
+        {
+            this.template = template;
+        }
 
         public Unc_ResultOverrides(XElement datasource, Unc_Template template)
         {
@@ -2402,48 +3007,64 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_TemplateTechnique
     {
-        private string name = "";
-        private Unc_ResultOverrides resultOverrides = null;
-        private Unc_ParameterRangeOverrides parameterOverrides = null;
+        private string _name = "";
+        private Unc_ResultOverrides resultRangeOverrides = null;
+        private Unc_ParameterRangeOverrides parameterRangeOverrides = null;
         private Unc_Template template = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
+            get { return _name; }
             //set { name = value; }
         }
 
-        public Unc_ResultOverrides ResultOverrides
+        public Unc_ResultOverrides ResultRangeOverrides
         {
-            get { return resultOverrides; }
+            get { return resultRangeOverrides; }
         }
  
-        public Unc_ParameterRangeOverrides ParameterOverrides
+        public Unc_ParameterRangeOverrides ParameterRangeOverrides
         {
-            get { return parameterOverrides; }
+            get { return parameterRangeOverrides; }
         }
 
-        private Unc_TemplateTechnique() { }
+        public void writeTo(XElement Template) {
+            var Technique = new UncSpaceHelper(Template).addChild("Technique").addAttribute("name", name);
+            if (resultRangeOverrides != null) {
+               resultRangeOverrides.writeTo(Technique.Element);
+            }
+            if (parameterRangeOverrides != null) {
+               parameterRangeOverrides.writeTo(Technique.Element);
+            }
+        }
+
+        public Unc_TemplateTechnique(Unc_Template template)
+        {
+            this.template = template;
+            _name = "";
+            resultRangeOverrides = new Unc_ResultOverrides(template);
+            parameterRangeOverrides = new Unc_ParameterRangeOverrides(template);
+        }
 
         public Unc_TemplateTechnique(XElement datasource, Unc_Template template)
         {
             this.template = template;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            name = uncSpaceHelper.getAttribute("name");
-            resultOverrides = new Unc_ResultOverrides(datasource, template);
-            parameterOverrides = new Unc_ParameterRangeOverrides(datasource, template);
+            _name = uncSpaceHelper.getAttribute("name");
+            resultRangeOverrides = new Unc_ResultOverrides(datasource, template);
+            parameterRangeOverrides = new Unc_ParameterRangeOverrides(datasource, template);
         }
     }
 
     public class Unc_InfluenceQuantity
     {
-        private string name = "";
+        private string _name = "";
         private Uom_Quantity quantity = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public Uom_Quantity Quantity
@@ -2452,17 +3073,22 @@ namespace SOA_DataAccessLibrary
             set { quantity = value; }
         }
 
+        public void writeTo(XElement Parent) {
+            var InfluenceQuantity = new UncSpaceHelper(Parent).addChild("InfluenceQuantity").addAttribute("name", name);
+            quantity.writeTo(InfluenceQuantity.Element);
+        }
+
         private Unc_InfluenceQuantity() { }
 
         public Unc_InfluenceQuantity(String Name, Uom_Quantity Quantity)
         {
-            this.name = Name;
+            this._name = Name;
             this.quantity = Quantity;
         }
 
         public Unc_InfluenceQuantity(XElement datasource)
         {
-            name = new UncSpaceHelper(datasource).getAttribute("name");
+            _name = new UncSpaceHelper(datasource).getAttribute("name");
             var el = new UomSpaceHelper(datasource).getElement("Quantity");
             if (el != null) quantity = new Uom_Quantity(el);
         }
@@ -2481,11 +3107,10 @@ namespace SOA_DataAccessLibrary
         public Unc_InfluenceQuantity this[string name]
         {
             get { 
-                var set = quantities.Where(x => x.Name == name);
+                var set = quantities.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First(): null; 
             }
         }
-
 
         public int Count()
         {
@@ -2534,9 +3159,15 @@ namespace SOA_DataAccessLibrary
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        } 
-        
-        private Unc_InfluenceQuantities() { }
+        }
+
+        public void writeTo(XElement Template) {
+            foreach (Unc_InfluenceQuantity quantity in quantities) {
+                quantity.writeTo(Template);
+            }
+        }
+
+        public Unc_InfluenceQuantities() { }
 
         public Unc_InfluenceQuantities(IEnumerable<Unc_InfluenceQuantity> Quantities)
         {
@@ -2551,8 +3182,15 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Assertion
     {
+        private string _type;
         private string name = "";
         private string value = "";
+
+        public string type
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
 
         public string Name
         {
@@ -2566,14 +3204,21 @@ namespace SOA_DataAccessLibrary
             set { this.value = value; }
         }
 
-        private void loadName(XElement datasource)
+        private void loadName(XElement Assertion)
         {
-            if (datasource != null) name = datasource.Value;
+            if (Assertion != null) name = Assertion.Value;
         }
 
-        private void loadValue(XElement datasource)
+        private void loadValue(XElement Assertion)
         {
-            if (datasource != null) value = datasource.Value;
+            if (Assertion != null) value = Assertion.Value;
+        }
+
+        public void writeTo(XElement Case)
+        {
+            var Assertion = new UncSpaceHelper(Case).addChild("Assertion").addAttribute("type", type);
+            Assertion.addChild("Name").Value = Name;
+            Assertion.addChild("Value").Value = Value;
         }
 
         private Unc_Assertion() {}
@@ -2584,11 +3229,12 @@ namespace SOA_DataAccessLibrary
             this.Value = Value;
         }
 
-        public Unc_Assertion(XElement datasource)
+        public Unc_Assertion(XElement Assertion)
         {
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            var el1 = uncSpaceHelper.getElement("Name");
-            var el2 = uncSpaceHelper.getElement("Value");
+            UncSpaceHelper AssertionHelper = new UncSpaceHelper(Assertion);
+            _type = AssertionHelper.getAttribute("type");
+            var el1 = AssertionHelper.getElement("Name");
+            var el2 = AssertionHelper.getElement("Value");
             if (el1 != null) loadName(el1);
             if (el2 != null) loadValue(el2);
         }
@@ -2648,6 +3294,14 @@ namespace SOA_DataAccessLibrary
             return GetEnumerator();
         }
 
+        public void writeTo(XElement Case)
+        {
+            foreach (Unc_Assertion assertion in assertions)
+            {
+                assertion.writeTo(Case);
+            }
+        }
+
         private Unc_Assertions() {}
 
         public Unc_Assertions(IEnumerable<Unc_Assertion> Assertions) {
@@ -2675,6 +3329,13 @@ namespace SOA_DataAccessLibrary
         public Unc_Ranges Ranges
         {
             get { return ranges; }
+        }
+
+        public void writeTo(XElement Switch)
+        {
+            var Case = new UncSpaceHelper(Switch).addChild("Case");
+            assertions.writeTo(Case.Element);
+            ranges.writeTo(Case.Element);
         }
 
         private Unc_Case() {}
@@ -2753,6 +3414,20 @@ namespace SOA_DataAccessLibrary
             return GetEnumerator();
         }
 
+        public void writeTo(XElement CMCFunction)
+        {
+            var Function = new XmlNameSpaceElement(CMCFunction);
+            if ((cases.Count == 1) && (cases[0].Assertions.Count() == 0)) {
+                cases[0].Ranges.writeTo(CMCFunction);
+            } else if (cases.Count > 1) {
+                var Switch = new UncSpaceHelper(CMCFunction).addChild("Switch");
+                foreach (Unc_Case _case in cases)
+                {
+                    _case.writeTo(Switch.Element);
+                }
+            }
+        }
+
         private Unc_Cases() {}
 
         public Unc_Cases Add(Unc_Case Case)
@@ -2766,6 +3441,8 @@ namespace SOA_DataAccessLibrary
             if (cases.Contains(Case)) cases.Remove(Case);
             return this;
         }
+
+
 
         public Unc_Cases(Unc_Template Template, IEnumerable<Unc_Case> Cases)
         {
@@ -2793,14 +3470,14 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_CMCFunction
     {
-        private string name = "";
+        private string _name = "";
         private Unc_Cases cases = null;
         private Unc_Template template = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public Unc_Cases Cases
@@ -2860,13 +3537,18 @@ namespace SOA_DataAccessLibrary
             return Cases.SelectMany(x => x.Assertions.Where(y => y.Name == assertionName).Select(z => z.Value)).Distinct().ToList();
         }
 
+        public void writeTo(XElement Template) {
+            var CMCFunction = new UncSpaceHelper(Template).addChild("CMCFunction").addAttribute("name", name);
+            Cases.writeTo(CMCFunction.Element);
+        }
+
         private Unc_CMCFunction() { }
 
         public Unc_CMCFunction(Unc_Template Template, Unc_Cases Cases, String Name)
         {
             this.template = Template;
             this.cases = Cases;
-            this.name = Name;
+            this._name = Name;
         }
 
         public Unc_CMCFunction(XElement datasource, Unc_Template template)
@@ -2875,8 +3557,8 @@ namespace SOA_DataAccessLibrary
             {
                 this.template = template;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-                name = uncSpaceHelper.getAttribute("name");
-                cases = new Unc_Cases(datasource, template, name);
+                _name = uncSpaceHelper.getAttribute("name");
+                cases = new Unc_Cases(datasource, template, _name);
             }
             catch (Exception e)
             {
@@ -2899,7 +3581,7 @@ namespace SOA_DataAccessLibrary
         public Unc_CMCFunction this[string name]
         {
             get { 
-                var set = functions.Where(x => x.Name == name);
+                var set = functions.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -2942,12 +3624,22 @@ namespace SOA_DataAccessLibrary
             return GetEnumerator();
         }
 
-        private Unc_CMCFunctions() { }
 
-        public Unc_CMCFunctions(Unc_Template Template, IEnumerable<Unc_CMCFunction> Functions)
+        public void writeTo(XElement Template) {
+            foreach (Unc_CMCFunction function in functions ) {
+                function.writeTo(Template);
+            }
+        }
+
+        public Unc_CMCFunctions(Unc_Template template)
         {
-            this.template = Template;
-            this.functions.AddRange(Functions);
+            this.template = template;
+        }
+
+        public Unc_CMCFunctions(Unc_Template template, IEnumerable<Unc_CMCFunction> functions)
+        {
+            this.template = template;
+            this.functions.AddRange(functions);
         }
 
         public Unc_CMCFunctions(XElement datasource, Unc_Template template)
@@ -3072,6 +3764,27 @@ namespace SOA_DataAccessLibrary
             return (mtcTechnique != null) ? mtcTechnique.getQuantity(parameterName) : null;
         }
 
+        public void writeTo(XElement CMC) {
+            var Template = new UncSpaceHelper(CMC).addChild("Template");
+            if (influenceQuantities.Count() == 1) {
+                influenceQuantities[0].writeTo(Template.Element);
+            } else if (influenceQuantities.Count() > 1) {
+                influenceQuantities.writeTo(Template.Element);
+            }
+            templateTechnique.writeTo(Template.Element);
+            cmcFunctions.writeTo(Template.Element);
+        }
+
+        public Unc_Template(Unc_CMCs cMCs)
+        {
+            this.cMCs = cMCs;
+            influenceQuantities = new Unc_InfluenceQuantities();
+            templateTechnique = new Unc_TemplateTechnique(this);
+            mtcTechnique = null;
+            mtcProcessType = null;
+            cmcFunctions = new Unc_CMCFunctions(this);
+        }
+
         public Unc_Template(XElement datasource, Unc_CMCs cMCs)
         {
             try
@@ -3083,7 +3796,7 @@ namespace SOA_DataAccessLibrary
                 if (el != null) templateTechnique = new Unc_TemplateTechnique(el, this);
                 if (templateTechnique != null)
                 {
-                    Unc_Technique uncTech = cMCs.Technique[templateTechnique.Name];
+                    Unc_Technique uncTech = cMCs.Technique[templateTechnique.name];
                     mtcTechnique = (uncTech != null) ? uncTech.Technique : null;
                     mtcProcessType = (mtcTechnique != null) ? mtcTechnique.ProcessType : null;
                 }
@@ -3122,7 +3835,17 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_Templates() { }
+        public void writeTo(XElement CMC) {
+            foreach (Unc_Template template in templates) {
+                template.writeTo(CMC);
+            }
+        }
+
+        public Unc_Templates(Unc_CMCs cMCs)
+        {
+            this.cMCs = cMCs;
+            templates.Add(new Unc_Template(cMCs));
+        }
 
         public Unc_Templates(XElement datasource, Unc_CMCs cMCs)
         {
@@ -3143,19 +3866,44 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_CmcCategory
     {
-        private string name = "";
+        private string _name = "";
+        private Unc_CmcCategory subcategory = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            //set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
-        private Unc_CmcCategory() { }
+        public Unc_CmcCategory SubCategory
+        {
+            get { return subcategory; }
+            set { subcategory = value; }
+        }
+
+        public void writeTo(XElement Parent)
+        {
+            var Category = new UncSpaceHelper(Parent).addChild("Category").addAttribute("name", name);
+            if (subcategory != null)
+            {
+                subcategory.writeTo(Category.Element);
+            }
+        }
+
+        public Unc_CmcCategory() {
+            _name = "";
+            subcategory = null;
+        }
 
         public Unc_CmcCategory(XElement datasource)
         {
-            name = new UncSpaceHelper(datasource).getAttribute("name");
+            var Category = new UncSpaceHelper(datasource);
+            _name = Category.getAttribute("name");
+            var SubCategory = Category.getNameSpaceHelper("Category");
+            if (SubCategory != null)
+            {
+                subcategory = new Unc_CmcCategory(SubCategory.getElement());
+            }
         }
     }
 
@@ -3182,7 +3930,24 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_DUT() { }
+        public void writeTo(XElement CMC)
+        {
+            var DUT = new UncSpaceHelper(CMC).addChild("DUT");
+            if (deviceTypes.Count == 1)
+            {
+                DUT.addChild("DeviceType").Value = deviceTypes[0];
+            }
+            else if (deviceTypes.Count > 1)
+            {
+                var DeviceTypes = DUT.addChild("DeviceTypes");
+                foreach (string value in deviceTypes)
+                {
+                    DeviceTypes.addChild("DeviceType").Value = value;
+                }
+            }
+        }
+
+        public Unc_DUT() { }
 
         public Unc_DUT(XElement datasource)
         {
@@ -3216,7 +3981,21 @@ namespace SOA_DataAccessLibrary
             //set { template = value; }
         }
 
-        private Unc_CMC() {}
+        public void writeTo(XElement CMCs)
+        {
+            var CMC = new UncSpaceHelper(CMCs).addChild("CMC");
+            category.writeTo(CMC.Element);
+            dut.writeTo(CMC.Element);
+            templates.writeTo(CMC.Element);
+        }
+
+        public Unc_CMC(Unc_CMCs cMCs)
+        {
+            this.cMCs = cMCs;
+            this.category = new Unc_CmcCategory();
+            this.dut = new Unc_DUT();
+            this.templates = new Unc_Templates(cMCs);
+        }
 
         public Unc_CMC(XElement datasource, Unc_CMCs cMCs)
         {
@@ -3263,7 +4042,19 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_CMCList() { }
+        public void writeTo(XElement CMCs)
+        {
+            foreach (Unc_CMC CMC in cmcList)
+            {
+                CMC.writeTo(CMCs);
+            }
+        }
+
+        public Unc_CMCList(Unc_CMCs cMCs)
+        {
+            this.cMCs = cMCs;
+            cmcList.Add(new Unc_CMC(cMCs));
+        }
 
         public Unc_CMCList(XElement datasource, Unc_CMCs cMCs)
         {
@@ -3284,42 +4075,83 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Technique
     {
-        private string name = "";
+        private string _name = "";
+        private string _process = "";
+        private Uri uri = null;
         private Mtc_Technique technique = null;
         private Unc_CMCs cMCs = null;
 
-        public string Name
+        public string Uri
         {
-            get { return name; }
-            //set { technique_id = value; }
+            get { return uri.AbsoluteUri; }
+            set { uri = new Uri(value); }
+        }
+
+        public string name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public string process
+        {
+            get { return _process; }
+            set { _process = value; }
         }
 
         public Mtc_Technique Technique
         {
             get { return technique; }
-            //set { technique = value; }
+            set { technique = value; }
         }
 
-        private Unc_Technique() { }
 
-        public Unc_Technique(XElement datasource, Unc_CMCs cMCs)
+        public void writeTo(XElement CMCs)
+        {
+            var Technique = new UncSpaceHelper(CMCs).addChild("Technique").addAttribute("name", name).addAttribute("process", process);
+            if (uri != null)
+            {
+                Technique.addChild("ExternalDefinition").addAttribute("uri", Uri);
+            }
+            else if (technique != null)
+            {
+                technique.writeTo(Technique.Element);
+            }
+        }
+
+        public Unc_Technique(Unc_CMCs cMCs) {
+            this.cMCs = cMCs;
+            name = "";
+            process = "";
+            uri = null;
+            technique = new Mtc_Technique(this, cMCs);
+        }
+
+        public Unc_Technique(XElement Technique, Unc_CMCs cMCs)
         {
             try
             {
                 this.cMCs = cMCs;
-                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-                name = uncSpaceHelper.getAttribute("name");
-                var external = uncSpaceHelper.getElement("ExternalDefintion");
-                if (external != null)
+                UncSpaceHelper TechniqueHelper = new UncSpaceHelper(Technique);
+                name = TechniqueHelper.getAttribute("name");
+                process = TechniqueHelper.getAttribute("process");
+                var ExternalDefintionHelper = TechniqueHelper.getNameSpaceHelper("ExternalDefintion");
+                if (ExternalDefintionHelper != null)
                 {
-                    /// TODO instantiate technique using external definition
+                    string link = ExternalDefintionHelper.getAttribute("uri");
+                    if (link != "") uri = new Uri(link);
+                    XMLDataSource externaldefinition = new XMLDataSource();
+                    OpResult result = externaldefinition.load(uri);
+                    if (!result.Success) throw new Exception(result.Error);
+                    var ExternalTechniqueHelper = new MtcSpaceHelper(externaldefinition.Doc.Root);
+                    technique = new Mtc_Technique(ExternalTechniqueHelper.getElement(), this, cMCs);
                 }
                 else
                 {
-                    var local = new MtcSpaceHelper(datasource).getElement("Technique");
-                    if (local != null)
+                    var localTechnique = new MtcSpaceHelper(Technique).getElement("Technique");
+                    if (localTechnique != null)
                     {
-                        technique = new Mtc_Technique(local, cMCs);
+                        technique = new Mtc_Technique(localTechnique, this, cMCs);
                     }
                 }
             }
@@ -3343,7 +4175,7 @@ namespace SOA_DataAccessLibrary
         public Unc_Technique this[string name]
         {
             get { 
-                var set = techniques.Where(x => x.Name == name);
+                var set = techniques.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
         }
@@ -3363,7 +4195,17 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_Techniques() { }
+
+        public void writeTo(XElement CMCs) {
+            foreach (Unc_Technique technique in techniques) {
+               technique.writeTo(CMCs);
+            }
+        }
+
+        public Unc_Techniques(Unc_CMCs cMCs) {
+            this.cMCs = cMCs;
+            techniques.Add(new Unc_Technique(cMCs));
+        }
 
         public Unc_Techniques(XElement datasource, Unc_CMCs cMCs)
         {
@@ -3384,38 +4226,67 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_ProcessType
     {
-        private string name = "";
+        private string _name = "";
+        private Uri uri = null;
         private Mtc_ProcessType processType = null;
 
-        public string Name
+        public string name
         {
-            get { return name; }
-            //set { name = value; }
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public string Uri
+        {
+            get { return uri.AbsoluteUri; }
+            set { uri = new Uri(value); }
         }
 
         public Mtc_ProcessType ProcessType
         {
             get { return processType; }
-            //set { processType = value; }
+            set { processType = value; }
         }
 
-        private Unc_ProcessType() { }
+        public void writeTo(XElement CMCs)
+        {
+            SoaSpaceHelper CMCsHelper = new SoaSpaceHelper(CMCs);
+            var ProcessType = CMCsHelper.addChild("ProcessType").addAttribute("name", name);
+            if (uri != null)
+            {
+                ProcessType.addChild("ExternalDefinition").addAttribute("uri", Uri);
+            }
+            else if (processType != null)
+            {
+                processType.writeTo(ProcessType.Element);
+            }
+        }
+
+        public Unc_ProcessType() {
+            ProcessType = new Mtc_ProcessType(this); 
+        }
 
         public Unc_ProcessType(XElement datasource)
         {
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            name = uncSpaceHelper.getAttribute("name");
-            var external = uncSpaceHelper.getElement("ExternalDefintion");
-            if (external != null)
-            {
-                /// TODO instantiate processType using external definition
+            UncSpaceHelper ProcessTypeHelper = new UncSpaceHelper(datasource);
+            _name = ProcessTypeHelper.getAttribute("name");
+            var ExternalDefintionHelper = ProcessTypeHelper.getNameSpaceHelper("ExternalDefintion");
+            if (ExternalDefintionHelper != null)
+            { 
+                string link = ExternalDefintionHelper.getAttribute("uri");
+                if (link != "") uri = new Uri(link);
+                XMLDataSource externaldefinition = new XMLDataSource();
+                OpResult result = externaldefinition.load(uri);
+                if (!result.Success) throw new Exception(result.Error);
+                var ExternalHelper = new MtcSpaceHelper(externaldefinition.Doc.Root); 
+                processType = new Mtc_ProcessType(this, ExternalHelper.getElement());
             }
             else
             {
                 var local = new MtcSpaceHelper(datasource).getElement("ProcessType");
                 if (local != null)
                 {
-                    processType = new Mtc_ProcessType(local);
+                    processType = new Mtc_ProcessType(this, local);
                 }
             }
         }
@@ -3435,7 +4306,7 @@ namespace SOA_DataAccessLibrary
         public Unc_ProcessType this[string name]
         {
             get { 
-                var matches = processTypes.Where(x => (string) x.Name == name);
+                var matches = processTypes.Where(x => (string) x.name == name);
                 return (matches.Count() > 0) ? matches.First() : null;
             }
         }
@@ -3455,7 +4326,16 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_ProcessTypes() {}
+        public void writeTo(XElement CMCs) {
+            foreach (Unc_ProcessType ProcessType in processTypes)
+            {
+                ProcessType.writeTo(CMCs);
+            }
+        }
+
+        public Unc_ProcessTypes() {
+           processTypes.Add(new Unc_ProcessType());
+        }
 
         public Unc_ProcessTypes(XElement datasource)
         {
@@ -3495,7 +4375,20 @@ namespace SOA_DataAccessLibrary
             get { return cmcs; }
         }
 
-        private Unc_CMCs() { }
+        public void writeTo(XElement Activity)
+        {
+            SoaSpaceHelper AcitivityHelper = new SoaSpaceHelper(Activity);
+            var CMCs = AcitivityHelper.addChild("CMCs");
+            processTypes.writeTo(CMCs.Element);
+            techniques.writeTo(CMCs.Element);
+            cmcs.writeTo(CMCs.Element);
+        }
+
+        public Unc_CMCs(Soa_Activity activity) {
+            processTypes = new Unc_ProcessTypes();
+            techniques = new Unc_Techniques(this);
+            cmcs = new Unc_CMCList(this);       
+        }
 
         public Unc_CMCs(XElement datasource, Soa_Activity activity)
         {
@@ -3539,7 +4432,15 @@ namespace SOA_DataAccessLibrary
             get { return cMCs.CMC.Select(x => x.Templates).SelectMany(y => y).ToList().AsReadOnly(); }
         }
 
-        private Soa_Activity() { }
+        public void writeTo(XElement Actitivities) {
+            SoaSpaceHelper ActitivitiesHelper = new SoaSpaceHelper(Actitivities);
+            var Activity = ActitivitiesHelper.addChild("Activity");
+            cMCs.writeTo(Activity.Element);
+        }
+
+        public Soa_Activity() {
+            cMCs = new Unc_CMCs(this);
+        }
 
         public Soa_Activity(XElement datasource)
         {
@@ -3575,7 +4476,18 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Soa_Activities() { }
+        public void writeTo(XElement CapabilityScope)
+        {
+            SoaSpaceHelper CapabilityScopeHelper = new SoaSpaceHelper(CapabilityScope);
+            var Activities = CapabilityScopeHelper.addChild("Activities");
+            foreach (Soa_Activity activity in activities) {
+                activity.writeTo(Activities.Element);
+            }
+        }
+
+        public Soa_Activities() {
+            activities.Add(new Soa_Activity());
+        }
 
         public Soa_Activities(XElement datasource)
         {
@@ -3593,38 +4505,200 @@ namespace SOA_DataAccessLibrary
         }
     }
 
-    public class Soa_CapabilityScope_Location_ContactInfo
+    public class Soa_ContactInfo_PhoneNumbers : IEnumerable<string>
     {
-        private string phoneNumber = "";
-        private string email = "";
-        private string url = "";
+        private HashSet<string> phoneNumbers = new HashSet<string>();
 
-        public string PhoneNumber
+        public IEnumerable<string> PhoneNumbers
         {
-            get { return phoneNumber; }
-            //set { phoneNumber = value; }
+            get { return phoneNumbers; }
         }
 
-        public string Email
+        public void addPhoneNumber(string number)
         {
-            get { return email; }
-            //set { email = value; }
+            phoneNumbers.Add(number);
         }
 
-        public string Url
+        public void removePhoneNumber(string number)
         {
-            get { return url; }
-            //set { url = value; }
+            phoneNumbers.Remove(number);
         }
 
-        private Soa_CapabilityScope_Location_ContactInfo() { }
-
-        public Soa_CapabilityScope_Location_ContactInfo(XElement datasource)
+        public int Count()
         {
-            SoaSpaceHelper soaSpaceHelper = new SoaSpaceHelper(datasource);
-            phoneNumber = soaSpaceHelper.getValue("PhoneNumber");
-            email = soaSpaceHelper.getValue("email");
-            url = soaSpaceHelper.getValue("URL");
+            return phoneNumbers.Count();
+        }
+
+        public void writeTo(XElement ContactInfo)
+        {
+           SoaSpaceHelper ContactInfoHelper = new SoaSpaceHelper(ContactInfo);
+           foreach (string number in phoneNumbers) {
+               ContactInfoHelper.addChild("PhoneNumber").Value = number;
+           }
+        }
+
+        public Soa_ContactInfo_PhoneNumbers() { }
+
+        public Soa_ContactInfo_PhoneNumbers(XElement ContactInfo)
+        {
+            var PhoneNumbers = new SoaSpaceHelper(ContactInfo).getElements("PhoneNumber");
+            foreach (XElement PhoneNumber in PhoneNumbers)
+            {
+                phoneNumbers.Add(PhoneNumber.Value);
+            }
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return phoneNumbers.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class Soa_ContactInfo_EmailAccounts : IEnumerable<string>
+    {
+        private HashSet<string> emailAccounts = new HashSet<string>();
+
+        public void addEmail(string email)
+        {
+            emailAccounts.Add(email);
+        }
+
+        public void removeEmail(string email)
+        {
+            emailAccounts.Remove(email);
+        }
+
+        public int Count()
+        {
+            return emailAccounts.Count();
+        }
+
+        public void writeTo(XElement ContactInfo)
+        {
+           SoaSpaceHelper ContactInfoHelper = new SoaSpaceHelper(ContactInfo);
+           foreach (string email in emailAccounts)
+           {
+               ContactInfoHelper.addChild("email").Value = email;
+           }
+        }
+
+        public Soa_ContactInfo_EmailAccounts() { }
+
+        public Soa_ContactInfo_EmailAccounts(XElement ContactInfo)
+        {
+            var EmailAccounts = new SoaSpaceHelper(ContactInfo).getElements("email");
+            foreach (XElement email in EmailAccounts)
+            {
+                emailAccounts.Add(email.Value);
+            }
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return emailAccounts.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class Soa_ContactInfo_Urls : IEnumerable<string>
+    {
+        private HashSet<string> urls = new HashSet<string>();
+
+        public void addUrl(string url)
+        {
+            urls.Add(url);
+        }
+
+        public void removeUrl(string url)
+        {
+            urls.Remove(url);
+        }
+
+        public int Count()
+        {
+            return urls.Count();
+        }
+
+        public void writeTo(XElement ContactInfo)
+        {
+           SoaSpaceHelper ContactInfoHelper = new SoaSpaceHelper(ContactInfo);
+           foreach (string url in urls) {
+               ContactInfoHelper.addChild("URL").Value = url;
+           }
+        }
+
+        public Soa_ContactInfo_Urls() { }
+
+        public Soa_ContactInfo_Urls(XElement ContactInfo)
+        {
+            var URLs = new SoaSpaceHelper(ContactInfo).getElements("URL");
+            foreach (XElement URL in URLs)
+            {
+                urls.Add(URL.Value);
+            }
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return urls.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+
+    public class Soa_ContactInfo
+    {
+        private Soa_ContactInfo_PhoneNumbers phoneNumbers = null;
+        private Soa_ContactInfo_EmailAccounts emailAccounts = null;
+        private Soa_ContactInfo_Urls urls = null;
+
+        public Soa_ContactInfo_PhoneNumbers PhoneNumbers
+        {
+            get { return phoneNumbers; }
+        }
+
+        public Soa_ContactInfo_EmailAccounts EmailAccounts
+        {
+            get { return emailAccounts; }
+        }
+
+        public Soa_ContactInfo_Urls Urls
+        {
+            get { return urls; }
+        }
+
+        public void writeTo(XElement Location)
+        {
+            var ContactInfo = new SoaSpaceHelper(Location).addChild("ContactInfo");
+            phoneNumbers.writeTo(ContactInfo.Element);
+            emailAccounts.writeTo(ContactInfo.Element);
+            urls.writeTo(ContactInfo.Element);
+        }
+
+        public Soa_ContactInfo() {
+            phoneNumbers = new Soa_ContactInfo_PhoneNumbers();
+            emailAccounts = new Soa_ContactInfo_EmailAccounts();
+            urls = new Soa_ContactInfo_Urls();       
+        }
+
+        public Soa_ContactInfo(XElement ContactInfo)
+        {
+            phoneNumbers = new Soa_ContactInfo_PhoneNumbers(ContactInfo);
+            emailAccounts = new Soa_ContactInfo_EmailAccounts(ContactInfo);
+            urls = new Soa_ContactInfo_Urls(ContactInfo);
         }
 
     }
@@ -3661,7 +4735,21 @@ namespace SOA_DataAccessLibrary
             //set { zip = value; }
         }
 
-        private Soa_CapabilityScope_Location_OrganizationAddress() { }
+        public void writeTo(XElement Location)
+        {
+            var OrganizationAddress = new SoaSpaceHelper(Location).addChild("OrganizationAddress");
+            OrganizationAddress.addChild("Street").Value = Street;
+            OrganizationAddress.addChild("City").Value = City;
+            OrganizationAddress.addChild("State").Value = State;
+            OrganizationAddress.addChild("Zip").Value = Zip;
+        }
+
+        public Soa_CapabilityScope_Location_OrganizationAddress() {
+            street = "";
+            city = "";
+            state = "";
+            zip = "";
+        }
 
         public Soa_CapabilityScope_Location_OrganizationAddress(XElement datasource) 
         {
@@ -3677,27 +4765,48 @@ namespace SOA_DataAccessLibrary
     {
         private Soa_CapabilityScope_Location_OrganizationAddress organizationAddress = null;
         private string contactName = "";
-        private Soa_CapabilityScope_Location_ContactInfo contactInfo = null;
+        private string _id = "";
+        private Soa_ContactInfo contactInfo = null;
 
-        public Soa_CapabilityScope_Location_OrganizationAddress OrganizationAddress
+        public Soa_CapabilityScope_Location_OrganizationAddress Address
         {
             get { return organizationAddress; }
-            //set { organizationAddress = value; }
+            set { organizationAddress = value; }
+        }
+
+        public string id
+        {
+            get { return _id; }
+            set { _id = value; }
         }
 
         public string ContactName
         {
             get { return contactName; }
-            //set { contactName = value; }
+            set { contactName = value; }
         }
 
-        public Soa_CapabilityScope_Location_ContactInfo ContactInfo
+
+        public Soa_ContactInfo ContactInfo
         {
             get { return contactInfo; }
-           // set { contactInfo = value; }
+            set { contactInfo = value; }
         }
 
-        private Soa_CapabilityScope_Location() { }
+        public void writeTo(XElement Locations)
+        {
+            var Location = new SoaSpaceHelper(Locations).addChild("Location").addAttribute("id", id);
+            organizationAddress.writeTo(Location.Element);
+            Location.addChild("ContactName").Value = ContactName;
+            contactInfo.writeTo(Location.Element);
+        }
+
+
+        public Soa_CapabilityScope_Location() {
+            organizationAddress = new Soa_CapabilityScope_Location_OrganizationAddress();
+            contactName = "";
+            contactInfo = new Soa_ContactInfo();  
+        }
 
         public Soa_CapabilityScope_Location(XElement datasource) 
         {
@@ -3706,7 +4815,7 @@ namespace SOA_DataAccessLibrary
             var el2 = soaSpaceHelper.getElement("ContactInfo");
             if (el1 != null) organizationAddress = new Soa_CapabilityScope_Location_OrganizationAddress(el1);
             contactName = soaSpaceHelper.getValue("ContactName");
-            if (el2 != null) contactInfo = new Soa_CapabilityScope_Location_ContactInfo(el2);
+            if (el2 != null) contactInfo = new Soa_ContactInfo(el2);
         }
     }
 
@@ -3735,7 +4844,18 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Soa_CapabilityScope_Locations() { }
+        public void writeTo(XElement CapabilityScope)
+        {
+            var Locations = new SoaSpaceHelper(CapabilityScope).addChild("Locations");
+            foreach (Soa_CapabilityScope_Location location in locations)
+            {
+                location.writeTo(Locations.Element);
+            }
+        }
+
+        public Soa_CapabilityScope_Locations() {
+            locations.Add(new Soa_CapabilityScope_Location());
+        }
 
         public Soa_CapabilityScope_Locations(XElement datasource) 
         {
@@ -3797,8 +4917,27 @@ namespace SOA_DataAccessLibrary
             get { return localLanguage; }
             //set { localLanguage = value; }
         }
+        public void writeTo(XElement root)
+        {
+            SoaSpaceHelper rootHelper = new SoaSpaceHelper(root);
+            var CapabilityScope = rootHelper.addChild("CapabilityScope");
+            CapabilityScope.addChild("MeasuringEntity");
+            locations.writeTo(CapabilityScope.Element);
+            activities.writeTo(CapabilityScope.Element);
+            XiSpaceHelper uomHelper = new XiSpaceHelper(CapabilityScope.Element);
+            uomHelper.addChild("include").Element.Add(new XAttribute("href", Configuration.UomDatabaseURL));
+            CapabilityScope.addChild("ScopeNotes");
+            CapabilityScope.addChild("Version");
+            CapabilityScope.addChild("LocaleLanguage");
+        }
 
-        private Soa_CapabilityScope() { }
+        public Soa_CapabilityScope() {
+            locations = new Soa_CapabilityScope_Locations();
+            activities = new Soa_Activities();
+            scopeNotes = "";
+            version = "";
+            localLanguage = "";       
+        }
 
         public Soa_CapabilityScope(XElement datasource)
         {
@@ -3831,7 +4970,10 @@ namespace SOA_DataAccessLibrary
             set { url = value; }
         }
 
-        private Soa_ScopeUrl() { }
+        public Soa_ScopeUrl() {
+            ScopeType = "";
+            Url = "";
+        }
 
         public Soa_ScopeUrl(XElement datasource) 
         {
@@ -3865,7 +5007,14 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Soa_ScopeUrls() { }
+        public void writeTo(XElement root) {
+            SoaSpaceHelper rootHelper = new SoaSpaceHelper(root);
+            rootHelper.addChild("ScopeURLs").addChild("ScopeURL").addAttributes("ScopeType","CheckSum","URL");
+        } 
+
+        public Soa_ScopeUrls() {
+            scopeUrls.Add(new Soa_ScopeUrl());
+        }
 
         public Soa_ScopeUrls(XElement datasource) 
         {
@@ -3986,7 +5135,38 @@ namespace SOA_DataAccessLibrary
             return (element != null) ? element.Value : "";
         }
 
-        private Soa() { }
+        public void writeTo(XDocument doc) {
+            if (doc.Root != null) doc = new XDocument();
+            doc.Declaration = new XDeclaration("1.0", "UTF-8", "no");
+            SoaSpaceHelper docHelper = new SoaSpaceHelper(doc);
+            var root = docHelper.addChild("SOADataMaster");
+            root.Element.Add(Configuration.NameSpaces.NameSpaceDeclarations);
+            root.addChild("AB_ID");
+            root.addChild("AB_Logo-Signature");
+            root.addChild("Scope_ID_Number");
+            if (scopeUrls != null) scopeUrls.writeTo(root.Element);
+            root.addChild("Criteria");
+            root.addChild("EffectiveDate");
+            root.addChild("ExpirationDate");
+            root.addChild("Statement");
+            if (capabilityScope != null) capabilityScope.writeTo(root.Element);
+            root.addChild("HumanReadableDocument");
+            root.addChild("VisualAidsScript");
+        }
+
+        public Soa() {
+            ab_ID = "";
+            ab_Logo_Signature = "";
+            scope_ID_Number = "";
+            scopeUrls = new Soa_ScopeUrls();
+            criteria = "";
+            effectiveDate = "";
+            expirationDate = "";
+            statement = "";
+            capabilityScope = new Soa_CapabilityScope();
+            humanReadableDocument = "";
+            visualAidsScript = "";              
+        }
 
         public Soa(XDocument datasource)
         {

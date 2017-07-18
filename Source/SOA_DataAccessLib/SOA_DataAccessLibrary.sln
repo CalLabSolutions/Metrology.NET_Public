@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		UomConverter.cs = UomConverter.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{3446D2BE-6B58-49D5-9445-E174BC7DF7B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{903E070B-3662-4092-BFEC-18BAEBD710E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{903E070B-3662-4092-BFEC-18BAEBD710E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{903E070B-3662-4092-BFEC-18BAEBD710E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3446D2BE-6B58-49D5-9445-E174BC7DF7B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3446D2BE-6B58-49D5-9445-E174BC7DF7B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3446D2BE-6B58-49D5-9445-E174BC7DF7B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3446D2BE-6B58-49D5-9445-E174BC7DF7B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

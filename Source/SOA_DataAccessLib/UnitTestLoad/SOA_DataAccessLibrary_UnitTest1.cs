@@ -53,9 +53,9 @@ namespace SOA_DataAccessLibrary_UnitTest1
             var result_range = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0];
             var result_start = result_range.Start;
             var result_end = result_range.End;
-            Assert.AreEqual<string>("at", result_start.Test, "Failed Result Start Type");
+            Assert.AreEqual<string>("at", result_start.test, "Failed Result Start Type");
             Assert.AreEqual<double>(0.0, (double)result_start.BaseValue, "Failed Result Start Value");
-            Assert.AreEqual<string>("at", result_end.Test, "Failed Result End Type");
+            Assert.AreEqual<string>("at", result_end.test, "Failed Result End Type");
             Assert.AreEqual<double>(110, (double)result_end.BaseValue, "Failed Result End Value");
 
             // A template is the primary structure that holds the atomic CMC informational elements in an SOA.
@@ -63,7 +63,7 @@ namespace SOA_DataAccessLibrary_UnitTest1
             var template = SampleSOA.CapabilityScope.Activities[0].CMCs[0].Templates[0];
 
             // a CMC Function Name provides a linkage between the template a CMC Uncertainty Function contained in a Technique
-            string functionName = template.CMCUncertaintyFunctions[0].Name;
+            string functionName = template.CMCUncertaintyFunctions[0].name;
             Assert.AreEqual<string>("Measure.Voltage.AC.LowVoltage.Uncertainty.Certified", functionName, "Failed CMCFunction Name");
 
             // A CMC Uncertainty Function is used to calculate a CMC uncertainty value at the value of a specific test point.
@@ -124,7 +124,7 @@ namespace SOA_DataAccessLibrary_UnitTest1
             Assert.AreEqual<string>("k_nominal", constantValue1.const_parameter_name, "Failed ConstantValue Const_parameter_name");
             Assert.AreEqual<string>("0.0001", constantValue1.ValueString, "Failed Get ConstantValue Value");
             Assert.AreEqual<string>("ratio", constantValue1.Quantity, "Failed Get ConstantValue Quantity");
-            Assert.AreEqual<string>("percent", constantValue1.Uom_alternative, "Failed Get ConstantValue UOM Alternative");
+            Assert.AreEqual<string>("percent", constantValue1.uom_alternative, "Failed Get ConstantValue UOM Alternative");
 
             // All numeric uses of values are performed in the base Unit Of Measurement for the value's measurement quantity
             // A values's BaseValue property contains this numeric value of a Value in its base Unit Of Measurement. 
@@ -151,7 +151,7 @@ namespace SOA_DataAccessLibrary_UnitTest1
             // test setters 
             
             // Value
-            constantValue1.Uom_alternative = "percent";
+            constantValue1.uom_alternative = "percent";
             constantValue1.symbol = "%";
             constantValue1.ValueString = "1";
             string presentation = constantValue1.HTML_Presentation; 
@@ -160,7 +160,7 @@ namespace SOA_DataAccessLibrary_UnitTest1
             
             // change uom_alternative 
             // changing uom_alternative should change Value not BaseValue
-            constantValue1.Uom_alternative = "";
+            constantValue1.uom_alternative = "";
             baseValue = (double)constantValue1.BaseValue;
             Assert.AreEqual<double>(0.01, baseValue, "Failed Converting a ConstantValue's Value To its Base UOM Value");
             double value = (double)constantValue1.Value;

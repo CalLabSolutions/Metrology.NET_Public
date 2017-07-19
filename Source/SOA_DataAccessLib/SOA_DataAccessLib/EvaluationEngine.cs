@@ -932,6 +932,7 @@ public class DecimalMath
 {
     // Adjust this to modify the precision
     const int ITERATIONS = 27;
+    static decimal log10 = 0.0m;
 
     // power series
     public static decimal Exp(decimal power)
@@ -959,6 +960,13 @@ public class DecimalMath
             iteration--;
         }
         return result;
+    }
+
+    // logarithm base 10
+    public static decimal Log10(decimal number)
+    {
+        if (log10 == 0.0m) log10 = LogN(10.0m);
+        return LogN(number)/log10;
     }
 
     public static decimal Factorial(long number)

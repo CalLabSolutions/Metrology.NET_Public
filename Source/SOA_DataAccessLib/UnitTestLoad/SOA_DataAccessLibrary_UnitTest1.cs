@@ -122,7 +122,7 @@ namespace SOA_DataAccessLibrary_UnitTest1
             var constantValue1 = range1.ConstantValues[0];
 
             Assert.AreEqual<string>("k_nominal", constantValue1.const_parameter_name, "Failed ConstantValue Const_parameter_name");
-            Assert.AreEqual<string>("0.0001", constantValue1.Value, "Failed Get ConstantValue Value");
+            Assert.AreEqual<string>("0.0001", constantValue1.ValueString, "Failed Get ConstantValue Value");
             Assert.AreEqual<string>("ratio", constantValue1.Quantity, "Failed Get ConstantValue Quantity");
             Assert.AreEqual<string>("percent", constantValue1.Uom_alternative, "Failed Get ConstantValue UOM Alternative");
 
@@ -147,6 +147,28 @@ namespace SOA_DataAccessLibrary_UnitTest1
             // With all the functions values now set, the function may be evaluated.
             double uncertainty = (double)template.evaluateCMCFunction(functionName);
             Assert.AreEqual<double>(2.25E-05, uncertainty, "Failed Uncertainty Calculation");
+
+            // test setters 
+            
+            // Value
+            constantValue1.Uom_alternative = "percent";
+            constantValue1.symbol = "%";
+            constantValue1.ValueString = "1";
+            string presentation = constantValue1.HTML_Presentation; 
+            baseValue = (double)constantValue1.BaseValue;
+            Assert.AreEqual<double>(0.01, baseValue, "Failed Converting a ConstantValue's Value To its Base UOM Value");
+            
+            // change uom_alternative 
+            // changing uom_alternative should change Value not BaseValue
+            constantValue1.Uom_alternative = "";
+            baseValue = (double)constantValue1.BaseValue;
+            Assert.AreEqual<double>(0.01, baseValue, "Failed Converting a ConstantValue's Value To its Base UOM Value");
+            double value = (double)constantValue1.Value;
+            Assert.AreEqual<double>(0.01, value, "Failed Converting a ConstantValue's Value To its Base UOM Value");
+
+            constantValue1.ValueString = "1";
+            baseValue = (double)constantValue1.BaseValue;
+            Assert.AreEqual<double>(1, baseValue, "Failed Converting a ConstantValue's Value To its Base UOM Value");
 
         }
     }

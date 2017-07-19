@@ -132,7 +132,42 @@ namespace SOA_DataAccessLibrary
             set {
                 uomDatabaseFilePath = value;
             }
-        } 
+        }
+
+        /// <summary>
+        /// object type held in UomDataSource.UofM.aliasCache and UomDataSource.Alternative.aliasCache 
+        ///   that is used as a faster alternative to repeated LINQ queries returning the same results over and over again
+        /// </summary>
+        public class Alias
+        {
+            XElement aliasElement;
+            private string presentation = null;
+
+            public string Presentation
+            {
+                get
+                {
+                    if (presentation == null)
+                    {
+                        var PresentationElement = aliasElement.Element(ns + "Presentation");
+                        if (PresentationElement != null)
+                        {
+                            var reader = PresentationElement.CreateReader();
+                            reader.MoveToContent();
+                            presentation = reader.ReadInnerXml();
+                        }
+                        else
+                            presentation = "";
+                    }
+                    return presentation;
+                }
+            }
+
+            public Alias(XElement aliasElement) {
+                this.aliasElement = aliasElement;              
+            }
+
+        }
 
         /// <summary>
         /// object type held in UomDataSource.Quantity.altCache that is used as a faster alternative to repeated LINQ queries returning the same results over and over again
@@ -141,30 +176,136 @@ namespace SOA_DataAccessLibrary
         {
             private XElement altElement = null;
             private decimal offset, scaleFactor, linScaleFactor, logScaleFactor;
-            private Func<decimal, decimal> converter = null;
+            string _symbol = null;
+            string presentation = null;
+            private Func<decimal, decimal> tobase = null;
+            private Func<decimal, decimal> frombase = null;
+            private Dictionary<String, Alias> aliasCache = new Dictionary<string, Alias>();
 
+            private void loadAliases()
+            {
+                aliasCache.Clear();
+                string symbol;
+                var set = altElement.Element(ns + "Aliases").Elements(ns + "Alias");
+                foreach (var alias in set)
+                {
+                    symbol = alias.Attribute("symbol").Value;
+                    aliasCache[symbol] = new Alias(alias);
+                }
+            }
+
+            private void getConverters()
+            {
+                var linconv = altElement.Element(ns + "LinearConverter");
+                var logconv = altElement.Element(ns + "LogarithmicConverter");
+                if (linconv != null)
+                {
+                    // base_value = (value - Offset) * ScaleFactor
+                    offset = decimal.Parse((string)linconv.Attribute("Offset"), NumberStyles.Float, CultureInfo.InvariantCulture);
+                    scaleFactor = decimal.Parse((string)linconv.Attribute("ScaleFactor"), NumberStyles.Float, CultureInfo.InvariantCulture);
+                    tobase = (x => (x - offset) * scaleFactor);
+                    frombase = (x => (x / scaleFactor) + offset);
+                }
+                else if (logconv != null)
+                {
+                    // base_value = LinScaleFactor * (10.0 ^ (value/LogScaleFactor)) 
+                    linScaleFactor = decimal.Parse((string)logconv.Attribute("LinScaleFactor"), NumberStyles.Float, CultureInfo.InvariantCulture);
+                    logScaleFactor = decimal.Parse((string)logconv.Attribute("LogScaleFactor"), NumberStyles.Float, CultureInfo.InvariantCulture);
+                    tobase = (x => linScaleFactor * DecimalMath.Pow(10.0m, x / logScaleFactor));
+                    frombase = (x => logScaleFactor * DecimalMath.Log10(x / linScaleFactor));
+                }
+            }
+
+
+
+            public String symbol 
+            {
+                get 
+                {
+                    if (_symbol == null) _symbol = altElement.Attribute("symbol").Value;
+                    return _symbol;
+                }
+            }
+
+            private string Presentation
+            {
+                get
+                {
+                    if (presentation == null)
+                    {
+                        var PresentationElement = altElement.Element(ns + "Presentation");
+                        if (PresentationElement != null)
+                        {
+                            var reader = PresentationElement.CreateReader();
+                            reader.MoveToContent();
+                            presentation = reader.ReadInnerXml();
+                        }
+                        else
+                            presentation = "";
+                    }
+                    return presentation;
+                }
+            }
+
+            /// <summary>
+            /// returns true is symbol is found in any child Alias
+            /// </summary>
+            /// <param name="symbol"></param>
+            /// <returns></returns>
+            private Boolean hasAlias(String symbol) {
+                if (aliasCache.Count() == 0) loadAliases();
+                return aliasCache.Keys.Contains(symbol);
+            }            
+            
             public decimal ConvertToBase(decimal value)
             {
-                if (converter == null)
+                if (tobase == null) getConverters();
+                return Math.Round(tobase(value), 28);
+            }
+
+            public decimal ConvertFromBase(decimal value)
+            {
+                if (frombase == null) getConverters();
+                return Math.Round(frombase(value), 28);
+            }
+            /// <summary>
+            /// returns presentation for this or any child with symbol
+            /// </summary>
+            /// <param name="symbol"></param>
+            /// <returns></returns>
+            public string getPresentation(String symbol)
+            {
+                if (this.symbol == symbol) return Presentation;
+                if (hasAlias(symbol)) return aliasCache[symbol].Presentation;
+                throw new Exception("invalid symbol");
+            }
+
+            /// <summary>
+            /// returns true is symbol is found in this or any child
+            /// </summary>
+            /// <param name="symbol"></param>
+            /// <returns></returns>
+            public Boolean hasSymbol(String symbol)
+            {
+                if (this.symbol == symbol) 
+                    return true;
+                else return hasAlias(symbol);              
+            }
+
+
+            /// <summary>
+            /// return this symbol and all Alias symbols
+            /// </summary>
+            public List<String> symbols
+            {
+                get
                 {
-                    var linconv = altElement.Element(ns + "LinearConverter");
-                    var logconv = altElement.Element(ns + "LogarithmicConverter");
-                    if (linconv != null)
-                    {
-                        // base_value = (value - Offset) * ScaleFactor
-                        offset = decimal.Parse((string) linconv.Attribute("Offset"), NumberStyles.Float, CultureInfo.InvariantCulture);
-                        scaleFactor = decimal.Parse((string)linconv.Attribute("ScaleFactor"), NumberStyles.Float, CultureInfo.InvariantCulture);
-                        converter =  (x => (x - offset) * scaleFactor);
-                    }
-                    else if (logconv != null)
-                    {
-                        // base_value = LinScaleFactor * (10.0 ^ (value/LogScaleFactor)) 
-                        linScaleFactor = decimal.Parse((string)logconv.Attribute("LinScaleFactor"), NumberStyles.Float, CultureInfo.InvariantCulture);
-                        logScaleFactor = decimal.Parse((string)logconv.Attribute("LogScaleFactor"), NumberStyles.Float, CultureInfo.InvariantCulture);
-                        converter = (x => linScaleFactor * DecimalMath.Pow(10.0m, x / logScaleFactor));
-                    }
+                    if (aliasCache.Count() == 0) loadAliases();
+                    List<String> list = new List<String>();
+                    list.Add(symbol);
+                    list.AddRange(aliasCache.Keys);
+                    return list;                  
                 }
-                return Math.Round(converter(value), 28);
             }
 
             private Alternative() { }
@@ -177,26 +318,141 @@ namespace SOA_DataAccessLibrary
         }
 
 
+        public class UofM
+        {
+            XElement UomElement;
+            private string _name = null;
+            private string _symbol = null;
+            private string presentation = null;
+            private Dictionary<String, Alias> aliasCache = new Dictionary<string, Alias>();
+
+            private void loadAliases()
+            {
+                aliasCache.Clear();
+                string symbol;
+                var set = UomElement.Element(ns + "Aliases").Elements(ns + "Alias");
+                foreach (var alias in set)
+                {
+                    symbol = alias.Attribute("symbol").Value;
+                    aliasCache[symbol] = new Alias(alias);
+                }
+            }
+
+            /// <summary>
+            /// returns true is symbol is found in any child Alias
+            /// </summary>
+            /// <param name="symbol"></param>
+            /// <returns></returns>
+            private Boolean hasAlias(String symbol)
+            {
+                if (aliasCache.Count() == 0) loadAliases();
+                return aliasCache.Keys.Contains(symbol);
+            }
+
+            private string Presentation
+            {
+                get
+                {
+                    if (presentation == null)
+                    {
+                        var PresentationElement = UomElement.Element(ns + "Presentation");
+                        if (PresentationElement != null)
+                        {
+                            var reader = PresentationElement.CreateReader();
+                            reader.MoveToContent();
+                            presentation = reader.ReadInnerXml();
+                        }
+                        else
+                            presentation = "";
+                    } 
+                    return presentation;
+                }
+            }
+
+            public String name
+            {
+                get
+                {
+                    if (_name == null) _name = UomElement.Attribute("base_name").Value;
+                    return _name;
+                }
+            }
+
+            public String symbol
+            {
+                get
+                {
+                    if (_symbol == null) _symbol = UomElement.Attribute("symbol").Value;
+                    return _symbol;
+                }
+            }
+
+            /// <summary>
+            /// returns true is symbol is found in this or any child
+            /// </summary>
+            /// <param name="symbol"></param>
+            /// <returns></returns>
+            public Boolean hasSymbol(String symbol)
+            {
+                if (this.symbol == symbol)
+                    return true;
+                else return hasAlias(symbol);
+            }
+
+            /// <summary>
+            /// returns presentation for this or any child with symbol
+            /// </summary>
+            /// <param name="symbol"></param>
+            /// <returns></returns>
+            public string getPresentation(String symbol)
+            {
+                if (this.symbol == symbol) return Presentation;
+                if (hasAlias(symbol)) return aliasCache[symbol].Presentation;
+                throw new Exception("invalid symbol");
+            }
+
+            /// <summary>
+            /// return this symbol and all Alias symbols
+            /// </summary>
+            public List<String> symbols
+            {
+                get
+                {
+                    if (aliasCache.Count() == 0) loadAliases();
+                    List<String> list = new List<String>();
+                    list.Add(symbol);
+                    list.AddRange(aliasCache.Keys);
+                    return list;
+                }
+            }
+
+            public UofM(XElement UomElement)
+            {
+                this.UomElement = UomElement;
+            }
+        }
+
         /// <summary>
         /// object type held in UomDataSource.qtyCache that is used as a faster alternative to repeated LINQ queries returning the same results over and over again
         /// </summary>
         public class Quantity
         {
             private XElement qtyElement = null;
-            private string name = "";
+            private string _name = "";
             private XElement uomElement = null;
+            private UofM _UoM = null;
             private Dictionary<string, Alternative> altCache = new Dictionary<string, Alternative>();
 
-            public string Name
+            public string name
             {
                 get
                 {
-                    if (name == "")
+                    if (_name == "")
                     {
                         var atrName = QtyElement.Attribute("name");
-                        if (atrName != null) name = atrName.Value;
+                        if (atrName != null) _name = atrName.Value;
                     }
-                    return name;
+                    return _name;
                 }
             }
 
@@ -212,26 +468,66 @@ namespace SOA_DataAccessLibrary
                     if (uomElement == null)
                     {
                         XNamespace ns = Configuration.NameSpaces["uom"];
-                        var set = qtyElement.Ancestors(ns + "UOM");
-                        uomElement = (set.Count() > 0) ? set.First() : null;
+                        uomElement = qtyElement.Ancestors(ns + "UOM").Single();
                     }
                     return uomElement;
                 }
             }
 
+            public UofM UoM
+            {
+                get
+                {
+                    if (_UoM == null) _UoM = new UofM(UomElement);
+                    return _UoM;
+                }
+            }
+
             public Alternative getAlternative(string alternativeName)
             {
+                if (altCache.Count() == 0) loadAlternatives();
                 if (!altCache.Keys.Contains(alternativeName)) {
-                    var set = UomElement.Descendants(ns + "Alternative").Where(x => (string)x.Attribute("name") == alternativeName);
-                    if (set.Count() > 0) {
-                        altCache[alternativeName] = new Alternative(set.First());
-                    }
-                    else
+                   throw new Exception("invalid alternative");
+                }
+                return altCache[alternativeName];
+            }
+
+            public Boolean hasAlternative(string alternativeName)
+            {
+                if (altCache.Count() == 0) loadAlternatives();
+                return altCache.Keys.Contains(alternativeName);
+            }
+
+            public IEnumerable<Alternative> Alternatives
+            {
+                get
+                {
+                    if (altCache.Count() == 0) loadAlternatives();
+                    return altCache.Values;
+                }
+            }
+
+            public List<String> AlternativeNames
+            {
+                get
+                {
+                    if (altCache.Count() == 0) loadAlternatives();
+                    return altCache.Keys.ToList();                  
+                }
+            }
+
+            private void loadAlternatives() {
+                altCache.Clear();
+                string alternativeName;
+                var set = UomElement.Descendants(ns + "Alternative");
+                foreach (var alternative in set)
+                {
+                    alternativeName = alternative.Attribute("name").Value;
+                    if (!altCache.Keys.Contains(alternativeName))
                     {
-                        throw new Exception("invalid alternative");
+                        altCache[alternativeName] = new Alternative(alternative);
                     }
                 }
-               return altCache[alternativeName];
             }
 
             private Quantity() { }
@@ -265,7 +561,7 @@ namespace SOA_DataAccessLibrary
             get { return Doc.Root; }
         }    
 
-        public static Quantity getQuantityByName(string QuantityName)
+        public static Quantity getQuantity(string QuantityName)
         {
             if (!qtyCache.Keys.Contains(QuantityName))
             {
@@ -280,7 +576,12 @@ namespace SOA_DataAccessLibrary
                     }
                 }
             }
-            return qtyCache[QuantityName];
+            return (qtyCache.Keys.Contains(QuantityName)) ? qtyCache[QuantityName] : null;
+        }
+
+        public static Boolean hasQuantity(string QuantityName)
+        {
+            return getQuantity(QuantityName) != null;
         }
 
     }
@@ -404,65 +705,235 @@ namespace SOA_DataAccessLibrary
             : base(datasource, Configuration.NameSpaces["soa"]) { }
     }
 
-
     public abstract class AbstractValue
     {
         protected UomDataSource.Quantity quantity = null;
         protected string uom_alternative = "";
-        protected string uom_alias_symbol = "";
+        protected string _symbol = "";
         protected string format = "";
-        protected string value = "";
+        protected string valueString = "";
+
+        private decimal toBase(decimal value)
+        {
+            if (quantity == null) throw new Exception("invalid quantity");
+            if (Uom_alternative != "")
+            {
+                var alt = quantity.getAlternative(Uom_alternative);
+                if (alt == null) throw new Exception("invalid UOM alternative");
+                value = alt.ConvertToBase(value);
+            }
+            return value;
+        }
+
+        private decimal fromBase(decimal value)
+        {
+            if (quantity == null) throw new Exception("invalid quantity");
+            if (Uom_alternative != "")
+            {
+                var alt = quantity.getAlternative(Uom_alternative);
+                if (alt == null) throw new Exception("invalid UOM alternative");
+                value = alt.ConvertFromBase(value);
+            }
+            return value;
+        }
 
         public string Quantity
         {
-            get { return (quantity != null) ? quantity.Name : ""; }
-            set { quantity = UomDataSource.getQuantityByName(value); }
+            get { return (quantity != null) ? quantity.name : ""; }
+            set 
+            {
+                if ((value != Quantity) || (value == ""))
+                {
+                    // if quantity is changed or reset, reset everything tied to quantity
+                    quantity = null;
+                    uom_alternative = "";
+                    _symbol = "";
+                }
+                if (value != "")
+                {
+                    quantity = UomDataSource.getQuantity(value);               
+                    if (quantity != null)
+                    {
+                        _symbol = quantity.UoM.symbol;
+                    }
+                    else
+                    {
+                        throw new Exception("invalid quantity");
+                    }
+                }        
+            }
         }
 
         public string Uom_alternative
         {
             get { return uom_alternative; }
-            //set { uom_alternative = value; }
+            set 
+            {
+                if (quantity == null) throw new Exception("invalid quantity");
+                if (uom_alternative != value)
+                {   // new alternative
+                    decimal old_base_value = BaseValue;
+                    if (value.Trim() == "")
+                    {
+                        uom_alternative = "";
+                    }
+                    else if (quantity.hasAlternative(value))
+                    {
+                        uom_alternative = value;
+                    }
+                    else
+                    {
+                        throw new Exception("invalid alternative");
+                    }
+                    if (uom_alternative != "")
+                    {
+                        // set symbol to default symbol of new alternative
+                        UomDataSource.Alternative alternative = quantity.getAlternative(uom_alternative);
+                        _symbol = alternative.symbol;
+                    }
+                    else
+                    {
+                        // set symbol to default symbol of base UOM;
+                        _symbol = quantity.UoM.symbol;
+                    }
+                    ValueString = fromBase(old_base_value).ToString();
+                }
+            }
         }
 
-        public string Uom_alias_symbol
+        public List<string> validAlternatives
         {
-            get { return uom_alias_symbol; }
-            //set { uom_alias_symbol = value; }
+            get
+            {
+                if (quantity == null) throw new Exception("invalid quantity");
+                return quantity.AlternativeNames;
+            }
+        }
+
+        public List<string> validAliases
+        {
+            get
+            {
+                if (quantity == null) throw new Exception("invalid quantity");
+                if (uom_alternative == "")
+                {
+                    return quantity.UoM.symbols;
+                }
+                else
+                {
+                    if (!quantity.hasAlternative(uom_alternative)) throw new Exception("invalid uom_alternative");
+                    var alternative = quantity.getAlternative(uom_alternative);
+                    return alternative.symbols;
+                }
+            }
+        }
+
+        public string symbol
+        {
+            get { return _symbol; }
+            set 
+            {
+                if (quantity == null) throw new Exception("invalid quantity");
+                if (uom_alternative == "") 
+                {
+                    var UoM = quantity.UoM;
+                    if (UoM.hasSymbol(value))
+                        _symbol = value;
+                    else if (value == "")
+                        _symbol = UoM.symbol;
+                    else
+                        throw new Exception("invalid symbol");
+                } 
+                else  
+                {
+                    var alternative = quantity.getAlternative(uom_alternative);
+                    if (alternative.hasSymbol(value))
+                        _symbol = value;
+                    else if (value == "")
+                        _symbol = alternative.symbol;
+                    else
+                        throw new Exception("invalid symbol");
+                }               
+            }
         }
 
         public string Format
         {
             get { return format; }
-            //set { format = value; }
+            set {             
+                try
+                {  
+                    // validate value is good format string by trying it
+                    decimal v = 1.0m;
+                    v.ToString(value); 
+                    format = value;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                 
+            }
         }
 
-        public string Value
+        public string ValueString
         {
-            get { return this.value; }
-            //set { this.value = value; }
+            get { return this.valueString; }
+            set 
+            {
+                decimal v;
+                if (!decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("improper value");
+                this.valueString = value; 
+            }
+        }
+
+        public decimal Value
+        {
+            get {
+                decimal v;
+                if (!decimal.TryParse(valueString, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("improper value");
+                return v; 
+            }
+            set
+            {
+                this.valueString = value.ToString();
+            }
         }
 
         public decimal BaseValue
         {
             get
             {
-                decimal v;
-                if (!decimal.TryParse(Value, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("numeric syntax error");
                 if (quantity == null) throw new Exception("invalid quantity");
-                if ((Uom_alternative != "") && (Uom_alternative != Quantity))
+                decimal v;
+                if (!decimal.TryParse(ValueString, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("improper value");
+                return toBase(v);
+            }
+        }
+
+        public string HTML_Presentation
+        {
+            get
+            {
+                if (quantity == null) throw new Exception("invalid quantity");
+                decimal value = BaseValue;
+                string units;
+                if (Uom_alternative != "")
                 {
-                    var alt = quantity.getAlternative(Uom_alternative);
-                    if (alt == null) throw new Exception("invalid UOM alternative");
-                    v = alt.ConvertToBase(v);
+                    UomDataSource.Alternative alternative = quantity.getAlternative(Uom_alternative);
+                    value = alternative.ConvertFromBase(value);
+                    units = alternative.getPresentation(symbol);
+                } else {
+                    UomDataSource.UofM UoM =  quantity.UoM;
+                    units = UoM.getPresentation(symbol);
                 }
-                return v;
+                return String.Format("<span><span>{0}</span>{1}</span>", value.ToString(Format), units);
             }
         }
 
         protected void loadValue (XElement datasource)
         {
-            if (datasource != null) value = datasource.Value;
+            if (datasource != null) valueString = datasource.Value;
         } 
  
     }
@@ -474,10 +945,14 @@ namespace SOA_DataAccessLibrary
         public string Name
         {
             get { return name; }
-            //set { name = value; }
+            set { name = value; }
         }
 
         private Uom_Quantity() {}
+
+        public Uom_Quantity(String Name) {
+            this.name = Name;
+        }
 
         public Uom_Quantity(XElement datasource)
         {
@@ -527,7 +1002,7 @@ namespace SOA_DataAccessLibrary
             {
                 uomSpaceHelper = new UomSpaceHelper(qtyElement);
                 string qty = uomSpaceHelper.getAttribute("name");
-                quantity = UomDataSource.getQuantityByName(qty);
+                quantity = UomDataSource.getQuantity(qty);
             }
         }
 
@@ -635,7 +1110,7 @@ namespace SOA_DataAccessLibrary
             if (qtyElement != null)
             {
                 string qty = new UomSpaceHelper(qtyElement).getAttribute("name");
-                quantity = UomDataSource.getQuantityByName(qty);
+                quantity = UomDataSource.getQuantity(qty);
             }
         }
 
@@ -740,7 +1215,7 @@ namespace SOA_DataAccessLibrary
         }
 
         public IList<string> ResultTypes{
-            get { return processResults.Select(x => x.Quantity.Name).ToList(); }
+            get { return processResults.Select(x => x.Quantity.name).ToList(); }
         }
 
         public UomDataSource.Quantity getQuantity()
@@ -749,7 +1224,7 @@ namespace SOA_DataAccessLibrary
             if (processResults.Count() == 1)
             {
                 var qty = processResults[0].Quantity;
-                result = (qty != null) ? UomDataSource.getQuantityByName(qty.Name) : null;
+                result = (qty != null) ? UomDataSource.getQuantity(qty.name) : null;
             }
             return result; 
         }
@@ -760,7 +1235,7 @@ namespace SOA_DataAccessLibrary
             var procResult = processResults[parameterName]; 
             if (procResult != null) {
                 var qty = procResult.Quantity;
-                result = (qty != null) ? UomDataSource.getQuantityByName(qty.Name) : null;
+                result = (qty != null) ? UomDataSource.getQuantity(qty.name) : null;
             } else {
                 var param = Parameters[parameterName];
                 if (param != null)
@@ -768,7 +1243,7 @@ namespace SOA_DataAccessLibrary
                     var qty = param.Quantity;
                     if (qty != null)
                     {
-                        result = UomDataSource.getQuantityByName(qty.Name);
+                        result = UomDataSource.getQuantity(qty.name);
                     }
                 }
             }
@@ -779,12 +1254,19 @@ namespace SOA_DataAccessLibrary
 
         public Mtc_ProcessType(XElement datasource)
         {
-            MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            name = mtcSpaceHelper.getAttribute("name");
-            processResults = new Mtc_ProcessResults(datasource);
-            parameters = new Mtc_Parameters(datasource);
-            var el = mtcSpaceHelper.getElement("Documentation");
-            if (el != null) documenation = new Mtc_Documentation(el);
+            try
+            {
+                MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
+                name = mtcSpaceHelper.getAttribute("name");
+                processResults = new Mtc_ProcessResults(datasource);
+                parameters = new Mtc_Parameters(datasource);
+                var el = mtcSpaceHelper.getElement("Documentation");
+                if (el != null) documenation = new Mtc_Documentation(el);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }    
     }
 
@@ -968,7 +1450,7 @@ namespace SOA_DataAccessLibrary
                 if (qtyElement != null)
                 {
                     string qty = new UomSpaceHelper(qtyElement).getAttribute("name");
-                    quantity = UomDataSource.getQuantityByName(qty);
+                    quantity = UomDataSource.getQuantity(qty);
                 }
             }
         }
@@ -1164,26 +1646,33 @@ namespace SOA_DataAccessLibrary
 
         public Mtc_Range_Boundary(XElement datasource, Mtc_ProcessType processType, string rangeName, Mtc_Range_Boundary.RangeType rType)
         {
-            MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            test = mtcSpaceHelper.getAttribute("test");
-            uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
-            uom_alias_symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
-            format = mtcSpaceHelper.getAttribute("format");
-            if (datasource != null) value = datasource.Value;
-            switch (rType)
+            try
             {
-                case RangeType.Result:
-                    if (processType.ProcessResults.Count() == 1)
-                        quantity = processType.getQuantity();
-                    else
+                MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
+                if (datasource != null) valueString = datasource.Value;
+                switch (rType)
+                {
+                    case RangeType.Result:
+                        if (processType.ProcessResults.Count() == 1)
+                            quantity = processType.getQuantity();
+                        else
+                            quantity = processType.getQuantity(rangeName);
+                        break;
+                    case RangeType.Parameter:
                         quantity = processType.getQuantity(rangeName);
-                    break;
-                case RangeType.Parameter:
-                    quantity = processType.getQuantity(rangeName);
-                    break;
-                default:
-                    break;
-            }            
+                        break;
+                    default:
+                        break;
+                }
+                test = mtcSpaceHelper.getAttribute("test");
+                uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
+                symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
+                format = mtcSpaceHelper.getAttribute("format");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -1231,12 +1720,19 @@ namespace SOA_DataAccessLibrary
 
         public Mtc_Range(XElement datasource, Mtc_ProcessType processType, Mtc_Range_Boundary.RangeType rType)
         {
-            MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            name = mtcSpaceHelper.getAttribute("name");
-            var el1 = mtcSpaceHelper.getElement("Start");
-            var el2 = mtcSpaceHelper.getElement("End");
-            if (el1 != null) start = new Mtc_Range_Start(el1, processType, name, rType);
-            if (el2 != null) end = new Mtc_Range_End(el2, processType, name, rType);
+            try
+            {
+                MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
+                name = mtcSpaceHelper.getAttribute("name");
+                var el1 = mtcSpaceHelper.getElement("Start");
+                var el2 = mtcSpaceHelper.getElement("End");
+                if (el1 != null) start = new Mtc_Range_Start(el1, processType, name, rType);
+                if (el2 != null) end = new Mtc_Range_End(el2, processType, name, rType);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -1432,7 +1928,7 @@ namespace SOA_DataAccessLibrary
                 var qty = param.Quantity;
                 if (qty != null)
                 {
-                    result = UomDataSource.getQuantityByName(qty.Name);
+                    result = UomDataSource.getQuantity(qty.name);
                 }
             }
             return result;
@@ -1442,19 +1938,26 @@ namespace SOA_DataAccessLibrary
 
         public Mtc_Technique(XElement datasource, Unc_CMCs cMCs)
         {
-            this.cMCs = cMCs;
-            MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            name = mtcSpaceHelper.getAttribute("name");
-            process = mtcSpaceHelper.getAttribute("process");
-            setProcessType(cMCs, process);
-            loadParameters(this.processType.Parameters, new Mtc_Parameters(datasource));
-            resultRanges = new Mtc_ResultRanges(datasource, processType);
-            parameterRanges = new Mtc_ParameterRanges(datasource, processType);
-            var el1 = mtcSpaceHelper.getElement("RequiredEquipment");
-            var el2 = mtcSpaceHelper.getElement("Documentation");
-            if (el1 != null) requiredEquipment = new Mtc_RequiredEquipment(el1);
-            if (el2 != null) cmcUncertainties = new Mtc_CMCUncertainties(datasource, this);
-            documentation = new Mtc_Documentation(el2);
+            try
+            {
+                this.cMCs = cMCs;
+                MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
+                name = mtcSpaceHelper.getAttribute("name");
+                process = mtcSpaceHelper.getAttribute("process");
+                setProcessType(cMCs, process);
+                loadParameters(this.processType.Parameters, new Mtc_Parameters(datasource));
+                resultRanges = new Mtc_ResultRanges(datasource, processType);
+                parameterRanges = new Mtc_ParameterRanges(datasource, processType);
+                var el1 = mtcSpaceHelper.getElement("RequiredEquipment");
+                var el2 = mtcSpaceHelper.getElement("Documentation");
+                if (el1 != null) requiredEquipment = new Mtc_RequiredEquipment(el1);
+                if (el2 != null) cmcUncertainties = new Mtc_CMCUncertainties(datasource, this);
+                documentation = new Mtc_Documentation(el2);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -1472,14 +1975,21 @@ namespace SOA_DataAccessLibrary
 
         public Unc_ConstantValue(XElement datasource, Unc_Template template, string functionName)
         {
-            this.template = template;
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            _const_parameter_name = uncSpaceHelper.getAttribute("const_parameter_name");
-            uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
-            uom_alias_symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
-            format = uncSpaceHelper.getAttribute("format");
-            loadValue(datasource);
-            quantity = template.getQuantity(_const_parameter_name);
+            try
+            {
+                this.template = template;
+                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+                _const_parameter_name = uncSpaceHelper.getAttribute("const_parameter_name");
+                quantity = template.getQuantity(_const_parameter_name);
+                uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
+                symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
+                format = uncSpaceHelper.getAttribute("format");
+                loadValue(datasource);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }    
         }
     }
 
@@ -1550,14 +2060,21 @@ namespace SOA_DataAccessLibrary
 
         public Unc_Range_Boundary(XElement datasource, Unc_Template template, string variableName)
         {
-            this.template = template;
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            test = uncSpaceHelper.getAttribute("test");
-            uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
-            uom_alias_symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
-            format = uncSpaceHelper.getAttribute("format");
-            loadValue(datasource);
-            quantity = template.getQuantity(variableName);
+            try
+            {
+                this.template = template;
+                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+                test = uncSpaceHelper.getAttribute("test");
+                quantity = template.getQuantity(variableName);
+                uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
+                symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
+                format = uncSpaceHelper.getAttribute("format");
+                loadValue(datasource);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -1628,17 +2145,24 @@ namespace SOA_DataAccessLibrary
 
         public Unc_Range(XElement datasource, Unc_Template template, Unc_Ranges parent, string functionName)
         {
-            this.template = template;
-            variable_name = parent.Variable_name;
-            variable_type = parent.Variable_type;
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            var el1 = uncSpaceHelper.getElement("Start");
-            var el2 = uncSpaceHelper.getElement("End");
-            if (el1 != null) start = new Unc_Range_Start(el1, template, Variable_name);
-            if (el2 != null) end = new Unc_Range_End(el2, template, Variable_name);
-            constansts = new Unc_ConstantValues(datasource, template, functionName);
-            var rgsElement = uncSpaceHelper.getElement("Ranges");
-            ranges = (rgsElement != null) ? new Unc_Ranges(rgsElement, template, functionName) : new Unc_Ranges();
+            try
+            {
+                this.template = template;
+                variable_name = parent.Variable_name;
+                variable_type = parent.Variable_type;
+                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+                var el1 = uncSpaceHelper.getElement("Start");
+                var el2 = uncSpaceHelper.getElement("End");
+                if (el1 != null) start = new Unc_Range_Start(el1, template, Variable_name);
+                if (el2 != null) end = new Unc_Range_End(el2, template, Variable_name);
+                constansts = new Unc_ConstantValues(datasource, template, functionName);
+                var rgsElement = uncSpaceHelper.getElement("Ranges");
+                ranges = (rgsElement != null) ? new Unc_Ranges(rgsElement, template, functionName) : new Unc_Ranges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }            
         }
     }
 
@@ -1652,13 +2176,13 @@ namespace SOA_DataAccessLibrary
         public string Variable_name
         {
             get { return variable_name; }
-            //set { variable_name = value; }
+            set { variable_name = value; }
         }
 
         public string Variable_type
         {
             get { return variable_type; }
-            //set { variable_type = value; }
+            set { variable_type = value; }
         }
 
         public Unc_Range this[int index]
@@ -1686,7 +2210,27 @@ namespace SOA_DataAccessLibrary
             }
         }
 
+        public Unc_Ranges Add(Unc_Range Range)
+        {
+            ranges.Add(Range);
+            return this;
+        }
+
+        public Unc_Ranges Remove(Unc_Range Range)
+        {
+            if (ranges.Contains(Range)) ranges.Remove(Range);
+            return this;
+        }
+
         public Unc_Ranges() {} // Needed if parent has no Ranges element.  Return empty Unc_Ranges 
+
+        public Unc_Ranges(Unc_Template Template, string FunctionName, String VariableName, String VariableType, IEnumerable<Unc_Range> Ranges)
+        {
+            this.template = Template;
+            this.variable_name = VariableName;
+            this.variable_type = VariableType;
+            ranges.AddRange(Ranges);
+        }
 
         public Unc_Ranges(XElement datasource, Unc_Template template, string functionName) 
         {
@@ -1910,6 +2454,12 @@ namespace SOA_DataAccessLibrary
 
         private Unc_InfluenceQuantity() { }
 
+        public Unc_InfluenceQuantity(String Name, Uom_Quantity Quantity)
+        {
+            this.name = Name;
+            this.quantity = Quantity;
+        }
+
         public Unc_InfluenceQuantity(XElement datasource)
         {
             name = new UncSpaceHelper(datasource).getAttribute("name");
@@ -1965,11 +2515,15 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_InfluenceQuantities() { }
+        public Unc_InfluenceQuantities Add(Unc_InfluenceQuantity Quantity) {
+            quantities.Add(Quantity);
+            return this;
+        }
 
-        public Unc_InfluenceQuantities(XElement datasource)
+        public Unc_InfluenceQuantities Remove(Unc_InfluenceQuantity Quantity)
         {
-            loadQuantities(new UncSpaceHelper(datasource));
+            if (quantities.Contains(Quantity)) quantities.Remove(Quantity);
+            return this;
         }
 
         public IEnumerator<Unc_InfluenceQuantity> GetEnumerator()
@@ -1980,6 +2534,18 @@ namespace SOA_DataAccessLibrary
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        } 
+        
+        private Unc_InfluenceQuantities() { }
+
+        public Unc_InfluenceQuantities(IEnumerable<Unc_InfluenceQuantity> Quantities)
+        {
+            quantities.AddRange(Quantities);
+        }
+
+        public Unc_InfluenceQuantities(XElement datasource)
+        {
+            loadQuantities(new UncSpaceHelper(datasource));
         }
     }
 
@@ -1991,13 +2557,13 @@ namespace SOA_DataAccessLibrary
         public string Name
         {
             get { return name; }
-            //set { name = value; }
+            set { name = value; }
         }
 
         public string Value
         {
             get { return this.value; }
-            //set { this.value = value; }
+            set { this.value = value; }
         }
 
         private void loadName(XElement datasource)
@@ -2011,6 +2577,12 @@ namespace SOA_DataAccessLibrary
         }
 
         private Unc_Assertion() {}
+
+        public Unc_Assertion(String Name, String Value) 
+        {
+            this.Name = Name;
+            this.Value = Value;
+        }
 
         public Unc_Assertion(XElement datasource)
         {
@@ -2054,11 +2626,16 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_Assertions() {}
-
-        public Unc_Assertions(XElement datasource)
+        public Unc_Assertions Add(Unc_Assertion Assertion)
         {
-            loadAssertions(new UncSpaceHelper(datasource));
+            assertions.Add(Assertion);
+            return this;
+        }
+
+        public Unc_Assertions Remove(Unc_Assertion Assertion)
+        {
+            if (assertions.Contains(Assertion)) assertions.Remove(Assertion);
+            return this;
         }
 
         public IEnumerator<Unc_Assertion> GetEnumerator()
@@ -2070,6 +2647,18 @@ namespace SOA_DataAccessLibrary
         {
             return GetEnumerator();
         }
+
+        private Unc_Assertions() {}
+
+        public Unc_Assertions(IEnumerable<Unc_Assertion> Assertions) {
+            assertions.AddRange(Assertions);
+        }
+
+        public Unc_Assertions(XElement datasource)
+        {
+            loadAssertions(new UncSpaceHelper(datasource));
+        }
+
     }
 
     public class Unc_Case
@@ -2090,12 +2679,26 @@ namespace SOA_DataAccessLibrary
 
         private Unc_Case() {}
 
+        public Unc_Case(Unc_Assertions Assertions, Unc_Template Template, String FunctionName, String VariableName, String VariableType, IEnumerable<Unc_Range> Ranges )
+        {
+            this.template = Template;
+            this.assertions = Assertions;
+            this.ranges = new Unc_Ranges(template, FunctionName, VariableName, VariableType, Ranges);
+        }
+
         public Unc_Case(XElement datasource, Unc_Template template, string functionName)
         {
-            this.template = template;
-            assertions = new Unc_Assertions(datasource);
-            var rgsElement = new UncSpaceHelper(datasource).getElement("Ranges");
-            if (rgsElement != null) ranges = new Unc_Ranges(rgsElement, template, functionName);
+            try
+            {
+                this.template = template;
+                this.assertions = new Unc_Assertions(datasource);
+                var rgsElement = new UncSpaceHelper(datasource).getElement("Ranges");
+                if (rgsElement != null) ranges = new Unc_Ranges(rgsElement, template, functionName);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -2140,15 +2743,6 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_Cases() {}
-
-        public Unc_Cases(XElement datasource, Unc_Template template, string functionName) 
-        {
-            this.template = template;
-            loadCases(new UncSpaceHelper(datasource), template, functionName);
-            if (cases.Count() == 0) loadRanges(datasource, template, functionName);
-        }
-
         public IEnumerator<Unc_Case> GetEnumerator()
         {
             return cases.GetEnumerator();
@@ -2158,6 +2752,42 @@ namespace SOA_DataAccessLibrary
         {
             return GetEnumerator();
         }
+
+        private Unc_Cases() {}
+
+        public Unc_Cases Add(Unc_Case Case)
+        {
+            cases.Add(Case);
+            return this;
+        }
+
+        public Unc_Cases Remove(Unc_Case Case)
+        {
+            if (cases.Contains(Case)) cases.Remove(Case);
+            return this;
+        }
+
+        public Unc_Cases(Unc_Template Template, IEnumerable<Unc_Case> Cases)
+        {
+            this.template = Template;
+            this.cases.AddRange(Cases);
+        }
+
+        public Unc_Cases(XElement datasource, Unc_Template template, string functionName) 
+        {
+            try
+            {
+                this.template = template;
+                loadCases(new UncSpaceHelper(datasource), template, functionName);
+                if (cases.Count() == 0) loadRanges(datasource, template, functionName);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
+        }
+
+
     }
 
 
@@ -2176,7 +2806,6 @@ namespace SOA_DataAccessLibrary
         public Unc_Cases Cases
         {
             get { return cases; }
-            set { cases = value; }
         }
 
         /// <summary>
@@ -2233,12 +2862,26 @@ namespace SOA_DataAccessLibrary
 
         private Unc_CMCFunction() { }
 
+        public Unc_CMCFunction(Unc_Template Template, Unc_Cases Cases, String Name)
+        {
+            this.template = Template;
+            this.cases = Cases;
+            this.name = Name;
+        }
+
         public Unc_CMCFunction(XElement datasource, Unc_Template template)
         {
-            this.template = template;
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            name = uncSpaceHelper.getAttribute("name");
-            cases = new Unc_Cases(datasource, template, name);
+            try
+            {
+                this.template = template;
+                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+                name = uncSpaceHelper.getAttribute("name");
+                cases = new Unc_Cases(datasource, template, name);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -2277,12 +2920,16 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        private Unc_CMCFunctions() { }
-
-        public Unc_CMCFunctions(XElement datasource, Unc_Template template)
+        public Unc_CMCFunctions Add(Unc_CMCFunction Function)
         {
-            this.template = template;
-            loadFunctions(new UncSpaceHelper(datasource), template);
+            functions.Add(Function);
+            return this;
+        }
+
+        public Unc_CMCFunctions Remove(Unc_CMCFunction Function)
+        {
+            if (functions.Contains(Function)) functions.Remove(Function);
+            return this;
         }
 
         public IEnumerator<Unc_CMCFunction> GetEnumerator()
@@ -2294,6 +2941,22 @@ namespace SOA_DataAccessLibrary
         {
             return GetEnumerator();
         }
+
+        private Unc_CMCFunctions() { }
+
+        public Unc_CMCFunctions(Unc_Template Template, IEnumerable<Unc_CMCFunction> Functions)
+        {
+            this.template = Template;
+            this.functions.AddRange(Functions);
+        }
+
+        public Unc_CMCFunctions(XElement datasource, Unc_Template template)
+        {
+            this.template = template;
+            loadFunctions(new UncSpaceHelper(datasource), template);
+        }
+
+
     }
 
     public class Unc_Template
@@ -2411,17 +3074,25 @@ namespace SOA_DataAccessLibrary
 
         public Unc_Template(XElement datasource, Unc_CMCs cMCs)
         {
-            this.cMCs = cMCs;
-            influenceQuantities = new Unc_InfluenceQuantities(datasource);
-            UncSpaceHelper unsSpaceHelper = new UncSpaceHelper(datasource);
-            var el = unsSpaceHelper.getElement("Technique");
-            if (el != null) templateTechnique = new Unc_TemplateTechnique(el, this);
-            if (templateTechnique != null) {
-                Unc_Technique uncTech = cMCs.Technique[templateTechnique.Name];
-                mtcTechnique = (uncTech != null) ? uncTech.Technique : null;
-                mtcProcessType = (mtcTechnique != null) ? mtcTechnique.ProcessType : null;
+            try
+            {
+                this.cMCs = cMCs;
+                influenceQuantities = new Unc_InfluenceQuantities(datasource);
+                UncSpaceHelper unsSpaceHelper = new UncSpaceHelper(datasource);
+                var el = unsSpaceHelper.getElement("Technique");
+                if (el != null) templateTechnique = new Unc_TemplateTechnique(el, this);
+                if (templateTechnique != null)
+                {
+                    Unc_Technique uncTech = cMCs.Technique[templateTechnique.Name];
+                    mtcTechnique = (uncTech != null) ? uncTech.Technique : null;
+                    mtcProcessType = (mtcTechnique != null) ? mtcTechnique.ProcessType : null;
+                }
+                cmcFunctions = new Unc_CMCFunctions(datasource, this);
             }
-            cmcFunctions = new Unc_CMCFunctions(datasource, this);        
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -2549,14 +3220,20 @@ namespace SOA_DataAccessLibrary
 
         public Unc_CMC(XElement datasource, Unc_CMCs cMCs)
         {
-            this.cMCs = cMCs;
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            var el = uncSpaceHelper.getElement("Category");
-            if (el != null) category = new Unc_CmcCategory(el);
-            el = uncSpaceHelper.getElement("DUT");
-            if (el != null) dut = new Unc_DUT(el);
-
-            templates = new Unc_Templates(datasource, cMCs);
+            try
+            {
+                this.cMCs = cMCs;
+                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+                var el = uncSpaceHelper.getElement("Category");
+                if (el != null) category = new Unc_CmcCategory(el);
+                el = uncSpaceHelper.getElement("DUT");
+                if (el != null) dut = new Unc_DUT(el);
+                templates = new Unc_Templates(datasource, cMCs);
+            } 
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
 
     }
@@ -2627,22 +3304,29 @@ namespace SOA_DataAccessLibrary
 
         public Unc_Technique(XElement datasource, Unc_CMCs cMCs)
         {
-            this.cMCs = cMCs;
-            UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            name = uncSpaceHelper.getAttribute("name");
-            var external = uncSpaceHelper.getElement("ExternalDefintion");
-            if (external != null)
+            try
             {
-                /// TODO instantiate technique using external definition
-            }
-            else
-            {
-                var local = new MtcSpaceHelper(datasource).getElement("Technique");
-                if (local != null)
+                this.cMCs = cMCs;
+                UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
+                name = uncSpaceHelper.getAttribute("name");
+                var external = uncSpaceHelper.getElement("ExternalDefintion");
+                if (external != null)
                 {
-                    technique = new Mtc_Technique(local, cMCs);
+                    /// TODO instantiate technique using external definition
                 }
-            }         
+                else
+                {
+                    var local = new MtcSpaceHelper(datasource).getElement("Technique");
+                    if (local != null)
+                    {
+                        technique = new Mtc_Technique(local, cMCs);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 
@@ -2817,9 +3501,16 @@ namespace SOA_DataAccessLibrary
         {
             this.activity = activity;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-            processTypes = new Unc_ProcessTypes(datasource);
-            techniques = new Unc_Techniques(datasource, this);
-            cmcs = new Unc_CMCList(datasource, this);
+            try
+            {
+              processTypes = new Unc_ProcessTypes(datasource);
+              techniques = new Unc_Techniques(datasource, this);
+              cmcs = new Unc_CMCList(datasource, this);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(this.ToString() + " constructor " + e.Message);
+            }
         }
     }
 

@@ -104,11 +104,11 @@ namespace WpfApp4
 
                 return;
             }
-            TreeViewItem treeItem = null;
-            treeItem = new TreeViewItem();
-            treeItem.Header = XMLdoc.GetElementsByTagName("unc:ProcessType")[0].Attributes["name"].Value;
-            treeItem.Items.Add(new TreeViewItem() { Header = XMLdoc.GetElementsByTagName("unc:Technique")[0].Attributes["name"].Value });
-            tvMain.Items.Add(treeItem);
+            //TreeViewItem treeItem = null;
+            //treeItem = new TreeViewItem();
+            //treeItem.Header = XMLdoc.GetElementsByTagName("unc:ProcessType")[0].Attributes["name"].Value;
+            //treeItem.Items.Add(new TreeViewItem() { Header = XMLdoc.GetElementsByTagName("unc:Technique")[0].Attributes["name"].Value });
+            //tvMain.Items.Add(treeItem);
             SampleSOA = dao.SOADataMaster;
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
             //MessageBox.Show(process_name1);
@@ -130,7 +130,13 @@ namespace WpfApp4
             combo2.Items.Add(comboitem);
             //comboitem.IsSelected = true;
             prcss.Header = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
-            tech_tree0.Header = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
+            string techwithext= SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
+            int tl = techwithext.Length;
+            //MessageBox.Show(tl.ToString());
+            int pl = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name.Length;
+            //MessageBox.Show(pl.ToString());
+            string t=techwithext.Substring(0, 3);
+            tech_tree0.Header = techwithext.Substring(pl+1);
             tec_name.Text = tech_tree0.Header.ToString();
             //SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name = "hh";
         }
@@ -247,7 +253,7 @@ namespace WpfApp4
             if (e.Key == Key.Return)
             {
                 string h = combo2.Text + ".";// + fill.Text;
-                source_voltage.Text = h;
+               // source_voltage.Text = h;
             }
         }
         private void comboselection(object sender, SelectionChangedEventArgs e)

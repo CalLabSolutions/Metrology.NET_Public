@@ -257,7 +257,7 @@
                                 </TextBox.InputBindings>
                             </-->
                         <ComboBox Name="combo2" SelectionChanged="comboselection"
-                  IsEditable="True" HorizontalContentAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="10,10,271.333,0" Grid.ColumnSpan="2"  >
+                  IsEditable="True" HorizontalContentAlignment="Left" Height="30" VerticalAlignment="Top" Margin="10,10,271.333,0" Grid.ColumnSpan="2"  >
 
 
                         </ComboBox>

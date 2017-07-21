@@ -16,6 +16,7 @@ using System.Xml;
 using MaterialDesignColors;
 using System.IO;
 using SOA_DataAccessLibrary;
+using System.Xml.Linq;
 
 namespace WpfApp4
 {
@@ -26,24 +27,23 @@ namespace WpfApp4
     
     public partial class MainWindow : Window
     {
-        public static readonly RoutedEvent CloseTabEvent =
-    EventManager.RegisterRoutedEvent("CloseTab", RoutingStrategy.Bubble,
-        typeof(RoutedEventHandler), typeof(CloseableTabItem));
-        private object tv;
         XmlDocument XMLdoc = new XmlDocument();
         XmlDocument db = new XmlDocument();
         SOA_DataAccess dao = new SOA_DataAccess();
         SOA_DataAccess dao2 = new SOA_DataAccess();
         OpResult op;
         Soa SampleSOA;
+        public static readonly RoutedEvent CloseTabEvent = EventManager.RegisterRoutedEvent("CloseTab", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CloseableTabItem));
+        private object tv;
         public MainWindow()
         {
             InitializeComponent();
+                //load the process database
             db.Load("MetrologyNET_Taxonomy_v2.xml");
-            dao2.load("MetrologyNET_Taxonomy_v2.xml");
-
+            //dao2.load("MetrologyNET_Taxonomy_v2.xml");
+                //process counts in the database
             int process_count = db.GetElementsByTagName("mtc:ProcessType").Count;
-            //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType").Count.ToString());
+                //put the processes into combobox(combo2)
             ComboBoxItem comboitem2 = null;
             comboitem2 = new ComboBoxItem();
             for (int i = 0; i < process_count; i++)
@@ -53,8 +53,8 @@ namespace WpfApp4
                 comboitem2.Content = db.GetElementsByTagName("mtc:ProcessType")[i].Attributes["name"].Value;
                 combo2.Items.Add(comboitem2);
                 //comboitem2.IsSelected = true;
-                
             }
+            
             Separator ss = new Separator();
             ss.Height = 4;
             ss.Opacity = 0;
@@ -68,11 +68,9 @@ namespace WpfApp4
             ss = new Separator();
             ss.Height = 4;
             ss.Opacity = 0;
-
             sp2.Children.Add(ss);
             TextBlock b2 = new TextBlock();
             b2.Text = "Formula 1";
-            //b2.HorizontalAlignment = ;
             sp2.Children.Add(b2);
             //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
             //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
@@ -83,16 +81,55 @@ namespace WpfApp4
             add { AddHandler(CloseTabEvent, value); }
             remove { RemoveHandler(CloseTabEvent, value); }
         }
+        public TreesViewModel ViewModel => DataContext as TreesViewModel;
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (ViewModel == null) return;
+
+            ViewModel.SelectedItem = e.NewValue;
+        }
+        private void AddProcessItem(object sender, RoutedEventArgs e)
+        {
+            int ic = tvMain.Items.Count;
+            TreeViewItem treeItem = new TreeViewItem();
+            treeItem = new TreeViewItem() { Header = "Process"+(ic-1).ToString() };
+            tvMain.Items.Insert(ic-1, treeItem);
+            //(tvMain.Items[ic - 1] as TreeViewItem).MouseLeftButtonUp += slct_prcss;
+
+
+        }
+        private void AddTechniqueItem(object sender, RoutedEventArgs e)
+        {
+            int ic = tvMain.Items.Count;
+            int ind = tvMain.Items.IndexOf(tvMain.SelectedItem);
+            int tc = (tvMain.Items[ind] as TreeViewItem).Items.Count;
+
+            TreeViewItem treeItem = new TreeViewItem();
+            if (ind > 0)
+            {
+                (tvMain.Items[ind] as TreeViewItem).Items.Add(new TreeViewItem() { Header = "Technique" + (tc+1).ToString()});
+            }
+        }
+        private void RemoveTreeItem(object sender, RoutedEventArgs e)
+        {
+            if(tvMain.Items.IndexOf(tvMain.SelectedItem)>0)
+            tvMain.Items.RemoveAt(tvMain.Items.IndexOf(tvMain.SelectedItem));
+            else if(tvMain.Items.IndexOf(tvMain.SelectedItem)==tvMain.Items.Count)
+            {
+                MessageBox.Show("Please Choose Process or Technique to Delete!");
+            }
+            else
+            {
+                MessageBox.Show("Please Choose Process or Technique to Delete!");
+            }
+        }
         private void BrowseXmlFile(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.CheckFileExists = true;
             dlg.Filter = "XML Files (*.xml)|*.xml|All Files(*.*)|*.*";
             dlg.Multiselect = false;
-
             if (dlg.ShowDialog() != true) { return; }
-
-            
             try
             {
                 XMLdoc.Load(dlg.FileName);
@@ -110,17 +147,30 @@ namespace WpfApp4
             //treeItem.Items.Add(new TreeViewItem() { Header = XMLdoc.GetElementsByTagName("unc:Technique")[0].Attributes["name"].Value });
             //tvMain.Items.Add(treeItem);
             SampleSOA = dao.SOADataMaster;
+
+
+
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
-            //MessageBox.Show(process_name1);
+            //MessageBox.Show(process_name1);.CapabilityScope.Activities[0].ProcessTypes.Count()
             //MessageBox.Show(process_name1.ToString());
             //MessageBox.Show(XMLdoc.GetElementsByTagName("mtc:ProcessType")[0].Attributes["name"].Value);
-
             //id_box.Text =  +", "+ +", " +  + ", " + 
+            ab.Text = SampleSOA.Ab_ID;
+            ablogo.Text = SampleSOA.Ab_Logo_Signature;
+            scopeid.Text = SampleSOA.Scope_ID_Number;
+            crtr.Text = SampleSOA.Criteria;
+            eff.Text = SampleSOA.EffectiveDate;
+            exp.Text = SampleSOA.ExpirationDate;
+            sttmnt.Text = SampleSOA.Statement;
+            //m_entity.Text = SampleSOA.CapabilityScope.MeasuringEntity;
             name.Text = SampleSOA.CapabilityScope.MeasuringEntity.ToString();
-            street.Text = SampleSOA.CapabilityScope.Locations[0].OrganizationAddress.Street;
-            city.Text = SampleSOA.CapabilityScope.Locations[0].OrganizationAddress.City;
-            state.Text = SampleSOA.CapabilityScope.Locations[0].OrganizationAddress.State;
-            zip.Text= SampleSOA.CapabilityScope.Locations[0].OrganizationAddress.Zip;
+            street.Text = SampleSOA.CapabilityScope.Locations[0].Address.Street;
+            city.Text = SampleSOA.CapabilityScope.Locations[0].Address.City;
+            state.Text = SampleSOA.CapabilityScope.Locations[0].Address.State;
+            zip.Text= SampleSOA.CapabilityScope.Locations[0].Address.Zip;
+            loc_id.Text = SampleSOA.CapabilityScope.Locations[0].id;
+            cname.Text = SampleSOA.CapabilityScope.Locations[0].ContactName;
+            cinfo.Text = SampleSOA.CapabilityScope.Locations[0].ContactInfo.ToString();
             //process_name.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Name;
 
             //load the exsiting process name into combobox
@@ -134,34 +184,57 @@ namespace WpfApp4
             int tl = techwithext.Length;
             //MessageBox.Show(tl.ToString());
             int pl = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name.Length;
-            //MessageBox.Show(pl.ToString());
+           // SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name = "jj";            //MessageBox.Show(pl.ToString());
             string t=techwithext.Substring(0, 3);
             tech_tree0.Header = techwithext.Substring(pl+1);
             tec_name.Text = tech_tree0.Header.ToString();
-            //SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name = "hh";
+            
         }
         private void SaveFile(object sender, RoutedEventArgs e)
         {
-            //freeArea.Text = XMLdoc.GetElementsByTagName("soa:AB_ID")[0].Value;
-            //txtFilePath.Text = dlg.FileName;
-            //vXMLViwer.xmlDocument = XMLdoc;
+            /*
+            SampleSOA.CapabilityScope.Locations[0].Address.Street=street.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.City= city.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.State= state.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.Zip= zip.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.Street=street.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.City= city.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.State= state.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.Zip= zip.Text;
+            SampleSOA.Ab_ID= ab.Text ;
+            SampleSOA.Ab_Logo_Signature= ablogo.Text;
+            SampleSOA.Scope_ID_Number= scopeid.Text;
+            SampleSOA.Criteria=crtr.Text;
+            SampleSOA.EffectiveDate= eff.Text;
+            SampleSOA.ExpirationDate= exp.Text;
+            SampleSOA.Statement= sttmnt.Text;
+            */
+            SampleSOA.CapabilityScope.Locations[0].id= loc_id.Text;
+            SampleSOA.CapabilityScope.Locations[0].ContactName= cname.Text;
+            //SampleSOA.CapabilityScope.Locations[0].ContactInfo=;
             
-            //XMLdoc.Save("denemesave.xml");
+
+            XDocument savefile = new XDocument();
             Microsoft.Win32.SaveFileDialog dlg2 = new Microsoft.Win32.SaveFileDialog();
             dlg2.FileName = "denemesave"; // Default file name
             dlg2.DefaultExt = ".xml"; // Default file extension
             dlg2.Filter = "XML Files (*.xml)|*.xml|All Files(*.*)|*.*"; // Filter files by extension
+            
 
-            // Show save file dialog box
+                // Show save file dialog box
             Nullable<bool> result = dlg2.ShowDialog();
 
             // Process save file dialog box results
             if (result == true)
             {
                 // Save document
-                //string filename = dlg2.FileName;
-                XMLdoc.Save(dlg2.FileName);
+                SampleSOA.writeTo(savefile);
+                savefile.Save(dlg2.FileName);
+                //XMLdoc.Save(dlg2.FileName);
+                //dao.SOADataMaster.Save("ser");
+               // dao.Doc.Save("we");
             }
+
         }
         private void DooSomething(object sender, RoutedPropertyChangedEventArgs<object> e)
         {

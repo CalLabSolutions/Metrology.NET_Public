@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<soa:SOADataMaster xmlns:soa="http://schema.metrology.net/ScopeOfAccreditation"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:uom="http://schema.metrology.net/UnitsOfMeasure"
+    xmlns:unc="http://schema.metrology.net/Uncertainty"
+    xmlns:mml="http://www.w3.org/1998/Math/MathML"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:mtc="http://schema.metrology.net/MetrologyTaxonomyCatalog"
+    xsi:schemaLocation="http://schema.metrology.net/ScopeOfAccreditation http://schema.metrology.net/SOA_Master_Datafile.xsd">
+    <soa:AB_ID></soa:AB_ID>
+    <soa:AB_Logo-Signature></soa:AB_Logo-Signature>
+    <soa:Scope_ID_Number></soa:Scope_ID_Number>
+    <soa:Criteria></soa:Criteria>
+    <soa:EffectiveDate>3/29/2017</soa:EffectiveDate>
+    <soa:ExpirationDate>3/29/2018</soa:ExpirationDate>
+    <soa:Statement></soa:Statement>
+    <soa:CapabilityScope>
+        <soa:MeasuringEntity>Acme Calibration Labratory</soa:MeasuringEntity>
+        <soa:Locations>
+            <soa:Location>
+                <soa:OrganizationAddress>
+                    <soa:Street>1234 Metrology Ave</soa:Street>
+                    <soa:City>Accura</soa:City>
+                    <soa:State>Ohio</soa:State>
+                    <soa:Zip>31416</soa:Zip>
+                </soa:OrganizationAddress>
+                <soa:ContactName>Al P. Pie</soa:ContactName>
+                <soa:ContactInfo></soa:ContactInfo>
+            </soa:Location>
+        </soa:Locations>
+        <soa:Activities>
+            <soa:Activity>             
+                <unc:CMCs>                  
+                    <unc:ProcessType name="Measure.Voltage.AC"> <!-- needed when ProcessType is externally defined, when locally defined as here, not so much. -->
+                        <mtc:ProcessType name="Measure.Voltage.AC">
+                            <mtc:Result>
+                                <uom:Quantity name="voltage"/>
+                            </mtc:Result>
+                            <mtc:Parameter name="nominal">
+                                <uom:Quantity name="voltage"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="frequency">
+                                <uom:Quantity name="frequency"/>
+                            </mtc:Parameter>
+                            <mtc:Documentation>                     
+                            <xhtml:html>
+                                <xhtml:head>
+                                    <xhtml:title>Measure.Voltage</xhtml:title>
+                                </xhtml:head>
+                                <xhtml:body></xhtml:body>
+                            </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:ProcessType>
+                    </unc:ProcessType>
+                    
+                    <unc:Technique name="Measure.Voltage.AC.LowVoltage"> <!-- needed when Technique is externally defined, when locally defined as here, not so much. -->              
+                        <mtc:Technique name="Measure.Voltage.AC.LowVoltage" process="Measure.Voltage.AC">
+                            <mtc:ResultRange>
+                                <mtc:Start test="at">0</mtc:Start>
+                                <mtc:End test="at" uom_alternative="kilovolts">0.110</mtc:End>
+                            </mtc:ResultRange>
+                            <mtc:Parameter name="range">
+                                <uom:Quantity name="voltage"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="k_nominal">
+                                <uom:Quantity name="ratio"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="k_range">
+                                <uom:Quantity name="ratio"/>
+                            </mtc:Parameter>
+                            <mtc:ParameterRange name="nominal">
+                                <mtc:Start test="at" >0</mtc:Start>
+                                <mtc:End test="at">110</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:ParameterRange name="frequency">
+                                <mtc:Start test="at" >0</mtc:Start>
+                                <mtc:End test="at">1000</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:RequiredEquipment>
+                                <mtc:Role name="source">
+                                    <mtc:DeviceTypes>
+                                        <mtc:DeviceType>"Meter Calibrator"</mtc:DeviceType>
+                                    </mtc:DeviceTypes>
+                                </mtc:Role> 
+                            </mtc:RequiredEquipment>
+                            <mtc:CMCUncertainty function_name="Measure.Voltage.AC.LowVoltage.Uncertainty.Certified">
+                                <mtc:Function>
+                                    <mtc:Expression>
+                                        k_nominal * nominal + k_range * range
+                                    </mtc:Expression>
+                                    <mtc:Result>
+                                        <uom:Quantity name="voltage"/>
+                                    </mtc:Result>
+                                    <mtc:Symbol parameter="k_nominal" type="Constant"/>
+                                    <mtc:Symbol parameter="nominal" type="Variable"/>
+                                    <mtc:Symbol parameter="k_range" type="Constant"/>
+                                    <mtc:Symbol parameter="range" type="Variable"/>
+                                </mtc:Function>                          
+                            </mtc:CMCUncertainty>
+                            <mtc:Documentation>                     
+                                <xhtml:html>
+                                    <xhtml:head>
+                                        <xhtml:title>Measure.Voltage.AC.LowVoltage</xhtml:title>
+                                    </xhtml:head>
+                                    <xhtml:body></xhtml:body>
+                                </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:Technique>
+                    </unc:Technique>
+                   
+                    <unc:CMC>
+                        
+                        <unc:Category name="elctrical.low_frequency.low_voltage"/>
+                        
+                        <unc:DUT>
+                            <unc:DeviceType>Voltmeter.AC.low_voltage</unc:DeviceType>                       
+                        </unc:DUT>     
+                        
+                        <unc:Template>
+                            <unc:Technique name="Measure.Voltage.AC.LowVoltage">
+                            </unc:Technique>
+                            <unc:CMCFunction name="Measure.Voltage.AC.LowVoltage.Uncertainty.Certified">                         
+                              <unc:Switch>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>6-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>4 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges variable_name="frequency" variable_type="influence_quantity">
+                                        <unc:Range >
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 1 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0001</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0002</unc:ConstantValue>
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 2 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0003</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0004</unc:ConstantValue>                                                   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range>
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 2 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.00015</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.00025</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 4 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.00035</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.00045</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>5-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>4 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges variable_name="frequency" variable_type="influence_quantity">
+                                        <unc:Range>
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 5 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.001</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.002</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 6 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.003</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.004</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range>
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 7 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0015</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0025</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 8 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0035</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0045</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>4-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>4 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges variable_name="frequency" variable_type="influence_quantity">
+                                        <unc:Range>
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 9 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.01</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.02</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 10 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.03</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.04</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range>
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 11 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.015</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.025</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 12 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.035</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.045</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>6-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>2 Wire</unc:Value>
+                                    </unc:Assertion>                                   
+                                    <unc:Ranges variable_name="frequency" variable_type="influence_quantity">
+                                        <unc:Range>
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 13 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.001</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.002</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 14 -->
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.003</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.004</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 15 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.005</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.006</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range>
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 16 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0015</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0025</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 17 -->
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0053</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0045</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 18 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.0055</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.0065</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>                                  
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>5-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>2 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges variable_name="frequency" variable_type="influence_quantity">
+                                        <unc:Range>
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 19 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.01</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.02</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 20 -->
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.03</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.04</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 21 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.05</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.06</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range>
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 22 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.015</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.025</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 23 -->
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.035</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.045</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 24 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.055</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.065</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>                                  
+                                </unc:Case>
+                                
+                                <unc:Case>
+                                    <unc:Assertion>
+                                        <unc:Name>Resolution</unc:Name>
+                                        <unc:Value>4-1/2 digit</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Assertion>
+                                        <unc:Name>Connection</unc:Name>
+                                        <unc:Value>2 Wire</unc:Value>
+                                    </unc:Assertion>
+                                    <unc:Ranges variable_name="frequency" variable_type="influence_quantity">
+                                        <unc:Range>
+                                            <unc:Start test="at">60</unc:Start>
+                                            <unc:End test="at">60</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 25 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.1</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.2</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 26 -->
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.3</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.4</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 27 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.5</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.6</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                        <unc:Range>
+                                            <unc:Start test="at">400</unc:Start>
+                                            <unc:End test="at">400</unc:End>
+                                            <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                                <unc:Range> <!-- row 28 -->
+                                                    <unc:Start test="at">0</unc:Start>
+                                                    <unc:End test="at">1.1</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.15</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.25</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range > <!-- row 29 -->
+                                                    <unc:Start test="after">1.1</unc:Start>
+                                                    <unc:End test="at">11</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.35</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.45</unc:ConstantValue>   
+                                                </unc:Range>
+                                                <unc:Range> <!-- row 30 -->
+                                                    <unc:Start test="after">11</unc:Start>
+                                                    <unc:End test="at">110</unc:End>
+                                                    <unc:ConstantValue const_parameter_name="k_nominal" uom_alternative="percent">0.55</unc:ConstantValue>
+                                                    <unc:ConstantValue const_parameter_name="k_range" uom_alternative="percent">0.65</unc:ConstantValue>   
+                                                </unc:Range>
+                                            </unc:Ranges>
+                                        </unc:Range>  
+                                    </unc:Ranges>                                  
+                                </unc:Case>
+                                
+                              </unc:Switch>
+                            </unc:CMCFunction>
+                        </unc:Template>                     
+                    </unc:CMC>
+                </unc:CMCs>
+            </soa:Activity>
+            <xi:include
+                href="http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_Database.xml"
+            />
+        </soa:Activities>
+        <soa:ScopeNotes></soa:ScopeNotes>
+        <soa:Version></soa:Version>
+        <soa:LocaleLanguage></soa:LocaleLanguage>
+    </soa:CapabilityScope>
+    <soa:HumanReadableDocument></soa:HumanReadableDocument>
+    <soa:VisualAidsScript></soa:VisualAidsScript>
+</soa:SOADataMaster>

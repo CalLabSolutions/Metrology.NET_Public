@@ -56,7 +56,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualHeigth}" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}" Margin="10,10,10.333,-1.333">
+    <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualHeigth}" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}" Margin="10,10,10.333,3.667">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -188,9 +188,13 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Background="LightYellow" Grid.Column="1"  Width="5"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,0,-323.333" Grid.RowSpan="5"   />
             <!--GridSplitter Grid.Row="0" Grid.ColumnSpan="4" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  /-->
-            <StackPanel Orientation="Vertical" Background="#ffdcbc" Height="900" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="2" Margin="0,0,5,-300">
+            <Grid Name="treegrid" Background="#ffdcbc" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}"  Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="2" Margin="0,0,5,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="34*"/>
+                    <ColumnDefinition Width="37*"/>
+                </Grid.ColumnDefinitions>
 
-                <TreeView  Background="#ffdcbc" Foreground="Black" x:Name="tvMain"  Margin="0,3,5,-170" Height="900" VerticalAlignment="Top" FontWeight="Bold" >
+                <TreeView  Background="#ffdcbc" Foreground="Black" x:Name="tvMain"  Margin="0,3,5,-3" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" Grid.ColumnSpan="2" >
                     <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
                     <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
                         <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique"/>
@@ -229,7 +233,7 @@
                 </TreeView>
 
 
-            </StackPanel>
+            </Grid>
 
 
             <TabControl Grid.Column="2"  Grid.Row="1" Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Margin="2,10,-60.333,-380" Grid.RowSpan="4" >
@@ -247,9 +251,28 @@
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Foreground="DarkOrange" x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,36,0,0" TextWrapping="Wrap" Text="Welcome to SoA XML Editor!" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" FontSize="22" Grid.ColumnSpan="2"/>
-                        <TextBlock x:Name="textBlock1" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,107,0,0" TextWrapping="Wrap" Text="Start to edit your file" VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14"/>
+                        <TextBlock x:Name="textBlock1" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,107,0,0" TextWrapping="Wrap" Text="Start to " VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14">
+                            <TextBlock.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Cut"/>
+                                    <MenuItem Header="Copy"/>
+                                    <MenuItem Header="Paste"/>
+                                </ContextMenu>
+                            </TextBlock.ContextMenu>
+                        </TextBlock>
+                        <TextBlock x:Name="textBlock8" Grid.Column="1" MouseLeftButtonDown="BrowseXmlFile" HorizontalAlignment="Left" Margin="60.333,107,0,0" TextWrapping="Wrap" Text="edit your file" VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14" TextDecorations="Underline">
+
+                        </TextBlock>
+                        <TextBlock x:Name="textBlock9" Grid.Column="1" HorizontalAlignment="Left" Margin="143.333,107,0,0" TextWrapping="Wrap" Text="or" VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14" TextDecorations="{x:Null}">
+
+                        </TextBlock>
+                        <TextBlock x:Name="textBlock10" Grid.Column="1"  HorizontalAlignment="Left" Margin="161.333,107,0,0" TextWrapping="Wrap" Text="create a new file" VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14" TextDecorations="Underline">
+
+                        </TextBlock>
+
                     </Grid>
                 </TabItem>
+
                 <TabItem Header="Company Info">
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>

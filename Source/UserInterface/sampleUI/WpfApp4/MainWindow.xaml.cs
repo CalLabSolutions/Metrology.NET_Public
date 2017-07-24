@@ -75,6 +75,7 @@ namespace WpfApp4
             //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
             //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
 
+
         }
         public event RoutedEventHandler CloseTab
         {
@@ -153,7 +154,6 @@ namespace WpfApp4
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
             //MessageBox.Show(process_name1);.CapabilityScope.Activities[0].ProcessTypes.Count()
             //MessageBox.Show(process_name1.ToString());
-            //MessageBox.Show(XMLdoc.GetElementsByTagName("mtc:ProcessType")[0].Attributes["name"].Value);
             //id_box.Text =  +", "+ +", " +  + ", " + 
             ab.Text = SampleSOA.Ab_ID;
             ablogo.Text = SampleSOA.Ab_Logo_Signature;

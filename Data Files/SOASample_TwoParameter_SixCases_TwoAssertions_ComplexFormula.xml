@@ -69,6 +69,19 @@
                             <mtc:Parameter name="k_range">
                                 <uom:Quantity name="ratio"/>
                             </mtc:Parameter>
+                            <mtc:Parameter name="Resolution">
+                                <mtc:Enumeration>
+                                    <mtc:Item>6-1/2 digit</mtc:Item>
+                                    <mtc:Item>5-1/2 digit</mtc:Item>
+                                    <mtc:Item>4-1/2 digit</mtc:Item>
+                                </mtc:Enumeration>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="Connection">
+                                <mtc:Enumeration>
+                                    <mtc:Item>2 Wire</mtc:Item>
+                                    <mtc:Item>4 Wire</mtc:Item>
+                                </mtc:Enumeration>
+                            </mtc:Parameter>
                             <mtc:ParameterRange name="nominal">
                                 <mtc:Start test="at" >0</mtc:Start>
                                 <mtc:End test="at">110</mtc:End>

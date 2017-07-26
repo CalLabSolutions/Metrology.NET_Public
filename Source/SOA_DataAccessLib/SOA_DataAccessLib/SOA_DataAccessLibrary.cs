@@ -562,7 +562,7 @@ namespace SOA_DataAccessLibrary
 
             public void writeTo(XElement parent)
             {
-                new UomSpaceHelper(parent).addChild("Quantity").addAttribute("name", name);
+                new UomSpaceHelper(parent).addChild("Quantity").setAttribute("name", name);
             }
 
             private Quantity() { }
@@ -694,15 +694,25 @@ namespace SOA_DataAccessLibrary
 
         public XmlNameSpaceElement addAttribute(string name)
         {
-            XAttribute attribute = new XAttribute(name, "");
-            element.Add(attribute);
+            if (element.Attribute(name) == null)
+            {            
+                XAttribute attribute = new XAttribute(name, "");
+                element.Add(attribute);
+            }
             return this;
         }
 
-        public XmlNameSpaceElement addAttribute(string name, string value)
+        public XmlNameSpaceElement setAttribute(string name, string value)
         {
-            XAttribute attribute = new XAttribute(name, value);
-            element.Add(attribute);
+            if (element.Attribute(name) != null)
+            {
+                element.Attribute(name).Value = value;
+            }
+            else
+            {
+               XAttribute attribute = new XAttribute(name, value);
+               element.Add(attribute);
+            }
             return this;
         }
 
@@ -1133,11 +1143,11 @@ namespace SOA_DataAccessLibrary
             if (datasource != null) valueString = datasource.Value;
         }
 
-        protected void writeTo(XElement myElement) {
+        public virtual void writeTo(XElement myElement) {
             var me = new XmlNameSpaceElement(myElement);
-            me.addAttribute("uom_alternative", uom_alternative);
-            me.addAttribute("uom_alias_symbol", symbol);
-            me.addAttribute("format", format);
+            me.setAttribute("uom_alternative", uom_alternative);
+            me.setAttribute("uom_alias_symbol", symbol);
+            me.setAttribute("format", format);
         }
 
     }
@@ -1153,7 +1163,7 @@ namespace SOA_DataAccessLibrary
         }
 
         public void writeTo(XElement Parent) {
-            new UncSpaceHelper(Parent).addChild("Quantity").addAttribute("name", name);
+            new UncSpaceHelper(Parent).addChild("Quantity").setAttribute("name", name);
         }
 
         private Uom_Quantity() {}
@@ -1223,7 +1233,7 @@ namespace SOA_DataAccessLibrary
         public void writeTo(XElement ProcessType)
         {
             MtcSpaceHelper ProcessTypeHelper = new MtcSpaceHelper(ProcessType);
-            var Result = ProcessTypeHelper.addChild("Result").addAttribute("name", Name);
+            var Result = ProcessTypeHelper.addChild("Result").setAttribute("name", Name);
             quantity.writeTo(Result.Element);
         }
 
@@ -1333,7 +1343,21 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        public Mtc_Enumeration() { }
+        public void writeTo(XElement Parameter)
+        {
+            var Enumeration = new MtcSpaceHelper(Parameter).addChild("Enumeration");
+            foreach (string item in items)
+            {
+                Enumeration.addChild("Item").Value = item;
+            }
+        }
+
+        public Mtc_Enumeration(params string[] values) {
+            foreach (string value in values)
+            {
+                add(value);
+            }    
+        }
 
         public Mtc_Enumeration(XElement datasource)
         {
@@ -1379,14 +1403,6 @@ namespace SOA_DataAccessLibrary
             set { quantity = value; }
         }
 
-        public void writeTo(XElement Parent)
-        {
-            var Parameter = new MtcSpaceHelper(Parent).addChild("Parameter").addAttribute("name", name).addAttribute("optional", optional.ToString());
-            if (quantity != null) quantity.writeTo(Parameter.Element);
-
-
-        }
-
         private bool setQuantity(XElement datasource)
         {
             quantity = null;
@@ -1414,7 +1430,33 @@ namespace SOA_DataAccessLibrary
             return enumeration != null;
         }
 
+        public void writeTo(XElement Parent)
+        {
+            var Parameter = new MtcSpaceHelper(Parent).addChild("Parameter").setAttribute("name", name).setAttribute("optional", optional.ToString());
+            if (quantity != null)
+            {
+                quantity.writeTo(Parameter.Element);
+            }
+            else if (enumeration != null) 
+            {
+                enumeration.writeTo(Parameter.Element);
+            }
+        }
+
         private Mtc_Parameter() { }
+
+        public Mtc_Parameter(string name, string quantity, Boolean optional) {
+            _name = name;
+            this.optional = optional;
+            this.quantity = UomDataSource.getQuantity(quantity);
+        }
+
+        public Mtc_Parameter(string name, Mtc_Enumeration enumeration, Boolean optional)
+        {
+            _name = name;
+            this.optional = optional;
+            this.enumeration = enumeration;
+        }
 
         public Mtc_Parameter(XElement datasource)
         {
@@ -1443,6 +1485,26 @@ namespace SOA_DataAccessLibrary
                 var set = parameters.Where(x => x.name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
+        }
+
+        public Mtc_Parameter add(Mtc_Parameter value)
+        {
+            parameters.Add(value);
+            return value;
+        }
+
+        public Mtc_Parameter add(string name, Mtc_Enumeration enumeration, Boolean optional)
+        {
+            Mtc_Parameter new_parameter = new Mtc_Parameter(name, enumeration, optional);
+            parameters.Add(new_parameter);
+            return new_parameter;
+        }
+
+        public Mtc_Parameter add(string name, string quantity, Boolean optional)
+        {
+            Mtc_Parameter new_parameter = new Mtc_Parameter(name, quantity, optional);
+            parameters.Add(new_parameter);
+            return new_parameter;
         }
 
         public int Count()
@@ -1632,7 +1694,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Function) 
         {
-            new MtcSpaceHelper(Function).addChild("Symbol").addAttribute("parameter", parameter).addAttribute("type", type);
+            new MtcSpaceHelper(Function).addChild("Symbol").setAttribute("parameter", parameter).setAttribute("type", type);
         }
 
         private Mtc_Symbol() { }
@@ -1802,7 +1864,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Parent)
         {
-            var Function = new MtcSpaceHelper(Parent).addChild("Function").addAttribute("function_name", function_name);
+            var Function = new MtcSpaceHelper(Parent).addChild("Function").setAttribute("function_name", function_name);
             Function.addChild("Expression").Value = expression;
             quantity.writeTo(Function.addChild("Result").Element);
             symbolDefinitions.writeTo(Function.Element);
@@ -1980,7 +2042,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement RequiredEquipment)
         {
-            var Role = new MtcSpaceHelper(RequiredEquipment).addChild("Role").addAttribute("name", name);
+            var Role = new MtcSpaceHelper(RequiredEquipment).addChild("Role").setAttribute("name", name);
             if (deviceTypes.Count() == 1)
             {
                 Role.addChild("DeviceType").Value = deviceTypes[0];
@@ -2136,13 +2198,11 @@ namespace SOA_DataAccessLibrary
 
     public class Mtc_Range_End : Mtc_Range_Boundary
     {
-        public void writeTo(XElement Parent)
+        override public void writeTo(XElement Parent)
         {
+            base.writeTo(Parent);
             var End = new MtcSpaceHelper(Parent).addChild("End");
-            End.addAttribute("uom_alternative", _uom_alternative);
-            End.addAttribute("uom_alias_symbol", symbol);
-            End.addAttribute("format", _format);
-            End.addAttribute("test", this.test);
+            End.setAttribute("test", this.test);
         }
         private Mtc_Range_End() { }
 
@@ -2153,13 +2213,12 @@ namespace SOA_DataAccessLibrary
     public class Mtc_Range_Start : Mtc_Range_Boundary 
     {
 
-        public void writeTo(XElement Parent)
+        override public void writeTo(XElement Parent)
         {
+           
             var Start = new MtcSpaceHelper(Parent).addChild("Start");
-            Start.addAttribute("uom_alternative", _uom_alternative);
-            Start.addAttribute("uom_alias_symbol", symbol);
-            Start.addAttribute("format", _format);
-            Start.addAttribute("test", this.test);
+            Start.setAttribute("test", this.test);
+            base.writeTo(Parent);
         }
 
         private Mtc_Range_Start() { }
@@ -2194,7 +2253,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Technique)
         {
-            var ResultRange = new MtcSpaceHelper(Technique).addChild("ResultRange").addAttribute("name", name);
+            var ResultRange = new MtcSpaceHelper(Technique).addChild("ResultRange").setAttribute("name", name);
             start.writeTo(ResultRange.Element);
             end.writeTo(ResultRange.Element);
         }
@@ -2411,7 +2470,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement UncTechnique)
         {
-            var Technique = new MtcSpaceHelper(UncTechnique).addChild("Technique").addAttribute("name", name).addAttribute("process", process);
+            var Technique = new MtcSpaceHelper(UncTechnique).addChild("Technique").setAttribute("name", name).setAttribute("process", process);
             resultRanges.writeTo(Technique.Element);
             parameters.writeTo(Technique.Element);
             parameterRanges.writeTo(Technique.Element);
@@ -2498,12 +2557,12 @@ namespace SOA_DataAccessLibrary
         public string const_parameter_name
         {
             get { return _const_parameter_name; }
-            //set { _const_parameter_name = value; }
+            set { _const_parameter_name = value; }
         }
 
-        public void writeTo(XElement Range)
+        public override void writeTo(XElement Range)
         {
-            var ConstantValue = new UncSpaceHelper(Range).addChild("ConstantValue").addAttribute("const_parameter_name", const_parameter_name);
+            var ConstantValue = new UncSpaceHelper(Range).addChild("ConstantValue").setAttribute("const_parameter_name", const_parameter_name);
             base.writeTo(ConstantValue.Element);
         }
 
@@ -2598,10 +2657,10 @@ namespace SOA_DataAccessLibrary
             //set { test = value; }
         }
 
-        protected void writeTo(XElement myElement) {
-            var me = new XmlNameSpaceElement(myElement);
-            me.addAttribute("test", test);
-            base.writeTo(myElement);
+        public override void writeTo(XElement myElement) {
+            var me = new XmlNameSpaceElement(myElement);    
+            me.setAttribute("test", test); 
+            base.writeTo(myElement);       
         }
 
         protected Unc_Range_Boundary() { }
@@ -2628,7 +2687,7 @@ namespace SOA_DataAccessLibrary
 
     public class Unc_Range_End : Unc_Range_Boundary 
     {
-         public void writeTo(XElement Parent) {
+         public override void writeTo(XElement Parent) {
             var End = new UncSpaceHelper(Parent).addChild("End");
             base.writeTo(End.Element);
         }
@@ -2642,7 +2701,7 @@ namespace SOA_DataAccessLibrary
     public class Unc_Range_Start : Unc_Range_Boundary 
     {
 
-        public void writeTo(XElement Parent) {
+        public override void writeTo(XElement Parent) {
             var Start = new UncSpaceHelper(Parent).addChild("Start");
             base.writeTo(Start.Element);
         }
@@ -2796,7 +2855,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Parent)
         {
-            var Ranges = new UncSpaceHelper(Parent).addChild("Ranges").addAttribute("variable_name", variable_name).addAttribute("variable_type", variable_type);
+            var Ranges = new UncSpaceHelper(Parent).addChild("Ranges").setAttribute("variable_name", variable_name).setAttribute("variable_type", variable_type);
             foreach (Unc_Range range in ranges)
             {
                 range.writeTo(Ranges.Element);
@@ -2864,7 +2923,7 @@ namespace SOA_DataAccessLibrary
         }
 
         public void writeTo(XElement Technique) {
-            var RangeOverride = new UncSpaceHelper(Technique).addChild("RangeOverride").addAttribute("name", name);
+            var RangeOverride = new UncSpaceHelper(Technique).addChild("RangeOverride").setAttribute("name", name);
             start.writeTo(RangeOverride.Element);
             end.writeTo(RangeOverride.Element);
         }
@@ -3029,7 +3088,7 @@ namespace SOA_DataAccessLibrary
         }
 
         public void writeTo(XElement Template) {
-            var Technique = new UncSpaceHelper(Template).addChild("Technique").addAttribute("name", name);
+            var Technique = new UncSpaceHelper(Template).addChild("Technique").setAttribute("name", name);
             if (resultRangeOverrides != null) {
                resultRangeOverrides.writeTo(Technique.Element);
             }
@@ -3074,7 +3133,7 @@ namespace SOA_DataAccessLibrary
         }
 
         public void writeTo(XElement Parent) {
-            var InfluenceQuantity = new UncSpaceHelper(Parent).addChild("InfluenceQuantity").addAttribute("name", name);
+            var InfluenceQuantity = new UncSpaceHelper(Parent).addChild("InfluenceQuantity").setAttribute("name", name);
             quantity.writeTo(InfluenceQuantity.Element);
         }
 
@@ -3216,7 +3275,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Case)
         {
-            var Assertion = new UncSpaceHelper(Case).addChild("Assertion").addAttribute("type", type);
+            var Assertion = new UncSpaceHelper(Case).addChild("Assertion").setAttribute("type", type);
             Assertion.addChild("Name").Value = Name;
             Assertion.addChild("Value").Value = Value;
         }
@@ -3538,7 +3597,7 @@ namespace SOA_DataAccessLibrary
         }
 
         public void writeTo(XElement Template) {
-            var CMCFunction = new UncSpaceHelper(Template).addChild("CMCFunction").addAttribute("name", name);
+            var CMCFunction = new UncSpaceHelper(Template).addChild("CMCFunction").setAttribute("name", name);
             Cases.writeTo(CMCFunction.Element);
         }
 
@@ -3883,7 +3942,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Parent)
         {
-            var Category = new UncSpaceHelper(Parent).addChild("Category").addAttribute("name", name);
+            var Category = new UncSpaceHelper(Parent).addChild("Category").setAttribute("name", name);
             if (subcategory != null)
             {
                 subcategory.writeTo(Category.Element);
@@ -4108,10 +4167,10 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement CMCs)
         {
-            var Technique = new UncSpaceHelper(CMCs).addChild("Technique").addAttribute("name", name).addAttribute("process", process);
+            var Technique = new UncSpaceHelper(CMCs).addChild("Technique").setAttribute("name", name).setAttribute("process", process);
             if (uri != null)
             {
-                Technique.addChild("ExternalDefinition").addAttribute("uri", Uri);
+                Technique.addChild("ExternalDefinition").setAttribute("uri", Uri);
             }
             else if (technique != null)
             {
@@ -4251,10 +4310,10 @@ namespace SOA_DataAccessLibrary
         public void writeTo(XElement CMCs)
         {
             SoaSpaceHelper CMCsHelper = new SoaSpaceHelper(CMCs);
-            var ProcessType = CMCsHelper.addChild("ProcessType").addAttribute("name", name);
+            var ProcessType = CMCsHelper.addChild("ProcessType").setAttribute("name", name);
             if (uri != null)
             {
-                ProcessType.addChild("ExternalDefinition").addAttribute("uri", Uri);
+                ProcessType.addChild("ExternalDefinition").setAttribute("uri", Uri);
             }
             else if (processType != null)
             {
@@ -4795,7 +4854,7 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Locations)
         {
-            var Location = new SoaSpaceHelper(Locations).addChild("Location").addAttribute("id", id);
+            var Location = new SoaSpaceHelper(Locations).addChild("Location").setAttribute("id", id);
             organizationAddress.writeTo(Location.Element);
             Location.addChild("ContactName").Value = ContactName;
             contactInfo.writeTo(Location.Element);

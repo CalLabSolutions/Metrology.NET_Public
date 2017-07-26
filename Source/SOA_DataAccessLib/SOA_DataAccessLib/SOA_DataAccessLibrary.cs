@@ -915,9 +915,10 @@ namespace SOA_DataAccessLibrary
     public abstract class AbstractValue
     {
         protected UomDataSource.Quantity quantity = null;
-        protected string _uom_alternative = "";
-        protected string _symbol = "";
-        protected string _format = "";
+        protected UomDataSource.Alternative alternative = null;
+        private string _uom_alternative = "";
+        private string _symbol = "";
+        private string _format = "";
         protected string valueString = "";
 
         private decimal toBase(decimal value)
@@ -995,13 +996,14 @@ namespace SOA_DataAccessLibrary
                     if (_uom_alternative != "")
                     {
                         // set symbol to default symbol of new alternative
-                        UomDataSource.Alternative alternative = quantity.getAlternative(_uom_alternative);
+                         alternative = quantity.getAlternative(_uom_alternative);
                         _symbol = alternative.symbol;
                     }
                     else
                     {
                         // set symbol to default symbol of base UOM;
                         _symbol = quantity.UoM.symbol;
+                        alternative = null;
                     }
                     ValueString = fromBase(old_base_value).ToString();
                 }
@@ -1053,7 +1055,6 @@ namespace SOA_DataAccessLibrary
                 } 
                 else  
                 {
-                    var alternative = quantity.getAlternative(_uom_alternative);
                     if (alternative.hasSymbol(value))
                         _symbol = value;
                     else if (value == "")
@@ -1127,7 +1128,6 @@ namespace SOA_DataAccessLibrary
                 string units;
                 if (uom_alternative != "")
                 {
-                    UomDataSource.Alternative alternative = quantity.getAlternative(uom_alternative);
                     value = alternative.ConvertFromBase(value);
                     units = alternative.getPresentation(symbol);
                 } else {
@@ -1145,9 +1145,17 @@ namespace SOA_DataAccessLibrary
 
         public virtual void writeTo(XElement myElement) {
             var me = new XmlNameSpaceElement(myElement);
-            me.setAttribute("uom_alternative", uom_alternative);
-            me.setAttribute("uom_alias_symbol", symbol);
-            me.setAttribute("format", format);
+            if (alternative != null)
+            {
+                me.setAttribute("uom_alternative", uom_alternative);
+                if (alternative.symbol != symbol) me.setAttribute("uom_alias_symbol", symbol);
+            }
+            else  // no alternative
+            {
+                if (quantity.UoM.symbol != symbol) me.setAttribute("uom_alias_symbol", symbol);
+            }
+            if (format != "") me.setAttribute("format", format);
+            me.Value = ValueString;
         }
 
     }
@@ -1233,7 +1241,8 @@ namespace SOA_DataAccessLibrary
         public void writeTo(XElement ProcessType)
         {
             MtcSpaceHelper ProcessTypeHelper = new MtcSpaceHelper(ProcessType);
-            var Result = ProcessTypeHelper.addChild("Result").setAttribute("name", Name);
+            var Result = ProcessTypeHelper.addChild("Result");
+            if (name != "") Result.setAttribute("name", Name);
             quantity.writeTo(Result.Element);
         }
 
@@ -2185,9 +2194,9 @@ namespace SOA_DataAccessLibrary
                         break;
                 }
                 test = mtcSpaceHelper.getAttribute("test");
-                _uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
+                uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
                 symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
-                _format = mtcSpaceHelper.getAttribute("format");
+                format = mtcSpaceHelper.getAttribute("format");
             }
             catch (Exception e)
             {
@@ -2200,8 +2209,8 @@ namespace SOA_DataAccessLibrary
     {
         override public void writeTo(XElement Parent)
         {
-            base.writeTo(Parent);
             var End = new MtcSpaceHelper(Parent).addChild("End");
+            base.writeTo(End.Element);
             End.setAttribute("test", this.test);
         }
         private Mtc_Range_End() { }
@@ -2214,11 +2223,10 @@ namespace SOA_DataAccessLibrary
     {
 
         override public void writeTo(XElement Parent)
-        {
-           
+        {         
             var Start = new MtcSpaceHelper(Parent).addChild("Start");
             Start.setAttribute("test", this.test);
-            base.writeTo(Parent);
+            base.writeTo(Start.Element);
         }
 
         private Mtc_Range_Start() { }
@@ -2253,7 +2261,8 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Technique)
         {
-            var ResultRange = new MtcSpaceHelper(Technique).addChild("ResultRange").setAttribute("name", name);
+            var ResultRange = new MtcSpaceHelper(Technique).addChild("ResultRange");
+            if (name != "") ResultRange.setAttribute("name", name);
             start.writeTo(ResultRange.Element);
             end.writeTo(ResultRange.Element);
         }
@@ -2572,12 +2581,12 @@ namespace SOA_DataAccessLibrary
             {
                 this.template = template;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-                _const_parameter_name = uncSpaceHelper.getAttribute("const_parameter_name");
-                quantity = template.getQuantity(_const_parameter_name);
-                _uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
-                symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
-                _format = uncSpaceHelper.getAttribute("format");
+                const_parameter_name = uncSpaceHelper.getAttribute("const_parameter_name");
                 loadValue(datasource);
+                quantity = template.getQuantity(_const_parameter_name);
+                uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
+                symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
+                format = uncSpaceHelper.getAttribute("format");
             }
             catch (Exception e)
             {
@@ -2654,7 +2663,7 @@ namespace SOA_DataAccessLibrary
         public string test
         {
             get { return _test; }
-            //set { test = value; }
+            set { _test = value; }
         }
 
         public override void writeTo(XElement myElement) {
@@ -2671,11 +2680,11 @@ namespace SOA_DataAccessLibrary
             {
                 this.template = template;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
-                _test = uncSpaceHelper.getAttribute("test");
+                test = uncSpaceHelper.getAttribute("test");
                 quantity = template.getQuantity(variableName);
-                _uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
+                uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
                 symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
-                _format = uncSpaceHelper.getAttribute("format");
+                format = uncSpaceHelper.getAttribute("format");
                 loadValue(datasource);
             }
             catch (Exception e)
@@ -3244,10 +3253,11 @@ namespace SOA_DataAccessLibrary
         private string _type;
         private string name = "";
         private string value = "";
+        static string[] valid_types = {"", "generic", "equipment" };
 
         public string type
         {
-            get { return _type; }
+            get { return (_type =="") ? "generic" : _type; }
             set { _type = value; }
         }
 
@@ -3260,7 +3270,15 @@ namespace SOA_DataAccessLibrary
         public string Value
         {
             get { return this.value; }
-            set { this.value = value; }
+            set {
+                if (Unc_Assertion.valid_types.Contains(value))
+                {
+                   this.value = value; 
+                } else
+                {
+                    throw new Exception("Invalid Assertion type");
+                }
+            }
         }
 
         private void loadName(XElement Assertion)
@@ -3275,7 +3293,8 @@ namespace SOA_DataAccessLibrary
 
         public void writeTo(XElement Case)
         {
-            var Assertion = new UncSpaceHelper(Case).addChild("Assertion").setAttribute("type", type);
+            var Assertion = new UncSpaceHelper(Case).addChild("Assertion");
+            if (_type != "") Assertion.setAttribute("type", type);
             Assertion.addChild("Name").Value = Name;
             Assertion.addChild("Value").Value = Value;
         }

@@ -74,7 +74,7 @@ namespace WpfApp4
             sp2.Children.Add(b2);
             //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
             //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
-
+            tabs.SelectedIndex=4;
 
         }
         public event RoutedEventHandler CloseTab
@@ -178,17 +178,21 @@ namespace WpfApp4
             comboitem = new ComboBoxItem();
             comboitem.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
             combo2.Items.Add(comboitem);
-            //comboitem.IsSelected = true;
+            comboitem.IsSelected = true;
             prcss.Header = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
             string techwithext= SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
+            string fwithext = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].name;
+            //MessageBox.Show(fwithext);
+            int pl = prcss.Header.ToString().Length;
             int tl = techwithext.Length;
-            //MessageBox.Show(tl.ToString());
-            int pl = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name.Length;
-           // SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name = "jj";            //MessageBox.Show(pl.ToString());
+            int fl = fwithext.Length;
+            
+             // SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name = "jj";            //MessageBox.Show(pl.ToString());
             string t=techwithext.Substring(0, 3);
             tech_tree0.Header = techwithext.Substring(pl+1);
+            f_tree.Header = fwithext.Substring(tl + 1);
             tec_name.Text = tech_tree0.Header.ToString();
-            
+            dlg = new Microsoft.Win32.OpenFileDialog();
         }
         private void SaveFile(object sender, RoutedEventArgs e)
         {
@@ -331,6 +335,8 @@ namespace WpfApp4
         }
         private void comboselection(object sender, SelectionChangedEventArgs e)
         {
+
+            /*
             ComboBox c_item = new ComboBox();
             ComboBoxItem cb_item = new ComboBoxItem();
             TextBlock text_item = new TextBlock();
@@ -344,8 +350,8 @@ namespace WpfApp4
             if(s_node.HasChildNodes)
             {
                 // clear listviews
-                listview1.Items.Clear();
-                listview2.Items.Clear();
+                //listview1.Items.Clear();
+                //listview2.Items.Clear();
                 listview3.Items.Clear();
                 listview4.Items.Clear();
                 int chld_cnt = s_node.ChildNodes.Count;//GetType.ToString();// Count;
@@ -367,7 +373,7 @@ namespace WpfApp4
                         c_item.Items.Add(cb_item);
                         cb_item.IsSelected = true;
                         //c_item.Height = 10;
-                        listview1.Items.Add(c_item);
+                        //listview1.Items.Add(c_item);
                     }
                     else if (s_node.ChildNodes[i].Name == "mtc:Parameter")
                     {
@@ -381,7 +387,7 @@ namespace WpfApp4
                         c_item.Items.Add(cb_item);
                         //c_item.Height = 20;
                         cb_item.IsSelected = true;
-                        listview2.Items.Add(c_item);
+                        //listview2.Items.Add(c_item);
                         //
                         text_item = new TextBlock();
                         text_item.Name = s_node.ChildNodes[i].Attributes["name"].Value;
@@ -401,14 +407,97 @@ namespace WpfApp4
 
             tec_pro.Text = s_node.Attributes["name"].Value;
             // MessageBox.Show("rslt cnt:"+result_cnt.ToString());
-            //ComboBoxItem childItem = e as ComboBoxItem;
+            //ComboBoxItem childItem = e as ComboBoxItem;*/
+            Separator s = new Separator();
+            ComboBox c = new ComboBox();
+            ComboBoxItem i = new ComboBoxItem();
+            TextBlock t = new TextBlock();
+            CheckBox b = new CheckBox();
+
+            int ic = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters.Count();
+            
+            addsep(s, is1); s = new Separator();
+            addsep(s, is1); s = new Separator();
+            addsep(s, is3); s = new Separator();
+            for (int x=0;x<ic;x++)
+            {
+                addsep(s, is1); s = new Separator();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[x].name;
+                addtext(t, is1, 60); t = new TextBlock();
+                addsep(s, is1); s = new Separator();
+                i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[x].Quantity.name;
+                c.Items.Add(i);
+                i.IsSelected = true;
+                i = new ComboBoxItem();
+                addsep(s, is2); s = new Separator();
+                addcombo(c, is2);c = new ComboBox();
+                addsep(s, is2); s = new Separator();
+
+                addsep(s, is3); s = new Separator();
+                addcheck(b, is3); b = new CheckBox();
+                addsep(s, is3); s = new Separator(); addcheck(b, is3); b = new CheckBox();
+                addsep(s, is3); s = new Separator();
+            }
+            
+
+            
+            int it = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters.Count();
+            int ip = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges.Count();
+            addsep(s, is4); s = new Separator();
+            addsep(s, is4); s = new Separator();
+            addsep(s, is5); s = new Separator();
+            addsep(s, is5); s = new Separator();
+            for (int x = 0; x < it; x++)
+            {
+                addsep(s, is4); s = new Separator();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters[x].name;
+                addtext(t, is4,60); t = new TextBlock();
+                if(x<ip)
+                {
+                    addsep(s, is5); s = new Separator();
+                    t.Text = "Start:" +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].Start.Value.ToString() +
+                        " End:" +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].End.Value.ToString();
+                    addtext(t, is5, 120); t = new TextBlock();
+                }
+                
+
+
+            }
+
+        }
+        private void addsep(Separator s,StackPanel p)
+        {
+            s.Height = 4;
+            s.Opacity = 0;
+            p.Children.Add(s);
+            
+        }
+        private void addtext(TextBlock t, StackPanel p,int w)
+        {
+            t.FontWeight=FontWeights.Bold;
+            t.Height = 30;
+            t.Width = w;
+            p.Children.Add(t);
+
+        }
+        private void addcombo(ComboBox c, StackPanel p)
+        {
+            c.Height = 30;
+            p.Children.Add(c);
+        }
+        private void addcheck(CheckBox b, StackPanel p)
+        {
+            b.Height = 30;
+            p.Children.Add(b);
         }
         private void setTechName(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-                string h = tec_pro.Text + "."+t_extension.Text;// + fill.Text;
-                tec_name.Text = h;
+               // string h = tabs. // tec_pro.Text + "."+t_extension.Text;// + fill.Text;
+                //tec_name.Text = h;
             }
         }
         public class CloseableTabItem : TabItem

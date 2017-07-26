@@ -197,7 +197,11 @@
                 <TreeView  Background="#ffdcbc" Foreground="Black" x:Name="tvMain"  Margin="0,3,5,-3" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" Grid.ColumnSpan="2" >
                     <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
                     <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
-                        <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique"/>
+                        <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique">
+                            <TreeViewItem x:Name="f_tree" Selected="slct_tech" Header="Function">
+
+                            </TreeViewItem>
+                        </TreeViewItem>
                     </TreeViewItem>
 
                     <materialDesign:PopupBox
@@ -360,7 +364,7 @@
                         <CheckBox Content="Embedded XHTML Document" HorizontalAlignment="Left" Margin="26,314,0,0" VerticalAlignment="Top" Width="201" Grid.ColumnSpan="2"/>
                         <GroupBox BorderThickness="1"  Header="Output Results" HorizontalAlignment="Left" Height="206" Margin="236,52,0,0" VerticalAlignment="Top" Width="306" Grid.Column="1"/>
                         <GroupBox Foreground="Purple" Header="Input Parameters" HorizontalAlignment="Left" Height="206" Margin="10,52,0,0" VerticalAlignment="Top" Width="327" Grid.ColumnSpan="2"/>
-                        <ListView Name="listview1" Height="181" Margin="239,74,234.667,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" Grid.Column="1">
+                        <!--ListView Name="listview1" Height="181" Margin="239,74,234.667,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
                                 <GridView >
                                     <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
@@ -370,8 +374,8 @@
                             </ListView.View>
 
 
-                        </ListView>
-                        <ListView Name="listview2" HorizontalAlignment="Left" Height="184" Margin="10,74,0,0" VerticalAlignment="Top" Width="327" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2">
+                        </-->
+                        <!--ListView Name="listview2" HorizontalAlignment="Left" Height="184" Margin="10,74,0,0" VerticalAlignment="Top" Width="327" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2">
                             <ListView.View >
                                 <GridView >
 
@@ -389,11 +393,24 @@
                             </ListView.View>
 
 
-                        </ListView>
+                        </-->
 
                         <GroupBox Name="d_box" Header="Title" HorizontalAlignment="Left" Height="172" Margin="10,337,0,0" VerticalAlignment="Top" Width="638" Grid.ColumnSpan="2">
                             <TextBlock Name="d_text" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="601" Height="130" Margin="0,0,0,-9.333"/>
                         </GroupBox>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,568.667,728" Grid.ColumnSpan="2">
+                            <Grid>
+                                <StackPanel Name="is1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
+
+                                <StackPanel Name="is2" HorizontalAlignment="Center" Width="100"  VerticalAlignment="Top" Margin="112,0,92,0"/>
+
+                                <StackPanel Name="is3" HorizontalAlignment="Right"  Margin="152,0,0.333,0" VerticalAlignment="Top" Width="10"/>
+
+                            </Grid>
+                        </ScrollViewer>
+                        <StackPanel Name="os1" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
+                        <StackPanel Name="os2" HorizontalAlignment="Left" Height="168" Margin="332,87,0,0" VerticalAlignment="Top" Width="114" Grid.Column="1"/>
+                        <StackPanel Name="os3" HorizontalAlignment="Left" Height="168" Margin="446,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
 
 
                         <!--<Expander x:Name="expander1" HorizontalAlignment="Stretch"
@@ -442,8 +459,10 @@
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="314*"/>
                         </Grid.ColumnDefinitions>
-                        <GroupBox Grid.Column="1" Header="Input Parameters" HorizontalAlignment="Left" Height="234" Margin="0,100,0,0" VerticalAlignment="Top" Width="318"/>
-                        <ListView Name="listview3" HorizontalAlignment="Left" Height="213" Margin="0,121,0,0" VerticalAlignment="Top" Width="318" FontSize="12" FontWeight="Bold" Grid.Column="1">
+                        <GroupBox Header="Input Parameters" HorizontalAlignment="Left" Height="234" Margin="10,53,0,0" VerticalAlignment="Top" Width="322" Grid.ColumnSpan="2"/>
+                        <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="234" Margin="312.333,53,0,0" VerticalAlignment="Top" Width="306"/>
+                        <GroupBox Grid.Column="1" Header="Formulas" HorizontalAlignment="Left" Height="187" Margin="0.333,351,0,0" VerticalAlignment="Top" Width="318"/>
+                        <!--ListView Name="listview3" HorizontalAlignment="Left" Height="213" Margin="0,121,0,0" VerticalAlignment="Top" Width="318" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
                                 <GridView >
                                     <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
@@ -454,9 +473,8 @@
                             </ListView.View>
 
 
-                        </ListView>
-                        <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="234" Margin="323.333,100,0,0" VerticalAlignment="Top" Width="316"/>
-                        <ListView Name="listview4" HorizontalAlignment="Left" Height="213" Margin="323,121,-0.333,0" VerticalAlignment="Top" Width="316" FontSize="12" FontWeight="Bold" Grid.Column="1">
+                        </-->
+                        <!--ListView Name="listview4" HorizontalAlignment="Left" Height="213" Margin="323,121,-0.333,0" VerticalAlignment="Top" Width="316" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
                                 <GridView >
                                     <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}"  Header="Name" />
@@ -466,19 +484,77 @@
                             </ListView.View>
 
 
-                        </ListView>
+                        </-->
 
-                        <TextBox Name="t_extension" KeyDown="setTechName" Grid.Column="1" HorizontalAlignment="Left" Height="34" Margin="273,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="338" FontSize="14" >
+                        <!--TextBox Name="t_extension" KeyDown="setTechName" Grid.Column="1" HorizontalAlignment="Left" Height="34" Margin="273.333,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="338" FontSize="14" >
                             <TextBox.InputBindings>
                                 <KeyBinding Command="{Binding CmdSomething}" Key="Return" />
                             </TextBox.InputBindings>
-                        </TextBox>
-                        <GroupBox Grid.Column="1" Header="Formulas" HorizontalAlignment="Left" Height="187" Margin="0.333,351,0,0" VerticalAlignment="Top" Width="318"/>
-                        <TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/>
+                        </-->
+                        <!--TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/-->
                         <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text="Technique Name" FontSize="22" Foreground="Orange" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,576.667,699" Grid.ColumnSpan="2">
+                            <Grid Width="302">
+                                <StackPanel Name="is4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
+
+                                <StackPanel Name="is5" HorizontalAlignment="Left" Width="201"  VerticalAlignment="Top" Margin="101,0,0,0"/>
+
+
+                            </Grid>
+                        </ScrollViewer>
+                        <StackPanel Name="os4" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
+                        <StackPanel Name="os5" HorizontalAlignment="Left" Height="168" Margin="332,87,0,0" VerticalAlignment="Top" Width="114" Grid.Column="1"/>
+                        <StackPanel Name="os6" HorizontalAlignment="Left" Height="168" Margin="446,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
+
                         <StackPanel Name="sp2" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="89.333,384,0,0" VerticalAlignment="Top" Width="108"/>
                         <StackPanel Name="sp1" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="0.333,384,0,0" VerticalAlignment="Top" Width="89"/>
                         <StackPanel Name="sp3" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="197.333,384,0,0" VerticalAlignment="Top" Width="121"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Function">
+                    <Grid Margin="-4,0,-11.333,-4" >
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,-1" EndPoint="-1,0">
+                                <GradientStop Color="#ffdcbc" Offset="0.75"/>
+                                <GradientStop Color="#e7ffbc" Offset="-1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="19*"/>
+                            <ColumnDefinition Width="278*"/>
+                            <ColumnDefinition Width="375*"/>
+                        </Grid.ColumnDefinitions>
+                        <Expander x:Name="expander1" HorizontalAlignment="Stretch"
+                    Header="Expander Example 1a" Grid.ColumnSpan="2" Margin="0,0,92,880">
+                            <StackPanel Orientation="Vertical"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                        Margin="24,8,24,16">
+                                <Button Content="a button"/>
+                                <TextBlock Text="Your Content" />
+                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                         TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Expander>
+                        <Expander HorizontalAlignment="Stretch"
+                    Header="Expander Example 1b" Grid.ColumnSpan="2" Margin="0,0,139,745">
+                            <StackPanel Orientation="Vertical"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                        Margin="24,8,24,16">
+                                <TextBlock Text="Your Content" />
+                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                         TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Expander>
+                        <Expander HorizontalAlignment="Stretch"
+                    Header="Expander Example 1c">
+                            <StackPanel Orientation="Vertical"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                        Margin="24,8,24,16">
+                                <TextBlock Text="Your Content" />
+                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                         TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Expander>
                     </Grid>
                 </TabItem>
 

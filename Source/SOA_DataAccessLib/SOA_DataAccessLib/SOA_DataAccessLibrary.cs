@@ -977,10 +977,14 @@ namespace SOA_DataAccessLibrary
             get { return _uom_alternative; }
             set 
             {
-                if (quantity == null) throw new Exception("invalid quantity");
+                decimal old_base_value = 0.0m;
+                if ((valueString != "") && (quantity == null)) throw new Exception("invalid quantity");
                 if (_uom_alternative != value)
                 {   // new alternative
-                    decimal old_base_value = BaseValue;
+                    if (valueString != "")
+                    {
+                        old_base_value = BaseValue;
+                    }
                     if (value.Trim() == "")
                     {
                         _uom_alternative = "";
@@ -1005,7 +1009,10 @@ namespace SOA_DataAccessLibrary
                         _symbol = quantity.UoM.symbol;
                         alternative = null;
                     }
-                    ValueString = fromBase(old_base_value).ToString();
+                    if (valueString != "")
+                    {
+                        ValueString = fromBase(old_base_value).ToString();
+                    }
                 }
             }
         }
@@ -1023,7 +1030,7 @@ namespace SOA_DataAccessLibrary
         {
             get
             {
-                if (quantity == null) throw new Exception("invalid quantity");
+                if ((valueString != "") && (quantity == null)) throw new Exception("invalid quantity");
                 if (_uom_alternative == "")
                 {
                     return quantity.UoM.symbols;
@@ -1042,26 +1049,29 @@ namespace SOA_DataAccessLibrary
             get { return _symbol; }
             set 
             {
-                if (quantity == null) throw new Exception("invalid quantity");
-                if (_uom_alternative == "") 
+                if ((valueString != "") && (quantity == null)) throw new Exception("invalid quantity");
+                if (quantity != null)
                 {
-                    var UoM = quantity.UoM;
-                    if (UoM.hasSymbol(value))
-                        _symbol = value;
-                    else if (value == "")
-                        _symbol = UoM.symbol;
+                    if (_uom_alternative == "")
+                    {
+                        var UoM = quantity.UoM;
+                        if (UoM.hasSymbol(value))
+                            _symbol = value;
+                        else if (value == "")
+                            _symbol = UoM.symbol;
+                        else
+                            throw new Exception("invalid symbol");
+                    }
                     else
-                        throw new Exception("invalid symbol");
-                } 
-                else  
-                {
-                    if (alternative.hasSymbol(value))
-                        _symbol = value;
-                    else if (value == "")
-                        _symbol = alternative.symbol;
-                    else
-                        throw new Exception("invalid symbol");
-                }               
+                    {
+                        if (alternative.hasSymbol(value))
+                            _symbol = value;
+                        else if (value == "")
+                            _symbol = alternative.symbol;
+                        else
+                            throw new Exception("invalid symbol");
+                    }
+                }
             }
         }
 
@@ -2177,8 +2187,6 @@ namespace SOA_DataAccessLibrary
         {
             try
             {
-                MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-                if (datasource != null) valueString = datasource.Value;
                 switch (rType)
                 {
                     case RangeType.Result:
@@ -2192,11 +2200,14 @@ namespace SOA_DataAccessLibrary
                         break;
                     default:
                         break;
-                }
+                }                
+                MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
                 test = mtcSpaceHelper.getAttribute("test");
                 uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
                 symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
                 format = mtcSpaceHelper.getAttribute("format");
+                if (datasource != null) valueString = datasource.Value;
+
             }
             catch (Exception e)
             {
@@ -2582,11 +2593,11 @@ namespace SOA_DataAccessLibrary
                 this.template = template;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
                 const_parameter_name = uncSpaceHelper.getAttribute("const_parameter_name");
-                loadValue(datasource);
                 quantity = template.getQuantity(_const_parameter_name);
                 uom_alternative = uncSpaceHelper.getAttribute("uom_alternative");
                 symbol = uncSpaceHelper.getAttribute("uom_alias_symbol");
                 format = uncSpaceHelper.getAttribute("format");
+                loadValue(datasource);
             }
             catch (Exception e)
             {

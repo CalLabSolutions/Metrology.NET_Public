@@ -151,7 +151,7 @@ namespace SOA_DataAccessLibrary_UnitTest1
             // test setters 
             
             // Value
-            constantValue1.Quantity = "voltage-sinusoidal";
+//            constantValue1.Quantity = "voltage-sinusoidal";
 
             constantValue1.symbol = "%";
             constantValue1.ValueString = "1";

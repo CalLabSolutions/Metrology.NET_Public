@@ -289,27 +289,30 @@
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="314*"/>
                         </Grid.ColumnDefinitions>
-                        <Expander Background="Transparent" x:Name="Address" HorizontalAlignment="Stretch"
-                    Header="Address" Grid.ColumnSpan="2" Margin="0,242,301.667,473">
-                            <Grid>
-                                <TextBox x:Name="loc_id" HorizontalAlignment="Left" Height="23" Margin="110,0,0,831" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
-                                <TextBox x:Name="state" HorizontalAlignment="Left" Height="23" Margin="110,0,0,775" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
-                                <TextBox x:Name="street" HorizontalAlignment="Left" Height="23" Margin="110,0,0,803" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
-                                <TextBox x:Name="city" HorizontalAlignment="Left" Height="23" Margin="371,0,0,803" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
-                                <TextBox x:Name="zip" HorizontalAlignment="Left" Height="23" Margin="371,0,0,775" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
-                                <TextBox x:Name="cname" HorizontalAlignment="Left" Height="23" Margin="136,0,0,747" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
-                                <TextBox x:Name="cinfo" HorizontalAlignment="Left" Height="23" Margin="136,0,0,719" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
-                                <TextBlock x:Name="loc_id_box" HorizontalAlignment="Left" Margin="23,0,0,828" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="82" FontWeight="Bold"><Run Text="Location ID"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-                                <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="23,0,0,800" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer/></TextBlock>
-                                <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="330,0,0,800" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-                                <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="23,0,0,772" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold" RenderTransformOrigin="0.439,0.609"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-                                <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="330,0,0,772" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-                                <TextBlock x:Name="cname_box" HorizontalAlignment="Left" Margin="23,0,0,744" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="95" FontWeight="Bold"><Run Text="Contact Name"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-                                <TextBlock x:Name="cinfo_box" HorizontalAlignment="Left" Margin="23,0,0,716" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="90" FontWeight="Bold"><Run Text="Contact Info"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                        <StackPanel Grid.ColumnSpan="2" Margin="0,268,258.667,510">
+                            <Expander Background="#fce0bc" x:Name="Address" HorizontalAlignment="Stretch"
+                    Header="Address" Margin="10,0,9.667,473" >
+                                <Grid>
+                                    <TextBox x:Name="loc_id" HorizontalAlignment="Left" Height="23" Margin="110,0,0,831" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
+                                    <TextBox x:Name="state" HorizontalAlignment="Left" Height="23" Margin="110,0,0,775" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
+                                    <TextBox x:Name="street" HorizontalAlignment="Left" Height="23" Margin="110,0,0,803" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
+                                    <TextBox x:Name="city" HorizontalAlignment="Left" Height="23" Margin="371,0,0,803" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
+                                    <TextBox x:Name="zip" HorizontalAlignment="Left" Height="23" Margin="371,0,0,775" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
+                                    <TextBox x:Name="cname" HorizontalAlignment="Left" Height="23" Margin="136,0,0,747" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
+                                    <TextBox x:Name="cinfo" HorizontalAlignment="Left" Height="23" Margin="136,0,0,719" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
+                                    <TextBlock x:Name="loc_id_box" HorizontalAlignment="Left" Margin="23,0,0,828" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="82" FontWeight="Bold"><Run Text="Location ID"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                                    <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="23,0,0,800" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer/></TextBlock>
+                                    <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="330,0,0,800" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                                    <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="23,0,0,772" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold" RenderTransformOrigin="0.439,0.609"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                                    <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="330,0,0,772" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                                    <TextBlock x:Name="cname_box" HorizontalAlignment="Left" Margin="23,0,0,744" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="95" FontWeight="Bold"><Run Text="Contact Name"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+                                    <TextBlock x:Name="cinfo_box" HorizontalAlignment="Left" Margin="23,0,0,716" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="90" FontWeight="Bold"><Run Text="Contact Info"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
 
 
-                            </Grid>
-                        </Expander>
+                                </Grid>
+                            </Expander>
+
+                        </StackPanel>
                         <TextBlock x:Name="id_box" Margin="0.333,214,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="Nam"/><Run Text="e"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                         <TextBox Name="name" HorizontalAlignment="Left" Margin="55.333,214,0,0" TextWrapping="Wrap" Text="" Width="501" Grid.Column="1" Height="23" VerticalAlignment="Top" />
                         <TextBlock Foreground="Orange" Grid.Column="1" HorizontalAlignment="Left" Margin="227.333,19,0,0" TextWrapping="Wrap" Text="Company Information" VerticalAlignment="Top" FontWeight="Bold" Height="40" Width="193" FontSize="18"/>
@@ -398,13 +401,13 @@
                         <GroupBox Name="d_box" Header="Title" HorizontalAlignment="Left" Height="172" Margin="10,337,0,0" VerticalAlignment="Top" Width="638" Grid.ColumnSpan="2">
                             <TextBlock Name="d_text" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="601" Height="130" Margin="0,0,0,-9.333"/>
                         </GroupBox>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,568.667,728" Grid.ColumnSpan="2">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,571.667,728" Grid.ColumnSpan="2">
                             <Grid>
                                 <StackPanel Name="is1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
 
-                                <StackPanel Name="is2" HorizontalAlignment="Center" Width="100"  VerticalAlignment="Top" Margin="112,0,92,0"/>
+                                <StackPanel Name="is2" HorizontalAlignment="Left" Width="109"  VerticalAlignment="Top" Margin="112,0,83,0"/>
 
-                                <StackPanel Name="is3" HorizontalAlignment="Right"  Margin="152,0,0.333,0" VerticalAlignment="Top" Width="10"/>
+                                <StackPanel Name="is3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="21" Margin="256,0,0,0"/>
 
                             </Grid>
                         </ScrollViewer>
@@ -493,8 +496,8 @@
                         </-->
                         <!--TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/-->
                         <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text="Technique Name" FontSize="22" Foreground="Orange" />
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,576.667,699" Grid.ColumnSpan="2">
-                            <Grid Width="302">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,581.667,699" Grid.ColumnSpan="2">
+                            <Grid >
                                 <StackPanel Name="is4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
 
                                 <StackPanel Name="is5" HorizontalAlignment="Left" Width="201"  VerticalAlignment="Top" Margin="101,0,0,0"/>
@@ -503,8 +506,8 @@
                             </Grid>
                         </ScrollViewer>
                         <StackPanel Name="os4" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
-                        <StackPanel Name="os5" HorizontalAlignment="Left" Height="168" Margin="332,87,0,0" VerticalAlignment="Top" Width="114" Grid.Column="1"/>
-                        <StackPanel Name="os6" HorizontalAlignment="Left" Height="168" Margin="446,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
+                        <StackPanel Name="os5" HorizontalAlignment="Left" Height="168" Margin="321.333,87,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1"/>
+                        <StackPanel Name="os6" HorizontalAlignment="Left" Height="168" Margin="426.333,87,0,0" VerticalAlignment="Top" Width="175" Grid.Column="1"/>
 
                         <StackPanel Name="sp2" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="89.333,384,0,0" VerticalAlignment="Top" Width="108"/>
                         <StackPanel Name="sp1" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="0.333,384,0,0" VerticalAlignment="Top" Width="89"/>
@@ -524,37 +527,123 @@
                             <ColumnDefinition Width="278*"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <Expander x:Name="expander1" HorizontalAlignment="Stretch"
-                    Header="Expander Example 1a" Grid.ColumnSpan="2" Margin="0,0,92,880">
-                            <StackPanel Orientation="Vertical"
-                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                        Margin="24,8,24,16">
-                                <Button Content="a button"/>
-                                <TextBlock Text="Your Content" />
-                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                         TextWrapping="Wrap"/>
+                        <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}"
+                             Margin="4,24,138.667,0" Grid.ColumnSpan="3">
+                            <StackPanel Name="exp_sp">
+                                <Expander HorizontalAlignment="Stretch"
+                          Header="Case 1" Background="#ffffe0"  Margin="0,0,0.333,0" IsExpanded="False" >
+                                    <Grid  Margin="0,0,0.333,0" Height="102">
+                                        <TextBlock x:Name="textBlock11" HorizontalAlignment="Left" Margin="25,0,0,82" TextWrapping="Wrap" Text="Assertions:" Width="70" FontWeight="Bold"/>
+                                        <TextBlock x:Name="textBlock12" HorizontalAlignment="Left" Margin="25,22,0,0" TextWrapping="Wrap" Text="xxx " VerticalAlignment="Top" Width="148" Height="20"/>
+                                        <TextBlock x:Name="textBlock13" HorizontalAlignment="Left" Margin="25,42,0,0" TextWrapping="Wrap" Text="xxx" VerticalAlignment="Top" Width="113"/>
+                                        <TextBlock x:Name="textBlock14" HorizontalAlignment="Left" Margin="333,0,0,0" TextWrapping="Wrap" Text="Ranges:" VerticalAlignment="Top" FontWeight="Bold" Width="80"/>
+                                        <TextBlock x:Name="textBlock15" HorizontalAlignment="Left" Margin="213,22,0,0" TextWrapping="Wrap" Text="Range1(Start: - End:):" VerticalAlignment="Top" Width="160" Height="20"/>
+                                        <TextBlock x:Name="textBlock16" HorizontalAlignment="Left" Margin="413,22,0,0" TextWrapping="Wrap" Text="Range2(Start: - End:):" VerticalAlignment="Top" Height="20" Width="160"/>
+                                        <TextBlock x:Name="textBlock17" HorizontalAlignment="Left" Margin="193,42,0,0" TextWrapping="Wrap" Text="Range1:" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock18" HorizontalAlignment="Left" Margin="293,42,0,0" TextWrapping="Wrap" Text="Range2:" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock19" HorizontalAlignment="Left" Margin="393,42,0,0" TextWrapping="Wrap" Text="Range1:" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock20" HorizontalAlignment="Left" Margin="493,42,0,0" TextWrapping="Wrap" Text="Range2:" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock21" HorizontalAlignment="Left" Margin="193,63,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock22" HorizontalAlignment="Left" Margin="193,82,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock23" HorizontalAlignment="Left" Margin="293,62,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock24" HorizontalAlignment="Left" Margin="293,82,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock25" HorizontalAlignment="Left" Margin="393,62,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock26" HorizontalAlignment="Left" Margin="393,82,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock27" HorizontalAlignment="Left" Margin="493,62,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="textBlock28" HorizontalAlignment="Left" Margin="493,82,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+
+                                    </Grid>
+
+
+                                </Expander>
+                                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                                <Expander Background="#fffde0" HorizontalAlignment="Stretch"
+                      Header="Case 2">
+                                    <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                        <TextBlock Text="Your Content" />
+                                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Expander>
+                                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                                <Expander Background="#fffbe0" HorizontalAlignment="Stretch"
+                      Header="Case 3">
+                                    <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                        <TextBlock Text="Your Content" />
+                                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Expander>
+                                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                                <Expander HorizontalAlignment="Stretch"
+                      Header="Case 4" Background="#fff9e0">
+                                    <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                        <TextBlock Text="Your Content" />
+                                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Expander>
+
+                                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                                <Expander HorizontalAlignment="Stretch"
+                      Header="Case 5" Background="#fff7e0">
+                                    <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                        <TextBlock Text="Your Content" />
+                                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Expander>
+                                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                                <Expander HorizontalAlignment="Stretch"
+                      Header="Case 6" Background="#fff5e0">
+                                    <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                        <TextBlock Text="Your Content" />
+                                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Expander>
                             </StackPanel>
-                        </Expander>
-                        <Expander HorizontalAlignment="Stretch"
-                    Header="Expander Example 1b" Grid.ColumnSpan="2" Margin="0,0,139,745">
-                            <StackPanel Orientation="Vertical"
-                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                        Margin="24,8,24,16">
-                                <TextBlock Text="Your Content" />
-                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                         TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Expander>
-                        <Expander HorizontalAlignment="Stretch"
-                    Header="Expander Example 1c">
-                            <StackPanel Orientation="Vertical"
-                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                        Margin="24,8,24,16">
-                                <TextBlock Text="Your Content" />
-                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                         TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Expander>
+                        </materialDesign:Card>
+                        <TreeView x:Name="treeView" Grid.Column="1" HorizontalAlignment="Left" Height="220" Margin="0.333,358,0,0" VerticalAlignment="Top" Width="236">
+                            <TreeViewItem Header="Case1">
+                                <TreeViewItem Header="Range">
+                                    <TreeViewItem Header="Range">
+                                        <TreeViewItem Header="Range"></TreeViewItem>
+                                        <TreeViewItem Header="Range"></TreeViewItem>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="Range">
+                                        <TreeViewItem Header="Range"></TreeViewItem>
+                                        <TreeViewItem Header="Range"></TreeViewItem>
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                            </TreeViewItem>
+                            <TreeViewItem Header="Case2">
+                                <TreeViewItem Header="Case2"></TreeViewItem>
+                            </TreeViewItem>
+                            <TreeViewItem Header="Case3">
+                                <TreeViewItem Header="Case3"></TreeViewItem>
+                            </TreeViewItem>
+                            <TreeViewItem Header="Case4">
+                                <TreeViewItem Header="Case4"></TreeViewItem>
+                            </TreeViewItem>
+                            <TreeViewItem Header="Case5">
+                                <TreeViewItem Header="Case5"></TreeViewItem>
+                            </TreeViewItem>
+                            <TreeViewItem Header="Case6">
+                                <TreeViewItem Header="Case6"></TreeViewItem>
+                            </TreeViewItem>
+                        </TreeView>
+
                     </Grid>
                 </TabItem>
 

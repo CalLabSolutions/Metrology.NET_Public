@@ -74,7 +74,7 @@ namespace WpfApp4
             sp2.Children.Add(b2);
             //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
             //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
-            tabs.SelectedIndex=4;
+            tabs.SelectedIndex=0;
 
         }
         public event RoutedEventHandler CloseTab
@@ -266,11 +266,17 @@ namespace WpfApp4
         }
         private void slct_tech(object sender, RoutedEventArgs e)
         {
+            //tabs.SelectedIndex = 3;
             //MessageBox.Show("Technique!");
             TreeViewItem childItem = e.Source as TreeViewItem;
             childItem.IsSelected = false;
+            
+            if (childItem.Name[0] == 't')
+                tabs.SelectedIndex = 3;
+            else
+                tabs.SelectedIndex = 4;
             //MessageBox.Show(childItem.Header.ToString());
-            tabs.SelectedIndex = 3;
+
         }
         private void slct_prcss(object sender, RoutedEventArgs e)
         {
@@ -278,10 +284,12 @@ namespace WpfApp4
             TreeViewItem childItem = e.Source as TreeViewItem;
             childItem.IsSelected = false;
             //MessageBox.Show(childItem.Name);
-            if (childItem.HasItems)
+            if (childItem.HasItems && childItem.Name[0]=='p')
                 tabs.SelectedIndex = 2;
-            else
+            else if (childItem.Name[0] == 't')
                 tabs.SelectedIndex = 3;
+            else
+                tabs.SelectedIndex = 4;
         }
         private void add_tab(object sender, RoutedEventArgs e)
         {
@@ -406,7 +414,7 @@ namespace WpfApp4
             }
 
             tec_pro.Text = s_node.Attributes["name"].Value;
-            // MessageBox.Show("rslt cnt:"+result_cnt.ToString());
+            //MessageBox.Show("rslt cnt:"+result_cnt.ToString());
             //ComboBoxItem childItem = e as ComboBoxItem;*/
             Separator s = new Separator();
             ComboBox c = new ComboBox();
@@ -416,11 +424,10 @@ namespace WpfApp4
 
             int ic = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters.Count();
             
-            addsep(s, is1); s = new Separator();
-            addsep(s, is1); s = new Separator();
-            addsep(s, is3); s = new Separator();
+            
             for (int x=0;x<ic;x++)
             {
+                addsep(s, is1); s = new Separator();
                 addsep(s, is1); s = new Separator();
                 t.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[x].name;
                 addtext(t, is1, 60); t = new TextBlock();
@@ -431,16 +438,25 @@ namespace WpfApp4
                 i = new ComboBoxItem();
                 addsep(s, is2); s = new Separator();
                 addcombo(c, is2);c = new ComboBox();
-                addsep(s, is2); s = new Separator();
-
+                //addsep(s, is2); s = new Separator();
+                addsep(s, is3); s = new Separator();
                 addsep(s, is3); s = new Separator();
                 addcheck(b, is3); b = new CheckBox();
-                addsep(s, is3); s = new Separator(); addcheck(b, is3); b = new CheckBox();
-                addsep(s, is3); s = new Separator();
+                addsep(s, is3); s = new Separator(); 
             }
-            
+                //output for process
+            addsep(s, os1); s = new Separator();
+            addsep(s, os1); s = new Separator();
+            t.Text = "Result:";
+            addtext(t, os1, 60); t = new TextBlock();
+            i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.ProcessResults[0].Quantity.name;
+            c.Items.Add(i);
+            i.IsSelected = true;
+            i = new ComboBoxItem();
+            addsep(s, os2); s = new Separator();
+            addcombo(c, os2); c = new ComboBox();
 
-            
+
             int it = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters.Count();
             int ip = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges.Count();
             addsep(s, is4); s = new Separator();
@@ -451,20 +467,44 @@ namespace WpfApp4
             {
                 addsep(s, is4); s = new Separator();
                 t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters[x].name;
-                addtext(t, is4,60); t = new TextBlock();
+                addtext(t, is4,65); t = new TextBlock();
                 if(x<ip)
                 {
                     addsep(s, is5); s = new Separator();
-                    t.Text = "Start:" +
+                    t.Text = "Start " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].Start.test+
+                        ": "+
                         SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].Start.Value.ToString() +
-                        " End:" +
+                        " End " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].End.test +
+                        ": " +
                         SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].End.Value.ToString();
-                    addtext(t, is5, 120); t = new TextBlock();
+                    addtext(t, is5, 130); t = new TextBlock();
                 }
                 
 
 
             }
+                //output for technique
+            addsep(s, os5); s = new Separator();
+            addsep(s, os5); s = new Separator();
+            addsep(s, os5); s = new Separator();
+            t.Text = "Result:";
+            addtext(t, os5, 60); t = new TextBlock();
+            addsep(s, os6); s = new Separator();
+            addsep(s, os6); s = new Separator();
+            addsep(s, os6); s = new Separator();
+            t.Text = "Start " +
+                SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].Start.test +
+                        ": " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].Start.Value.ToString() +
+                        " End " +
+                SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].End.test +
+                        ": " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].End.Value.ToString();
+            addtext(t, os6, 135); t = new TextBlock();
+                //documentation
+            
 
         }
         private void addsep(Separator s,StackPanel p)
@@ -491,6 +531,12 @@ namespace WpfApp4
         {
             b.Height = 30;
             p.Children.Add(b);
+        }
+        private void add_exp(object sender, RoutedEventArgs e)
+        {
+            Expander x = new Expander();
+            x.Name = "case7";
+            exp_sp.Children.Add(x);
         }
         private void setTechName(object sender, KeyEventArgs e)
         {

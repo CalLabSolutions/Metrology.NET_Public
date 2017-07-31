@@ -52,6 +52,232 @@
                             </mtc:Documentation>
                         </mtc:ProcessType>
                     </unc:ProcessType>
+                    
+                    <unc:ProcessType name="Measure.Time.Interval.SingleChannel.LevelCrossing.Electronic">
+                        <mtc:ProcessType
+                            name="Measure.Time.Interval.SingleChannel.LevelCrossing.Electronic">
+                            <mtc:Result>
+                                <uom:Quantity name="time-interval"/>
+                            </mtc:Result>
+                            <mtc:Parameter name="nominal">
+                                <uom:Quantity name="time-interval"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="low_level">
+                                <uom:Quantity name="voltage"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="high_level">
+                                <uom:Quantity name="voltage"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="trigger_level">
+                                <uom:Quantity name="voltage"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="trigger_slope">
+                                <mtc:Enumeration>
+                                    <mtc:Item>positive</mtc:Item>
+                                    <mtc:Item>negative</mtc:Item>
+                                </mtc:Enumeration>
+                            </mtc:Parameter>
+                            <mtc:Documentation>
+                                <xhtml:html>
+                                    <xhtml:head>
+                                        <xhtml:title>Measure.Time.Interval.Electronic</xhtml:title>
+                                    </xhtml:head>
+                                    <xhtml:body>
+                                        <xhtml:p>Measures the time interval between two electrical
+                                            events on a single electrical signal where the signal's
+                                            voltage level crosses a trigger level with the same
+                                            transitioning direction.</xhtml:p>
+                                        <xhtml:p>Parameter <xhtml:em>nominal</xhtml:em> is the
+                                            nominal value of the time inteval</xhtml:p>
+                                        <xhtml:p>Parameter <xhtml:em>low_level</xhtml:em> is the
+                                            loweset allowable absolute voltage in the
+                                            signal</xhtml:p>
+                                        <xhtml:p>Parameter <xhtml:em>high_level</xhtml:em> is the
+                                            highest allowable absolute voltage in the
+                                            signal</xhtml:p>
+                                        <xhtml:p>Parameter <xhtml:em>trigger_level</xhtml:em> is the
+                                            voltage level for triggering</xhtml:p>
+                                        <xhtml:p>Parameter <xhtml:em>trigger_slope</xhtml:em> is the
+                                            transitioning direction for triggering</xhtml:p>
+                                    </xhtml:body>
+                                </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:ProcessType>
+                    </unc:ProcessType>
+
+                    <unc:Technique name="Measure.Time.Interval.Oscilloscope">
+                        <mtc:Technique name="Measure.Time.Interval.HP_54124T"
+                            process="Measure.Time.Interval.SingleChannel.LevelCrossing.Electronic">
+                            <mtc:ResultRange>
+                                <mtc:Start test="at" uom_alternative="picoseconds">60</mtc:Start>
+                                <mtc:End test="at" uom_alternative="microseconds">1</mtc:End>
+                            </mtc:ResultRange>
+                            <mtc:Parameter name="k">
+                                <uom:Quantity name="time-ratio"/>
+                            </mtc:Parameter>
+                            <mtc:Parameter name="U">
+                                <uom:Quantity name="time"/>
+                            </mtc:Parameter>
+                            <mtc:ParameterRange name="low_level">
+                                <mtc:Start test="at">-5.0</mtc:Start>
+                                <mtc:End test="at">-5.0</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:ParameterRange name="high_level">
+                                <mtc:Start test="at">5.0</mtc:Start>
+                                <mtc:End test="at">5.0</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:ParameterRange name="trigger_level">
+                                <mtc:Start test="at">-5.0</mtc:Start>
+                                <mtc:End test="at">5.0</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:RequiredEquipment>
+                                <mtc:Role name="standard">
+                                    <mtc:DeviceType>HP 54124T</mtc:DeviceType>
+                                </mtc:Role>
+                                <mtc:Role name="DUT">
+                                    <mtc:DeviceTypes>
+                                        <mtc:DeviceType>
+                                           Pulse Generator
+                                       </mtc:DeviceType>
+                                        <mtc:DeviceType>
+                                            Time Mark Generator
+                                        </mtc:DeviceType>
+                                        <mtc:DeviceType>
+                                            Signal Generator
+                                        </mtc:DeviceType>
+                                    </mtc:DeviceTypes>
+                                </mtc:Role>
+                            </mtc:RequiredEquipment>
+                            <mtc:CMCUncertainty function_name="uncertainty.fixed_value.certified">
+                                    <mtc:Expression>U</mtc:Expression>
+                                    <mtc:Result>
+                                        <uom:Quantity name="time"/>
+                                    </mtc:Result>
+                                    <mtc:Symbol parameter="U" type="Constant"/>
+                                
+                            </mtc:CMCUncertainty>
+                            <mtc:CMCUncertainty
+                                function_name="uncertainty.function_of_nominal.certified">
+                                    <mtc:Expression>k * nominal + U</mtc:Expression>
+                                    <mtc:Result>
+                                        <uom:Quantity name="time"/>
+                                    </mtc:Result>
+                                    <mtc:Symbol parameter="k" type="Constant"/>
+                                    <mtc:Symbol parameter="nominal" type="Variable"/>
+                                    <mtc:Symbol parameter="U" type="Constant"/>
+                                
+                            </mtc:CMCUncertainty>
+                            <mtc:Documentation>
+                                <xhtml:html>
+                                    <xhtml:head>
+                                        <xhtml:title>Measure.Time.Interval.HP_54124T</xhtml:title>
+                                    </xhtml:head>
+                                    <xhtml:body>
+                                        <xhtml:h1>Description</xhtml:h1>
+                                        <xhtml:p>Implements the ProcessType
+                                            "Measure.Time.Interval.SingleChannel.LevelCrossing.Electronic"
+                                            using a HP 54124T (50 GHz Digitizing
+                                            Oscilloscope)</xhtml:p>
+                                        <xhtml:h1>CMC Expression</xhtml:h1>
+                                        <xhtml:p>Below 1.4 ns time intervals the CMC uncertainty is
+                                            a constant value.</xhtml:p>
+                                        <xhtml:p>Above 1.4 ns time intervals the CMC uncertainty a
+                                            function of the time interval.</xhtml:p>
+                                    </xhtml:body>
+                                </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:Technique>
+                    </unc:Technique>
+
+                    <unc:Technique name="Measure.Time.Interval.Counter">
+                        <mtc:Technique name="Measure.Time.Interval.HP_5334B.ExternalTimeBase"
+                            process="Measure.Time.Interval.SingleChannel.LevelCrossing.Electronic">
+                            <mtc:ResultRange>
+                                <mtc:Start test="at" uom_alternative="nanoseconds">10</mtc:Start>
+                                <mtc:End test="at">10</mtc:End>
+                            </mtc:ResultRange>
+                            <mtc:Parameter name="U">
+                                <uom:Quantity name="time"/>
+                            </mtc:Parameter>
+                            <mtc:ParameterRange name="low_level">
+                                <mtc:Start test="at">-5.0</mtc:Start>
+                                <mtc:End test="at">-5.0</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:ParameterRange name="high_level">
+                                <mtc:Start test="at">5.0</mtc:Start>
+                                <mtc:End test="at">5.0</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:ParameterRange name="trigger_level">
+                                <mtc:Start test="at">-5.0</mtc:Start>
+                                <mtc:End test="at">5.0</mtc:End>
+                            </mtc:ParameterRange>
+                            <mtc:RequiredEquipment>
+                                <mtc:Role name="counter">
+                                    <mtc:DeviceType>HP_5334B</mtc:DeviceType>
+                                </mtc:Role>
+                                <mtc:Role name="time base">
+                                    <mtc:DeviceTypes>
+                                        <mtc:DeviceType>HP 5071A</mtc:DeviceType>
+                                        <mtc:DeviceType>Datum 8040</mtc:DeviceType>
+                                    </mtc:DeviceTypes>
+                                </mtc:Role>
+                                <mtc:Role name="DUT">
+                                    <mtc:DeviceTypes>
+                                        <mtc:DeviceType>
+                                        Pulse Generator
+                                    </mtc:DeviceType>
+                                        <mtc:DeviceType>
+                                        Time Mark Generator
+                                    </mtc:DeviceType>
+                                        <mtc:DeviceType>
+                                        Signal Generator
+                                    </mtc:DeviceType>
+                                    </mtc:DeviceTypes>
+                                </mtc:Role>
+                            </mtc:RequiredEquipment>
+                            <mtc:CMCUncertainty function_name="uncertainty.certified">
+                                    <mtc:Expression>U</mtc:Expression>
+                                    <mtc:Result>
+                                        <uom:Quantity name="time"/>
+                                    </mtc:Result>
+                                    <mtc:Symbol parameter="U" type="Constant"/>
+                                
+                            </mtc:CMCUncertainty>
+                            <mtc:Documentation>
+                                <xhtml:html>
+                                    <xhtml:head>
+                                        <xhtml:title>Measure.Time.Interval.HP_5334B</xhtml:title>
+                                    </xhtml:head>
+                                    <xhtml:body>
+                                        <xhtml:h1>Description</xhtml:h1>
+                                        <xhtml:p>Implements the ProcessType
+                                            "Measure.Time.Interval.SingleChannel.LevelCrossing.Electronic"
+                                            using a HP 5334B (counter) with an external time
+                                            base</xhtml:p>
+                                        <xhtml:h1>Setup</xhtml:h1>
+                                        <xhtml:p>1) Connect the time base output to the counter's 10
+                                            MHz input.</xhtml:p>
+                                        <xhtml:p>2) Set the counter's Channel A input to 50
+                                            ohms.</xhtml:p>
+                                        <xhtml:p>2) Connect the DUT the counter's Channel A
+                                            input.</xhtml:p>
+                                        <xhtml:p>3) Set the counter's Function to Period
+                                            A.</xhtml:p>
+                                        <xhtml:h1>Measurement Steps</xhtml:h1>
+                                        <xhtml:p>1) Set the counter's Slope, Gate Time, Sample Rate,
+                                            Input Coupling and ATTEN controls to appropriate values </xhtml:p>
+                                        <xhtml:p>2) Verifiy a stable trigger.</xhtml:p>
+                                        <xhtml:p>3) Record time interval value displayed on
+                                            counter.</xhtml:p>
+                                        <xhtml:h1>CMC Expression</xhtml:h1>
+                                        <xhtml:p>The CMC uncertainty is based on the uncertainty of
+                                            the time base. It is a constant fixed value of 2.9
+                                            ns.</xhtml:p>
+                                    </xhtml:body>
+                                </xhtml:html>
+                            </mtc:Documentation>
+                        </mtc:Technique>
+                    </unc:Technique>
 
                     <unc:Technique name="Measure.Voltage.AC.LowVoltage">
                         <!-- needed when Technique is externally defined, when locally defined as here, not so much. -->
@@ -101,8 +327,8 @@
                             <mtc:CMCUncertainty
                                 function_name="Measure.Voltage.AC.LowVoltage.Uncertainty.Certified">
                                 <mtc:Expression>
-                                        k_nominal * nominal + k_range * range
-                                    </mtc:Expression>
+                                    k_nominal * nominal + k_range * range
+                                </mtc:Expression>
                                 <mtc:Result>
                                     <uom:Quantity name="voltage"/>
                                 </mtc:Result>
@@ -121,7 +347,7 @@
                             </mtc:Documentation>
                         </mtc:Technique>
                     </unc:Technique>
-
+                    
                     <unc:CMC>
 
                         <unc:Category name="elctrical.low_frequency.low_voltage"/>
@@ -515,6 +741,147 @@
                                     </unc:Case>
 
                                 </unc:Switch>
+                            </unc:CMCFunction>
+                        </unc:Template>
+                    </unc:CMC>
+                    <unc:CMC>
+                        <unc:Category name="electrical">
+                            <unc:Category name="time-interval"/>
+                        </unc:Category>
+                        <unc:DUT>
+                            <unc:DeviceType>Pulse Generators</unc:DeviceType>
+                        </unc:DUT>
+                        <unc:Template>
+                            <unc:Technique name="Measure.Time.Interval.Oscilloscope"/>
+                            <unc:CMCFunction name="uncertainty.fixed_value.certified">
+                                <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                    <unc:Range>
+                                        <unc:Start test="at" uom_alternative="picoseconds"
+                                            >60</unc:Start>
+                                        <unc:End test="at" uom_alternative="picoseconds"
+                                            >700</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">12</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="picoseconds"
+                                            >700</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >1.4</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">13</unc:ConstantValue>
+                                    </unc:Range>
+                                </unc:Ranges>
+                            </unc:CMCFunction>
+                        </unc:Template>
+                        <unc:Template>
+                            <unc:Technique name="Measure.Time.Interval.Oscilloscope"/>
+                            <unc:CMCFunction name="uncertainty.function_of_nominal.certified">
+                                <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >1.4</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >4.4</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">13</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k"
+                                            >1.4E-3</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >4.4</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds">9</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">17</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k"
+                                            >1.1E-3</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >9</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >18</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">26</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k"
+                                            >9.5E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >18</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >44</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">56</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k" 
+                                            >8E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >44</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >88</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">110</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k"
+                                            >7.6E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >88</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >180</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">210</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k"
+                                            >7.2E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >180</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >440</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="picoseconds">540</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k" 
+                                            >6.8E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >440</unc:Start>
+                                        <unc:End test="at" uom_alternative="nanoseconds"
+                                            >880</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="nanoseconds">1</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k"
+                                            >7E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                    <unc:Range>
+                                        <unc:Start test="after" uom_alternative="nanoseconds"
+                                            >880</unc:Start>
+                                        <unc:End test="at" uom_alternative="microseconds"
+                                            >1</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="nanoseconds">2.3</unc:ConstantValue>
+                                        <unc:ConstantValue const_parameter_name="k" 
+                                            >5.4E-4</unc:ConstantValue>
+                                    </unc:Range>
+                                </unc:Ranges>
+                            </unc:CMCFunction>
+                        </unc:Template>
+                        <unc:Template>
+                            <unc:Technique name="Measure.Time.Interval.Counter"/>
+                            <unc:CMCFunction name="uncertainty.certified">
+                                <unc:Ranges variable_name="nominal" variable_type="parameter">
+                                    <unc:Range>
+                                        <unc:Start test="at" uom_alternative="nanoseconds"
+                                            >10</unc:Start>
+                                        <unc:End test="at">10</unc:End>
+                                        <unc:ConstantValue const_parameter_name="U"
+                                            uom_alternative="nanoseconds">2.9</unc:ConstantValue>
+                                    </unc:Range>
+                                </unc:Ranges>
                             </unc:CMCFunction>
                         </unc:Template>
                     </unc:CMC>

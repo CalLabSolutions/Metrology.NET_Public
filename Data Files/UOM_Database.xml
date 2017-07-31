@@ -30,20 +30,26 @@
 					<uom:Aliases/>
 					<uom:Alternatives>
 						<uom:Alternative name="percent" symbol="%" metric="false">
+
+
 							<uom:LinearConverter Offset="0.0" ScaleFactor="0.01"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>&amp;percnt;</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<uom:Aliases/>
 						</uom:Alternative>
 						<uom:Alternative name="parts-per-million" symbol="ppm" metric="false">
+
+
 							<uom:LinearConverter Offset="0.0" ScaleFactor="0.000001"/>
 							<uom:Presentation>
 								<m:math>
 									<m:mi>ppm</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<uom:Aliases/>
 						</uom:Alternative>
 						<uom:Alternative name="decibels-field-ratio" symbol="dB" metric="false">
 							<uom:LogarithmicConverter LogScaleFactor="20.0" LinScaleFactor="1.0"/>
@@ -124,11 +130,21 @@
 					</uom:Alternatives>
 				</uom:UOM>
 				<uom:UOM base_name="ratio-fullscale" symbol="">
+
+
 					<uom:Quantities>
 						<uom:Quantity name="ratio:fullscale"/>
 					</uom:Quantities>
+					<uom:Presentation>
+						<m:math>
+							<m:mi/>
+						</m:math>
+					</uom:Presentation>
+					<uom:Aliases/>
 					<uom:Alternatives>
 						<uom:Alternative name="percent-fullscale" symbol="%fs" metric="true">
+
+
 							<uom:LinearConverter Offset="0.0E1" ScaleFactor="0.01"/>
 							<uom:Presentation>
 								<m:math>
@@ -136,6 +152,7 @@
 									<m:mi>fs</m:mi>
 								</m:math>
 							</uom:Presentation>
+							<uom:Aliases/>
 						</uom:Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
@@ -999,6 +1016,10 @@
 					</Alternatives>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="counts" symbol="">
+
+
+
+
 					<uom:Quantities>
 						<uom:Quantity name="counts"/>
 					</uom:Quantities>
@@ -1019,8 +1040,12 @@
 							</uom:Presentation>
 						</Alias>
 					</Aliases>
+					<uom:Alternatives/>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="turns" symbol="">
+
+
+
 					<uom:Quantities>
 						<uom:Quantity name="turns"/>
 					</uom:Quantities>
@@ -1032,8 +1057,13 @@
 							<m:mi>turns</m:mi>
 						</m:math>
 					</uom:Presentation>
+					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="increments" symbol="">
+				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="increments"
+					symbol="">
+
+
+
 					<uom:Quantities>
 						<uom:Quantity name="increments"/>
 					</uom:Quantities>
@@ -1045,6 +1075,7 @@
 							<m:mi>increments</m:mi>
 						</m:math>
 					</uom:Presentation>
+					<uom:Alternatives/>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
 					base_name="cubic-meters-per-cubic-meter" symbol="m3/m3">
@@ -3040,6 +3071,7 @@
 						<uom:Quantity name="delay"/>
 						<uom:Quantity name="duration"/>
 						<uom:Quantity name="pulse-width"/>
+						<uom:Quantity name="time-interval"/>
 					</uom:Quantities>
 					<uom:CategoryReferences>
 						<uom:CategoryReference ref="physical"/>
@@ -6819,7 +6851,7 @@
 		<uom:Dimension m="3" kg="0" s="-1" A="-1" K="0" mol="0" cd="0">
 			<uom:UOMs>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-per-pascal"
-					symbol="V · Pa-1">
+					symbol="V·Pa-1">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-pressure-ratio"/>
 					</uom:Quantities>
@@ -7027,7 +7059,8 @@
 							<LinearConverter ScaleFactor="5.8e5" Offset="0.0"/>
 							<uom:Presentation>
 								<m:math>
-									<m:mi>&amp;percnt; IACS</m:mi>
+									<m:mi>&amp;percnt;</m:mi>
+									<m:mi>IACS</m:mi>
 								</m:math>
 							</uom:Presentation>
 							<Aliases> </Aliases>
@@ -7354,7 +7387,11 @@
 						<m:math>
 							<m:mfrac>
 								<m:mi>C</m:mi>
-								<m:mi>kg &amp;middot; s</m:mi>
+								<m:mrow>
+									<m:mi>kg</m:mi>
+									<m:mo>&amp;middot;</m:mo>
+									<m:mi>s</m:mi>
+								</m:mrow>
 							</m:mfrac>
 						</m:math>
 					</uom:Presentation>

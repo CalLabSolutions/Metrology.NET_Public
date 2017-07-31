@@ -64,12 +64,14 @@ namespace SOA_DataAccessLibrary
         /// <returns>success or failure status</returns>
         public OpResult load(string source)
         {
+            const int URI_MAX_LENGTH = 2083;
             OpResult opResult = new OpResult();
             try
             {
-                if (Uri.IsWellFormedUriString(source, UriKind.Absolute))
+                if ((source.Length < URI_MAX_LENGTH) && (Uri.IsWellFormedUriString(Uri.EscapeUriString(source), UriKind.Absolute)))
                 {
-                    WebRequest request = WebRequest.Create(source);
+                    string uri_string = Uri.EscapeUriString(source);
+                    WebRequest request = WebRequest.Create(uri_string);
                     request.Timeout = 1000 * 60; // 1 minute;
                     request.UseDefaultCredentials = true;
                     request.Proxy.Credentials = request.Credentials;
@@ -360,11 +362,15 @@ namespace SOA_DataAccessLibrary
             {
                 aliasCache.Clear();
                 string symbol;
-                var set = UomElement.Element(ns + "Aliases").Elements(ns + "Alias");
-                foreach (var alias in set)
+                var aliases = UomElement.Element(ns + "Aliases");
+                if (aliases != null)
                 {
-                    symbol = alias.Attribute("symbol").Value;
-                    aliasCache[symbol] = new Alias(alias);
+                    var set = aliases.Elements(ns + "Alias");
+                    foreach (var alias in set)
+                    {
+                        symbol = alias.Attribute("symbol").Value;
+                        aliasCache[symbol] = new Alias(alias);
+                    }
                 }
             }
 
@@ -1891,18 +1897,13 @@ namespace SOA_DataAccessLibrary
 
         private Mtc_Function() { }
 
-        public Mtc_Function(XElement datasource, IParameterSource parameterSource)
+        public Mtc_Function(XElement functionElement, IParameterSource parameterSource)
         {
-            MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
-            _function_name = mtcSpaceHelper.getAttribute("function_name");
-            var functionElement = mtcSpaceHelper.getElement("Function");
-            if (functionElement != null)
-            {
-                mtcSpaceHelper = new MtcSpaceHelper(functionElement);
-                loadExpression(mtcSpaceHelper);
-                setQuantity(mtcSpaceHelper);
-                symbolDefinitions = new Mtc_Symbols(functionElement, parameterSource);
-            }
+            var Function = new MtcSpaceHelper(functionElement);
+            _function_name = Function.getAttribute("function_name");
+            loadExpression(Function);
+            setQuantity(Function);
+            symbolDefinitions = new Mtc_Symbols(Function.getElement(), parameterSource);
         }    
     }
 
@@ -3443,7 +3444,11 @@ namespace SOA_DataAccessLibrary
                 this.template = template;
                 this.assertions = new Unc_Assertions(datasource);
                 var rgsElement = new UncSpaceHelper(datasource).getElement("Ranges");
-                if (rgsElement != null) ranges = new Unc_Ranges(rgsElement, template, functionName);
+                if (rgsElement != null)
+                    ranges = new Unc_Ranges(rgsElement, template, functionName);
+                else
+                    ranges = new Unc_Ranges(datasource, template, functionName);
+
             }
             catch (Exception e)
             {
@@ -3545,7 +3550,8 @@ namespace SOA_DataAccessLibrary
             {
                 this.template = template;
                 loadCases(new UncSpaceHelper(datasource), template, functionName);
-                if (cases.Count() == 0) loadRanges(datasource, template, functionName);
+                if (cases.Count() == 0) 
+                    loadRanges(datasource, template, functionName);
             }
             catch (Exception e)
             {

@@ -198,7 +198,7 @@
                     <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
                     <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
                         <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique">
-                            <TreeViewItem x:Name="f_tree" Selected="slct_tech" Header="Function">
+                            <TreeViewItem x:Name="f_tree"  Selected="slct_case" Header="Function">
 
                             </TreeViewItem>
                         </TreeViewItem>
@@ -527,9 +527,9 @@
                             <ColumnDefinition Width="278*"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}"
+                        <materialDesign:Card  Background="{DynamicResource MaterialDesignBackground}"
                              Margin="4,24,138.667,0" Grid.ColumnSpan="3">
-                            <StackPanel Name="exp_sp">
+                            <!--StackPanel Name="exp_sp">
                                 <Expander HorizontalAlignment="Stretch"
                           Header="Case 1" Background="#ffffe0"  Margin="0,0,0.333,0" IsExpanded="False" >
                                     <Grid  Margin="0,0,0.333,0" Height="102">
@@ -612,37 +612,19 @@
                                TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Expander>
-                            </StackPanel>
+                            </-->
                         </materialDesign:Card>
-                        <TreeView x:Name="treeView" Grid.Column="1" HorizontalAlignment="Left" Height="220" Margin="0.333,358,0,0" VerticalAlignment="Top" Width="236">
-                            <TreeViewItem Header="Case1">
-                                <TreeViewItem Header="Range">
-                                    <TreeViewItem Header="Range">
-                                        <TreeViewItem Header="Range"></TreeViewItem>
-                                        <TreeViewItem Header="Range"></TreeViewItem>
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="Range">
-                                        <TreeViewItem Header="Range"></TreeViewItem>
-                                        <TreeViewItem Header="Range"></TreeViewItem>
-                                    </TreeViewItem>
-                                </TreeViewItem>
-                            </TreeViewItem>
-                            <TreeViewItem Header="Case2">
-                                <TreeViewItem Header="Case2"></TreeViewItem>
-                            </TreeViewItem>
-                            <TreeViewItem Header="Case3">
-                                <TreeViewItem Header="Case3"></TreeViewItem>
-                            </TreeViewItem>
-                            <TreeViewItem Header="Case4">
-                                <TreeViewItem Header="Case4"></TreeViewItem>
-                            </TreeViewItem>
-                            <TreeViewItem Header="Case5">
-                                <TreeViewItem Header="Case5"></TreeViewItem>
-                            </TreeViewItem>
-                            <TreeViewItem Header="Case6">
-                                <TreeViewItem Header="Case6"></TreeViewItem>
-                            </TreeViewItem>
-                        </TreeView>
+                        <TextBlock x:Name="textBlock11" Foreground="DarkOrange"  HorizontalAlignment="Left" Margin="0.333,24,0,0" TextWrapping="Wrap" Text="Assertions" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="34" Width="466" Grid.Column="1" FontSize="24"/>
+                        <GroupBox x:Name="groupBox" Grid.Column="1" Header="Ranges:" HorizontalAlignment="Left" Height="400" Margin="0.333,98,0,0" VerticalAlignment="Top" Width="476" Grid.ColumnSpan="2"/>
+                        <TreeView x:Name="range_tree" HorizontalAlignment="Left" Height="365" Margin="0.333,133,0,0" VerticalAlignment="Top" Width="236" Grid.Column="1"/>
+                        <TextBlock Foreground="DarkOrange" x:Name="textBox3" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,158,0,0" TextWrapping="Wrap" Text="Start" VerticalAlignment="Top" Width="120" FontSize="18"/>
+                        <TextBlock Foreground="DarkOrange" x:Name="textBox3_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,243,0,0" TextWrapping="Wrap" Text="End" VerticalAlignment="Top" Width="120" FontSize="18"/>
+                        <TextBox x:Name="textBox4" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="241.333,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" FontSize="18" Grid.ColumnSpan="2"/>
+                        <TextBox x:Name="textBox4_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="241.333,283,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" FontSize="18" Grid.ColumnSpan="2"/>
+                        <TextBlock Foreground="DarkOrange" x:Name="textBox3_Copy1" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,383,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="18"/>
+                        <TextBlock Foreground="DarkOrange" x:Name="textBox3_Copy2" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,338,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="18"/>
+                        <TextBox x:Name="textBox5" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,332,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
+                        <TextBox x:Name="textBox5_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,378,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
 
                     </Grid>
                 </TabItem>

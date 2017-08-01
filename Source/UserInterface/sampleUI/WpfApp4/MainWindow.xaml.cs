@@ -33,8 +33,12 @@ namespace WpfApp4
         SOA_DataAccess dao2 = new SOA_DataAccess();
         OpResult op;
         Soa SampleSOA;
+        
         public static readonly RoutedEvent CloseTabEvent = EventManager.RegisterRoutedEvent("CloseTab", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CloseableTabItem));
         private object tv;
+        private int changed_no=0;
+        private int casenumber = 1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -182,7 +186,8 @@ namespace WpfApp4
             prcss.Header = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
             string techwithext= SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
             string fwithext = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].name;
-            //MessageBox.Show(fwithext);
+            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count().ToString());
+            int cc = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count();
             int pl = prcss.Header.ToString().Length;
             int tl = techwithext.Length;
             int fl = fwithext.Length;
@@ -192,10 +197,24 @@ namespace WpfApp4
             tech_tree0.Header = techwithext.Substring(pl+1);
             f_tree.Header = fwithext.Substring(tl + 1);
             tec_name.Text = tech_tree0.Header.ToString();
+
+            TreeViewItem cnode = new TreeViewItem();
+            for(int x=0;x<cc;x++)
+            {
+                cnode.Name ="case"+ casenumber.ToString();
+                cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Name+
+                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[x].Assertions[1].Name ;
+                f_tree.Items.Add(cnode);
+                cnode = new TreeViewItem();
+            }
+            
             dlg = new Microsoft.Win32.OpenFileDialog();
         }
+            //save the data
         private void SaveFile(object sender, RoutedEventArgs e)
         {
+            SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].name = "selamd";
+            save_changed(1);
             /*
             SampleSOA.CapabilityScope.Locations[0].Address.Street=street.Text;
             SampleSOA.CapabilityScope.Locations[0].Address.City= city.Text;
@@ -239,6 +258,21 @@ namespace WpfApp4
                // dao.Doc.Save("we");
             }
 
+        }
+            //save the changes
+        private void save_changed(int x)
+        {
+            
+            switch (x)
+            {
+                case 1:
+                    SampleSOA.CapabilityScope.MeasuringEntity = "selam";
+                    //MessageBox.Show("process saved");
+                    break;
+                default:
+                    //MessageBox.Show("xxx");
+                    break;
+            }
         }
         private void DooSomething(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -284,12 +318,67 @@ namespace WpfApp4
             TreeViewItem childItem = e.Source as TreeViewItem;
             childItem.IsSelected = false;
             //MessageBox.Show(childItem.Name);
-            if (childItem.HasItems && childItem.Name[0]=='p')
+            if (childItem.HasItems && childItem.Name[0] == 'p')
                 tabs.SelectedIndex = 2;
             else if (childItem.Name[0] == 't')
                 tabs.SelectedIndex = 3;
+            else if (childItem.Name[0] == 'c')
+            {
+
+                // int i = tvMain.Items.IndexOf(tvMain.SelectedItem); MessageBox.Show(i.ToString());
+                
+            }
+                
             else
                 tabs.SelectedIndex = 4;
+        }
+        private void slct_case(object sender, RoutedEventArgs e)
+        {
+
+            TreeViewItem childItem = e.Source as TreeViewItem;
+            ItemsControl parentitems = GetSelectedTreeViewItemParent(childItem);
+            //TreeViewItem parent = parentitems as TreeViewItem;
+            //int i = parent.Items.IndexOf(childItem); MessageBox.Show(i.ToString());
+            TreeViewItem parent = childItem.Parent as TreeViewItem;
+            int i = parent.Items.IndexOf(childItem);// MessageBox.Show(i.ToString());
+            
+            set_cases(i);
+        }
+        private void set_cases(int c)
+        {
+            textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
+                " "+SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
+                " " + SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Name +
+                " "+ SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Value;
+            range_tree.Items.Clear();
+            TreeViewItem ft = new TreeViewItem();
+            TreeViewItem ft2 = new TreeViewItem();
+            int rn = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges.Count();
+            //MessageBox.Show(rn.ToString());
+            for(int i=0;i<rn;i++)
+            {
+                int rn2= SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();
+                ft.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
+                for(int j=0;j<rn2;j++)
+                {
+                    ft2.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
+                    ft.Items.Add(ft2);
+                    ft2 = new TreeViewItem();
+                }
+                range_tree.Items.Add(ft);
+                ft = new TreeViewItem();
+            }
+            //f_tree.Items.Add
+        }
+        public ItemsControl GetSelectedTreeViewItemParent(TreeViewItem item)
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(item);
+            while (!(parent is TreeViewItem || parent is TreeView))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            return parent as ItemsControl;
         }
         private void add_tab(object sender, RoutedEventArgs e)
         {
@@ -536,7 +625,7 @@ namespace WpfApp4
         {
             Expander x = new Expander();
             x.Name = "case7";
-            exp_sp.Children.Add(x);
+            //exp_sp.Children.Add(x);
         }
         private void setTechName(object sender, KeyEventArgs e)
         {

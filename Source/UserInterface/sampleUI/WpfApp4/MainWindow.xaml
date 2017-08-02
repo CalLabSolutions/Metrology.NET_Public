@@ -204,36 +204,7 @@
                         </TreeViewItem>
                     </TreeViewItem>
 
-                    <materialDesign:PopupBox
-                                     Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                                        Foreground="Orange"
-                                        Background="LightGoldenrodYellow"
-                                     PlacementMode="RightAndAlignMiddles"
-                                     UnfurlOrientation="Horizontal"
-                                     ToolTip="Manage items"
-                                     VerticalAlignment="Bottom" Height="34" Width="34">
-                        <StackPanel Orientation="Horizontal">
-                            <Button Height="34" Width="34" ToolTip="Add Process"
-                            Click="AddProcessItem" Content="P" FontWeight="Bold" FontSize="20">
-
-                            </Button>
-                            <Button Height="34" Width="34" ToolTip="Add Technique"
-                            Click="AddTechniqueItem" Content="T" FontWeight="Bold" FontSize="20">
-                                <!--Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-                              Stretch="Uniform"
-                              Width="15" Height="15"
-                              Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"/-->
-                            </Button>
-                            <Button Height="34" Width="34" ToolTip="Remove selected item"
-                                    Click="RemoveTreeItem"
-                            Command="{Binding RemoveSelectedItemCommand}">
-                                <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
-                              Stretch="Uniform"
-                              Width="15" Height="15"
-                              Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"/>
-                            </Button>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
+                    
                 </TreeView>
 
 

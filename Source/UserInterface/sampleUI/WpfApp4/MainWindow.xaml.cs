@@ -146,15 +146,8 @@ namespace WpfApp4
 
                 return;
             }
-            //TreeViewItem treeItem = null;
-            //treeItem = new TreeViewItem();
-            //treeItem.Header = XMLdoc.GetElementsByTagName("unc:ProcessType")[0].Attributes["name"].Value;
-            //treeItem.Items.Add(new TreeViewItem() { Header = XMLdoc.GetElementsByTagName("unc:Technique")[0].Attributes["name"].Value });
-            //tvMain.Items.Add(treeItem);
             SampleSOA = dao.SOADataMaster;
-
-
-
+            
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
             //MessageBox.Show(process_name1);.CapabilityScope.Activities[0].ProcessTypes.Count()
             //MessageBox.Show(process_name1.ToString());
@@ -177,36 +170,98 @@ namespace WpfApp4
             cinfo.Text = SampleSOA.CapabilityScope.Locations[0].ContactInfo.ToString();
             //process_name.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Name;
 
-            //load the exsiting process name into combobox
-            ComboBoxItem comboitem = null;
-            comboitem = new ComboBoxItem();
-            comboitem.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
-            combo2.Items.Add(comboitem);
-            comboitem.IsSelected = true;
-            prcss.Header = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name;
+            
             string techwithext= SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
             string fwithext = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].name;
             //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count().ToString());
-            int cc = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count();
+            int cc;
             int pl = prcss.Header.ToString().Length;
             int tl = techwithext.Length;
             int fl = fwithext.Length;
             
-             // SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name = "jj";            //MessageBox.Show(pl.ToString());
+            //SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name = "jj";            //MessageBox.Show(pl.ToString());
             string t=techwithext.Substring(0, 3);
             tech_tree0.Header = techwithext.Substring(pl+1);
             f_tree.Header = fwithext.Substring(tl + 1);
             tec_name.Text = tech_tree0.Header.ToString();
 
+
+            tvMain.Items.RemoveAt(1);
+            ToolTip tt = new ToolTip(); ToolTip tt2 = new ToolTip();
+            int pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
+            int tc = SampleSOA.CapabilityScope.Activities[0].Techniques.Count();
+            int fc = SampleSOA.CapabilityScope.Activities[0].Templates.Count();
+            int q = 0;
+            int p = 0;
+            TreeViewItem processnode = new TreeViewItem();
+            TreeViewItem technode = new TreeViewItem();
+            TreeViewItem funcnode = new TreeViewItem();
             TreeViewItem cnode = new TreeViewItem();
-            for(int x=0;x<cc;x++)
+            for (int i=0;i<pc;i++)
             {
-                cnode.Name ="case"+ casenumber.ToString();
-                cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Name+
-                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[x].Assertions[1].Name ;
-                f_tree.Items.Add(cnode);
-                cnode = new TreeViewItem();
+                
+                string s = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[i].ProcessType.Name;
+                tt.Content = s;
+                int ic=tvMain.Items.Count;
+                
+                processnode.Header = "Process"+(i+1).ToString();
+                processnode.ToolTip = tt;
+                tt = new ToolTip();
+                processnode.Selected += slct_prcss;
+                processnode.Name = "process" + (i).ToString();
+                for (int j=0;j<tc;j++)
+                {
+
+                    if (s == SampleSOA.CapabilityScope.Activities[0].Techniques[j].Technique.ProcessTypeName)
+                    {
+                        string s2 = SampleSOA.CapabilityScope.Activities[0].Techniques[j].name;
+                        tt.Content = s2;
+                        technode.ToolTip = tt;
+                        tt = new ToolTip();
+                        technode.Header = "Technique"+(q+1).ToString();
+                        technode.Name= "technique" + (j).ToString();
+                        for (int k=0;k<fc;k++)
+                        {
+                            if(s2== SampleSOA.CapabilityScope.Activities[0].Templates[k].TemplateTechnique.name)
+                            {
+                                string s3 = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].name;
+                                tt.Content = s3;
+                                funcnode.ToolTip = tt;
+                                tt = new ToolTip();
+                                funcnode.Header = "Function" + (p + 1).ToString();
+                                funcnode.Name = "function" + (p + 1).ToString();
+                                cc = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases.Count();
+                                for (int x = 0; x < cc; x++)
+                                {
+                                    cnode.Name = "case" + casenumber.ToString();
+                                    cnode.Header = "e" ;
+                                    cnode.Selected += slct_case;
+                                    funcnode.Items.Add(cnode);
+                                    cnode = new TreeViewItem();
+                                }
+                                technode.Items.Add(funcnode);
+                                funcnode = new TreeViewItem(); p++;
+                            }
+                            
+                        }
+                        p = 0;
+                        processnode.Items.Add(technode);
+                        technode = new TreeViewItem();
+                        q++;
+                        
+                    }
+                    
+                }
+                q = 0;
+                //tvMain.Items.Insert(ic - 1, processnode);
+                tvMain.Items.Add( processnode);
+                processnode = new TreeViewItem();
+                
             }
+            
+
+            
+            
             
             dlg = new Microsoft.Win32.OpenFileDialog();
         }
@@ -316,21 +371,162 @@ namespace WpfApp4
         {
             //MessageBox.Show("Process!");
             TreeViewItem childItem = e.Source as TreeViewItem;
-            childItem.IsSelected = false;
+            //childItem.IsSelected = false;
             //MessageBox.Show(childItem.Name);
             if (childItem.HasItems && childItem.Name[0] == 'p')
-                tabs.SelectedIndex = 2;
-            else if (childItem.Name[0] == 't')
-                tabs.SelectedIndex = 3;
-            else if (childItem.Name[0] == 'c')
             {
-
-                // int i = tvMain.Items.IndexOf(tvMain.SelectedItem); MessageBox.Show(i.ToString());
-                
+                int i = tvMain.Items.IndexOf(childItem);
+                set_process(i);
+                tabs.SelectedIndex = 2;
+            }
+            
+            else if (childItem.Name[0] == 't')
+            {
+                int tl = childItem.Name.Length;
+                int t = (int)Char.GetNumericValue(childItem.Name[tl - 1]);
+                TreeViewItem parent = childItem.Parent as TreeViewItem;
+                int pl = parent.Name.Length;
+                int p = (int)Char.GetNumericValue(parent.Name[pl - 1]);
+                set_tech(p, t);
+                tabs.SelectedIndex = 3;
             }
                 
+            else if (childItem.Name[0] == 'c')
+            {
+                // int i = tvMain.Items.IndexOf(tvMain.SelectedItem); MessageBox.Show(i.ToString());
+            }  
             else
+            {
+                set_func(6);
                 tabs.SelectedIndex = 4;
+            }
+                
+        }
+        private void set_process(int p)
+        {
+            //load the exsiting process name into combobox
+            ComboBoxItem comboitem = null;
+            comboitem = new ComboBoxItem();
+            comboitem.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p-1].ProcessType.Name;
+            combo2.Items.Add(comboitem);
+            comboitem.IsSelected = true;
+            prcss.Header = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p-1].ProcessType.Name;
+            //*
+            Separator s = new Separator();
+            ComboBox c = new ComboBox();
+            ComboBoxItem i = new ComboBoxItem();
+            TextBlock t = new TextBlock();
+            CheckBox b = new CheckBox();
+
+            int ic = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p-1].ProcessType.Parameters.Count();
+            is1.Children.Clear();
+            is2.Children.Clear();
+            is3.Children.Clear();
+            os1.Children.Clear();
+            os2.Children.Clear();
+            os3.Children.Clear();
+
+            for (int x=0;x<ic;x++)
+            {
+                addsep(s, is1); s = new Separator();
+                addsep(s, is1); s = new Separator();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].name;
+                addtext(t, is1, 60); t = new TextBlock();
+                addsep(s, is1); s = new Separator();
+                if(SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].Quantity!=null)
+                {
+                    i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].Quantity.name;
+
+                }
+                c.Items.Add(i);
+                i.IsSelected = true;
+                i = new ComboBoxItem();
+                addsep(s, is2); s = new Separator();
+                addcombo(c, is2);c = new ComboBox();
+                //addsep(s, is2); s = new Separator();
+                addsep(s, is3); s = new Separator();
+                addsep(s, is3); s = new Separator();
+                addcheck(b, is3); b = new CheckBox();
+                addsep(s, is3); s = new Separator(); 
+            }
+                //output for process
+            addsep(s, os1); s = new Separator();
+            addsep(s, os1); s = new Separator();
+            t.Text = "Result:";
+            addtext(t, os1, 60); t = new TextBlock();
+            i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.ProcessResults[0].Quantity.name;
+            c.Items.Add(i);
+            i.IsSelected = true;
+            i = new ComboBoxItem();
+            addsep(s, os2); s = new Separator();
+            addcombo(c, os2); c = new ComboBox();
+        }
+        private void set_tech(int p,int tt)
+        {
+            MessageBox.Show(p.ToString() + tt.ToString());
+            Separator s = new Separator();
+            ComboBox c = new ComboBox();
+            ComboBoxItem i = new ComboBoxItem();
+            TextBlock t = new TextBlock();
+            CheckBox b = new CheckBox();
+
+            int it = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters.Count();
+            int ip = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges.Count();
+            is4.Children.Clear();
+            is5.Children.Clear();
+            //is6.Children.Clear();
+            os4.Children.Clear();
+            os5.Children.Clear();
+            os6.Children.Clear();
+            addsep(s, is4); s = new Separator();
+            addsep(s, is4); s = new Separator();
+            addsep(s, is5); s = new Separator();
+            addsep(s, is5); s = new Separator();
+            for (int x = 0; x < it; x++)
+            {
+                addsep(s, is4); s = new Separator();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters[x].name;
+                addtext(t, is4, 65); t = new TextBlock();
+                if (x < ip)
+                {
+                    addsep(s, is5); s = new Separator();
+                    t.Text = "Start " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].Start.test +
+                        ": " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].Start.Value.ToString() +
+                        " End " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].End.test +
+                        ": " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].End.Value.ToString();
+                    addtext(t, is5, 130); t = new TextBlock();
+                }
+
+
+
+            }
+            //output for technique
+            addsep(s, os5); s = new Separator();
+            addsep(s, os5); s = new Separator();
+            addsep(s, os5); s = new Separator();
+            t.Text = "Result:";
+            addtext(t, os5, 60); t = new TextBlock();
+            addsep(s, os6); s = new Separator();
+            addsep(s, os6); s = new Separator();
+            addsep(s, os6); s = new Separator();
+            t.Text = "Start " +
+                SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].Start.test +
+                        ": " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].Start.Value.ToString() +
+                        " End " +
+                SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.test +
+                        ": " +
+                        SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
+            addtext(t, os6, 135); t = new TextBlock();
+            //documentation
+        }
+        private void set_func(int f)
+        {
+            MessageBox.Show("fre");
         }
         private void slct_case(object sender, RoutedEventArgs e)
         {
@@ -346,6 +542,7 @@ namespace WpfApp4
         }
         private void set_cases(int c)
         {
+            MessageBox.Show(c.ToString());
             textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
                 " "+SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
                 " " + SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Name +
@@ -505,94 +702,8 @@ namespace WpfApp4
             tec_pro.Text = s_node.Attributes["name"].Value;
             //MessageBox.Show("rslt cnt:"+result_cnt.ToString());
             //ComboBoxItem childItem = e as ComboBoxItem;*/
-            Separator s = new Separator();
-            ComboBox c = new ComboBox();
-            ComboBoxItem i = new ComboBoxItem();
-            TextBlock t = new TextBlock();
-            CheckBox b = new CheckBox();
-
-            int ic = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters.Count();
+            //*
             
-            
-            for (int x=0;x<ic;x++)
-            {
-                addsep(s, is1); s = new Separator();
-                addsep(s, is1); s = new Separator();
-                t.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[x].name;
-                addtext(t, is1, 60); t = new TextBlock();
-                addsep(s, is1); s = new Separator();
-                i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[x].Quantity.name;
-                c.Items.Add(i);
-                i.IsSelected = true;
-                i = new ComboBoxItem();
-                addsep(s, is2); s = new Separator();
-                addcombo(c, is2);c = new ComboBox();
-                //addsep(s, is2); s = new Separator();
-                addsep(s, is3); s = new Separator();
-                addsep(s, is3); s = new Separator();
-                addcheck(b, is3); b = new CheckBox();
-                addsep(s, is3); s = new Separator(); 
-            }
-                //output for process
-            addsep(s, os1); s = new Separator();
-            addsep(s, os1); s = new Separator();
-            t.Text = "Result:";
-            addtext(t, os1, 60); t = new TextBlock();
-            i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.ProcessResults[0].Quantity.name;
-            c.Items.Add(i);
-            i.IsSelected = true;
-            i = new ComboBoxItem();
-            addsep(s, os2); s = new Separator();
-            addcombo(c, os2); c = new ComboBox();
-
-
-            int it = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters.Count();
-            int ip = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges.Count();
-            addsep(s, is4); s = new Separator();
-            addsep(s, is4); s = new Separator();
-            addsep(s, is5); s = new Separator();
-            addsep(s, is5); s = new Separator();
-            for (int x = 0; x < it; x++)
-            {
-                addsep(s, is4); s = new Separator();
-                t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters[x].name;
-                addtext(t, is4,65); t = new TextBlock();
-                if(x<ip)
-                {
-                    addsep(s, is5); s = new Separator();
-                    t.Text = "Start " +
-                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].Start.test+
-                        ": "+
-                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].Start.Value.ToString() +
-                        " End " +
-                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].End.test +
-                        ": " +
-                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[x].End.Value.ToString();
-                    addtext(t, is5, 130); t = new TextBlock();
-                }
-                
-
-
-            }
-                //output for technique
-            addsep(s, os5); s = new Separator();
-            addsep(s, os5); s = new Separator();
-            addsep(s, os5); s = new Separator();
-            t.Text = "Result:";
-            addtext(t, os5, 60); t = new TextBlock();
-            addsep(s, os6); s = new Separator();
-            addsep(s, os6); s = new Separator();
-            addsep(s, os6); s = new Separator();
-            t.Text = "Start " +
-                SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].Start.test +
-                        ": " +
-                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].Start.Value.ToString() +
-                        " End " +
-                SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].End.test +
-                        ": " +
-                        SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].End.Value.ToString();
-            addtext(t, os6, 135); t = new TextBlock();
-                //documentation
             
 
         }

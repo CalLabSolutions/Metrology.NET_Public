@@ -182,13 +182,13 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="218" />
+                <ColumnDefinition Width="218" MaxWidth="240"/>
                 <ColumnDefinition Width="Auto" />
 
             </Grid.ColumnDefinitions>
             <GridSplitter Background="LightYellow" Grid.Column="1"  Width="5"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,0,-323.333" Grid.RowSpan="5"   />
             <!--GridSplitter Grid.Row="0" Grid.ColumnSpan="4" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  /-->
-            <Grid Name="treegrid" Background="#ffdcbc" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}"  Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="2" Margin="0,0,5,0" >
+            <Grid MaxWidth="240" Name="treegrid" Background="#ffdcbc" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}"  Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="2" Margin="0,0,5,0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="34*"/>
                     <ColumnDefinition Width="37*"/>
@@ -590,12 +590,12 @@
                         <TreeView x:Name="range_tree" HorizontalAlignment="Left" Height="365" Margin="0.333,133,0,0" VerticalAlignment="Top" Width="236" Grid.Column="1"/>
                         <TextBlock Foreground="DarkOrange" x:Name="textBox3" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,158,0,0" TextWrapping="Wrap" Text="Start" VerticalAlignment="Top" Width="120" FontSize="18"/>
                         <TextBlock Foreground="DarkOrange" x:Name="textBox3_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,243,0,0" TextWrapping="Wrap" Text="End" VerticalAlignment="Top" Width="120" FontSize="18"/>
-                        <TextBox x:Name="textBox4" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="241.333,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" FontSize="18" Grid.ColumnSpan="2"/>
-                        <TextBox x:Name="textBox4_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="241.333,283,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" FontSize="18" Grid.ColumnSpan="2"/>
-                        <TextBlock Foreground="DarkOrange" x:Name="textBox3_Copy1" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,383,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="18"/>
-                        <TextBlock Foreground="DarkOrange" x:Name="textBox3_Copy2" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,338,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="18"/>
-                        <TextBox x:Name="textBox5" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,332,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
-                        <TextBox x:Name="textBox5_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,378,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
+                        <TextBox x:Name="starttb" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="241.333,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" FontSize="18" Grid.ColumnSpan="2"/>
+                        <TextBox x:Name="endtb" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="241.333,283,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" FontSize="18" Grid.ColumnSpan="2"/>
+                        <TextBlock Foreground="DarkOrange" x:Name="cv2" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,383,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="18"/>
+                        <TextBlock Foreground="DarkOrange" x:Name="cv1" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,338,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="18"/>
+                        <TextBox x:Name="cv1tb" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,332,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
+                        <TextBox x:Name="cv2tb" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,378,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
 
                     </Grid>
                 </TabItem>

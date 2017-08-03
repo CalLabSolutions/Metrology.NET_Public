@@ -58,7 +58,10 @@ namespace WpfApp4
                 combo2.Items.Add(comboitem2);
                 //comboitem2.IsSelected = true;
             }
-            
+            cv1.Visibility = Visibility.Hidden;
+            cv2.Visibility = Visibility.Hidden;
+            cv1tb.Visibility = Visibility.Hidden;
+            cv2tb.Visibility = Visibility.Hidden;
             Separator ss = new Separator();
             ss.Height = 4;
             ss.Opacity = 0;
@@ -203,8 +206,8 @@ namespace WpfApp4
                 string s = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[i].ProcessType.Name;
                 tt.Content = s;
                 int ic=tvMain.Items.Count;
-                
-                processnode.Header = "Process"+(i+1).ToString();
+
+                processnode.Header = s;// "Process"+(i+1).ToString();
                 processnode.ToolTip = tt;
                 tt = new ToolTip();
                 processnode.Selected += slct_prcss;
@@ -218,7 +221,7 @@ namespace WpfApp4
                         tt.Content = s2;
                         technode.ToolTip = tt;
                         tt = new ToolTip();
-                        technode.Header = "Technique"+(q+1).ToString();
+                        technode.Header = s2;// "Technique"+(q+1).ToString();
                         technode.Name= "technique" + (j).ToString();
                         for (int k=0;k<fc;k++)
                         {
@@ -226,21 +229,38 @@ namespace WpfApp4
                             {
                                 string s3 = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].name;
                                 tt.Content = s3;
-                                funcnode.ToolTip = tt;
+                                funcnode.ToolTip = k;
                                 tt = new ToolTip();
-                                funcnode.Header = "Function" + (p + 1).ToString();
+                                funcnode.Header = s3;// "Function" + (p + 1).ToString();
                                 funcnode.Name = "function" + (p + 1).ToString();
                                 cc = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases.Count();
-                                for (int x = 0; x < cc; x++)
+                                /*if(cc==1)
                                 {
-                                    cnode.Name = "case" + casenumber.ToString();
-                                    cnode.Header = "e" ;
-                                    cnode.Selected += slct_case;
-                                    funcnode.Items.Add(cnode);
-                                    cnode = new TreeViewItem();
+                                cnode.Name = "case" + casenumber.ToString();
+                                cnode.Header = "e";
+                                cnode.Selected += slct_case;
+                                funcnode.Items.Add(cnode);
+                                cnode = new TreeViewItem();
+                                technode.Items.Add(funcnode);
+                                funcnode = new TreeViewItem(); p++;
+                                }*/
+                                if (cc > 1)
+                                {
+                                    for (int x = 0; x < cc; x++)
+                                    {
+                                        cnode.Name = "case" + casenumber.ToString();
+                                        cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Value +
+                                    " " + 
+                                    " " + SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[1].Value;
+                                        cnode.Selected += slct_case;
+                                        funcnode.Items.Add(cnode);
+                                        cnode = new TreeViewItem();
+                                    }
+                                    
                                 }
                                 technode.Items.Add(funcnode);
                                 funcnode = new TreeViewItem(); p++;
+
                             }
                             
                         }
@@ -258,6 +278,7 @@ namespace WpfApp4
                 processnode = new TreeViewItem();
                 
             }
+            // MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[1].CMCUncertaintyFunctions[0].Cases[0].);
             
 
             
@@ -526,27 +547,29 @@ namespace WpfApp4
         }
         private void set_func(int f)
         {
-            MessageBox.Show("fre");
+            //MessageBox.Show("fre");
         }
         private void slct_case(object sender, RoutedEventArgs e)
         {
 
+            tabs.SelectedIndex=4;
             TreeViewItem childItem = e.Source as TreeViewItem;
             ItemsControl parentitems = GetSelectedTreeViewItemParent(childItem);
             //TreeViewItem parent = parentitems as TreeViewItem;
             //int i = parent.Items.IndexOf(childItem); MessageBox.Show(i.ToString());
             TreeViewItem parent = childItem.Parent as TreeViewItem;
             int i = parent.Items.IndexOf(childItem);// MessageBox.Show(i.ToString());
-            
-            set_cases(i);
+            int fl = parent.Name.Length;
+            int f =Convert.ToInt32(parent.ToolTip.ToString());//            (int)String.GetNumericValue(parent.ToolTip.ToString());
+            set_cases(f,i);
         }
-        private void set_cases(int c)
+        private void set_cases(int f,int c)
         {
-            MessageBox.Show(c.ToString());
-            textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
-                " "+SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
-                " " + SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Name +
-                " "+ SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Value;
+            ToolTip tt = new ToolTip();
+            textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
+                " "+SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
+                " " + SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Name +
+                " "+ SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Value;
             range_tree.Items.Clear();
             TreeViewItem ft = new TreeViewItem();
             TreeViewItem ft2 = new TreeViewItem();
@@ -556,16 +579,64 @@ namespace WpfApp4
             {
                 int rn2= SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();
                 ft.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
+                ft.Name="f"+ f.ToString() + c.ToString() + i.ToString();
+                
+                ft.Selected += set_upperrange_click;
                 for(int j=0;j<rn2;j++)
                 {
                     ft2.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
                     ft.Items.Add(ft2);
+                    ft2.Name = "f" + f.ToString() + c.ToString() + i.ToString()+j.ToString();
                     ft2 = new TreeViewItem();
                 }
                 range_tree.Items.Add(ft);
                 ft = new TreeViewItem();
             }
             //f_tree.Items.Add
+
+        }
+        private void set_upperrange_click(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem childItem = e.Source as TreeViewItem;
+            int o = (int)Char.GetNumericValue(childItem.Name[3]);
+            int c = (int)Char.GetNumericValue(childItem.Name[2]);
+            int f = (int)Char.GetNumericValue(childItem.Name[1]);
+            //MessageBox.Show(f.ToString() + c.ToString() + o.ToString());
+            if (childItem.HasItems)
+            {
+                set_upperrange(f, c, o);
+                cv1.Visibility = Visibility.Hidden;
+                cv2.Visibility = Visibility.Hidden;
+                cv1tb.Visibility = Visibility.Hidden;
+                cv2tb.Visibility = Visibility.Hidden;
+            }
+               
+            else
+            {
+                int o2 = (int)Char.GetNumericValue(childItem.Name[4]);
+                set_lowerrange(f, c, o, o2);
+                cv1.Visibility = Visibility.Visible;
+                cv2.Visibility = Visibility.Visible;
+                cv1tb.Visibility = Visibility.Visible;
+                cv2tb.Visibility = Visibility.Visible;
+            }
+  
+        }
+        private void set_upperrange(int t,int c,int o)
+        {
+            starttb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Start.ValueString;
+            endtb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].End.ValueString;
+            
+        }
+        private void set_lowerrange(int t, int c, int o, int o2)
+        {
+
+            starttb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].Start.ValueString;
+            endtb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].End.ValueString;
+            cv1.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].const_parameter_name;
+            cv2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[1].const_parameter_name;
+            cv1tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].ValueString;
+            cv2tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].ValueString;
         }
         public ItemsControl GetSelectedTreeViewItemParent(TreeViewItem item)
         {

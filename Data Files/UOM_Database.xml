@@ -16,6 +16,7 @@
 					<uom:Quantities>
 						<uom:Quantity name="ratio"/>
 						<uom:Quantity name="attenuation"/>
+						<uom:Quantity name="gain"/>
 					</uom:Quantities>
 					<uom:CategoryReferences>
 						<uom:CategoryReference ref="physical"/>
@@ -38,7 +39,15 @@
 									<m:mi>&amp;percnt;</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<uom:Aliases/>
+							<uom:Aliases>
+								<uom:Alias symbol="pct">
+									<uom:Presentation>
+										<m:math>
+											<m:mi>pct</m:mi>
+										</m:math>
+									</uom:Presentation>
+								</uom:Alias>
+							</uom:Aliases>
 						</uom:Alternative>
 						<uom:Alternative name="parts-per-million" symbol="ppm" metric="false">
 
@@ -1294,40 +1303,25 @@
 					<uom:Alternatives/>
 				</UOM>
 				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
-					base_name="counts-per-unit-length" symbol="per-meter">
+					base_name="threads-per-unit-length" symbol="threads-per-meter">
 					<uom:Quantities>
-						<uom:Quantity name="counts-per-unit-length"/>
+
 						<uom:Quantity name="pitch"/>
 					</uom:Quantities>
 					<CategoryReferences>
 						<CategoryReference ref="physical"/>
-						<CategoryReference ref="optical"/>
-						<CategoryReference ref="electrical"/>
+
+
 					</CategoryReferences>
 					<uom:Presentation>
 						<m:math>
 							<m:mfrac>
-								<m:mi>#</m:mi>
+								<m:mi>threads</m:mi>
 								<m:mi>m</m:mi>
 							</m:mfrac>
 						</m:math>
 					</uom:Presentation>
-					<Aliases>
-						<Alias symbol="pitch">
-							<uom:Presentation>
-								<m:math>
-									<m:mi>pitch</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alias>
-						<Alias symbol="p">
-							<uom:Presentation>
-								<m:math>
-									<m:mi>p</m:mi>
-								</m:math>
-							</uom:Presentation>
-						</Alias>
-					</Aliases>
+					<Aliases> </Aliases>
 					<uom:Alternatives>
 						<uom:Alternative name="threads-per-inch" symbol="tpi" metric="false">
 							<uom:LinearConverter ScaleFactor="25.4" Offset="0.0"/>
@@ -3071,7 +3065,6 @@
 						<uom:Quantity name="delay"/>
 						<uom:Quantity name="duration"/>
 						<uom:Quantity name="pulse-width"/>
-						<uom:Quantity name="time-interval"/>
 					</uom:Quantities>
 					<uom:CategoryReferences>
 						<uom:CategoryReference ref="physical"/>

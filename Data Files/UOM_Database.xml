@@ -3065,6 +3065,7 @@
 						<uom:Quantity name="delay"/>
 						<uom:Quantity name="duration"/>
 						<uom:Quantity name="pulse-width"/>
+						<uom:Quantity name="time-interval"/>
 					</uom:Quantities>
 					<uom:CategoryReferences>
 						<uom:CategoryReference ref="physical"/>

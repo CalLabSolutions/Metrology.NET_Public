@@ -58,6 +58,11 @@ namespace WpfApp4
                 combo2.Items.Add(comboitem2);
                 //comboitem2.IsSelected = true;
             }
+
+            cd0.Width = new GridLength(0, GridUnitType.Pixel);
+            cd1.Width = new GridLength(0, GridUnitType.Pixel);
+            
+            split1.Width = 0;
             cv1.Visibility = Visibility.Hidden;
             cv2.Visibility = Visibility.Hidden;
             cv1tb.Visibility = Visibility.Hidden;
@@ -133,6 +138,8 @@ namespace WpfApp4
         }
         private void BrowseXmlFile(object sender, RoutedEventArgs e)
         {
+            
+            split1.Width = 5;
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.CheckFileExists = true;
             dlg.Filter = "XML Files (*.xml)|*.xml|All Files(*.*)|*.*";
@@ -149,28 +156,21 @@ namespace WpfApp4
 
                 return;
             }
-            SampleSOA = dao.SOADataMaster;
+                //make empty main tree
             
+                //resize column defitions of the tree&tab grid 
+            cd0.Width = new GridLength(0, GridUnitType.Auto);
+            cd1.Width = new GridLength(220, GridUnitType.Pixel);
+                
+            SampleSOA = dao.SOADataMaster;
+            set_company_info(SampleSOA);
+
+
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
             //MessageBox.Show(process_name1);.CapabilityScope.Activities[0].ProcessTypes.Count()
             //MessageBox.Show(process_name1.ToString());
             //id_box.Text =  +", "+ +", " +  + ", " + 
-            ab.Text = SampleSOA.Ab_ID;
-            ablogo.Text = SampleSOA.Ab_Logo_Signature;
-            scopeid.Text = SampleSOA.Scope_ID_Number;
-            crtr.Text = SampleSOA.Criteria;
-            eff.Text = SampleSOA.EffectiveDate;
-            exp.Text = SampleSOA.ExpirationDate;
-            sttmnt.Text = SampleSOA.Statement;
-            //m_entity.Text = SampleSOA.CapabilityScope.MeasuringEntity;
-            name.Text = SampleSOA.CapabilityScope.MeasuringEntity.ToString();
-            street.Text = SampleSOA.CapabilityScope.Locations[0].Address.Street;
-            city.Text = SampleSOA.CapabilityScope.Locations[0].Address.City;
-            state.Text = SampleSOA.CapabilityScope.Locations[0].Address.State;
-            zip.Text= SampleSOA.CapabilityScope.Locations[0].Address.Zip;
-            loc_id.Text = SampleSOA.CapabilityScope.Locations[0].id;
-            cname.Text = SampleSOA.CapabilityScope.Locations[0].ContactName;
-            cinfo.Text = SampleSOA.CapabilityScope.Locations[0].ContactInfo.ToString();
+            
             //process_name.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Name;
 
             
@@ -286,27 +286,46 @@ namespace WpfApp4
             
             dlg = new Microsoft.Win32.OpenFileDialog();
         }
+            //set company info page
+        private void set_company_info(Soa s)
+        {
+            ab.Text = s.Ab_ID;
+            ablogo.Text = s.Ab_Logo_Signature;
+            scopeid.Text = s.Scope_ID_Number;
+            crtr.Text = s.Criteria;
+            eff.Text = s.EffectiveDate;
+            exp.Text = s.ExpirationDate;
+            sttmnt.Text = s.Statement;
+            //m_entity.Text = s.CapabilityScope.MeasuringEntity;
+            name.Text = s.CapabilityScope.MeasuringEntity.ToString();
+            street.Text = s.CapabilityScope.Locations[0].Address.Street;
+            city.Text = s.CapabilityScope.Locations[0].Address.City;
+            state.Text = s.CapabilityScope.Locations[0].Address.State;
+            zip.Text = s.CapabilityScope.Locations[0].Address.Zip;
+            loc_id.Text = s.CapabilityScope.Locations[0].id;
+            cname.Text = s.CapabilityScope.Locations[0].ContactName;
+            cinfo.Text = s.CapabilityScope.Locations[0].ContactInfo.ToString();
+        }
             //save the data
         private void SaveFile(object sender, RoutedEventArgs e)
         {
             SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].name = "selamd";
+            SampleSOA.CapabilityScope.Locations[0].Address.Street = street.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.City = city.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.State = state.Text;
+            SampleSOA.CapabilityScope.Locations[0].Address.Zip = zip.Text;
+            SampleSOA.Ab_ID = ab.Text;
+            SampleSOA.Ab_Logo_Signature = ablogo.Text;
+            SampleSOA.Scope_ID_Number = scopeid.Text;
+            SampleSOA.Criteria = crtr.Text;
+            SampleSOA.EffectiveDate = eff.Text;
+            SampleSOA.ExpirationDate = exp.Text;
+            SampleSOA.Statement = sttmnt.Text;
             save_changed(1);
             /*
             SampleSOA.CapabilityScope.Locations[0].Address.Street=street.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.City= city.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.State= state.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.Zip= zip.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.Street=street.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.City= city.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.State= state.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.Zip= zip.Text;
-            SampleSOA.Ab_ID= ab.Text ;
-            SampleSOA.Ab_Logo_Signature= ablogo.Text;
-            SampleSOA.Scope_ID_Number= scopeid.Text;
-            SampleSOA.Criteria=crtr.Text;
-            SampleSOA.EffectiveDate= eff.Text;
-            SampleSOA.ExpirationDate= exp.Text;
-            SampleSOA.Statement= sttmnt.Text;
+            
+            
             */
             SampleSOA.CapabilityScope.Locations[0].id= loc_id.Text;
             SampleSOA.CapabilityScope.Locations[0].ContactName= cname.Text;

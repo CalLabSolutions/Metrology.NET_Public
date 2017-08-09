@@ -4810,25 +4810,25 @@ namespace SOA_DataAccessLibrary
         public string Street
         {
             get { return street; }
-            //set { street = value; }
+            set { street = value; }
         }
 
         public string City
         {
             get { return city; }
-            //set { city = value; }
+            set { city = value; }
         }
 
         public string State
         {
             get { return state; }
-            //set { state = value; }
+            set { state = value; }
         }
 
         public string Zip
         {
             get { return zip; }
-            //set { zip = value; }
+            set { zip = value; }
         }
 
         public void writeTo(XElement Location)
@@ -5147,56 +5147,56 @@ namespace SOA_DataAccessLibrary
         public string Ab_ID
         {
             get { return ab_ID; }
-           // set { ab_ID = value; }
+            set { ab_ID = value; }
         }
 
         public string Ab_Logo_Signature
         {
             get { return ab_Logo_Signature; }
-            //set { ab_Logo_Signature = value; }
+            set { ab_Logo_Signature = value; }
         }
 
         public string Scope_ID_Number
         {
             get { return scope_ID_Number; }
-            //set { scope_ID_Number = value; }
+            set { scope_ID_Number = value; }
         }
 
         public Soa_ScopeUrls ScopeUrls
         {
             get { return scopeUrls; }
-            //set { scopeUrls = value; }
+            set { scopeUrls = value; }
         }
 
         public string Criteria
         {
             get { return criteria; }
-            //set { criteria = value; }
+            set { criteria = value; }
         }
 
         public string EffectiveDate
         {
             get { return effectiveDate; }
-           // set { effectiveDate = value; }
+            set { effectiveDate = value; }
         }
 
 
         public string ExpirationDate
         {
             get { return expirationDate; }
-            //set { expirationDate = value; }
+            set { expirationDate = value; }
         }
 
         public string Statement
         {
             get { return statement; }
-            //set { statement = value; }
+            set { statement = value; }
         }
 
         public Soa_CapabilityScope CapabilityScope
         {
             get { return capabilityScope; }
-            //set { capabilityScope = value; }
+            set { capabilityScope = value; }
         }
 
         public string HumanReadableDocument

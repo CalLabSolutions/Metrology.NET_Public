@@ -11,11 +11,11 @@
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
-        Title="SoA XML Editor" Height="720" Width="900" AllowsTransparency="False" BorderThickness="0" 
+        Title="SoA XML Editor" Height="720" Width="900" MinWidth="900" MinHeight="720" AllowsTransparency="False" BorderThickness="0" 
         >
     <Window.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
-            <GradientStop Color="#ffdcbc" Offset="0"/>
+            <GradientStop Color="#00adef" Offset="0"/>
             <GradientStop Color="#ffffff" Offset="1.5"/>
         </LinearGradientBrush>
     </Window.Background>
@@ -127,8 +127,8 @@
             <!--<Button Margin="5.667,38,97.333,-38" Content="Browse..." 
                     Click="BrowseXmlFile" Grid.Column="1" Grid.ColumnSpan="2"/>-->
 
-            <DockPanel Margin="0,0,0.333,-1.333" Grid.ColumnSpan="4">
-                <Menu Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Background="#ffdcbc" IsMainMenu="True" Height="27" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
+            <DockPanel Background="#ecfaff" Margin="0,0,0.6,576.8" Grid.ColumnSpan="4">
+                <Menu Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Background="#d9f4ff" IsMainMenu="True" Height="27" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
                     <Menu.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -166,17 +166,33 @@
                 </Menu>
 
             </DockPanel>
+            <TextBlock Foreground="#00adef" x:Name="textBlock5" HorizontalAlignment="Right" Margin="0,42,96,0" TextWrapping="Wrap" Text="ETROLOGY." VerticalAlignment="Top" FontSize="22" Height="22" FontFamily="Baskerville Old Face" FontWeight="Bold" Grid.ColumnSpan="3" Width="134"/>
+            <TextBlock  Foreground="#00adef" x:Name="textBlock6"  HorizontalAlignment="Right" Margin="0,38,35.8,0" TextWrapping="Wrap" Text="NET" VerticalAlignment="Top" FontSize="26" Width="59" Height="26" FontFamily="Baskerville Old Face" FontWeight="Bold" Grid.Column="2"/>
+            <TextBlock Foreground="#00adef" x:Name="textBlock7" HorizontalAlignment="Right" Margin="0,38,28,0" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontSize="26" FontFamily="Baskerville Old Face" Height="26" Width="27" FontWeight="Bold"/>
+
 
         </Grid>
-        <Grid Background="LightYellow" x:Name="LayoutRoot"  ShowGridLines="False" Margin="0,30,-0.733,0" HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}"  VerticalAlignment="Top">
+        <Grid Background="#ecfaff" x:Name="LayoutRoot"  ShowGridLines="False" Margin="0,75,-0.733,0" HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}"  VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Name="cd0" Width="Auto" />
+                <ColumnDefinition Name="cd1" Width="220" MaxWidth="240"/>
+                <ColumnDefinition Width="Auto" />
 
+            </Grid.ColumnDefinitions>
 
-            <GridSplitter Background="LightYellow" Grid.Column="1"  Width="5"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,0,-323.333" Grid.RowSpan="5"   />
+            <GridSplitter Name="split1"  Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,0.6,0" Grid.Column="1"   >
+                <GridSplitter.Background>
+                    <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
+                        <GradientStop Color="#00adef" Offset="0"/>
+                        <GradientStop Color="#ffffff" Offset="1.5"/>
+                    </LinearGradientBrush>
+                </GridSplitter.Background>
+            </GridSplitter>
             <!--GridSplitter Grid.Row="0" Grid.ColumnSpan="4" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  /-->
-            <Grid HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" MaxWidth="240" Name="treegrid" Background="SaddleBrown" Margin="0,48,0,35" Width="160" >
+            <Grid   MaxWidth="240" Grid.ColumnSpan="2"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"   Name="treegrid" Background="SaddleBrown" Margin="0,0,5,35"  >
 
 
-                <TreeView Margin="0,0,0,35" Background="#ffdcbc" Foreground="Black" x:Name="tvMain"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" >
+                <TreeView Margin="0,0,0,35" Background="#d9f4ff" Foreground="Black" x:Name="tvMain"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
                     <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
                     <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
                         <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique">
@@ -185,77 +201,7 @@
                             </TreeViewItem>
                         </TreeViewItem>
                     </TreeViewItem>
-                    <TreeViewItem Header="a">
-                        <TreeViewItem Header="b">
 
-                        </TreeViewItem>
-                        <TreeViewItem Header="c">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="d">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="e">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="f">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="g">
-
-                        </TreeViewItem>
-                    </TreeViewItem>
-                    <TreeViewItem Header="h">
-                        <TreeViewItem Header="j">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="k">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="l">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="m">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="n">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="o">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="p">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="r">
-
-                        </TreeViewItem>
-
-
-                    </TreeViewItem>
-                    <TreeViewItem Header="s">
-
-                    </TreeViewItem>
-                    <TreeViewItem Header="t">
-
-                    </TreeViewItem>
-                    <TreeViewItem Header="u">
-
-                    </TreeViewItem>
-                    <TreeViewItem Header="v">
-                        <TreeViewItem Header="w">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="x">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="y">
-
-                        </TreeViewItem>
-                        <TreeViewItem Header="z">
-
-                        </TreeViewItem>
-                    </TreeViewItem>
 
 
                 </TreeView>
@@ -264,13 +210,13 @@
             </Grid>
 
 
-            <TabControl Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Margin="186,21,-186.4,-21.2" >
+            <TabControl Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Grid.Column="2" Margin="1,-75,-186.4,-21.2" >
                 <TabItem Header="Start Page">
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="0,-1" EndPoint="-1,0">
-                                <GradientStop Color="#ffdcbc" Offset="0.75"/>
-                                <GradientStop Color="#e7ffbc" Offset="-1"/>
+                                <GradientStop Color="#ecfaff" Offset="0.75"/>
+                                <GradientStop Color="#d9f4ff" Offset="-1"/>
                             </LinearGradientBrush>
                         </Grid.Background>
                         <Grid.ColumnDefinitions>
@@ -278,7 +224,7 @@
                             <ColumnDefinition Width="278*"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Foreground="DarkOrange" x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,36,0,0" TextWrapping="Wrap" Text="Welcome to SoA XML Editor!" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" FontSize="22" Grid.ColumnSpan="2"/>
+                        <TextBlock Foreground="#00adef" x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,36,0,0" TextWrapping="Wrap" Text="Welcome to SoA XML Editor!" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" FontSize="22" Grid.ColumnSpan="2"/>
                         <TextBlock x:Name="textBlock1" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,107,0,0" TextWrapping="Wrap" Text="Start to " VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14">
                             <TextBlock.ContextMenu>
                                 <ContextMenu>
@@ -305,16 +251,16 @@
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="-1,0" EndPoint="0,-1">
-                                <GradientStop Color="#ffdcbc" Offset="0.75"/>
-                                <GradientStop Color="#e7ffbc" Offset="0.05"/>
+                                <GradientStop Color="#d9f4ff " Offset="1.15"/>
+                                <GradientStop Color="#ecfaff " Offset="0.05"/>
                             </LinearGradientBrush>
                         </Grid.Background>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="314*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.ColumnSpan="2" Margin="0,268,258.667,510">
-                            <Expander Background="#fce0bc" x:Name="Address" HorizontalAlignment="Stretch"
+                        <StackPanel Grid.ColumnSpan="2" Margin="0,268,258.2,166.8">
+                            <Expander Background="AliceBlue" x:Name="Address" HorizontalAlignment="Stretch"
                     Header="Address" Margin="10,0,9.667,473" >
                                 <Grid>
                                     <TextBox x:Name="loc_id" HorizontalAlignment="Left" Height="23" Margin="110,0,0,831" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
@@ -339,7 +285,7 @@
                         </StackPanel>
                         <TextBlock x:Name="id_box" Margin="0.333,214,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="Nam"/><Run Text="e"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                         <TextBox Name="name" HorizontalAlignment="Left" Margin="55.333,214,0,0" TextWrapping="Wrap" Text="" Width="501" Grid.Column="1" Height="23" VerticalAlignment="Top" />
-                        <TextBlock Foreground="Orange" Grid.Column="1" HorizontalAlignment="Left" Margin="227.333,19,0,0" TextWrapping="Wrap" Text="Company Information" VerticalAlignment="Top" FontWeight="Bold" Height="40" Width="193" FontSize="18"/>
+                        <TextBlock Foreground="#00adef" Grid.Column="1" HorizontalAlignment="Left" Margin="227.333,19,0,0" TextWrapping="Wrap" Text="Company Information" VerticalAlignment="Top" FontWeight="Bold" Height="40" Width="193" FontSize="18"/>
                         <TextBlock x:Name="ab_box" Margin="0.333,69,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="AB "/><Run Text="ID"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                         <TextBox Name="ab" HorizontalAlignment="Left" Margin="95.333,64,0,0" TextWrapping="Wrap" Text="" Width="150" Grid.Column="1" Height="23" VerticalAlignment="Top" />
                         <TextBlock x:Name="ablogo_box" Margin="277.333,69,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="114" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="AB "/><Run Text="Logo-Signature"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
@@ -681,9 +627,6 @@
 
             </TabControl>
 
-            <TextBlock Foreground="#5b4f43" x:Name="textBlock5" Grid.Column="2" HorizontalAlignment="Right" Margin="0,15,248.333,0" Grid.Row="1" TextWrapping="Wrap" Text="ETROLOGY." VerticalAlignment="Top" FontSize="18" Height="18" FontStyle="Italic" FontFamily="PMingLiU-ExtB"/>
-            <TextBlock Foreground="#5b4f43" x:Name="textBlock6" Grid.Column="2" HorizontalAlignment="Right" Margin="0,11,202.333,0" Grid.Row="1" TextWrapping="Wrap" Text="NET" VerticalAlignment="Top" FontStyle="Italic" FontSize="22" FontFamily="PMingLiU-ExtB" Width="45" Height="26"/>
-            <TextBlock Foreground="#5b4f43" x:Name="textBlock7" Grid.Column="2" HorizontalAlignment="Right" Margin="0,11,339.333,0" Grid.Row="1" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontStyle="Italic" FontSize="22" FontFamily="PMingLiU-ExtB" Height="22" Width="24"/>
 
         </Grid>
 

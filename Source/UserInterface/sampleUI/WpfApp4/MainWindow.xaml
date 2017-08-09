@@ -58,13 +58,9 @@
 
     <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualHeigth}" Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}" Margin="10,10,10.333,3.667">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+
+        <Grid >
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -172,29 +168,15 @@
             </DockPanel>
 
         </Grid>
-        <Grid Background="LightYellow" x:Name="LayoutRoot"  ShowGridLines="False" Margin="0,0.333,0,0" Grid.RowSpan="2" Grid.Row="1" HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}"  VerticalAlignment="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="480" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="218" MaxWidth="240"/>
-                <ColumnDefinition Width="Auto" />
+        <Grid Background="LightYellow" x:Name="LayoutRoot"  ShowGridLines="False" Margin="0,30,-0.733,0" HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}"  VerticalAlignment="Top">
 
-            </Grid.ColumnDefinitions>
+
             <GridSplitter Background="LightYellow" Grid.Column="1"  Width="5"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,0,-323.333" Grid.RowSpan="5"   />
             <!--GridSplitter Grid.Row="0" Grid.ColumnSpan="4" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  /-->
-            <Grid MaxWidth="240" Name="treegrid" Background="#ffdcbc" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}"  Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="2" Margin="0,0,5,0" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="34*"/>
-                    <ColumnDefinition Width="37*"/>
-                </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" MaxWidth="240" Name="treegrid" Background="SaddleBrown" Margin="0,48,0,35" Width="160" >
 
-                <TreeView  Background="#ffdcbc" Foreground="Black" x:Name="tvMain"  Margin="0,3,5,-3" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" Grid.ColumnSpan="2" >
+
+                <TreeView Margin="0,0,0,35" Background="#ffdcbc" Foreground="Black" x:Name="tvMain"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" >
                     <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
                     <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
                         <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique">
@@ -203,15 +185,86 @@
                             </TreeViewItem>
                         </TreeViewItem>
                     </TreeViewItem>
+                    <TreeViewItem Header="a">
+                        <TreeViewItem Header="b">
 
-                    
+                        </TreeViewItem>
+                        <TreeViewItem Header="c">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="d">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="e">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="f">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="g">
+
+                        </TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem Header="h">
+                        <TreeViewItem Header="j">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="k">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="l">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="m">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="n">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="o">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="p">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="r">
+
+                        </TreeViewItem>
+
+
+                    </TreeViewItem>
+                    <TreeViewItem Header="s">
+
+                    </TreeViewItem>
+                    <TreeViewItem Header="t">
+
+                    </TreeViewItem>
+                    <TreeViewItem Header="u">
+
+                    </TreeViewItem>
+                    <TreeViewItem Header="v">
+                        <TreeViewItem Header="w">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="x">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="y">
+
+                        </TreeViewItem>
+                        <TreeViewItem Header="z">
+
+                        </TreeViewItem>
+                    </TreeViewItem>
+
+
                 </TreeView>
 
 
             </Grid>
 
 
-            <TabControl Grid.Column="2"  Grid.Row="1" Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Margin="2,10,-60.333,-380" Grid.RowSpan="4" >
+            <TabControl Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Margin="186,21,-186.4,-21.2" >
                 <TabItem Header="Start Page">
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
@@ -585,7 +638,7 @@
                                 </Expander>
                             </-->
                         </materialDesign:Card>
-                        <TextBlock x:Name="textBlock11" Foreground="DarkOrange"  HorizontalAlignment="Left" Margin="0.333,24,0,0" TextWrapping="Wrap" Text="Assertions" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="34" Width="466" Grid.Column="1" FontSize="24"/>
+                        <TextBlock x:Name="textBlock11" Foreground="DarkCyan"  HorizontalAlignment="Left" Margin="0.333,24,0,0" TextWrapping="Wrap" Text="Assertions" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="34" Width="466" Grid.Column="1" FontSize="24"/>
                         <GroupBox x:Name="groupBox" Grid.Column="1" Header="Ranges:" HorizontalAlignment="Left" Height="400" Margin="0.333,98,0,0" VerticalAlignment="Top" Width="476" Grid.ColumnSpan="2"/>
                         <TreeView x:Name="range_tree" HorizontalAlignment="Left" Height="365" Margin="0.333,133,0,0" VerticalAlignment="Top" Width="236" Grid.Column="1"/>
                         <TextBlock Foreground="DarkOrange" x:Name="textBox3" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="241.333,158,0,0" TextWrapping="Wrap" Text="Start" VerticalAlignment="Top" Width="120" FontSize="18"/>
@@ -597,18 +650,37 @@
                         <TextBox x:Name="cv1tb" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,332,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
                         <TextBox x:Name="cv2tb" Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="351.333,378,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115" Grid.ColumnSpan="2" FontSize="18"/>
 
+
                     </Grid>
+                </TabItem>
+                <TabItem Header="newFunc">
+                    <Grid Margin="-4,0,-11.333,-4" >
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,-1" EndPoint="-1,0">
+                                <GradientStop Color="#ffdcbc" Offset="0.75"/>
+                                <GradientStop Color="#e7ffbc" Offset="-1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="375*"/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.667,63,96.667,723" Grid.Column="1" Width="560" >
+                            <Grid >
+                                <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
+
+                                <StackPanel Name="is7" HorizontalAlignment="Left" Width="300"  VerticalAlignment="Top" Margin="101,0,0,0"/>
+
+
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+
                 </TabItem>
 
             </TabControl>
-            <Rectangle Grid.Column="1"  Margin="0,1,9.667,0" Grid.ColumnSpan="2" Grid.Row="1" >
-                <Rectangle.Fill>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
-                        <GradientStop Color="#ffdcbc" Offset="1"/>
-                        <GradientStop Color="LightYellow" Offset="0"/>
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
+
             <TextBlock Foreground="#5b4f43" x:Name="textBlock5" Grid.Column="2" HorizontalAlignment="Right" Margin="0,15,248.333,0" Grid.Row="1" TextWrapping="Wrap" Text="ETROLOGY." VerticalAlignment="Top" FontSize="18" Height="18" FontStyle="Italic" FontFamily="PMingLiU-ExtB"/>
             <TextBlock Foreground="#5b4f43" x:Name="textBlock6" Grid.Column="2" HorizontalAlignment="Right" Margin="0,11,202.333,0" Grid.Row="1" TextWrapping="Wrap" Text="NET" VerticalAlignment="Top" FontStyle="Italic" FontSize="22" FontFamily="PMingLiU-ExtB" Width="45" Height="26"/>
             <TextBlock Foreground="#5b4f43" x:Name="textBlock7" Grid.Column="2" HorizontalAlignment="Right" Margin="0,11,339.333,0" Grid.Row="1" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontStyle="Italic" FontSize="22" FontFamily="PMingLiU-ExtB" Height="22" Width="24"/>

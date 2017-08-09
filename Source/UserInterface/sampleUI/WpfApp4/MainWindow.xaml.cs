@@ -419,7 +419,7 @@ namespace WpfApp4
             else
             {
                 set_func(6);
-                tabs.SelectedIndex = 4;
+                tabs.SelectedIndex = 5;
             }
                 
         }
@@ -552,7 +552,7 @@ namespace WpfApp4
         private void slct_case(object sender, RoutedEventArgs e)
         {
 
-            tabs.SelectedIndex=4;
+            tabs.SelectedIndex=5;
             TreeViewItem childItem = e.Source as TreeViewItem;
             ItemsControl parentitems = GetSelectedTreeViewItemParent(childItem);
             //TreeViewItem parent = parentitems as TreeViewItem;
@@ -565,6 +565,10 @@ namespace WpfApp4
         }
         private void set_cases(int f,int c)
         {
+            Separator s = new Separator();
+            
+            TextBlock t = new TextBlock();
+            CheckBox b = new CheckBox();
             ToolTip tt = new ToolTip();
             textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
                 " "+SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
@@ -575,22 +579,50 @@ namespace WpfApp4
             TreeViewItem ft2 = new TreeViewItem();
             int rn = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges.Count();
             //MessageBox.Show(rn.ToString());
+            is6.Children.Clear();
+            is7.Children.Clear();
             for(int i=0;i<rn;i++)
             {
-                int rn2= SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();
+                //t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString +
+                //  ", " +
+                //SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
+                //addtext(t, is6, 60); t = new TextBlock();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
+                addtext(t, is6, 60); t = new TextBlock();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].Variable_name;
+                addtext(t, is7, 60); t = new TextBlock();
+                //
+                int rn2 = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();
                 ft.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
                 ft.Name="f"+ f.ToString() + c.ToString() + i.ToString();
                 
                 ft.Selected += set_upperrange_click;
                 for(int j=0;j<rn2;j++)
                 {
+                    
                     ft2.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
                     ft.Items.Add(ft2);
                     ft2.Name = "f" + f.ToString() + c.ToString() + i.ToString()+j.ToString();
                     ft2 = new TreeViewItem();
+                    //
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString +
+                        ", "+
+                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
+                    addtext(t, is7, 60); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString +
+                    ", " +
+                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
+                    addtext(t, is6, 60); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name +
+                   ": " +
+                   SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString;
+                    //addtext(t, is7, 60); t = new TextBlock();
+                    //addseph(s, is6,60); s = new Separator();
                 }
                 range_tree.Items.Add(ft);
                 ft = new TreeViewItem();
+                //
+                
             }
             //f_tree.Items.Add
 
@@ -636,7 +668,7 @@ namespace WpfApp4
             cv1.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].const_parameter_name;
             cv2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[1].const_parameter_name;
             cv1tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].ValueString;
-            cv2tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].ValueString;
+            cv2tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[1].ValueString;
         }
         public ItemsControl GetSelectedTreeViewItemParent(TreeViewItem item)
         {
@@ -784,6 +816,12 @@ namespace WpfApp4
             s.Opacity = 0;
             p.Children.Add(s);
             
+        }
+        private void addseph(Separator s, StackPanel p, int h)
+        {
+            s.Height = h;
+            s.Opacity = 0;
+            p.Children.Add(s);
         }
         private void addtext(TextBlock t, StackPanel p,int w)
         {

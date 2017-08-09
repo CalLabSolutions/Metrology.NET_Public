@@ -158,7 +158,7 @@ namespace SOA_DataAccessLibrary
         public static string DatabasePath
         {
             get {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://schema.metrology.net/UOM_Database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_Database.xml";
             }
 
             set {
@@ -2191,7 +2191,8 @@ namespace SOA_DataAccessLibrary
                 switch (rType)
                 {
                     case RangeType.Result:
-                        if (processType.ProcessResults.Count() == 1)
+                        int rngCnt = processType.ProcessResults.Count();
+                        if (rngCnt == 1)
                             quantity = processType.getQuantity();
                         else
                             quantity = processType.getQuantity(rangeName);

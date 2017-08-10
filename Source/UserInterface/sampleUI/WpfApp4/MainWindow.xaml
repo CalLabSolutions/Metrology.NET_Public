@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:con="http://schemas.kent.boogaart.com/converters"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -14,8 +15,8 @@
         Title="SoA XML Editor" Height="720" Width="900" MinWidth="900" MinHeight="720" AllowsTransparency="False" BorderThickness="0" 
         >
     <Window.Background>
-        <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
-            <GradientStop Color="#00adef" Offset="0"/>
+        <LinearGradientBrush  StartPoint="1,1" EndPoint="1,0">
+            <GradientStop  Color="DarkCyan" Offset="0"/>
             <GradientStop Color="#ffffff" Offset="1.5"/>
         </LinearGradientBrush>
     </Window.Background>
@@ -92,22 +93,22 @@
                     </Grid>
                 </Popup>
                 <Popup Name="formula_popup"
-               Placement="Bottom"
-               HorizontalOffset="-100"
-               VerticalOffset="-100"
-                Margin="0,0,0,-35">
-                    <Grid Background="LightYellow" Height="256" Width="407">
+               Placement="Right"
+               HorizontalOffset="-500"
+                       VerticalOffset="100"
+                Margin="0,0,0,0">
+                    <Grid Background="AliceBlue" Height="256" Width="407">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="45*"/>
                             <ColumnDefinition Width="362*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Background="Orange" Foreground="LightYellow" Click="Hide_Click" Margin="280.333,0,0,20" HorizontalAlignment="Left" Width="72" VerticalAlignment="Bottom" Grid.Column="1" Height="26">OK</Button>
+                        <Button Background="DarkCyan" Foreground="LightCyan" Click="Hide_Click" Margin="280.333,0,0,20" HorizontalAlignment="Left" Width="72" VerticalAlignment="Bottom" Grid.Column="1" Height="26">OK</Button>
                         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="89.333,10,0,0" TextWrapping="Wrap" Text="Formula Editor" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
                         <TextBlock x:Name="formula_text"  HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" Text="Formula Name" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="338"/>
                         <TextBox x:Name="formula_def" HorizontalAlignment="Left" Height="23" Margin="10,89,0,0" TextWrapping="Wrap" Text="Formula Definition" VerticalAlignment="Top" Width="305" Grid.ColumnSpan="2"/>
                         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Height="27"/>
-                        <Button x:Name="button1" Foreground="LightYellow" Background="Orange" Content="Apply" Grid.Column="1" HorizontalAlignment="Left" Margin="280.333,89,0,0" VerticalAlignment="Top" Width="72" Height="27"/>
+                        <Button x:Name="button1" Foreground="LightCyan" Background="DarkCyan" Content="Apply" Grid.Column="1" HorizontalAlignment="Left" Margin="280.333,89,0,0" VerticalAlignment="Top" Width="72" Height="27"/>
                         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="10,138,0,0" TextWrapping="Wrap" Text="P" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                         <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="10,179,0,0" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                         <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="10,217,0,0" TextWrapping="Wrap" Text="L" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
@@ -127,8 +128,8 @@
             <!--<Button Margin="5.667,38,97.333,-38" Content="Browse..." 
                     Click="BrowseXmlFile" Grid.Column="1" Grid.ColumnSpan="2"/>-->
 
-            <DockPanel Background="#ecfaff" Margin="0,0,0.6,576.8" Grid.ColumnSpan="4">
-                <Menu Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Background="#d9f4ff" IsMainMenu="True" Height="27" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
+            <DockPanel Background="LightCyan" Margin="0,0,0.6,576.8" Grid.ColumnSpan="4">
+                <Menu Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Background="DarkCyan" IsMainMenu="True" Height="27" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="0,1,0,0" >
                     <Menu.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -137,7 +138,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Menu.RenderTransform>
-                    <MenuItem Height="27" Header="_File">
+                    <MenuItem Height="27" Foreground="LightCyan" Header="_File">
                         <MenuItem Click="BrowseXmlFile"  Header="Open" InputGestureText="Ctrl+O">
                             <MenuItem.InputBindings>
                                 <KeyBinding Key="A" Modifiers="control" />
@@ -148,7 +149,7 @@
 
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
+                        <MenuItem  Header="Excellent" IsCheckable="True" IsChecked="True" />
                         <MenuItem Header="Rubbish" IsCheckable="True" />
                         <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
                             <MenuItem Header="Enlightenment?" IsCheckable="True" />
@@ -160,21 +161,21 @@
                         </MenuItem>
                     </MenuItem>
 
-                    <MenuItem Header="_Edit " Height="27" />
-                    <MenuItem Header="_View " Height="27" />
-                    <MenuItem Header="_Help " Height="27"  />
+                    <MenuItem Foreground="LightCyan" Click="change_color" Header="_Edit " Height="27" />
+
+                    <MenuItem Foreground="LightCyan" Header="_Help " Height="27"  />
                 </Menu>
 
             </DockPanel>
-            <TextBlock Foreground="#00adef" x:Name="textBlock5" HorizontalAlignment="Right" Margin="0,42,96,0" TextWrapping="Wrap" Text="ETROLOGY." VerticalAlignment="Top" FontSize="22" Height="22" FontFamily="Baskerville Old Face" FontWeight="Bold" Grid.ColumnSpan="3" Width="134"/>
-            <TextBlock  Foreground="#00adef" x:Name="textBlock6"  HorizontalAlignment="Right" Margin="0,38,35.8,0" TextWrapping="Wrap" Text="NET" VerticalAlignment="Top" FontSize="26" Width="59" Height="26" FontFamily="Baskerville Old Face" FontWeight="Bold" Grid.Column="2"/>
-            <TextBlock Foreground="#00adef" x:Name="textBlock7" HorizontalAlignment="Right" Margin="0,38,28,0" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontSize="26" FontFamily="Baskerville Old Face" Height="26" Width="27" FontWeight="Bold"/>
+            <TextBlock Foreground="DarkCyan" x:Name="textBlock5" HorizontalAlignment="Right" Margin="0,42,96,0" TextWrapping="Wrap" Text="ETROLOGY." VerticalAlignment="Top" FontSize="22" Height="22" FontFamily="Baskerville Old Face" FontWeight="Bold" Grid.ColumnSpan="3" Width="134"/>
+            <TextBlock  Foreground="DarkCyan" x:Name="textBlock6"  HorizontalAlignment="Right" Margin="0,38,35.8,0" TextWrapping="Wrap" Text="NET" VerticalAlignment="Top" FontSize="26" Width="59" Height="26" FontFamily="Baskerville Old Face" FontWeight="Bold" Grid.Column="2"/>
+            <TextBlock Foreground="DarkCyan" x:Name="textBlock7" HorizontalAlignment="Right" Margin="0,38,28,0" TextWrapping="Wrap" Text="M" VerticalAlignment="Top" FontSize="26" FontFamily="Baskerville Old Face" Height="26" Width="27" FontWeight="Bold"/>
 
 
         </Grid>
         <Grid Background="#ecfaff" x:Name="LayoutRoot"  ShowGridLines="False" Margin="0,75,-0.733,0" HorizontalAlignment="Left" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}"  VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="cd0" Width="Auto" />
+                <ColumnDefinition Name="cd0" Width="0" />
                 <ColumnDefinition Name="cd1" Width="220" MaxWidth="240"/>
                 <ColumnDefinition Width="Auto" />
 
@@ -183,39 +184,41 @@
             <GridSplitter Name="split1"  Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,0.6,0" Grid.Column="1"   >
                 <GridSplitter.Background>
                     <LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
-                        <GradientStop Color="#00adef" Offset="0"/>
-                        <GradientStop Color="#ffffff" Offset="1.5"/>
+                        <GradientStop Color="DarkCyan" Offset="0"/>
+                        <GradientStop Color="LightCyan" Offset="1.5"/>
                     </LinearGradientBrush>
                 </GridSplitter.Background>
             </GridSplitter>
             <!--GridSplitter Grid.Row="0" Grid.ColumnSpan="4" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  /-->
-            <Grid   MaxWidth="240" Grid.ColumnSpan="2"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"   Name="treegrid" Background="SaddleBrown" Margin="0,0,5,35"  >
+            <Border BorderBrush="DarkCyan"  BorderThickness="2,5,2,2" MaxWidth="240" Grid.ColumnSpan="2"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"   Name="treegrid" Background="LightCyan" Margin="0,0,5,35">
+                <Grid HorizontalAlignment="Left"    >
 
+                    <TreeView HorizontalAlignment="Left"  Margin="0,0,0,0" Background="LightCyan" Foreground="Black" x:Name="tvMain"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight,Converter={con:ExpressionConverter {}{0} -73}}"  VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
+                        <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
+                        <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
+                            <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique">
+                                <TreeViewItem x:Name="f_tree"  Selected="slct_case" Header="Function">
 
-                <TreeView Margin="0,0,0,35" Background="#d9f4ff" Foreground="Black" x:Name="tvMain"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"  VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
-                    <TreeViewItem  Header="Company Info" Selected="slct_info" x:Name="cmp_info"/>
-                    <TreeViewItem Selected="slct_prcss" x:Name="prcss" Header="Process" >
-                        <TreeViewItem x:Name="tech_tree0" Selected="slct_tech" Header="Technique">
-                            <TreeViewItem x:Name="f_tree"  Selected="slct_case" Header="Function">
-
+                                </TreeViewItem>
                             </TreeViewItem>
                         </TreeViewItem>
-                    </TreeViewItem>
 
 
 
-                </TreeView>
+                    </TreeView>
 
 
-            </Grid>
+                </Grid>
+            </Border>
 
 
-            <TabControl Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Grid.Column="2" Margin="1,-75,-186.4,-21.2" >
+            <TabControl BorderBrush="DarkCyan" BorderThickness="2" Name="tabs" Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Height}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Width}" Grid.Column="2" Margin="-1,-75,-186.4,-21.2" >
                 <TabItem Header="Start Page">
+
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="0,-1" EndPoint="-1,0">
-                                <GradientStop Color="#ecfaff" Offset="0.75"/>
+                                <GradientStop Color="LightCyan" Offset="0.75"/>
                                 <GradientStop Color="#d9f4ff" Offset="-1"/>
                             </LinearGradientBrush>
                         </Grid.Background>
@@ -224,7 +227,7 @@
                             <ColumnDefinition Width="278*"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Foreground="#00adef" x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,36,0,0" TextWrapping="Wrap" Text="Welcome to SoA XML Editor!" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" FontSize="22" Grid.ColumnSpan="2"/>
+                        <TextBlock Foreground="DarkCyan" x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,36,0,0" TextWrapping="Wrap" Text="Welcome to SoA XML Editor!" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" FontSize="22" Grid.ColumnSpan="2"/>
                         <TextBlock x:Name="textBlock1" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,107,0,0" TextWrapping="Wrap" Text="Start to " VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14">
                             <TextBlock.ContextMenu>
                                 <ContextMenu>
@@ -243,6 +246,19 @@
                         <TextBlock x:Name="textBlock10" Grid.Column="1"  HorizontalAlignment="Left" Margin="161.333,107,0,0" TextWrapping="Wrap" Text="create a new file" VerticalAlignment="Top" FontFamily="Yu Gothic UI" FontSize="14" TextDecorations="Underline">
 
                         </TextBlock>
+                        <Separator Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="DarkCyan" Height="3" Margin="0,2,0,0" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width}" RenderTransformOrigin="0.5,0.5">
+                            <Separator.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-5"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Separator.RenderTransform>
+                        </Separator>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,0,364.6,0.4" Grid.ColumnSpan="4">
+                            <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
+                        </StackPanel>
 
                     </Grid>
                 </TabItem>
@@ -251,15 +267,28 @@
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="-1,0" EndPoint="0,-1">
-                                <GradientStop Color="#d9f4ff " Offset="1.15"/>
-                                <GradientStop Color="#ecfaff " Offset="0.05"/>
+                                <GradientStop Color="LightCyan" Offset="1.0"/>
+                                <GradientStop Color="DarkCyan" Offset="-2.05"/>
                             </LinearGradientBrush>
                         </Grid.Background>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="314*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.ColumnSpan="2" Margin="0,268,258.2,166.8">
+                        <Separator Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="DarkCyan" Height="3" Margin="0,2,0,0" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width}" RenderTransformOrigin="0.5,0.5">
+                            <Separator.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-5"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Separator.RenderTransform>
+                        </Separator>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,0,364.6,0.4" Grid.ColumnSpan="4">
+                            <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
+                        </StackPanel>
+                        <StackPanel Grid.ColumnSpan="2" Margin="0,268,268.2,166.8">
                             <Expander Background="AliceBlue" x:Name="Address" HorizontalAlignment="Stretch"
                     Header="Address" Margin="10,0,9.667,473" >
                                 <Grid>
@@ -285,7 +314,7 @@
                         </StackPanel>
                         <TextBlock x:Name="id_box" Margin="0.333,214,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="Nam"/><Run Text="e"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                         <TextBox Name="name" HorizontalAlignment="Left" Margin="55.333,214,0,0" TextWrapping="Wrap" Text="" Width="501" Grid.Column="1" Height="23" VerticalAlignment="Top" />
-                        <TextBlock Foreground="#00adef" Grid.Column="1" HorizontalAlignment="Left" Margin="227.333,19,0,0" TextWrapping="Wrap" Text="Company Information" VerticalAlignment="Top" FontWeight="Bold" Height="40" Width="193" FontSize="18"/>
+                        <TextBlock Foreground="DarkCyan" Grid.Column="1" HorizontalAlignment="Left" Margin="227.333,19,0,0" TextWrapping="Wrap" Text="Company Information" VerticalAlignment="Top" FontWeight="Bold" Height="40" Width="193" FontSize="18"/>
                         <TextBlock x:Name="ab_box" Margin="0.333,69,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="AB "/><Run Text="ID"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                         <TextBox Name="ab" HorizontalAlignment="Left" Margin="95.333,64,0,0" TextWrapping="Wrap" Text="" Width="150" Grid.Column="1" Height="23" VerticalAlignment="Top" />
                         <TextBlock x:Name="ablogo_box" Margin="277.333,69,0,0" TextWrapping="Wrap" FontWeight="Bold" RenderTransformOrigin="0.846,-1.875" HorizontalAlignment="Left" Width="114" Height="23" VerticalAlignment="Top" Grid.Column="1"><Run Text="AB "/><Run Text="Logo-Signature"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
@@ -313,10 +342,23 @@
                         </Grid.ColumnDefinitions>
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="-1,-1" EndPoint="1.5,1.5">
-                                <GradientStop Color="#ffdcbc" Offset="0.5"/>
-                                <GradientStop Color="#e7ffbc" Offset="1.0"/>
+                                <GradientStop Color="#d9f4ff" Offset="1.10"/>
+                                <GradientStop Color="#ecfaff" Offset="1.0"/>
                             </LinearGradientBrush>
                         </Grid.Background>
+                        <Separator Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="DarkCyan" Height="3" Margin="0,2,0,0" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width}" RenderTransformOrigin="0.5,0.5">
+                            <Separator.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-5"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Separator.RenderTransform>
+                        </Separator>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,0,364.6,0.4" Grid.ColumnSpan="4">
+                            <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
+                        </StackPanel>
                         <!--TextBlock TextWrapping="Wrap" Text="Process Name" x:Name="process_name" FontSize="22" Margin="26,10,0,0" HorizontalAlignment="Left" Width="637" Height="26" VerticalAlignment="Top" Foreground="Orange" Grid.ColumnSpan="2"><InlineUIContainer/><InlineUIContainer/></-->
                         <!--TextBox KeyDown="OnKeyDownHandler" Name="fill"  materialDesign:HintAssist.Hint="Floating Hint" Height="30" TextWrapping="Wrap"  Width="150" Margin="397.667,31,37,0" VerticalAlignment="Top" Grid.Column="1">
                                 <TextBox.InputBindings>
@@ -324,7 +366,7 @@
                                 </TextBox.InputBindings>
                             </-->
                         <ComboBox Name="combo2" SelectionChanged="comboselection"
-                  IsEditable="True" HorizontalContentAlignment="Left" Height="30" VerticalAlignment="Top" Margin="10,10,271.333,0" Grid.ColumnSpan="2"  >
+                  IsEditable="True" HorizontalContentAlignment="Left" Height="30" VerticalAlignment="Top" Margin="10,10,283.2,0" Grid.ColumnSpan="2"  >
 
 
                         </ComboBox>
@@ -335,7 +377,7 @@
                         <CheckBox Content="External URL:" HorizontalAlignment="Left" Margin="26,289,0,0" VerticalAlignment="Top" Width="107" Grid.ColumnSpan="2" />
                         <TextBox HorizontalAlignment="Left" Height="23" Margin="35,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="510" Grid.Column="1"/>
                         <CheckBox Content="Embedded XHTML Document" HorizontalAlignment="Left" Margin="26,314,0,0" VerticalAlignment="Top" Width="201" Grid.ColumnSpan="2"/>
-                        <GroupBox BorderThickness="1"  Header="Output Results" HorizontalAlignment="Left" Height="206" Margin="236,52,0,0" VerticalAlignment="Top" Width="306" Grid.Column="1"/>
+                        <GroupBox BorderThickness="1"  Header="Output Results" HorizontalAlignment="Left" Height="206" Margin="238.6,52,0,0" VerticalAlignment="Top" Width="306" Grid.Column="1"/>
                         <GroupBox Foreground="Purple" Header="Input Parameters" HorizontalAlignment="Left" Height="206" Margin="10,52,0,0" VerticalAlignment="Top" Width="327" Grid.ColumnSpan="2"/>
                         <!--ListView Name="listview1" Height="181" Margin="239,74,234.667,0" VerticalAlignment="Top" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
@@ -424,8 +466,8 @@
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="-1,-1" EndPoint="1.5,1.5">
-                                <GradientStop Color="#ffdcbc" Offset="0.75"/>
-                                <GradientStop Color="#e7ffbc" Offset="0.05"/>
+                                <GradientStop Color="LightCyan" Offset="0.50"/>
+                                <GradientStop Color="DarkCyan" Offset="0.05"/>
                             </LinearGradientBrush>
                         </Grid.Background>
                         <Grid.ColumnDefinitions>
@@ -465,7 +507,7 @@
                             </TextBox.InputBindings>
                         </-->
                         <!--TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/-->
-                        <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text="Technique Name" FontSize="22" Foreground="Orange" />
+                        <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text=" " FontSize="22" Foreground="DarkCyan" />
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,581.667,699" Grid.ColumnSpan="2">
                             <Grid >
                                 <StackPanel Name="is4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
@@ -603,8 +645,8 @@
                     <Grid Margin="-4,0,-11.333,-4" >
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="0,-1" EndPoint="-1,0">
-                                <GradientStop Color="#ffdcbc" Offset="0.75"/>
-                                <GradientStop Color="#e7ffbc" Offset="-1"/>
+                                <GradientStop Color="LightCyan" Offset="0.75"/>
+                                <GradientStop Color="DarkCyan" Offset="-1.6"/>
                             </LinearGradientBrush>
                         </Grid.Background>
                         <Grid.ColumnDefinitions>
@@ -612,11 +654,14 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.667,63,96.667,723" Grid.Column="1" Width="560" >
-                            <Grid >
-                                <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.4,63,20.8,59.4" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} -193}}" >
+                            <Grid  >
+                                <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="241">
 
-                                <StackPanel Name="is7" HorizontalAlignment="Left" Width="300"  VerticalAlignment="Top" Margin="101,0,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Name="is7" HorizontalAlignment="Left" Width="195"  VerticalAlignment="Top" Margin="206,0,0,0"/>
+                                <StackPanel Name="is8" HorizontalAlignment="Left" Width="150"  VerticalAlignment="Top" Margin="406,0,0,0"/>
 
 
                             </Grid>

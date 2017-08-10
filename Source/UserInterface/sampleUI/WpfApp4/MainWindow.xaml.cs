@@ -17,6 +17,8 @@ using MaterialDesignColors;
 using System.IO;
 using SOA_DataAccessLibrary;
 using System.Xml.Linq;
+using Kent.Boogaart.Converters;
+using System.Data;
 
 namespace WpfApp4
 {
@@ -167,7 +169,7 @@ namespace WpfApp4
 
 
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
-            //MessageBox.Show(process_name1);.CapabilityScope.Activities[0].ProcessTypes.Count()
+            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].name);
             //MessageBox.Show(process_name1.ToString());
             //id_box.Text =  +", "+ +", " +  + ", " + 
             
@@ -369,30 +371,7 @@ namespace WpfApp4
                     break;
             }
         }
-        private void DooSomething(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            MessageBox.Show("Do Something in TreeView!");
-            //expander1.Header = "fff";
-            //MessageBox.Show(((TreeViewItem)e.NewValue).Header.ToString());
-            
-            TreeViewItem childItem = e.NewValue as TreeViewItem;
-            
-            //treeItem.Header = XMLdoc.GetElementsByTagName("soa:City")[0].InnerText;
-            //"North America";
-            //treeItem.Items.Add(new TreeViewItem() { Header = "USA" });
-            //treeItem.Items.Add(new TreeViewItem() { Header = "Canada" });
-            //treeItem.Items.Add(new TreeViewItem() { Header = "Mexico" });
-            
-            if (childItem != null)
-            {
-                //childItem.Visibility = Visibility.Collapsed;
-                    //process_name.Text = childItem.Header.ToString();
-                //MessageBox.Show(childItem.Header.ToString()); // or MessageBox.Show(childItem.toString);
-                //childItem.IsSelected = true;
-
-                //MessageBox.Show(childItem.Name);
-            }
-        }
+       
         private void slct_tech(object sender, RoutedEventArgs e)
         {
             //tabs.SelectedIndex = 3;
@@ -500,10 +479,14 @@ namespace WpfApp4
             i = new ComboBoxItem();
             addsep(s, os2); s = new Separator();
             addcombo(c, os2); c = new ComboBox();
+
+            //documentation
+            //if (SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Documentation.Document!=null) 
+            //d_text.Text= SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Documentation.Document;
         }
         private void set_tech(int p,int tt)
         {
-            MessageBox.Show(p.ToString() + tt.ToString());
+            //MessageBox.Show(p.ToString() + tt.ToString());
             Separator s = new Separator();
             ComboBox c = new ComboBox();
             ComboBoxItem i = new ComboBoxItem();
@@ -562,6 +545,8 @@ namespace WpfApp4
                         ": " +
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
             addtext(t, os6, 135); t = new TextBlock();
+
+            formula_def.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[0].Expression;
             //documentation
         }
         private void set_func(int f)
@@ -584,11 +569,13 @@ namespace WpfApp4
         }
         private void set_cases(int f,int c)
         {
+            //MessageBox.Show(f.ToString()+c.ToString());
             Separator s = new Separator();
-            
+            TextBox t2=new TextBox();
             TextBlock t = new TextBlock();
             CheckBox b = new CheckBox();
             ToolTip tt = new ToolTip();
+            DataTable dt = new DataTable();
             textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
                 " "+SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
                 " " + SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Name +
@@ -600,17 +587,17 @@ namespace WpfApp4
             //MessageBox.Show(rn.ToString());
             is6.Children.Clear();
             is7.Children.Clear();
-            for(int i=0;i<rn;i++)
+            is8.Children.Clear();
+            //addtext(t, is6, 60); t = new TextBlock();
+            for (int i=0;i<rn;i++)
             {
+                
                 //t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString +
                 //  ", " +
                 //SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
                 //addtext(t, is6, 60); t = new TextBlock();
-                t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
-                addtext(t, is6, 60); t = new TextBlock();
-                t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].Variable_name;
-                addtext(t, is7, 60); t = new TextBlock();
-                //
+                //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name);
+                
                 int rn2 = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();
                 ft.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
                 ft.Name="f"+ f.ToString() + c.ToString() + i.ToString();
@@ -618,25 +605,70 @@ namespace WpfApp4
                 ft.Selected += set_upperrange_click;
                 for(int j=0;j<rn2;j++)
                 {
-                    
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
+                    addtexthw(t, is6,30, 90); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].Variable_name;
+                    addtexthw(t, is6,30, 90); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].ConstantValues[0].const_parameter_name;
+                    addtexthw(t, is6, 30, 90); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].ConstantValues[1].const_parameter_name;
+                    addtexthw(t, is6, 30, 90); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression;
+                    addtexthw(t, is6, 30, 241); t = new TextBlock();
+                    //
                     ft2.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
                     ft.Items.Add(ft2);
                     ft2.Name = "f" + f.ToString() + c.ToString() + i.ToString()+j.ToString();
                     ft2 = new TreeViewItem();
                     //
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString +
-                        ", "+
-                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
-                    addtext(t, is7, 60); t = new TextBlock();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString +
-                    ", " +
-                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
-                    addtext(t, is6, 60); t = new TextBlock();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name +
+
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString;
+                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                    t2.Text= SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
+                    addtextboxhw(t2, is8,30, 60); t2 = new TextBox();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString;
+                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                    t2.Text=SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
+                    addtextboxhw(t2, is8,30, 60); t2 = new TextBox();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString;
+                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                    t2.Text = "";
+                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString;
+                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                    t2.Text = "";
+                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                    t.Text = dt.Compute((SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression
+                        .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name,
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString)
+                      .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].const_parameter_name,
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString)
+                      .Replace("nominal",
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString).
+                      Replace("range",
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString)), "").ToString();
+
+                    addtexthw(t, is7, 30, 60); t = new TextBlock();
+                    
+                    t.Text = dt.Compute((SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression
+                        .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name,
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString)
+                      .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].const_parameter_name,
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString)
+                      .Replace("nominal",
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString).
+                      Replace("range",
+                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString)),"").ToString();
+                    
+                    addtexthw(t, is8, 30, 60); t = new TextBlock();
+                    //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression
+                     //   .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].ConstantValues[0].const_parameter_name,
+                       // "er"));
+            // addsep(s, is6); s = new Separator();
+            t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name +
                    ": " +
                    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString;
-                    //addtext(t, is7, 60); t = new TextBlock();
-                    //addseph(s, is6,60); s = new Separator();
+                   
                 }
                 range_tree.Items.Add(ft);
                 ft = new TreeViewItem();
@@ -688,6 +720,10 @@ namespace WpfApp4
             cv2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[1].const_parameter_name;
             cv1tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[0].ValueString;
             cv2tb.Text = SampleSOA.CapabilityScope.Activities[0].Templates[t].CMCUncertaintyFunctions[0].Cases[c].Ranges[o].Ranges[o2].ConstantValues[1].ValueString;
+        }
+        private void calculate()
+        {
+
         }
         public ItemsControl GetSelectedTreeViewItemParent(TreeViewItem item)
         {
@@ -844,7 +880,51 @@ namespace WpfApp4
         }
         private void addtext(TextBlock t, StackPanel p,int w)
         {
+            //t.VerticalAlignment = VerticalAlignment.Stretch;
             t.FontWeight=FontWeights.Bold;
+            t.Height = 30;
+            t.Width = w;
+            p.Children.Add(t);
+
+        }
+        private void addtextbox(TextBox t, StackPanel p, int w)
+        {
+            t.FontWeight = FontWeights.Bold;
+            t.Height = 30;
+            t.Width = w;
+            p.Children.Add(t);
+
+        }
+        private void addtextf1(TextBlock t, StackPanel p, int w)
+        {
+            //t.FontFamily = FontFamily.FamilyName;
+            t.Height = 30;
+            t.Width = w;
+            p.Children.Add(t);
+
+        }
+        private void addtexthw(TextBlock t, StackPanel p, int h, int w)
+        {
+            t.Margin = new Thickness(0, 16, 0, 0);
+            t.TextAlignment = TextAlignment.Center;
+            t.FontWeight = FontWeights.Bold;
+            t.Height = h;
+            t.Width = w;
+            p.Children.Add(t);
+
+        }
+        private void addtextboxhw(TextBox t, StackPanel p,int h, int w)
+        {
+            t.TextAlignment = TextAlignment.Center;
+            t.FontWeight = FontWeights.Bold;
+            t.Height = h;
+            t.Width = w;
+            p.Children.Add(t);
+
+        }
+        private void addtextf1d(TextBlock t, StackPanel p, int w)
+        {
+            //t.FontFamily = FontFamily.FamilyName;
             t.Height = 30;
             t.Width = w;
             p.Children.Add(t);
@@ -897,6 +977,15 @@ namespace WpfApp4
         void closeButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             this.RaiseEvent(new RoutedEventArgs(CloseTabEvent, this));
+        }
+        private void change_color(object sender, RoutedEventArgs e)
+        {
+            var bc = new BrushConverter();
+
+            menu1.Background = (Brush)bc.ConvertFrom("#225a88");
+
+            
+            
         }
     }
 }

@@ -654,17 +654,18 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.4,63,20.8,59.4" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} -193}}" >
-                            <Grid  >
-                                <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="241">
+                        <ScrollViewer  Name="sv1" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.4,63,20.8,59.4" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} -340}}" >
+                            <Border BorderThickness="4" HorizontalAlignment="Left" Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 15 }}" BorderBrush="DarkCyan">
+                                <Grid Name="svgrid" >
 
-                                </StackPanel>
+                                    <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="241"/>
+                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="195"  VerticalAlignment="Top" Margin="206,0,0,0"/>
+                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="150"  VerticalAlignment="Top" Margin="406,0,0,0"/>
 
-                                <StackPanel Name="is7" HorizontalAlignment="Left" Width="195"  VerticalAlignment="Top" Margin="206,0,0,0"/>
-                                <StackPanel Name="is8" HorizontalAlignment="Left" Width="150"  VerticalAlignment="Top" Margin="406,0,0,0"/>
 
-
-                            </Grid>
+                                </Grid>
+                            </Border>
+                            
                         </ScrollViewer>
                     </Grid>
 

@@ -19,6 +19,7 @@ using SOA_DataAccessLibrary;
 using System.Xml.Linq;
 using Kent.Boogaart.Converters;
 using System.Data;
+using System.Globalization;
 
 namespace WpfApp4
 {
@@ -545,7 +546,7 @@ namespace WpfApp4
                         ": " +
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
             addtext(t, os6, 135); t = new TextBlock();
-
+            MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables[0]);
             formula_def.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[0].Expression;
             //documentation
         }
@@ -585,7 +586,7 @@ namespace WpfApp4
             TreeViewItem ft = new TreeViewItem();
             TreeViewItem ft2 = new TreeViewItem();
             int rn = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges.Count();
-            int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.ParameterRanges.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
+            int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
             //MessageBox.Show(rn.ToString());
             is6.Children.Clear(); int hgt = 0;
             is7.Children.Clear();
@@ -672,7 +673,7 @@ namespace WpfApp4
                     for (int a = 0; a < ip; a++)
                     {
                         
-                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.ParameterRanges[a].name;
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[a];
                         addtexthw(t, is6, 30, 241); t = new TextBlock();
                         t2.TextChanged += setdata1;
                         t2.Name = "d"+(a+j*ip+i*rn2*ip).ToString();
@@ -689,6 +690,8 @@ namespace WpfApp4
                 ft = new TreeViewItem();
             }
             //f_tree.Items.Add
+            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[0]);
+            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[1]);
         }
         private void set_upperrange_click(object sender, RoutedEventArgs e)
         {
@@ -749,6 +752,8 @@ namespace WpfApp4
         }
         private void calculateboxes(object sender, RoutedEventArgs e)
         {
+            double num;
+            int candidate = 1;
             TextBlock x = e.Source as TextBlock;
             string parse = x.Name.Remove(0, 1);
             string[] tokens = parse.Split('a');
@@ -757,20 +762,49 @@ namespace WpfApp4
             int i = Int32.Parse(tokens[2]);
             int j = Int32.Parse(tokens[3]);
             int rn2 = Int32.Parse(tokens[4]);
-            int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.ParameterRanges.Count();
-            for(int q=0;q<ip;q++)
+            string temp = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression;
+            int cc = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues.Count();
+            int ic = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Constants.Count();
+            int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables.Count();
+            for (int q = 0; q < ic; q++)
             {
-                SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression
-                        .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.ParameterRanges[q].name,
-                        data1[q+ j * ip + i * rn2 * ip]);
-                MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.ParameterRanges[q].name+ data1[q + j * ip + i * rn2 * ip]);
+                for(int p=0;p<cc;p++)
+                {
+                    //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Constants[q]);
+                    //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[p].ValueString);
+                    if (SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Constants[q]== SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[p].const_parameter_name)
+                    {
+                        
+                        temp = temp.Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Constants[q],
+                SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[p].ValueString);
+                    }
+                }
+                
+
             }
+            for (int q=0;q<ip;q++)
+            {
+                if (double.TryParse(data1[q + j * ip + i * rn2 * ip],NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out num))
+                {
+                    // It's a number!
+                    temp = temp.Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[q],
+                        data1[q + j * ip + i * rn2 * ip]);
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid "+ SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[q] + " number!");
+                    candidate = 0;
+                }
+            }
+            
             DataTable dt = new DataTable();
-            x.Text = dt.Compute((SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression
-                        .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name,
-                      SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString)
-                      .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].const_parameter_name,
-                      SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString)), "").ToString();
+            if (candidate == 1)
+                x.Text = dt.Compute(temp, "").ToString();
+            else
+            {
+                x.Text = "click for result";
+            }
+                
         }
         private void addsepgrid(Separator s, Grid g, int m)
         {

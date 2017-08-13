@@ -476,7 +476,7 @@
                         </Grid.ColumnDefinitions>
                         <GroupBox Header="Input Parameters" HorizontalAlignment="Left" Height="234" Margin="10,53,0,0" VerticalAlignment="Top" Width="322" Grid.ColumnSpan="2"/>
                         <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="234" Margin="312.333,53,0,0" VerticalAlignment="Top" Width="306"/>
-                        <GroupBox Grid.Column="1" Header="Formulas" HorizontalAlignment="Left" Height="187" Margin="0.333,351,0,0" VerticalAlignment="Top" Width="318"/>
+                        <GroupBox Grid.ColumnSpan="3" Header="Formulas" HorizontalAlignment="Left" Height="187" Margin="10,351,0,0" VerticalAlignment="Top" Width="322"/>
                         <!--ListView Name="listview3" HorizontalAlignment="Left" Height="213" Margin="0,121,0,0" VerticalAlignment="Top" Width="318" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
                                 <GridView >
@@ -508,7 +508,7 @@
                         </-->
                         <!--TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/-->
                         <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text=" " FontSize="22" Foreground="DarkCyan" />
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,581.667,699" Grid.ColumnSpan="2">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,581.667,364" Width="500" Grid.ColumnSpan="3">
                             <Grid >
                                 <StackPanel Name="is4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
 
@@ -521,7 +521,7 @@
                         <StackPanel Name="os5" HorizontalAlignment="Left" Height="168" Margin="321.333,87,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1"/>
                         <StackPanel Name="os6" HorizontalAlignment="Left" Height="168" Margin="426.333,87,0,0" VerticalAlignment="Top" Width="175" Grid.Column="1"/>
 
-                        <StackPanel Name="sp2" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="89.333,384,0,0" VerticalAlignment="Top" Width="108"/>
+                        <StackPanel Name="sp2" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="113,384,0,0" VerticalAlignment="Top" Width="108"/>
                         <StackPanel Name="sp1" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="0.333,384,0,0" VerticalAlignment="Top" Width="89"/>
                         <StackPanel Name="sp3" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="197.333,384,0,0" VerticalAlignment="Top" Width="121"/>
                     </Grid>

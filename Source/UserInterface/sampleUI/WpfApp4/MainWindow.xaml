@@ -659,13 +659,13 @@
                                 <Grid Name="svgrid" >
 
                                     <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="241"/>
-                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="195"  VerticalAlignment="Top" Margin="206,0,0,0"/>
-                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="150"  VerticalAlignment="Top" Margin="406,0,0,0"/>
+                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="148"  VerticalAlignment="Top" Margin="206,0,0,0"/>
+                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="237"  VerticalAlignment="Top" Margin="319,0,-40,0"/>
 
 
                                 </Grid>
                             </Border>
-                            
+
                         </ScrollViewer>
                     </Grid>
 

@@ -69,7 +69,7 @@ namespace WpfApp4
 
             cd0.Width = new GridLength(0, GridUnitType.Pixel);
             cd1.Width = new GridLength(0, GridUnitType.Pixel);
-            
+            /*
             split1.Width = 0;
             cv1.Visibility = Visibility.Hidden;
             cv2.Visibility = Visibility.Hidden;
@@ -95,7 +95,7 @@ namespace WpfApp4
             sp2.Children.Add(ss);
             TextBlock b2 = new TextBlock();
             b2.Text = "Formula 1";
-            sp2.Children.Add(b2);
+            sp2.Children.Add(b2);*/
             //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
             //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
             tabs.SelectedIndex=0;
@@ -505,6 +505,7 @@ namespace WpfApp4
             ComboBoxItem i = new ComboBoxItem();
             TextBlock t = new TextBlock();
             CheckBox b = new CheckBox();
+            Button bt = new Button();
 
             int it = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters.Count();
             int ip = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges.Count();
@@ -560,6 +561,35 @@ namespace WpfApp4
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
             addtext(t, os6, 135); t = new TextBlock();
             //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables[0]);
+            int fc = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties.Count();
+            int gcc = fgrid.Children.Count; 
+            fgrid.Children.RemoveRange(3, gcc - 3);
+            sp1.Children.Clear();
+            sp2.Children.Clear();
+            sp3.Children.Clear();
+            for (int u=0;u<fc;u++)
+            {
+                bt.Content = "Edit";
+                addbuttonhw(bt, sp1, 30, 100);bt = new Button();
+                t.Text = "Function"+(u+1).ToString();
+                addtexthw(t, sp2, 30, 150);t = new TextBlock();
+                int fcv = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols.Count();
+                for(int y=0;y<fcv;y++)
+                {
+                    if (y == 0)
+                        t.Text = "VARIABLES";
+                    else
+                        t.Text = "";
+                    
+                    addtexthw(t, sp1, 30, 150);t.TextAlignment =TextAlignment.Left;
+                    t.Margin = new Thickness(12, 16, 0, 0);
+                    t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols[y];
+                    addtexthw(t, sp2, 30, 150); t = new TextBlock();
+                }
+                addsepgrid(s, fgrid, 46 + 46 *u* (1 + fcv)); s = new Separator();
+                addsepgrid(s, fgrid,46+46*u*(1+fcv)+fcv*46);s = new Separator();
+            }
             formula_def.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[0].Expression;
             techdoctext.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Documentation.Document;
             //documentation

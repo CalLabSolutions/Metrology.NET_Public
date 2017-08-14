@@ -148,17 +148,7 @@
                         <MenuItem Header="Exit" InputGestureText="Ctrl+E">
 
                         </MenuItem>
-                        <Separator />
-                        <MenuItem  Header="Excellent" IsCheckable="True" IsChecked="True" />
-                        <MenuItem Header="Rubbish" IsCheckable="True" />
-                        <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
-                            <MenuItem Header="Enlightenment?" IsCheckable="True" />
-                            <MenuItem Header="Disappointment" IsCheckable="True" />
-                        </MenuItem>
-                        <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
-                            <MenuItem Header="Plain" />
-                            <MenuItem Header="Ice Cream" />
-                        </MenuItem>
+
                     </MenuItem>
 
                     <MenuItem Foreground="LightCyan" Click="change_color" Header="_Edit " Height="27" />
@@ -481,6 +471,9 @@
                         <GroupBox Name="techdoc" Grid.ColumnSpan="2" Header="Documentation" HorizontalAlignment="Left" Height="246" Margin="10,292,0,0" VerticalAlignment="Top" Width="322">
                             <TextBlock Name="techdoctext"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="199" Margin="0,0,0,-5"/>
                         </GroupBox>
+                        <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Formulas and Variables" HorizontalAlignment="Left" Height="327" Margin="313,211,0,0" VerticalAlignment="Top" Width="305">
+
+                        </GroupBox>
                         <!--ListView Name="listview3" HorizontalAlignment="Left" Height="213" Margin="0,121,0,0" VerticalAlignment="Top" Width="318" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
                                 <GridView >
@@ -512,7 +505,7 @@
                         </-->
                         <!--TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/-->
                         <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text=" " FontSize="22" Foreground="DarkCyan" />
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,0,0" Width="322" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="198" VerticalAlignment="Top">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,0,0" Width="320" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="198" VerticalAlignment="Top">
                             <Grid >
                                 <StackPanel Name="is4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
 
@@ -521,22 +514,20 @@
 
                             </Grid>
                         </ScrollViewer>
-                        <ScrollViewer Width="305" Margin="313,246,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left">
-                            <Grid>
-                                <StackPanel Name="sp1" HorizontalAlignment="Left" Height="289" Margin="28,0,0,0" VerticalAlignment="Top" Width="89"/>
-                                <StackPanel Name="sp2" HorizontalAlignment="Left" Height="292" Margin="117,0,0,0" VerticalAlignment="Top" Width="108"/>
-                                <StackPanel Name="sp3" HorizontalAlignment="Left" Height="289" Margin="191,3,0,0" VerticalAlignment="Top" Width="121"/>
+                        <ScrollViewer Width="301" VerticalScrollBarVisibility="Auto" Margin="340,246,0,0" Height="290" VerticalAlignment="Top" Grid.ColumnSpan="3" HorizontalAlignment="Left">
+                            <Grid Name="fgrid">
+                                <StackPanel Name="sp1" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="89" Margin="7,0,0,0"/>
+                                <StackPanel Name="sp2" HorizontalAlignment="Left"  Margin="94,0,0,0" VerticalAlignment="Top" Width="194"/>
+                                <StackPanel Name="sp3" HorizontalAlignment="Left"  Margin="191,3,0,0" VerticalAlignment="Top" Width="90"/>
 
                             </Grid>
 
                         </ScrollViewer>
                         <StackPanel Name="os4" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
-                        <StackPanel Name="os5" HorizontalAlignment="Left" Height="168" Margin="321.333,87,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1"/>
-                        <StackPanel Name="os6" HorizontalAlignment="Left" Height="168" Margin="426.333,87,0,0" VerticalAlignment="Top" Width="175" Grid.Column="1"/>
+                        <StackPanel Name="os5" HorizontalAlignment="Left" Height="119" Margin="321,87,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1"/>
+                        <StackPanel Name="os6" HorizontalAlignment="Left" Height="119" Margin="426,87,0,0" VerticalAlignment="Top" Width="175" Grid.Column="1"/>
 
-                        <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Formulas and Variables" HorizontalAlignment="Left" Height="327" Margin="313,211,0,0" VerticalAlignment="Top" Width="305">
-
-                        </GroupBox>
+                        
                     </Grid>
                 </TabItem>
                 <TabItem Header="Function">

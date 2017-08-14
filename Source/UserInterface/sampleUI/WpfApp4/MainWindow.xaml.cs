@@ -37,6 +37,7 @@ namespace WpfApp4
         OpResult op;
         Soa SampleSOA;
         StringBuilder stringBuilder;
+        List<TextBlock> textboxes = new List<TextBlock>();
         int fdataindex;
         string[] data1=new string[9];
         string[] data2 = new string[9];
@@ -194,13 +195,18 @@ namespace WpfApp4
             tec_name.Text = tech_tree0.Header.ToString();
 
 
-            tvMain.Items.RemoveAt(1);
+            //tvMain.Items.RemoveAt(1);
+            tvMain.Items.Clear();
             ToolTip tt = new ToolTip(); ToolTip tt2 = new ToolTip();
             int pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
             int tc = SampleSOA.CapabilityScope.Activities[0].Techniques.Count();
             int fc = SampleSOA.CapabilityScope.Activities[0].Templates.Count();
             int q = 0;
             int p = 0;
+            TreeViewItem infonode = new TreeViewItem();
+            infonode.Header = "Company Info";
+            infonode.Selected += slct_info;
+            tvMain.Items.Add(infonode);
             TreeViewItem processnode = new TreeViewItem();
             TreeViewItem technode = new TreeViewItem();
             TreeViewItem funcnode = new TreeViewItem();
@@ -239,32 +245,38 @@ namespace WpfApp4
                                 funcnode.Header = s3;// "Function" + (p + 1).ToString();
                                 funcnode.Name = "function" + (p + 1).ToString();
                                 cc = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases.Count();
-                                /*if(cc==1)
+                                if(cc==1)
                                 {
                                 cnode.Name = "case" + casenumber.ToString();
-                                cnode.Header = "e";
+                                cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[0].Ranges[0].Variable_name+" function";
                                 cnode.Selected += slct_case;
                                 funcnode.Items.Add(cnode);
                                 cnode = new TreeViewItem();
                                 technode.Items.Add(funcnode);
                                 funcnode = new TreeViewItem(); p++;
-                                }*/
+                                }
                                 if (cc > 1)
                                 {
                                     for (int x = 0; x < cc; x++)
                                     {
+                                        string temp = "";
                                         cnode.Name = "case" + casenumber.ToString();
-                                        cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Value +
-                                    " " + 
-                                    " " + SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[1].Value;
+                                        int an = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions.Count();
+                                        cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Value;
+                                        for (int u = 1; u < an; u++)
+                                        {
+                                            cnode.Header = cnode.Header+" "+ SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[u].Value;
+                                            
+                                        }
+
                                         cnode.Selected += slct_case;
                                         funcnode.Items.Add(cnode);
                                         cnode = new TreeViewItem();
                                     }
-                                    
+                                    technode.Items.Add(funcnode);
+                                    funcnode = new TreeViewItem(); p++;
                                 }
-                                technode.Items.Add(funcnode);
-                                funcnode = new TreeViewItem(); p++;
+                                
 
                             }
                             
@@ -447,6 +459,7 @@ namespace WpfApp4
 
             for (int x=0;x<ic;x++)
             {
+                
                 addsep(s, is1); s = new Separator();
                 addsep(s, is1); s = new Separator();
                 t.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].name;
@@ -532,7 +545,7 @@ namespace WpfApp4
             addsep(s, os5); s = new Separator();
             addsep(s, os5); s = new Separator();
             addsep(s, os5); s = new Separator();
-            t.Text = "Result:"; MessageBox.Show("rrr");
+            t.Text = "Result:"; 
             addtext(t, os5, 60); t = new TextBlock();
             addsep(s, os6); s = new Separator();
             addsep(s, os6); s = new Separator();
@@ -546,8 +559,9 @@ namespace WpfApp4
                         ": " +
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
             addtext(t, os6, 135); t = new TextBlock();
-            MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables[0]);
+            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables[0]);
             formula_def.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[0].Expression;
+            techdoctext.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Documentation.Document;
             //documentation
         }
         private void set_func(int f)
@@ -566,132 +580,254 @@ namespace WpfApp4
             int i = parent.Items.IndexOf(childItem);// MessageBox.Show(i.ToString());
             int fl = parent.Name.Length;
             int f =Convert.ToInt32(parent.ToolTip.ToString());//            (int)String.GetNumericValue(parent.ToolTip.ToString());
-            set_cases(f,i);
+            set_cases(f,i);//MessageBox.Show(f.ToString()+ i.ToString());
         }
         private void set_cases(int f,int c)
         {
             //MessageBox.Show(f.ToString()+c.ToString());
-            
+            var bc = new BrushConverter();
+
+            Button b = new Button();
             Separator s = new Separator();
             TextBox t2=new TextBox();
-            TextBlock t = new TextBlock();
-            CheckBox b = new CheckBox();
+            TextBlock t = new TextBlock(); 
+            CheckBox cb = new CheckBox();
             ToolTip tt = new ToolTip();
             DataTable dt = new DataTable();
-            textBlock11.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Name +
-                " "+SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[0].Value +
-                " " + SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Name +
-                " "+ SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[1].Value;
+            int fc=SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions.Count();
+            int an= SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions.Count();
+            for (int u = 1; u < an; u++)
+            {
+                textBlock11.Text = textBlock11.Text + SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[u].Name +
+                " " + SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[u].Value +" ";
+
+            }
+            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[0].Variable_name);
             range_tree.Items.Clear();
             TreeViewItem ft = new TreeViewItem();
             TreeViewItem ft2 = new TreeViewItem();
-            int rn = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges.Count();
-            int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
+            int rn = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges.Count();
             //MessageBox.Show(rn.ToString());
             is6.Children.Clear(); int hgt = 0;
             is7.Children.Clear();
             is8.Children.Clear();
+            is9.Children.Clear();
+            int gcc=svgrid.Children.Count; //MessageBox.Show(gcc.ToString());
+            
+            svgrid.Children.RemoveRange(4, gcc-3);
+
             //addtext(t, is6, 60); t = new TextBlock();
-            for (int i=0;i<rn;i++)
+            if (an>1)
+            {
+                int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[f].Variables.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
+
+                textboxes.Clear();
+                for (int i = 0; i < rn; i++)
+                {
+                    
+                    int rn2 = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();//inner ranges count
+                    ft.Header = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
+                    ft.Name = "f" + f.ToString() + c.ToString() + i.ToString();
+                    
+                    ft.Selected += set_upperrange_click;
+                    for (int j = 0; j < rn2; j++)
+                    {
+                        int cc = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues.Count();
+                        data1 = new string[rn * rn2*ip];
+                        if (j == 0 && i == 0)
+                        {
+                            int temp = is7.Children.Count;
+                            hgt = Convert.ToInt32(temp * 30);
+                        }
+                        t.Text = "RANGES";
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
+                        t.Text = "";
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
+                        addtexthw(t, is6, 30, 90); t = new TextBlock();
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
+                        addtexthw(t, is6, 30, 90); t = new TextBlock();
+
+                        for (int x = 0; x < cc; x++)
+                        {
+                            t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[x].const_parameter_name;
+                            addtexthw(t, is6, 30, 90); t = new TextBlock();
+                            if (x == 0)
+                                t.Text = "CONTANTS";
+                            else
+                                t.Text = "";
+                            addtexthw(t, is9, 30, 90); t = new TextBlock();
+
+                        }
+
+
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString;
+                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
+                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString;
+                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
+                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                        for (int x = 0; x < cc; x++)
+                        {
+                            t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[x].ValueString;
+                            addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                            t2.Visibility = Visibility.Hidden;
+                            addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+
+                        }
+                        for (int a = 0; a < ip; a++)
+                        {
+
+                            t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[a];
+                            addtexthw(t, is6, 30, 241); t = new TextBlock();
+                            t2.TextChanged += setdata1;// MessageBox.Show((a + j * ip + i * rn2 * ip).ToString());
+                            t2.Name = "d" + (a + j * ip + i * rn2 * ip).ToString();
+                            addtextboxhw(t2, is7, 30, 90); t2 = new TextBox();
+                            t.Text ="";
+                            addtexthw(t, is8, 30, 241); t = new TextBlock();
+                            if (a == 0)
+                                t.Text = "VARIABLES";
+                            else
+                                t.Text = "";
+                            addtexthw(t, is9, 30, 90); t = new TextBlock();
+                        }
+                        t.Text = "FORMULA";
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression;
+                         t.Margin= new Thickness(-23, 0, 0, 0);
+                         addtexthw(t, is6, 30, 241); t = new TextBlock();
+                         
+                        b.Name = "a"+f.ToString()+ "a" +c.ToString() + "a" + i.ToString() + "a" + j.ToString()+"a"+rn2.ToString();
+                        b.Content = "CALCULATE";
+                        b.Background = (Brush)bc.ConvertFrom("#d6fff6 ");
+                        b.Foreground = (Brush)bc.ConvertFrom("#008b8b ");
+                        
+                        b.Click += calculateboxes;
+                        addbuttonhw(b, is7, 30, 120); b = new Button();
+                        textboxes.Add(t);
+                        addtexthw(t, is8, 30, 100); t = new TextBlock();
+                        
+                         //ft and ft2 are related with function tab
+                         ft2.Header = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
+                         ft.Items.Add(ft2);
+                         ft2.Name = "f" + f.ToString() + c.ToString() + i.ToString() + j.ToString();
+                         ft2 = new TreeViewItem();
+                        //
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j+i*rn2) + 92); s = new Separator();//put separators
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j+i * rn2) + 92 + 46 * cc); s = new Separator();
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j+i * rn2) + 92 + ip * 46 + 46 * cc); s = new Separator();
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc); s = new Separator();
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j+i * rn2) + 92 + ip * 46 +46+ 46 * cc+1); s = new Separator();
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc + 2); s = new Separator();
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc+3); s = new Separator();
+                    }
+                     range_tree.Items.Add(ft);
+                     ft = new TreeViewItem();
+                }
+
+            }
+            else
             {
                 
-                //t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString +
-                //  ", " +
-                //SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
-                //addtext(t, is6, 60); t = new TextBlock();
-                //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name);
-
-                int rn2 = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges.Count();//inner ranges count
-                ft.Header = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
-                ft.Name="f"+ f.ToString() + c.ToString() + i.ToString();
-                
-                ft.Selected += set_upperrange_click;
-                for(int j=0;j<rn2;j++)
+                int rn2 = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges.Count();//inner ranges count
+                textboxes.Clear();
+                int tf=0;
+                while(SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].name!= SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[tf].function_name)
                 {
-                    data1 = new string[rn * rn2];
-                    if (j == 0 && i == 0)
+                    tf++;
+                }
+                int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[tf].Variables.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
+
+                for (int j = 0; j < rn2; j++)
+                {
+                    int cc = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues.Count();
+                    data1 = new string[ rn2];
+                    if (j == 0 )
                     {
                         int temp = is7.Children.Count;
                         hgt = Convert.ToInt32(temp * 30);
                     }
-                    addsepgrid(s, svgrid, 276 * (j + 2 * i) + 92); s = new Separator();//put separators
-                    addsepgrid(s, svgrid, 276 * (j + 2 * i) + 184); s = new Separator();
-                    addsepgrid(s, svgrid, 276 * (j + 2 * i) + 276); s = new Separator();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_name;
-                    addtexthw(t, is6,30, 90); t = new TextBlock();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].Variable_name;
-                    addtexthw(t, is6,30, 90); t = new TextBlock();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].ConstantValues[0].const_parameter_name;
-                    addtexthw(t, is6, 30, 90); t = new TextBlock();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[0].ConstantValues[1].const_parameter_name;
+                    t.Text = "RANGES";
+                    addtexthw(t, is9, 30, 90); t = new TextBlock();
+                   
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].Variable_name;
                     addtexthw(t, is6, 30, 90); t = new TextBlock();
                     
-                    
-                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString;
-                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                    t2.Text= SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
-                    addtextboxhw(t2, is8,30, 60); t2 = new TextBox();
-                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString;
-                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                    t2.Text=SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
-                    addtextboxhw(t2, is8,30, 60); t2 = new TextBox();
-                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString;
-                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
-                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString;
-                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
-                    /*t.Text = "range"; /*dt.Compute((SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression
-                        .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name,
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString)
-                      .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].const_parameter_name,
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString)
-                      .Replace("nominal",
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString).
-                      Replace("range",
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString)), "").ToString();*/
+                    for(int x=0;x<cc;x++)
+                    {
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues[x].const_parameter_name;
+                        addtexthw(t, is6, 30, 90); t = new TextBlock();
+                        if (x == 0)
+                            t.Text = "CONTANTS";
+                        else
+                            t.Text = "";
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
+                    }
+                   
 
-                    //addtexthw(t, is7, 30, 60); t = new TextBlock();
+
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].Start.ValueString;
+                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].End.ValueString;
+                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
                     
-                    /*t.Text = dt.Compute((SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression
-                        .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].const_parameter_name,
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[0].ValueString)
-                      .Replace(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].const_parameter_name,
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[1].ValueString)
-                      .Replace("nominal",
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString).
-                      Replace("range",
-                      SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString)),"").ToString();*/
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[0].MtcTechnique.CMCUncertainties[0].Expression;
-                    t.Margin= new Thickness(-23, 0, 0, 0);
-                    addtexthw(t, is8, 30, 241); t = new TextBlock();
-                    t.ToolTip = "click for result";
-                    t.Text = "click for result";
-                    t.Name = "a"+f.ToString()+ "a" +c.ToString() + "a" + i.ToString() + "a" + j.ToString()+"a"+rn2.ToString();
-                    t.MouseLeftButtonDown += calculateboxes;
-                    addtexthw(t, is8, 30, 100); t = new TextBlock();
+                    for (int x = 0; x < cc; x++)
+                    {
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues[x].ValueString;
+                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                        t2.Visibility = Visibility.Hidden;
+                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                        
+                    }
                     for (int a = 0; a < ip; a++)
                     {
-                        
-                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[a];
+
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[tf].Variables[a];
                         addtexthw(t, is6, 30, 241); t = new TextBlock();
                         t2.TextChanged += setdata1;
-                        t2.Name = "d"+(a+j*ip+i*rn2*ip).ToString();
+                        t2.Name = "d" + (a + j * ip + 0 * rn2 * ip).ToString();
                         addtextboxhw(t2, is7, 30, 90); t2 = new TextBox();
+                        addtexthw(t, is8, 30, 241); t = new TextBlock();
+                        if (a == 0)
+                            t.Text = "VARIABLES";
+                        else
+                            t.Text = "";
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
                     }
-                    //ft and ft2 are related with function tab
-                    ft2.Header = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
-                    ft.Items.Add(ft2);
-                    ft2.Name = "f" + f.ToString() + c.ToString() + i.ToString() + j.ToString();
-                    ft2 = new TreeViewItem();
-                    //
+                    t.Text = "FORMULA";
+                    addtexthw(t, is9, 30, 90); t = new TextBlock();
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[tf].Expression;
+                    t.Margin = new Thickness(-23, 0, 0, 0);
+                    addtexthw(t, is6, 30, 241); t = new TextBlock();
+                    
+                    b.Name = "a" + f.ToString() + "a" + c.ToString() + "a" + j.ToString() + "a" + rn2.ToString()+"a"+tf.ToString();
+
+                    b.Content = "CALCULATE";
+                    b.Background = (Brush)bc.ConvertFrom("#d6fff6 ");
+                    b.Foreground = (Brush)bc.ConvertFrom("#008b8b ");
+
+                    b.Click += calculateboxes2;
+                    addbuttonhw(b, is7, 30, 120); b = new Button();
+                    textboxes.Add(t);
+                    addtexthw(t, is8, 30, 100); t = new TextBlock();
+                    
+                    
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 46); s = new Separator();//put separators
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 46 + 46 * cc); s = new Separator();
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 46 + ip * 46 + 46 * cc); s = new Separator();
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 92 + ip * 46 + 46 * cc); s = new Separator();
+                    
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 92 + ip * 46 + 46 * cc+1); s = new Separator();
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 92 + ip * 46 + 46 * cc+2); s = new Separator();
+                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc) * (j) + 92 + ip * 46 + 46 * cc+3); s = new Separator();
                 }
-                range_tree.Items.Add(ft);
-                ft = new TreeViewItem();
             }
-            //f_tree.Items.Add
-            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[0]);
-            //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[1]);
+                        /* */
+                        //f_tree.Items.Add
+                        //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[0]);
+                        //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[1]);
         }
         private void set_upperrange_click(object sender, RoutedEventArgs e)
         {
@@ -754,7 +890,7 @@ namespace WpfApp4
         {
             double num;
             int candidate = 1;
-            TextBlock x = e.Source as TextBlock;
+            Button x = e.Source as Button;
             string parse = x.Name.Remove(0, 1);
             string[] tokens = parse.Split('a');
             int f = Int32.Parse(tokens[0]);
@@ -784,6 +920,8 @@ namespace WpfApp4
             }
             for (int q=0;q<ip;q++)
             {
+                //MessageBox.Show((q + j * ip + i * rn2 * ip).ToString());
+                //MessageBox.Show(data1[q + j * ip + i * rn2 * ip]);
                 if (double.TryParse(data1[q + j * ip + i * rn2 * ip],NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out num))
                 {
                     // It's a number!
@@ -799,12 +937,68 @@ namespace WpfApp4
             
             DataTable dt = new DataTable();
             if (candidate == 1)
-                x.Text = dt.Compute(temp, "").ToString();
+                textboxes[i*rn2+j].Text = dt.Compute(temp, "").ToString();
             else
             {
-                x.Text = "click for result";
+                x.Content = "CALCULATE";
             }
                 
+        }
+        private void calculateboxes2(object sender, RoutedEventArgs e)
+        {
+            double num;
+            int candidate = 1;
+            Button x = e.Source as Button;
+            string parse = x.Name.Remove(0, 1);
+            string[] tokens = parse.Split('a');
+            int f = Int32.Parse(tokens[0]);
+            int c = Int32.Parse(tokens[1]);
+            int j = Int32.Parse(tokens[2]);
+            int rn2 = Int32.Parse(tokens[3]);
+            int ft = Int32.Parse(tokens[4]);
+            string temp = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Expression;
+            int cc = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues.Count();
+            int ic = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Constants.Count();
+            int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Variables.Count();
+            for (int q = 0; q < ic; q++)
+            {
+                for (int p = 0; p < cc; p++)
+                {
+                    //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Constants[q]);
+                    //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[p].ValueString);
+                    if (SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Constants[q] == SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues[p].const_parameter_name)
+                    {
+
+                        temp = temp.Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Constants[q],
+                SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues[p].ValueString);
+                    }
+                }
+
+
+            }
+            for (int q = 0; q < ip; q++)
+            {
+                if (double.TryParse(data1[q + j * ip ], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out num))
+                {
+                    // It's a number!
+                    temp = temp.Replace(SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Variables[q],
+                        data1[q + j * ip ]);
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid " + SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[ft].Variables[q] + " number!");
+                    candidate = 0;
+                }
+            }
+
+            DataTable dt = new DataTable();
+            if (candidate == 1)
+                textboxes[j].Text = dt.Compute(temp, "").ToString();
+            else
+            {
+                
+            }
+
         }
         private void addsepgrid(Separator s, Grid g, int m)
         {
@@ -1015,6 +1209,14 @@ namespace WpfApp4
             p.Children.Add(t);
 
         }
+        private void addbuttonhw(Button b, StackPanel p, int h, int w)
+        {
+            b.Margin = new Thickness(0, 16, 0, 0);
+            b.Height = h;
+            b.Width = w;
+            p.Children.Add(b);
+
+        }
         private void addtextf1d(TextBlock t, StackPanel p, int w)
         {
             //t.FontFamily = FontFamily.FamilyName;
@@ -1081,11 +1283,6 @@ namespace WpfApp4
             
         }
 
-        private class Triple
-        {
-            string str1;
-            string str2;
-            string str3;
-        }
+        
     }
 }

@@ -12,7 +12,7 @@
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
-        Title="SoA XML Editor" Height="720" Width="900" MinWidth="900" MinHeight="720" AllowsTransparency="False" BorderThickness="0" 
+        Title="SoA XML Editor" Height="720" Width="950" MinWidth="950" MaxWidth="1000" MaxHeight="800" MinHeight="720" AllowsTransparency="False" BorderThickness="0" 
         >
     <Window.Background>
         <LinearGradientBrush  StartPoint="1,1" EndPoint="1,0">
@@ -366,7 +366,7 @@
                                 </TextBox.InputBindings>
                             </-->
                         <ComboBox Name="combo2" SelectionChanged="comboselection"
-                  IsEditable="True" HorizontalContentAlignment="Left" Height="30" VerticalAlignment="Top" Margin="10,10,283.2,0" Grid.ColumnSpan="2"  >
+                  IsEditable="True" HorizontalContentAlignment="Left" Height="30" VerticalAlignment="Top" Margin="10,10,293.2,0" Grid.ColumnSpan="2"  >
 
 
                         </ComboBox>
@@ -413,9 +413,11 @@
                         <GroupBox Name="d_box" Header="Title" HorizontalAlignment="Left" Height="172" Margin="10,337,0,0" VerticalAlignment="Top" Width="638" Grid.ColumnSpan="2">
                             <TextBlock Name="d_text" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="601" Height="130" Margin="0,0,0,-9.333"/>
                         </GroupBox>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,571.667,728" Grid.ColumnSpan="2">
-                            <Grid>
-                                <StackPanel Name="is1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
+                        <ScrollViewer HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto" Width="326" Margin="10,87,0,391" Grid.ColumnSpan="2">
+                            <Grid Height="169">
+                                <StackPanel Name="is1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="156"  Margin="-34,0,0,0">
+
+                                </StackPanel>
 
                                 <StackPanel Name="is2" HorizontalAlignment="Left" Width="109"  VerticalAlignment="Top" Margin="112,0,83,0"/>
 
@@ -423,7 +425,7 @@
 
                             </Grid>
                         </ScrollViewer>
-                        <StackPanel Name="os1" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
+                        <StackPanel Name="os1" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"></StackPanel>
                         <StackPanel Name="os2" HorizontalAlignment="Left" Height="168" Margin="332,87,0,0" VerticalAlignment="Top" Width="114" Grid.Column="1"/>
                         <StackPanel Name="os3" HorizontalAlignment="Left" Height="168" Margin="446,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
 
@@ -475,8 +477,10 @@
                             <ColumnDefinition Width="314*"/>
                         </Grid.ColumnDefinitions>
                         <GroupBox Header="Input Parameter Ranges" HorizontalAlignment="Left" Height="234" Margin="10,53,0,0" VerticalAlignment="Top" Width="322" Grid.ColumnSpan="2"/>
-                        <GroupBox Grid.Column="1" Header="Output Results" HorizontalAlignment="Left" Height="234" Margin="312.333,53,0,0" VerticalAlignment="Top" Width="306"/>
-                        <GroupBox Grid.ColumnSpan="3" Header="Formulas" HorizontalAlignment="Left" Height="187" Margin="10,351,0,0" VerticalAlignment="Top" Width="322"/>
+                        <GroupBox Header="Output Results" HorizontalAlignment="Left" Height="153" Margin="337,53,0,0" VerticalAlignment="Top" Width="306" Grid.ColumnSpan="2"/>
+                        <GroupBox Name="techdoc" Grid.ColumnSpan="2" Header="Documentation" HorizontalAlignment="Left" Height="246" Margin="10,292,0,0" VerticalAlignment="Top" Width="322">
+                            <TextBlock Name="techdoctext"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="199" Margin="0,0,0,-5"/>
+                        </GroupBox>
                         <!--ListView Name="listview3" HorizontalAlignment="Left" Height="213" Margin="0,121,0,0" VerticalAlignment="Top" Width="318" FontSize="12" FontWeight="Bold" Grid.Column="1">
                             <ListView.View >
                                 <GridView >
@@ -508,7 +512,7 @@
                         </-->
                         <!--TextBlock Name="tec_pro" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="26" FontWeight="Bold" FontSize="14"/-->
                         <TextBlock Name="tec_name" Grid.Column="1" HorizontalAlignment="Left" Margin="10.333,10,0,0" Width="601" Height="38" VerticalAlignment="Top" TextWrapping="Wrap" Text=" " FontSize="22" Foreground="DarkCyan" />
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,581.667,364" Width="500" Grid.ColumnSpan="3">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,87,0,0" Width="322" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="198" VerticalAlignment="Top">
                             <Grid >
                                 <StackPanel Name="is4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
 
@@ -517,13 +521,22 @@
 
                             </Grid>
                         </ScrollViewer>
+                        <ScrollViewer Width="305" Margin="313,246,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left">
+                            <Grid>
+                                <StackPanel Name="sp1" HorizontalAlignment="Left" Height="289" Margin="28,0,0,0" VerticalAlignment="Top" Width="89"/>
+                                <StackPanel Name="sp2" HorizontalAlignment="Left" Height="292" Margin="117,0,0,0" VerticalAlignment="Top" Width="108"/>
+                                <StackPanel Name="sp3" HorizontalAlignment="Left" Height="289" Margin="191,3,0,0" VerticalAlignment="Top" Width="121"/>
+
+                            </Grid>
+
+                        </ScrollViewer>
                         <StackPanel Name="os4" HorizontalAlignment="Left" Height="168" Margin="236,87,0,0" VerticalAlignment="Top" Width="96" Grid.Column="1"/>
                         <StackPanel Name="os5" HorizontalAlignment="Left" Height="168" Margin="321.333,87,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1"/>
                         <StackPanel Name="os6" HorizontalAlignment="Left" Height="168" Margin="426.333,87,0,0" VerticalAlignment="Top" Width="175" Grid.Column="1"/>
 
-                        <StackPanel Name="sp2" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="113,384,0,0" VerticalAlignment="Top" Width="108"/>
-                        <StackPanel Name="sp1" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="0.333,384,0,0" VerticalAlignment="Top" Width="89"/>
-                        <StackPanel Name="sp3" Grid.Column="1" HorizontalAlignment="Left" Height="151" Margin="197.333,384,0,0" VerticalAlignment="Top" Width="121"/>
+                        <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Formulas and Variables" HorizontalAlignment="Left" Height="327" Margin="313,211,0,0" VerticalAlignment="Top" Width="305">
+
+                        </GroupBox>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Function">
@@ -654,14 +667,16 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="375*"/>
                         </Grid.ColumnDefinitions>
-                        <ScrollViewer  Name="sv1" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.4,63,20.8,59.4" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} -340}}" >
+                        <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
+                        <Separator HorizontalAlignment="Left" Width="4" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="143,65,0,60" Grid.Column="1" />
+                        <ScrollViewer  Name="sv1" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.4,63,20.8,59.4" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} -310}}" >
                             <Border BorderThickness="4" HorizontalAlignment="Left" Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 15 }}" BorderBrush="DarkCyan">
                                 <Grid Name="svgrid" >
 
-                                    <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="241"/>
-                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="148"  VerticalAlignment="Top" Margin="206,0,0,0"/>
-                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="237"  VerticalAlignment="Top" Margin="319,0,-40,0"/>
-
+                                    <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" Margin="139,0,0,0"/>
+                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="130"  VerticalAlignment="Top" Margin="395,-4,0,0"/>
+                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="77"  VerticalAlignment="Top" Margin="540,-4,-21,0"/>
+                                    <StackPanel Name="is9" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="0,0,0,0" />
 
                                 </Grid>
                             </Border>

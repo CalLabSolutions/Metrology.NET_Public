@@ -46,6 +46,7 @@ namespace WpfApp4
         private object tv;
         private int changed_no=0;
         private int casenumber = 1;
+        TextBlock t = new TextBlock();
 
         public MainWindow()
         {
@@ -69,6 +70,7 @@ namespace WpfApp4
 
             cd0.Width = new GridLength(0, GridUnitType.Pixel);
             cd1.Width = new GridLength(0, GridUnitType.Pixel);
+            
             /*
             split1.Width = 0;
             cv1.Visibility = Visibility.Hidden;
@@ -420,6 +422,7 @@ namespace WpfApp4
                 int p = (int)Char.GetNumericValue(parent.Name[pl - 1]);
                 set_tech(p, t);
                 tabs.SelectedIndex = 3;
+                tabs.SelectedIndex = 6;
             }
                 
             else if (childItem.Name[0] == 'c')
@@ -499,14 +502,16 @@ namespace WpfApp4
         }
         private void set_tech(int p,int tt)
         {
+            int globe = 0;
             //MessageBox.Show(p.ToString() + tt.ToString());
             Separator s = new Separator();
             ComboBox c = new ComboBox();
             ComboBoxItem i = new ComboBoxItem();
             TextBlock t = new TextBlock();
+            TextBox t2 = new TextBox();
             CheckBox b = new CheckBox();
             Button bt = new Button();
-
+           // textBlock11t.Text=
             int it = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters.Count();
             int ip = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges.Count();
             is4.Children.Clear();
@@ -519,12 +524,29 @@ namespace WpfApp4
             addsep(s, is4); s = new Separator();
             addsep(s, is5); s = new Separator();
             addsep(s, is5); s = new Separator();
+            //new tech
+            is6t.Children.Clear();
+            is7t.Children.Clear();
+            is8t.Children.Clear();
+            is9t.Children.Clear();
+            int tgc = svgridt.Children.Count;
+            svgridt.Children.RemoveRange(4, tgc - 3);
+            addtexthwb(t, is6t, 30, 90); t = new TextBlock();
+            addtexthwb(t, is7t, 30, 90); t = new TextBlock();
+            addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+            textBlock11t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ProcessTypeName+"; \n"+SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Name;
             for (int x = 0; x < it; x++)
             {
                 
                 addsep(s, is4); s = new Separator();
                 t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters[x].name;
                 addtext(t, is4, 65); t = new TextBlock();
+                //new text
+
+                //t.Text = "MIN";
+
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters[x].name;
+                addtexthw(t, is6t, 30, 90); t = new TextBlock();
                 if (x < ip)
                 {
                     addsep(s, is5); s = new Separator();
@@ -536,10 +558,37 @@ namespace WpfApp4
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].End.test +
                         ": " +
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].End.Value.ToString();
-                    addtext(t, is5, 130); t = new TextBlock();
+                    //addtext(t, is5, 130); t = new TextBlock();//old tech
+                    //new tech
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].Start.Value.ToString();
+                    addtextboxhwb(t2, is7t, 30, 90); t2 = new TextBox();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ParameterRanges[x].End.Value.ToString();
+                    addtextboxhwb(t2, is8t, 30, 90); t2 = new TextBox();
+                    if (x == ip-1)
+                    {
+                        addtexthwb(t, is6t, 30, 90); t = new TextBlock();
+                        addtexthwb(t, is7t, 30, 90); t = new TextBlock();
+                        addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+                    }
                 }
+                else
+                {
+                    if(SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters[x].Quantity!=null)
+                    {
+                        t.Text = "";
+                        addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters[x].Quantity.name;
+                        addtexthw(t, is7t, 30, 90); t = new TextBlock();
+                    }
+                    else
+                    {
+                        //t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Parameters[x].
+                        // what about enumeration parmeter?
+                        addtexthwb(t, is7t, 30, 90); t = new TextBlock();
+                        addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+                    }
 
-
+                }
 
             }
             //output for technique
@@ -560,6 +609,20 @@ namespace WpfApp4
                         ": " +
                         SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
             addtext(t, os6, 135); t = new TextBlock();
+            //new tech output
+            addtexthwb(t, is6t, 30, 90); t = new TextBlock();
+            addtexthwb(t, is7t, 30, 90); t = new TextBlock();
+            addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+            t.Text = "Result"+ (SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges.Count()).ToString()+":";
+            addtexthw(t, is6t, 30, 90); t = new TextBlock();
+            t2.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].Start.Value.ToString();
+            addtextboxhwb(t2, is7t, 30, 90); t2 = new TextBox();
+            t2.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ResultRanges[0].End.Value.ToString();
+            addtextboxhwb(t2, is8t, 30, 90); t2 = new TextBox();
+            //new tech formulas
+            addtexthwb(t, is6t, 30, 90); t = new TextBlock();
+            addtexthwb(t, is7t, 30, 90); t = new TextBlock();
+            addtexthwb(t, is8t, 30, 90); t = new TextBlock();
             //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables[0]);
             int fc = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties.Count();
             int gcc = fgrid.Children.Count; 
@@ -567,19 +630,38 @@ namespace WpfApp4
             sp1.Children.Clear();
             sp2.Children.Clear();
             sp3.Children.Clear();
+            //new tech
+            globe += 5;
+            globe += it;
             for (int u=0;u<fc;u++)
             {
                 bt.Content = "Edit";
                 addbuttonhw(bt, sp1, 30, 100);bt = new Button();
-                t.Text = "Function"+(u+1).ToString();
-                addtexthw(t, sp2, 30, 150);t = new TextBlock();
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].Expression;//"Function" +(u+1).ToString();
+                //addtexthw(t, sp2, 30, 150);t = new TextBlock();//old tech
+                addtexthwb(t, is6t, 30, 240); t = new TextBlock();
                 int fcv = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols.Count();
-                for(int y=0;y<fcv;y++)
+                globe += fcv;
+                addsepgrid(s, svgridt, globe*46); s = new Separator();
+                for (int y=0;y<fcv;y++)
                 {
                     if (y == 0)
+                    {
                         t.Text = "VARIABLES";
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols[y];
+                        addtexthw(t, is7t, 30, 90); t = new TextBlock();
+                        addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+                    }
+                        
                     else
+                    {
                         t.Text = "";
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols[y];
+                        addtexthw(t, is7t, 30, 90); t = new TextBlock();
+                        addtexthwb(t, is8t, 30, 90); t = new TextBlock();
+                        addtexthwb(t, is6t, 30, 90); t = new TextBlock();
+                    }
+                        
                     
                     addtexthw(t, sp1, 30, 150);t.TextAlignment =TextAlignment.Left;
                     t.Margin = new Thickness(12, 16, 0, 0);
@@ -593,6 +675,40 @@ namespace WpfApp4
             formula_def.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[0].Expression;
             techdoctext.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Documentation.Document;
             //documentation
+
+            //new tech
+            bt.Content = " " +
+                    "INPUT PARAMETER RANGES    " +
+                    "                MIN                       MAX                                                         ";
+            bt.HorizontalAlignment = HorizontalAlignment.Left;
+            bt.IsHitTestVisible = false;
+            addtextboxgrid(bt, svgridt, 0); bt = new Button();
+            bt.Content = " " +
+                    "INPUT PARAMETERS          " +
+                    "            QUANTITY                                                                             ";
+            bt.HorizontalAlignment = HorizontalAlignment.Left;
+            bt.IsHitTestVisible = false;
+            addtextboxgrid(bt, svgridt,46+ 46*ip+0); bt = new Button();
+            bt.Content = "                " +
+                    "OUTPUTS                    " +
+                    "               MIN                       MAX                                                        ";
+            bt.HorizontalAlignment = HorizontalAlignment.Left;
+            bt.IsHitTestVisible = false;
+            addtextboxgrid(bt, svgridt, 92 + 46 * it + 0); bt = new Button();
+            bt.Content = "                " +
+                    "FORMULAS                    " +
+                    "           VARIABLES         " +
+                    "                                                                           ";
+            bt.HorizontalAlignment = HorizontalAlignment.Left;
+            bt.IsHitTestVisible = false;
+            addtextboxgrid(bt, svgridt,92+ 92 + 46 * it + 0); bt = new Button();
+            bt.Content = "                " +
+                    "DOCUMENTATION                    " +
+                    "                    " +
+                    "                                                                           ";
+            bt.HorizontalAlignment = HorizontalAlignment.Left;
+            bt.IsHitTestVisible = false;
+            addtextboxgrid(bt, svgridt,globe*46); bt = new Button();
         }
         private void set_func(int f)
         {
@@ -644,6 +760,7 @@ namespace WpfApp4
           //addtext(t, is6, 60); t = new TextBlock();
             if (an>1)
             {
+                
                 for (int u = 0; u < an; u++)
                 {
                     textBlock11.Text = textBlock11.Text+ SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Assertions[u].Name +
@@ -668,6 +785,7 @@ namespace WpfApp4
                         addtexthwb(t, is7, 30, 90); t = new TextBlock();
                         t.Text = "MAX"; 
                         addtexthwb(t, is8, 30, 90); t = new TextBlock();
+                        t.Text = "RANGES";
                         addtexthw(t, is6, 30, 90); t = new TextBlock();
                         addtexthw(t, is9, 30, 90); t = new TextBlock();
                         int cc = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues.Count();
@@ -685,7 +803,34 @@ namespace WpfApp4
                         addtexthw(t, is6, 30, 90); t = new TextBlock();
                         t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Variable_name;
                         addtexthw(t, is6, 30, 90); t = new TextBlock();
-
+                        
+                        b.Content = "   " +
+                    "RANGES                         " +
+                    "              MIN                     MAX                                             ";
+                        b.HorizontalAlignment = HorizontalAlignment.Left;
+                        b.IsHitTestVisible = false;
+                        addtextboxgrid(b, svgrid, (46 * cc + 322 - 46 + 46 * ip) * (j + i * rn2) + 0); b = new Button();
+                        
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString;
+                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
+                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString;
+                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
+                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                        
+                        
+                        b.Content = "             " +
+                    "CONSTANTS                                                " +
+                    "                                                                               ";
+                        b.HorizontalAlignment = HorizontalAlignment.Left;
+                        b.IsHitTestVisible = false;
+                        addtexthw(t, is6, 30, 90); t = new TextBlock();
+                        addtexthw(t, is7, 30, 90); t = new TextBlock();
+                        addtexthw(t, is8, 30, 90); t = new TextBlock();
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
+                        addtextboxgrid(b, svgrid, (46 * cc + 322 - 46 + 46 * ip) * (j + i * rn2) + 138); b = new Button();
                         for (int x = 0; x < cc; x++)
                         {
                             t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[x].const_parameter_name;
@@ -697,16 +842,6 @@ namespace WpfApp4
                             addtexthwb(t, is9, 30, 90); t = new TextBlock();
 
                         }
-                        
-
-                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Start.ValueString;
-                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].End.ValueString;
-                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
-                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].Start.ValueString;
-                        addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                        t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].End.ValueString;
-                        addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
                         for (int x = 0; x < cc; x++)
                         {
                             t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Ranges[j].ConstantValues[x].ValueString;
@@ -715,27 +850,39 @@ namespace WpfApp4
                             addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
 
                         }
+                        b.Content = "                " +
+                    "FORMULA                    " +
+                    "           VARIABLES         " +
+                    "                                                                           ";
+                        b.HorizontalAlignment = HorizontalAlignment.Left;
+                        b.IsHitTestVisible = false;
+                        addtexthw(t, is6, 30, 90); t = new TextBlock();
+                        addtexthw(t, is7, 30, 90); t = new TextBlock();
+                        addtexthw(t, is8, 30, 90); t = new TextBlock();
+                        addtexthw(t, is9, 30, 90); t = new TextBlock();
+                        addtextboxgrid(b, svgrid, (46 * cc + 322 - 46 + 46 * ip) * (j + i * rn2) + 46 *cc+184); b = new Button();
                         for (int a = 0; a < ip; a++)
                         {
 
                             t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables[a];
-                            addtexthw(t, is6, 30, 241); t = new TextBlock();
+                            addtexthw(t, is7, 30, 90); t = new TextBlock();
                             t2.TextChanged += setdata1;// MessageBox.Show((a + j * ip + i * rn2 * ip).ToString());
                             t2.Name = "d" + (a + j * ip + i * rn2 * ip).ToString();
-                            addtextboxhw(t2, is7, 30, 90); t2 = new TextBox();
-                            t.Text ="";
-                            addtexthw(t, is8, 30, 241); t = new TextBlock();
-                            if (a == 0)
-                                t.Text = "VARIABLES";
-                            else
-                                t.Text = "";
-                            addtexthwb(t, is9, 30, 90); t = new TextBlock();
+                            addtextboxhw(t2, is8, 30, 90); t2 = new TextBox();
+                            if(a==0)
+                            {
+                                t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression;
+                                
+                            }
+                            addtexthw(t, is6, 30, 241); t = new TextBlock();
+
                         }
+                        
+                        //addtextboxgrid(b, svgrid, (46 * cc + 322 + 46 * ip) *(j + i * rn2)+ 46 * cc + 230+46*ip); b = new Button();
                         t.Text = "FORMULA";
                         addtexthwb(t, is9, 30, 90); t = new TextBlock();
-                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression;
-                         t.Margin= new Thickness(-23, 0, 0, 0);
-                         addtexthw(t, is6, 30, 241); t = new TextBlock();
+                        t.Text = "Result:";
+                        addtexthwb(t, is7, 30, 90); t = new TextBlock();
                          
                         b.Name = "a"+f.ToString()+ "a" +c.ToString() + "a" + i.ToString() + "a" + j.ToString()+"a"+rn2.ToString();
                         b.Content = "CALCULATE";
@@ -743,7 +890,7 @@ namespace WpfApp4
                         b.Foreground = (Brush)bc.ConvertFrom("#008b8b ");
                         
                         b.Click += calculateboxes;
-                        addbuttonhw(b, is7, 30, 120); b = new Button();
+                        addbuttonhw(b, is6, 30, 120); b = new Button();
                         textboxes.Add(t);
                         addtexthw(t, is8, 30, 100); t = new TextBlock();
                         
@@ -753,15 +900,15 @@ namespace WpfApp4
                          ft2.Name = "f" + f.ToString() + c.ToString() + i.ToString() + j.ToString();
                          ft2 = new TreeViewItem();
                         //
-                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc+46) * (j+i*rn2) + 92 + 46); s = new Separator();//put separators
-                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j+i * rn2) + 92 + 46 * cc + 46); s = new Separator();
+                        addsepgrid(s, svgrid, (46 * cc + 322 - 46 + 46 * ip) * (j + i * rn2) + (5+ip+cc)* 46); s = new Separator();//put separators
+                        /*addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j+i * rn2) + 92 + 46 * cc + 46); s = new Separator();
                         addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j+i * rn2) + 92 + ip * 46 + 46 * cc + 46); s = new Separator();
                         addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc + 46); s = new Separator();
                         addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j+i * rn2) + 92 + ip * 46 +46+ 46 * cc+1 + 46); s = new Separator();
                         addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc + 2 + 46); s = new Separator();
-                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc+3 + 46); s = new Separator();
+                        addsepgrid(s, svgrid, (92 + ip * 46 + 46 + 46 * cc + 46) * (j + i * rn2) + 92 + ip * 46 + 46 + 46 * cc+3 + 46); s = new Separator();*/
                     }
-                     range_tree.Items.Add(ft);
+                    range_tree.Items.Add(ft);
                      ft = new TreeViewItem();
                 }
 
@@ -795,11 +942,29 @@ namespace WpfApp4
                     }
                     t.Text = "RANGES";
                     addtexthwb(t, is9, 30, 90); t = new TextBlock();
-                   
                     t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].Variable_name;
                     addtexthw(t, is6, 30, 90); t = new TextBlock();
-                    
-                    for(int x=0;x<cc;x++)
+                    b.Content = "   " +
+                    "RANGES                         " +
+                    "              MIN                     MAX                                             ";
+                    b.HorizontalAlignment = HorizontalAlignment.Left;
+                    b.IsHitTestVisible = false;
+                    addtextboxgrid(b, svgrid, (46 * cc + 230 + 46 * ip) * (j ) + 0); b = new Button();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].Start.ValueString;
+                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
+                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].End.ValueString;
+                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                    b.Content = "             " +
+                    "CONSTANTS                                                " +
+                    "                                                                               ";
+                    b.HorizontalAlignment = HorizontalAlignment.Left;
+                    b.IsHitTestVisible = false;
+                    addtexthw(t, is6, 30, 90); t = new TextBlock();
+                    addtexthw(t, is7, 30, 90); t = new TextBlock();
+                    addtexthw(t, is8, 30, 90); t = new TextBlock();
+                    addtexthw(t, is9, 30, 90); t = new TextBlock();
+                    addtextboxgrid(b, svgrid, (46 * cc + 230 + 46 * ip) * (j ) + 92); b = new Button();
+                    for (int x=0;x<cc;x++)
                     {
                         t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].ConstantValues[x].const_parameter_name;
                         addtexthw(t, is6, 30, 90); t = new TextBlock();
@@ -812,10 +977,7 @@ namespace WpfApp4
                    
 
 
-                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].Start.ValueString;
-                    addtextboxhw(t2, is7, 30, 60); t2 = new TextBox();
-                    t2.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[j].End.ValueString;
-                    addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
+                    
                     
                     for (int x = 0; x < cc; x++)
                     {
@@ -825,20 +987,32 @@ namespace WpfApp4
                         addtextboxhw(t2, is8, 30, 60); t2 = new TextBox();
                         
                     }
+                    b.Content = "                " +
+                    "FORMULA                    " +
+                    "           VARIABLES         " +
+                    "                                                                           ";
+                    b.HorizontalAlignment = HorizontalAlignment.Left;
+                    b.IsHitTestVisible = false;
+                    addtexthw(t, is6, 30, 90); t = new TextBlock();
+                    addtexthw(t, is7, 30, 90); t = new TextBlock();
+                    addtexthw(t, is8, 30, 90); t = new TextBlock();
+                    addtexthw(t, is9, 30, 90); t = new TextBlock();
+                    addtextboxgrid(b, svgrid, (46 * cc + 230 + 46 * ip) * (j ) + 46 * cc + 138); b = new Button();
                     for (int a = 0; a < ip; a++)
                     {
 
                         t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[tf].Variables[a];
-                        addtexthw(t, is6, 30, 241); t = new TextBlock();
+                        addtexthw(t, is7, 30, 90); t = new TextBlock();
                         t2.TextChanged += setdata1;
                         t2.Name = "d" + (a + j * ip + 0 * rn2 * ip).ToString();
-                        addtextboxhw(t2, is7, 30, 90); t2 = new TextBox();
+                        addtextboxhw(t2, is9, 30, 90); t2 = new TextBox();
                         addtexthw(t, is8, 30, 241); t = new TextBlock();
                         if (a == 0)
-                            t.Text = "VARIABLES";
-                        else
-                            t.Text = "";
-                        addtexthwb(t, is9, 30, 90); t = new TextBlock();
+                        {
+                            t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Expression;
+
+                        }
+                        addtexthw(t, is6, 30, 241); t = new TextBlock();
                     }
                     t.Text = "FORMULA";
                     addtexthwb(t, is9, 30, 90); t = new TextBlock();
@@ -858,14 +1032,14 @@ namespace WpfApp4
                     addtexthw(t, is8, 30, 100); t = new TextBlock();
                     
                     
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 46 +46); s = new Separator();//put separators
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 46 + 46 * cc + 46); s = new Separator();
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 46 + ip * 46 + 46 * cc + 46); s = new Separator();
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc + 46); s = new Separator();
-                    
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc+1 + 46); s = new Separator();
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc+2 + 46); s = new Separator();
-                    addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc+3 + 46); s = new Separator();
+                    addsepgrid(s, svgrid, (46 * cc + 230 + 46 * ip) * (j) + 46 * cc + 230); s = new Separator();//put separators
+                                                                                                             /* addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 46 + 46 * cc + 46); s = new Separator();
+                                                                                                              addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 46 + ip * 46 + 46 * cc + 46); s = new Separator();
+                                                                                                              addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc + 46); s = new Separator();
+
+                                                                                                              addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc+1 + 46); s = new Separator();
+                                                                                                              addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc+2 + 46); s = new Separator();
+                                                                                                              addsepgrid(s, svgrid, (92 + ip * 46 + 46 * cc + 46) * (j) + 92 + ip * 46 + 46 * cc+3 + 46); s = new Separator();*/
                 }
             }
                         /* */
@@ -982,7 +1156,11 @@ namespace WpfApp4
             
             DataTable dt = new DataTable();
             if (candidate == 1)
-                textboxes[i*rn2+j].Text = dt.Compute(temp, "").ToString();
+            {
+                textboxes[i * rn2 + j].Text = dt.Compute(temp, "").ToString();
+                textboxes[i * rn2 + j].FontWeight = FontWeights.Bold;
+            }
+                
             else
             {
                 x.Content = "CALCULATE";
@@ -1038,7 +1216,11 @@ namespace WpfApp4
 
             DataTable dt = new DataTable();
             if (candidate == 1)
+            {
                 textboxes[j].Text = dt.Compute(temp, "").ToString();
+                textboxes[j].FontWeight = FontWeights.Bold;
+            }
+                
             else
             {
                 
@@ -1051,6 +1233,22 @@ namespace WpfApp4
             s.Width = 700;
             s.Height = 5;
             s.Background = (Brush)bc.ConvertFrom("#008b8b ");
+            s.VerticalAlignment = VerticalAlignment.Top;
+            s.HorizontalAlignment = HorizontalAlignment.Left;
+            s.Margin = new Thickness(0, m, 0, 0);
+            g.Children.Add(s);
+
+        }
+        private void addtextboxgrid(Button s, Grid g, int m)
+        {
+            
+           // s.TextAlignment = TextAlignment.Justify;
+            s.FontWeight = FontWeights.Bold;
+            var bc = new BrushConverter();
+            s.Width = 700;
+            s.Height = 46;
+            s.Background = (Brush)bc.ConvertFrom("#008b8b ");
+            s.Foreground = (Brush)bc.ConvertFrom("#e0ffff ");
             s.VerticalAlignment = VerticalAlignment.Top;
             s.HorizontalAlignment = HorizontalAlignment.Left;
             s.Margin = new Thickness(0, m, 0, 0);
@@ -1274,7 +1472,7 @@ namespace WpfApp4
         }
         private void addbuttonhw(Button b, StackPanel p, int h, int w)
         {
-            b.Margin = new Thickness(0, 16, 0, 0);
+            b.Margin = new Thickness(0, 12, 0, 4);
             b.Height = h;
             b.Width = w;
             p.Children.Add(b);

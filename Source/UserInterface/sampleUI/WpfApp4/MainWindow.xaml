@@ -12,7 +12,7 @@
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
-        Title="MII SoA Editor" Height="720" Width="990" MinWidth="950" MaxWidth="1050" MaxHeight="800" MinHeight="720" AllowsTransparency="False" BorderThickness="0" 
+        Title="MII SoA Editor" Height="720" Width="990" MinWidth="950" MaxWidth="1200" MaxHeight="800" MinHeight="720" AllowsTransparency="False" BorderThickness="0" 
         >
     <Window.Background>
         <LinearGradientBrush  StartPoint="1,1" EndPoint="1,0">
@@ -183,7 +183,7 @@
                 </GridSplitter.Background>
             </GridSplitter>
             <!--GridSplitter Grid.Row="0" Grid.ColumnSpan="4" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  /-->
-            <Border BorderBrush="DarkCyan"  BorderThickness="2,5,2,2" MaxWidth="280" Grid.ColumnSpan="2"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"   Name="treegrid" Background="LightCyan" Margin="0,0,5,35">
+            <Border BorderBrush="DarkCyan"  BorderThickness="2,5,2,2"  Grid.ColumnSpan="2"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"   Name="treegrid" Background="LightCyan" Margin="0,0,5,35">
                 <Grid HorizontalAlignment="Left"    >
 
                     <TreeView HorizontalAlignment="Left"  Margin="0,0,0,0" Background="LightCyan" Foreground="Black" x:Name="tvMain"  Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight,Converter={con:ExpressionConverter {}{0} -73}}"  VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
@@ -684,8 +684,8 @@
                             </Separator.RenderTransform>
                         </Separator>
                         <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
-                        <Separator HorizontalAlignment="Left" Width="4" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="143,65,0,60" Grid.Column="1" />
-                        <Separator HorizontalAlignment="Left" Background="DarkCyan" Height="4" Margin="11,63,0,0" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width,Converter={con:ExpressionConverter {}{0} -362}}" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+                        <!--Separator HorizontalAlignment="Left" Width="4" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="143,65,0,60" Grid.Column="1" /-->
+                        <Separator HorizontalAlignment="Left" Background="DarkCyan" Height="4" Margin="10,59,0,0" MaxWidth="622" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width,Converter={con:ExpressionConverter {}{0} - 456}}" RenderTransformOrigin="1,0.5" Grid.ColumnSpan="3">
                             <Separator.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleY="-4"/>
@@ -695,7 +695,7 @@
                                 </TransformGroup>
                             </Separator.RenderTransform>
                         </Separator>
-                        <Separator HorizontalAlignment="Left" Background="DarkCyan" Height="4" Margin="12,0,0,59" VerticalAlignment="Bottom" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width,Converter={con:ExpressionConverter {}{0} -362}}" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+                        <Separator MaxWidth="622" HorizontalAlignment="Left" Background="DarkCyan" Height="4" Margin="10,0,0,55" VerticalAlignment="Bottom" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width,Converter={con:ExpressionConverter {}{0} - 456}}" RenderTransformOrigin="1,0.5" Grid.ColumnSpan="3">
                             <Separator.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleY="-4"/>
@@ -705,20 +705,82 @@
                                 </TransformGroup>
                             </Separator.RenderTransform>
                         </Separator>
-                        <ScrollViewer  Name="sv1" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" Margin="10.4,63,20.8,59.4" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} -350}}" >
-                            <Border BorderThickness="4" HorizontalAlignment="Left" Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 15 }}" BorderBrush="DarkCyan">
-                                <Grid Name="svgrid" >
+                        <ScrollViewer  Name="sv1" VerticalScrollBarVisibility="Auto" MaxWidth="640" HorizontalAlignment="Left" Margin="10,63,21,59" Grid.ColumnSpan="4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 446}}" >
+                            <Border BorderThickness="4,0,4,0" HorizontalAlignment="Left"  Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 17 }}" BorderBrush="DarkCyan">
+                                <Grid Name="svgrid" Margin="-0,0,0,0" >
 
-                                    <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" Margin="139,0,0,0"/>
-                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="130"  VerticalAlignment="Top" Margin="395,-4,0,0"/>
-                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="77"  VerticalAlignment="Top" Margin="540,-4,-21,0"/>
-                                    <StackPanel Name="is9" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="0,0,0,0" />
+                                    <StackPanel Name="is6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" Margin="0,-4,0,0"/>
+                                    <StackPanel Name="is7" HorizontalAlignment="Left" Width="130"  VerticalAlignment="Top" Margin="250,-4,0,0"/>
+                                    <StackPanel Name="is8" HorizontalAlignment="Left" Width="77"  VerticalAlignment="Top" Margin="390,-4,-21,0"/>
+                                    <StackPanel Name="is9" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="-226,-61,0,0" />
 
                                 </Grid>
                             </Border>
 
                         </ScrollViewer>
-                        <TextBlock FontSize="18" Foreground="DarkCyan" x:Name="textBlock11"  HorizontalAlignment="Left" Margin="10,21,0,591" TextWrapping="Wrap" Text="Assertions:" Width="548" FontWeight="Bold" Grid.Column="1"/>
+                        <TextBlock FontSize="16" Foreground="DarkCyan" x:Name="textBlock11"  HorizontalAlignment="Left" Margin="10,21,0,591" TextWrapping="Wrap" Text="Assertions:" Width="726" FontWeight="Bold" Grid.ColumnSpan="3"/>
+                    </Grid>
+
+                </TabItem>
+                <TabItem Header="newTech">
+                    <Grid Margin="-4,0,-11.333,-4" >
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="-1,-1" EndPoint="1.5,1.5">
+                                <GradientStop Color="LightCyan" Offset="0.50"/>
+                                <GradientStop Color="DarkCyan" Offset="0.05"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="375*"/>
+                        </Grid.ColumnDefinitions>
+                        <Separator Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="DarkCyan" Height="3" Margin="0,2,0,0" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width}" RenderTransformOrigin="0.5,0.5">
+                            <Separator.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-5"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Separator.RenderTransform>
+                        </Separator>
+                        <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
+                        <!--Separator HorizontalAlignment="Left" Width="4" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="143,65,0,60" Grid.Column="1" /-->
+                        <Separator HorizontalAlignment="Left" Background="DarkCyan" Height="4" Margin="10,69,0,0" MaxWidth="622" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width,Converter={con:ExpressionConverter {}{0} - 456}}" RenderTransformOrigin="1,0.5" Grid.ColumnSpan="3">
+                            <Separator.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-4"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Separator.RenderTransform>
+                        </Separator>
+                        <Separator MaxWidth="622" HorizontalAlignment="Left" Background="DarkCyan" Height="4" Margin="10,0,0,55" VerticalAlignment="Bottom" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width,Converter={con:ExpressionConverter {}{0} - 456}}" RenderTransformOrigin="1,0.5" Grid.ColumnSpan="3">
+                            <Separator.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-4"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Separator.RenderTransform>
+                        </Separator>
+                        <ScrollViewer  Name="sv1t" VerticalScrollBarVisibility="Auto" MaxWidth="640" HorizontalAlignment="Left" Margin="10,73,21,59" Grid.ColumnSpan="4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 446}}" >
+                            <Border BorderThickness="4,0,4,0" HorizontalAlignment="Left"  Width="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 17 }}" BorderBrush="DarkCyan">
+                                <Grid Name="svgridt" Margin="-0,0,0,0" >
+
+                                    <StackPanel Name="is6t" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" Margin="0,0,0,0"/>
+                                    <StackPanel Name="is7t" HorizontalAlignment="Left" Width="130"  VerticalAlignment="Top" Margin="250,-4,0,0"/>
+                                    <StackPanel Name="is8t" HorizontalAlignment="Left" Width="77"  VerticalAlignment="Top" Margin="390,-4,-21,0"/>
+                                    <StackPanel Name="is9t" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="-226,-61,0,0" />
+
+                                </Grid>
+                            </Border>
+
+                        </ScrollViewer>
+                        <TextBlock FontSize="16" Foreground="DarkCyan" x:Name="textBlock11t"  HorizontalAlignment="Left" Margin="10,16,0,581" TextWrapping="Wrap" Text="Assertions:" Width="548" FontWeight="Bold" Grid.ColumnSpan="3"/>
                     </Grid>
 
                 </TabItem>

@@ -38,6 +38,7 @@ namespace WpfApp4
         Soa SampleSOA;
         StringBuilder stringBuilder;
         List<TextBlock> textboxes = new List<TextBlock>();
+
         int fdataindex;
         string[] data1=new string[9];
         string[] data2 = new string[9];
@@ -51,7 +52,9 @@ namespace WpfApp4
         public MainWindow()
         {
             InitializeComponent();
-                //load the process database
+            var bc = new BrushConverter();
+            Brush mycolor= (Brush)bc.ConvertFrom("#008b8b ");
+            //load the process database
             db.Load("MetrologyNET_Taxonomy_v2.xml");
             //dao2.load("MetrologyNET_Taxonomy_v2.xml");
                 //process counts in the database
@@ -68,7 +71,7 @@ namespace WpfApp4
                 //comboitem2.IsSelected = true;
             }
 
-            cd0.Width = new GridLength(0, GridUnitType.Pixel);
+            //cd0.Width = new GridLength(0, GridUnitType.Pixel);
             cd1.Width = new GridLength(0, GridUnitType.Pixel);
             
             /*
@@ -103,6 +106,7 @@ namespace WpfApp4
             tabs.SelectedIndex=0;
 
         }
+        
         public event RoutedEventHandler CloseTab
         {
             add { AddHandler(CloseTabEvent, value); }
@@ -173,7 +177,7 @@ namespace WpfApp4
                 //make empty main tree
             
                 //resize column defitions of the tree&tab grid 
-            cd0.Width = new GridLength(0, GridUnitType.Auto);
+            //cd0.Width = new GridLength(0, GridUnitType.Auto);
             cd1.Width = new GridLength(220, GridUnitType.Pixel);
                 
             SampleSOA = dao.SOADataMaster;
@@ -221,8 +225,8 @@ namespace WpfApp4
                 int ic=tvMain.Items.Count;
 
                 processnode.Header = s;// "Process"+(i+1).ToString();
-                processnode.ToolTip = tt;
-                tt = new ToolTip();
+                //processnode.ToolTip = tt;
+                //tt = new ToolTip();
                 processnode.Selected += slct_prcss;
                 processnode.Name = "process" + (i).ToString();
                 for (int j=0;j<tc;j++)
@@ -232,8 +236,8 @@ namespace WpfApp4
                     {
                         string s2 = SampleSOA.CapabilityScope.Activities[0].Techniques[j].name;
                         tt.Content = s2;
-                        technode.ToolTip = tt;
-                        tt = new ToolTip();
+                        //technode.ToolTip = tt;
+                        //tt = new ToolTip();
                         technode.Header = s2;// "Technique"+(q+1).ToString();
                         technode.Name= "technique" + (j).ToString();
                         for (int k=0;k<fc;k++)
@@ -242,10 +246,10 @@ namespace WpfApp4
                             {
                                 string s3 = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].name;
                                 tt.Content = s3;
-                                funcnode.ToolTip = k;
-                                tt = new ToolTip();
+                                //funcnode.ToolTip = k;
+                                //tt = new ToolTip();
                                 funcnode.Header = s3;// "Function" + (p + 1).ToString();
-                                funcnode.Name = "function" + (p + 1).ToString();
+                                funcnode.Name = "f" + (k).ToString();
                                 cc = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases.Count();
                                 if(cc==1)
                                 {
@@ -725,7 +729,7 @@ namespace WpfApp4
             TreeViewItem parent = childItem.Parent as TreeViewItem;
             int i = parent.Items.IndexOf(childItem);// MessageBox.Show(i.ToString());
             int fl = parent.Name.Length;
-            int f =Convert.ToInt32(parent.ToolTip.ToString());//            (int)String.GetNumericValue(parent.ToolTip.ToString());
+            int f =Convert.ToInt32(parent.Name.Remove(0,1));//            (int)String.GetNumericValue(parent.ToolTip.ToString());
             set_cases(f,i);//MessageBox.Show(f.ToString()+ i.ToString());
         }
         private void set_cases(int f,int c)
@@ -795,7 +799,7 @@ namespace WpfApp4
                             int temp = is7.Children.Count;
                             hgt = Convert.ToInt32(temp * 30);
                         }
-                        t.Text = "RANGES";
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Templates[f].CMCUncertaintyFunctions[0].Cases[c].Ranges[i].Variable_type;
                         addtexthwb(t, is9, 30, 90); t = new TextBlock();
                         t.Text = "";
                         addtexthw(t, is9, 30, 90); t = new TextBlock();
@@ -1486,28 +1490,29 @@ namespace WpfApp4
             p.Children.Add(t);
 
         }
+        //add combobox to the stackpanel
         private void addcombo(ComboBox c, StackPanel p)
         {
             c.Height = 30;
             p.Children.Add(c);
         }
+        //add checkbox to the stackpanel
         private void addcheck(CheckBox b, StackPanel p)
         {
             b.Height = 30;
             p.Children.Add(b);
         }
+        //add expander node
         private void add_exp(object sender, RoutedEventArgs e)
         {
             Expander x = new Expander();
             x.Name = "case7";
-            //exp_sp.Children.Add(x);
         }
         private void setTechName(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-               // string h = tabs. // tec_pro.Text + "."+t_extension.Text;// + fill.Text;
-                //tec_name.Text = h;
+
             }
         }
         public class CloseableTabItem : TabItem
@@ -1534,16 +1539,69 @@ namespace WpfApp4
         {
             this.RaiseEvent(new RoutedEventArgs(CloseTabEvent, this));
         }
-        private void change_color(object sender, RoutedEventArgs e)
+        private void change_colorcyan(object sender, RoutedEventArgs e)
         {
+            mi2.IsChecked = false;
+            MenuItem item = e.Source as MenuItem;
+            item.IsChecked = true;
+            var bc = new BrushConverter();
+
+            menu1.Background = (Brush)bc.ConvertFrom("#008b8b");
+            //borders
+            treegrid.BorderBrush = (Brush)bc.ConvertFrom("#008b8b");
+            treegrid.Background = (Brush)bc.ConvertFrom("#e0ffff");
+            tvMain.Background = (Brush)bc.ConvertFrom("#e0ffff");
+            sep1.Background = (Brush)bc.ConvertFrom("#008b8b");
+            sep2.Background = (Brush)bc.ConvertFrom("#008b8b");
+            sep3.Background = (Brush)bc.ConvertFrom("#008b8b");
+            //textbox
+            metrologyt.Foreground = (Brush)bc.ConvertFrom("#008b8b");
+            powert.Foreground = (Brush)bc.ConvertFrom("#008b8b"); 
+            textBlock.Foreground = (Brush)bc.ConvertFrom("#008b8b");
+            //grids
+            welcomegrid.Background= (Brush)bc.ConvertFrom("#e0ffff");
+            editor.Background = (Brush)bc.ConvertFrom("#e0ffff");
+            dock1.Background= (Brush)bc.ConvertFrom("#e0ffff");
+            LayoutRoot.Background = (Brush)bc.ConvertFrom("#e0ffff");
+            //menuitems
+            file.Foreground = (Brush)bc.ConvertFrom("#e0ffff");
+            edit.Foreground = (Brush)bc.ConvertFrom("#e0ffff");
+            help.Foreground = (Brush)bc.ConvertFrom("#e0ffff");
+            //separators
+            split1.Background = (Brush)bc.ConvertFrom("#e0ffff");
+        }
+        private void change_colorblue(object sender, RoutedEventArgs e)
+        {
+            mi1.IsChecked = false;
+            MenuItem item = e.Source as MenuItem;
+            item.IsChecked = true;
             var bc = new BrushConverter();
 
             menu1.Background = (Brush)bc.ConvertFrom("#225a88");
-
-            
+            //borders
+            treegrid.BorderBrush = (Brush)bc.ConvertFrom("#225a88");
+            treegrid.Background = (Brush)bc.ConvertFrom("#ddefff");
+            tvMain.Background = (Brush)bc.ConvertFrom("#ddefff");
+            sep1.Background = (Brush)bc.ConvertFrom("#225a88");
+            sep2.Background = (Brush)bc.ConvertFrom("#225a88");
+            sep3.Background = (Brush)bc.ConvertFrom("#225a88");
+            //textbox
+            metrologyt.Foreground = (Brush)bc.ConvertFrom("#225a88");
+            powert.Foreground = (Brush)bc.ConvertFrom("#225a88");
+            textBlock.Foreground = (Brush)bc.ConvertFrom("#225a88");
+            //grids
+            welcomegrid.Background = (Brush)bc.ConvertFrom("#ddefff");
+            editor.Background = (Brush)bc.ConvertFrom("#ddefff");
+            dock1.Background = (Brush)bc.ConvertFrom("#ddefff");
+            LayoutRoot.Background = (Brush)bc.ConvertFrom("#ddefff");
+            //menuitems
+            file.Foreground = (Brush)bc.ConvertFrom("#ddefff");
+            edit.Foreground = (Brush)bc.ConvertFrom("#ddefff");
+            help.Foreground = (Brush)bc.ConvertFrom("#ddefff");
+            //separators
+            split1.Background = (Brush)bc.ConvertFrom("#ddefff");
             
         }
 
-        
     }
 }

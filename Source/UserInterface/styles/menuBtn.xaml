@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:soa_1_03.styles"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+
+    <Style x:Key="menuBtn" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{DynamicResource scbMenuBackground}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource MahApps.Metro.Styles.FlatButtonFocusVisualStyle}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FlatButtonFontSize}"/>
+        <!--<Setter Property="Foreground" Value="{DynamicResource FlatButtonForegroundBrush}"/>-->
+        <Setter Property="Foreground" Value="{DynamicResource scbBtnText}"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                    Margin="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Grid>
+                            <Image Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15 0 0 0"  
+                                   Source="{TemplateBinding Tag}"/>
+                            <mah:ContentControlEx x:Name="PART_ContentPresenter" ContentCharacterCasing="{Binding (mah:ControlsHelper.ContentCharacterCasing), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                    Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                    HorizontalContentAlignment="Left" Padding="45 0 0 0" 
+                                    RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" FontFamily="Segoe UI" FontSize="19"
+                                    TextOptions.TextFormattingMode="Display" TextOptions.TextHintingMode="Fixed" FontWeight="Light"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource scbBtnMouseOver}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource FlatButtonPressedBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource FlatButtonPressedForegroundBrush}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource GrayBrush2}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+
+
+
+
+</ResourceDictionary>
+    
+    

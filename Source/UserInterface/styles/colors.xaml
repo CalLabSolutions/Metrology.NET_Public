@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:soa_1_03.styles">
+
+
+    <Color x:Key="menuBackground">#2D373C</Color>
+    <Color x:Key="btnText">White</Color>
+    <Color x:Key="btnBackground">Red</Color>
+    <!--<Color x:Key="btnMouseOver">#2FA3E6</Color>-->
+    <Color x:Key="btnMouseOver">#2FA3E6</Color>
+    <Color x:Key="btnActive">#1A5D7F</Color>
+    <Color x:Key="btnPressed">#0E3244</Color>
+    <Color x:Key="accentColor">#FFa400</Color>
+    <Color x:Key="bannerColor">#FFFFFF</Color>
+    <Color x:Key="pageBackColor">#F0F0F5</Color>
+    <Color x:Key="logoBlue">#002D62</Color>
+    <Color x:Key="dgBorderColor">Gray</Color>
+    <Color x:Key="dgMenuBackColor">#87ABBD</Color>
+    <Color x:Key="dgRowHeaderSelector">Gray</Color>
+    <!--<Color x:Key="dgColumnHeaderBackColor">#1A5D7F</Color>-->
+    <Color x:Key="dgColumnHeaderBackColor">White</Color>
+    <Color x:Key="gridSplitterColor">LightGray</Color>
+    <!--<Color x:Key="dgRowHeaderSelectorUnchecked">#A8A8A8</Color>-->
+
+
+
+
+    <SolidColorBrush x:Key="scbMenuBackground" Color="{StaticResource menuBackground}"/>
+    <SolidColorBrush x:Key="scbBtnText" Color="{StaticResource btnText}"/>
+    <SolidColorBrush x:Key="scbBtnBackground" Color="{StaticResource btnBackground}"/>
+    <SolidColorBrush x:Key="scbBtnMouseOver" Color="{StaticResource btnMouseOver}"/>
+    <SolidColorBrush x:Key="scbBtnActive" Color="{StaticResource btnActive}"/>
+    <SolidColorBrush x:Key="scbBtnPressed" Color="{StaticResource btnPressed}"/>
+    <SolidColorBrush x:Key="scbAccentColor" Color="{StaticResource accentColor}"/>
+    <SolidColorBrush x:Key="scbBannerColor" Color="{StaticResource bannerColor}"/>
+    <SolidColorBrush x:Key="scbPageBackColor" Color="{StaticResource pageBackColor}"/>
+    <SolidColorBrush x:Key="scbLogoBlue" Color="{StaticResource logoBlue}"/>
+    <SolidColorBrush x:Key="scbDgBorderColor" Color="{StaticResource dgBorderColor}"/>
+    <SolidColorBrush x:Key="scbDgMenuBackColor" Color="{StaticResource dgMenuBackColor}"/>
+    <SolidColorBrush x:Key="scbDgRowHeaderSelector" Color="{StaticResource dgRowHeaderSelector}"/>
+    <SolidColorBrush x:Key="scbDgColumnHeaderBackColor" Color="{StaticResource dgColumnHeaderBackColor}"/>
+    <SolidColorBrush x:Key="scbSplitterColor" Color="{StaticResource gridSplitterColor}" Opacity="10"/>
+    <!--<SolidColorBrush x:Key="scbDgRowHeaderSelectorUnchecked" Color="{StaticResource dgRowHeaderSelectorUnchecked}"/>-->
+
+
+    <FontFamily x:Key="menuFont">Segoe UI</FontFamily>
+    <sys:Double x:Key="menuFontSize">18</sys:Double>
+    <FontWeight x:Key="menuFontWeight">Light</FontWeight>
+    <FontFamily x:Key="dgFont">Segoe UI</FontFamily>
+    <sys:Double x:Key="dgFontSize">9</sys:Double>
+    <FontWeight x:Key="dgFontWeight">Light</FontWeight>
+    <sys:Double x:Key="dgHeaderFontSize">12</sys:Double>
+    <FontWeight x:Key="dgHeaderFontWeight">Light</FontWeight>
+    <FontFamily x:Key="taskFont">Calibri</FontFamily>
+    <FontStyle x:Key="dgHeaderFontStyleChild">Normal</FontStyle>
+    <sys:Double x:Key="dgParentRowHeight">50</sys:Double>
+
+    <Style x:Key="menuSepDarkBorder" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="#232A2D"/>
+        <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        <!--<Setter Property="Padding" Value="12 0 0 0"/>-->
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style x:Key="menuSepLightBorder" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="#364247"/>
+        <Setter Property="BorderThickness" Value="0 1 0 0"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <sys:Boolean x:Key="FalseValue">False</sys:Boolean>
+    <sys:Boolean x:Key="TrueValue">True</sys:Boolean>
+
+</ResourceDictionary>

@@ -1,0 +1,265 @@
+﻿<Page x:Class="soa_1_03.pages.editSoa"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:soa_1_03"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      KeepAlive="False"
+      Title="editSoa" Unloaded="Page_Unloaded">
+    <Page.Resources>
+        <local:IgnoreNewItemPlaceholderConverter x:Key="IgnoreNewItemPlaceholderConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <!--https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/how-to-group-sort-and-filter-data-in-the-datagrid-control-->
+        <!--https://stackoverflow.com/questions/27227262/how-to-bind-datagrid-to-collectionviewsource-using-xaml-->
+        <TabControl Style="{DynamicResource tabStyle}" TabStripPlacement="Top" ContentStringFormat="Edit CMC" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem x:Name="tabClient" Header="Client Info" Style="{StaticResource tabItemStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Border Margin="20" BorderBrush="Gray" BorderThickness="2" Padding="20" Grid.Row="1">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Company" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Facility" Style="{StaticResource soaClientLabelStyle}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Path=vmClient.company}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding Path=vmClient.facility}" Style="{StaticResource soaClientTextboxStyle}"/>
+                            </StackPanel>
+                            <Border Margin="20 15 20 15" BorderBrush="Gray" BorderThickness="1" Height="2"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Address 1" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Address 2" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="City" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="State" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Zip" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Country" Style="{StaticResource soaClientLabelStyle}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding vmClient.streetAddress01}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.streetAddress02}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.city}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.state}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.zip}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.country}" Style="{StaticResource soaClientTextboxStyle}"/>
+                            </StackPanel>
+                            <Border Margin="20 15 20 15" BorderBrush="Gray" BorderThickness="1" Height="2"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Manager First Name" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Manager Last Name" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Manager Email" Style="{StaticResource soaClientLabelStyle}"/>
+                                <Label Content="Manager Phone" Style="{StaticResource soaClientLabelStyle}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding vmClient.labMgrFirstName}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.labMgrLastName}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.labMgrEmail}" Style="{StaticResource soaClientTextboxStyle}"/>
+                                <TextBox Text="{Binding vmClient.labMgrPhone}" Style="{StaticResource soaClientTextboxStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Border>
+                </Grid>
+            </TabItem>
+            
+            <!--Edit SOA tab-->
+            <TabItem x:Name="tabCmc" Header="CMC" Style="{DynamicResource tabItemStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="350" MinWidth="100" MaxWidth="450"/>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="200" MinWidth="50" MaxWidth="500"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+
+                    <Border BorderBrush="LightGray" BorderThickness="0 0 0 1" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                        CornerRadius="0" Padding="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0 0 10 0">
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <Label Content="Add / Create a Taxonomy" Style="{DynamicResource soaSectionLabels}" Height="20" Padding="0"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Action" Style="{StaticResource soaLabelStyle}"/>
+                                <Label Content="Quantity" Style="{StaticResource soaLabelStyle}"/>
+                                <Label Content="Name" Style="{StaticResource soaLabelStyle}"/>
+                                <Label Content="Symbol" Style="{StaticResource soaLabelStyle}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Name="cbActions" Style="{StaticResource soaComboStyle}"
+                                                    ItemsSource="{Binding Path=actions}" SelectedItem="{Binding Path=action}" IsEditable="False"/>
+                                <ComboBox Name="cbQuantity" Style="{StaticResource soaComboStyle}"
+                                                    ItemsSource="{Binding Path=quantities}" SelectedItem="{Binding Path=quantity}"/>
+                                <ComboBox Name="cbNames" Style="{StaticResource soaComboStyle}"
+                                                    ItemsSource="{Binding Path=baseAltNames, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                    SelectedItem="{Binding Path=baseAltName}"/>
+                                <ComboBox Name="cbSymbols" Style="{StaticResource soaComboStyle}"
+                                                    ItemsSource="{Binding Path=symbols, UpdateSourceTrigger=PropertyChanged}"
+                                                    SelectedItem="{Binding Path=symbol}"/>
+                                <Button Name="btnAddTaxonomy" Command="{Binding }" Margin="10 0 0 0" Content="Add Taxonomy" IsEnabled="{Binding Path=enableButton}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!--Contents Treeview-->
+                    <Border BorderBrush="Gray" BorderThickness="0" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" CornerRadius="5">
+                        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="10">
+                            <Label Content="Edit / Delete Taxonomies" Style="{DynamicResource soaSectionLabels}" Padding="0"/>
+                            <!--action / taxonomies datagrids-->
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="select an Action" Style="{StaticResource soaDatagridLabels}"/>
+                                <DataGrid Name="dgActions" ItemsSource="{Binding vmSoa}" AutoGenerateColumns="False" HeadersVisibility="None" 
+                                          Style="{DynamicResource soaDgTaxonomies}" CellStyle="{StaticResource soaDgCells}" RowStyle="{StaticResource soaDgMainRows}" 
+                                          ColumnHeaderStyle="{StaticResource soaDgColumnHeaders}" CanUserAddRows="False" CanUserDeleteRows="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Actions" Binding="{Binding soaAction}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Action:" Style="{DynamicResource soaDatagridLabels}"/>
+                                    <TextBlock Text="{Binding ElementName=dgActions, Path=SelectedItem.soaAction, FallbackValue='no action selected'}" 
+                                           Style="{DynamicResource soaActiveObject}"/>
+                                </StackPanel>
+                                <DataGrid Name="dgTaxonomies" ItemsSource="{Binding ElementName=dgActions, Path=SelectedItem.soaTaxonomies}" AutoGenerateColumns="False"
+                                          HeadersVisibility="Column" Style="{DynamicResource soaDgTaxonomies}" ColumnHeaderStyle="{StaticResource soaDgColumnHeaders}"
+                                          CellStyle="{StaticResource soaDgCells}" CanUserAddRows="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Taxonomy" Binding="{Binding soaTaxonomyDisplayString}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" Background="{StaticResource scbSplitterColor}"/>
+                    
+                    <!--edit space datagrids-->
+                    <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1" Margin="10">
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Add / Edit / Delete Descriptions and Techniques" Style="{DynamicResource soaSectionLabels}" Padding="0"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Taxonomy:" Style="{DynamicResource soaDatagridLabels}"/>
+                                <TextBlock Text="{Binding ElementName=dgTaxonomies, Path=SelectedItem.soaTaxonomyDisplayString, FallbackValue='no taxonomy selected'}" 
+                                           Style="{DynamicResource soaActiveObject}"/>
+                            </StackPanel>
+                            <DataGrid Name="dgTechniques" AutoGenerateColumns="False" ItemsSource="{Binding ElementName=dgTaxonomies, Path=SelectedItem.soaTechniqueDescriptors}"
+                                      Style="{DynamicResource soaDgTaxonomies}" ColumnHeaderStyle="{StaticResource soaDgColumnHeaders}" CellStyle="{StaticResource soaDgCells}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Techniques" Binding="{Binding descriptor}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="0 10 0 0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Technique:" Style="{DynamicResource soaDatagridLabels}"/>
+                                <TextBlock Text="{Binding ElementName=dgTechniques, Path=SelectedItem.descriptor, TargetNullValue='no technique selected', FallbackValue='no technique selected'}"
+                                           Style="{DynamicResource soaActiveObject}"/>
+                            </StackPanel>
+                            <DataGrid ItemsSource="{Binding ElementName=dgTechniques, Path=SelectedItem.soaTechniques}" AutoGenerateColumns="False" Style="{DynamicResource soaDgTechniques}"
+                                      ColumnHeaderStyle="{StaticResource soaDgColumnHeaders}" CellStyle="{StaticResource soaDgCells}" RowStyle="{StaticResource soaDgTechniquesRows}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Min" Binding="{Binding rangeMin}"/>
+                                    <DataGridTextColumn Header="Max" Binding="{Binding rangeMax}"/>
+                                    <DataGridTextColumn Header="Uncertainty" Binding="{Binding uncertainty}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </StackPanel>
+                    <GridSplitter Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Background="{StaticResource scbSplitterColor}" Grid.RowSpan="3"/>
+                    
+                    <!--Complete treeview-->
+                    <Border BorderBrush="LightGray" BorderThickness="0" Grid.RowSpan="3" Grid.Row="0" Grid.Column="4" CornerRadius="5" Margin="0">
+                        <StackPanel Orientation="Vertical" Grid.RowSpan="2" Margin="2 10 2 2">
+                            
+                            <Label Content="SOA Viewer" Padding="5 0 0 2" Style="{DynamicResource soaSectionLabels}" Margin="10 0 0 0"/>
+                            
+                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="LightGray" Margin="5">
+                                <TreeView Name="tvComplete" ItemsSource="{Binding vmSoa}" Grid.Column="4" FontSize="10" Margin="1" 
+                                          BorderThickness="0" BorderBrush="{DynamicResource scbBtnActive}" 
+                                          FontFamily="{StaticResource menuFont}"><!--SelectedItemChanged="tvComplete_SelectedItemChanged"-->
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type TreeViewItem}">
+                                            <Setter Property="IsExpanded" Value="True"/>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                    <TreeView.Resources>
+                                        <DataTemplate DataType="{x:Type local:mSoaTechnique}">
+                                            <StackPanel Orientation="Horizontal" Margin="-20 0 0 0">
+                                                <!--<ContentControl Content="{Binding Path=rangeMin, Converter={StaticResource IgnoreNewItemPlaceholderConverter}}" Width="30" HorizontalContentAlignment="Right"/>
+                                                <ContentControl Content="{Binding Path=rangeMax, Converter={StaticResource IgnoreNewItemPlaceholderConverter}}" Width="30" HorizontalContentAlignment="Right"/>
+                                                <ContentControl Content="{Binding Path=uncertainty, Converter={StaticResource IgnoreNewItemPlaceholderConverter}}" Width="30" HorizontalContentAlignment="Right"/>-->
+                                                <TextBlock Text="{Binding rangeMin}" Width="35" VerticalAlignment="Center" TextAlignment="Right"/>
+                                                <TextBlock Text="{Binding rangeMax}" Width="35" VerticalAlignment="Center" TextAlignment="Right"/>
+                                                <TextBlock Text="{Binding uncertainty}" Width="35" VerticalAlignment="Center" TextAlignment="Right"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+
+                                        <HierarchicalDataTemplate DataType="{x:Type local:mSoaTechniqueDescriptor}" ItemsSource="{Binding soaTechniques}">
+                                            <HierarchicalDataTemplate.ItemContainerStyle>
+                                                <Style TargetType="TreeViewItem">
+                                                    <Setter Property="Focusable" Value="false"/>
+                                                    <Setter Property="Margin" Value="-10 0 0 0"/>
+                                                    <Setter Property="Foreground" Value="#404040"/>
+                                                </Style>
+                                            </HierarchicalDataTemplate.ItemContainerStyle>
+                                        <!--<ContentControl Content="{Binding Path=descriptor, Converter={StaticResource IgnoreNewItemPlaceholderConverter}}" Visibility="Visible"/>-->
+                                            <TextBlock Text="{Binding descriptor}" VerticalAlignment="Center"/>
+                                        </HierarchicalDataTemplate>
+                                        
+                                        <HierarchicalDataTemplate DataType="{x:Type local:mSoaTaxonomy}" ItemsSource="{Binding soaTechniqueDescriptors}">
+                                            <HierarchicalDataTemplate.ItemContainerStyle>
+                                                <Style TargetType="TreeViewItem">
+                                                    <Setter Property="Focusable" Value="false"/>
+                                                    <!--<Setter Property="IsHitTestVisible" Value="false"/>-->
+                                                    <!--<Setter Property="Foreground" Value="Blue"/>-->
+                                                    <Setter Property="IsExpanded" Value="True"/>
+                                                    <Setter Property="Margin" Value="0 0 0 0"/>
+                                                </Style>
+                                            </HierarchicalDataTemplate.ItemContainerStyle>
+                                            <TextBlock Text="{Binding soaTaxonomyDisplayString}"/>
+                                        </HierarchicalDataTemplate>
+
+                                        <HierarchicalDataTemplate DataType="{x:Type local:mSoa}" ItemsSource="{Binding soaTaxonomies}">
+                                            <HierarchicalDataTemplate.ItemContainerStyle>
+                                                <Style TargetType="TreeViewItem">
+                                                    <Setter Property="Focusable" Value="false"/>
+                                                    <!--<Setter Property="IsHitTestVisible" Value="false"/>-->
+                                                    <!--<Setter Property="Foreground" Value="Blue"/>-->
+                                                    <Setter Property="IsExpanded" Value="True"/>
+                                                    <Setter Property="Margin" Value="0 0 0 0"/>
+                                                </Style>
+                                            </HierarchicalDataTemplate.ItemContainerStyle>
+                                            
+                                            <TextBlock Text="{Binding soaAction}" FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Focusable" Value="False"/>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </HierarchicalDataTemplate>
+
+                                    </TreeView.Resources>
+                                </TreeView>
+                            </Border>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            
+        </TabControl>
+    </Grid>
+</Page>

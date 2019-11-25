@@ -53,7 +53,7 @@
         </StackPanel>
         <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeigth}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} - 10}}" Margin="8,12,12,2">
 
-            
+
 
             <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth,Converter={con:ExpressionConverter {}{0} }}">
 
@@ -282,7 +282,7 @@
                             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,0,364.6,0.4" Grid.ColumnSpan="4">
                                 <Separator HorizontalAlignment="Left" Width="2" Background="DarkCyan" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,3,0,0.6" />
                             </StackPanel>
-                            <StackPanel Grid.ColumnSpan="2" Margin="0,268,268.2,166.8">
+                            <StackPanel Grid.ColumnSpan="2" Margin="0,268,268,97">
                                 <Expander Background="AliceBlue" x:Name="Address" HorizontalAlignment="Stretch"
                     Header="Address" Margin="10,0,9.667,473" >
                                     <Grid>
@@ -292,15 +292,20 @@
                                         <TextBox x:Name="city" HorizontalAlignment="Left" Height="23" Margin="371,0,0,803" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
                                         <TextBox x:Name="zip" HorizontalAlignment="Left" Height="23" Margin="371,0,0,775" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="200"/>
                                         <TextBox x:Name="cname" HorizontalAlignment="Left" Height="23" Margin="136,0,0,747" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
-                                        <TextBox x:Name="cinfo" HorizontalAlignment="Left" Height="23" Margin="136,0,0,719" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
                                         <TextBlock x:Name="loc_id_box" HorizontalAlignment="Left" Margin="23,0,0,828" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="82" FontWeight="Bold"><Run Text="Location ID"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                                         <TextBlock x:Name="street_box" HorizontalAlignment="Left" Margin="23,0,0,800" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41"><Run FontWeight="Bold" Text="Street:"/><LineBreak/><InlineUIContainer/></TextBlock>
                                         <TextBlock x:Name="city_box" HorizontalAlignment="Left" Margin="330,0,0,800" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold"><Run Text="City"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                                         <TextBlock x:Name="state_box" HorizontalAlignment="Left" Margin="23,0,0,772" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold" RenderTransformOrigin="0.439,0.609"><Run Text="State"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                                         <TextBlock x:Name="zip_box" HorizontalAlignment="Left" Margin="330,0,0,772" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="41" FontWeight="Bold"><Run Text="Zip"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
                                         <TextBlock x:Name="cname_box" HorizontalAlignment="Left" Margin="23,0,0,744" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="95" FontWeight="Bold"><Run Text="Contact Name"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-                                        <TextBlock x:Name="cinfo_box" HorizontalAlignment="Left" Margin="23,0,0,716" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="90" FontWeight="Bold"><Run Text="Contact Info"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
-
+                                        <TextBlock x:Name="cinfo_box" HorizontalAlignment="Left" Margin="23,0,0,716" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="82" FontWeight="Bold"><Run Text="Contact Info - "/><LineBreak/><Run/></TextBlock>
+                                        <TextBlock x:Name="pnumber_box" HorizontalAlignment="Left" Margin="44,0,0,683" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="96" FontWeight="Bold" Text="Phone Numbers:"/>
+                                        <TextBox x:Name="phoneNumbers" HorizontalAlignment="Left" Height="23" Margin="156,0,0,693" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
+                                        <TextBlock x:Name="emails_box" HorizontalAlignment="Left" Margin="44,0,0,660" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="96" FontWeight="Bold" Text="Emails:"/>
+                                        <TextBox x:Name="emails" HorizontalAlignment="Left" Height="23" Margin="156,0,0,670" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
+                                        <TextBlock x:Name="emails_box_Copy" HorizontalAlignment="Left" Margin="44,0,0,637" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="96" FontWeight="Bold" Text="Urls:"/>
+                                        <TextBlock x:Name="cinfo_box_Copy" HorizontalAlignment="Left" Margin="110,0,0,716" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="23" Width="212" Text="Separate multiple entries with commas "/>
+                                        <TextBox x:Name="urls" HorizontalAlignment="Left" Height="23" Margin="156,0,0,647" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="435"/>
 
                                     </Grid>
                                 </Expander>
@@ -334,7 +339,7 @@
                                 <ColumnDefinition Width="16*"/>
                                 <ColumnDefinition Width="117*"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Separator Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="DarkCyan" Height="3" Margin="0,2,0,0" VerticalAlignment="Top" Width="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Width}" RenderTransformOrigin="0.5,0.5">
                                 <Separator.RenderTransform>
                                     <TransformGroup>
@@ -455,7 +460,7 @@
                     </TabItem>
                     <TabItem Header="Technique">
                         <Grid Background="LightCyan" Margin="-4,0,-11.333,-4" >
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="9*"/>
                                 <ColumnDefinition Width="314*"/>
@@ -653,7 +658,7 @@
                     </TabItem>
                     <TabItem Header="newFunc">
                         <Grid Background="LightCyan" Margin="-4,0,-11.333,-4" >
-                           
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="10*"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -710,7 +715,7 @@
                     </TabItem>
                     <TabItem Header="newTech">
                         <Grid Background="LightCyan" Margin="-4,0,-11.333,-4" >
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="10*"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -774,7 +779,7 @@
         </Grid>
 
     </Grid>
-   
+
 
 
 

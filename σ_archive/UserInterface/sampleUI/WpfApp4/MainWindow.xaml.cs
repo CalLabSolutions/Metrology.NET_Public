@@ -324,37 +324,58 @@ namespace WpfApp4
             zip.Text = s.CapabilityScope.Locations[0].Address.Zip;
             loc_id.Text = s.CapabilityScope.Locations[0].id;
             cname.Text = s.CapabilityScope.Locations[0].ContactName;
-            cinfo.Text = s.CapabilityScope.Locations[0].ContactInfo.ToString();
+            phoneNumbers.Text = string.Join(",", s.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers);
+            emails.Text = string.Join(",", s.CapabilityScope.Locations[0].ContactInfo.EmailAccounts);
+            urls.Text = string.Join(",", s.CapabilityScope.Locations[0].ContactInfo.Urls);
+        }
+
+        private void SaveComapnyInfo(Soa s)
+        {
+            s.Ab_ID = ab.Text;
+            s.Ab_Logo_Signature = ablogo.Text;
+            s.Scope_ID_Number = scopeid.Text;
+            s.Criteria = crtr.Text;
+            s.EffectiveDate = eff.Text;
+            s.ExpirationDate = exp.Text;
+            s.Statement = sttmnt.Text;
+            s.CapabilityScope.MeasuringEntity = name.Text;
+            s.CapabilityScope.Locations[0].Address.Street = street.Text;
+            s.CapabilityScope.Locations[0].Address.City = city.Text;
+            s.CapabilityScope.Locations[0].Address.State = state.Text;
+            s.CapabilityScope.Locations[0].Address.Zip = zip.Text;
+            s.CapabilityScope.Locations[0].id = loc_id.Text;
+            s.CapabilityScope.Locations[0].ContactName = cname.Text;
+
+            // remove any blank contact info previously saved
+            s.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.removePhoneNumber("");
+            s.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.removeEmail("");
+            s.CapabilityScope.Locations[0].ContactInfo.Urls.removeUrl("");
+
+            string[] temp = phoneNumbers.Text.Split(',');
+            foreach (string number in temp)
+            {
+                s.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(number);
+            }
+            
+            temp = emails.Text.Split(',');
+            foreach (string email in temp)
+            {
+                s.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.addEmail(email);
+            }
+            temp = urls.Text.Split(',');
+            foreach (string url in temp)
+            {
+                s.CapabilityScope.Locations[0].ContactInfo.Urls.addUrl(url);
+            }
         }
             //save the data
         private void SaveFile(object sender, RoutedEventArgs e)
         {
-            SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].name = "selamd";
-            SampleSOA.CapabilityScope.Locations[0].Address.Street = street.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.City = city.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.State = state.Text;
-            SampleSOA.CapabilityScope.Locations[0].Address.Zip = zip.Text;
-            SampleSOA.Ab_ID = ab.Text;
-            SampleSOA.Ab_Logo_Signature = ablogo.Text;
-            SampleSOA.Scope_ID_Number = scopeid.Text;
-            SampleSOA.Criteria = crtr.Text;
-            SampleSOA.EffectiveDate = eff.Text;
-            SampleSOA.ExpirationDate = exp.Text;
-            SampleSOA.Statement = sttmnt.Text;
-            save_changed(1);
-            /*
-            SampleSOA.CapabilityScope.Locations[0].Address.Street=street.Text;
-            
-            
-            */
-            SampleSOA.CapabilityScope.Locations[0].id= loc_id.Text;
-            SampleSOA.CapabilityScope.Locations[0].ContactName= cname.Text;
-            //SampleSOA.CapabilityScope.Locations[0].ContactInfo=;
-            
+            SaveComapnyInfo(SampleSOA);            
 
             XDocument savefile = new XDocument();
             Microsoft.Win32.SaveFileDialog dlg2 = new Microsoft.Win32.SaveFileDialog();
-            dlg2.FileName = "denemesave"; // Default file name
+            dlg2.FileName = SampleSOA.CapabilityScope.MeasuringEntity + " - SoA"; // Default file name
             dlg2.DefaultExt = ".xml"; // Default file extension
             dlg2.Filter = "XML Files (*.xml)|*.xml|All Files(*.*)|*.*"; // Filter files by extension
             
@@ -366,7 +387,7 @@ namespace WpfApp4
             if (result == true)
             {
                 // Save document
-                SampleSOA.writeTo(savefile);
+                SampleSOA.writeTo(savefile, SampleSOA);
                 savefile.Save(dlg2.FileName);
                 //XMLdoc.Save(dlg2.FileName);
                 //dao.SOADataMaster.Save("ser");

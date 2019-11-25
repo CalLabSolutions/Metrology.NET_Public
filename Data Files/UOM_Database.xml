@@ -1,9 +1,9 @@
 <!--Version 7/2/2017 23:38-->
-<uom:UOMDatabase xmlns:uom="http://schema.metrology.net/UnitsOfMeasure"
+<uom:UOMDatabase xmlns:uom="http://schema.metrology.net/UOM_Database"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
 	xmlns:m="http://www.w3.org/1998/Math/MathML"
-	xsi:schemaLocation="http://schema.metrology.net/UnitsOfMeasure http://schema.metrology.net/UOM_Database.xsd">
+	xsi:schemaLocation="http://schema.metrology.net/UOM_Database http://schema.metrology.net/UOM_Database.xsd">
 	<uom:Categories>
 		<uom:Category id="physical"/>
 		<uom:Category id="optical"/>

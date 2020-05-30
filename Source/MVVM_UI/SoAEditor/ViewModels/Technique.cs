@@ -15,11 +15,11 @@ namespace SoAEditor.ViewModels
         public Technique(string techniqueName)
         {
             TechniqueName = techniqueName;
-            Ranges = new ObservableCollection<Range>()
-            {
-                new Range("range1"),
-                new Range("range2")
-            };
+            Ranges = new ObservableCollection<Range>();
+            //{
+            //    new Range("range1"),
+            //    new Range("range2")
+            //};
         }
 
         public ObservableCollection<Range> Ranges

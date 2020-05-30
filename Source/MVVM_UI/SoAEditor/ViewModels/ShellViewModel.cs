@@ -14,6 +14,7 @@ namespace SoAEditor.ViewModels
     {
         //this is for treeview binding=====================================
         private ObservableCollection<Taxonomy> _taxonomies;
+        private ObservableCollection<Range> _ranges;
 
         public ObservableCollection<Taxonomy> Taxonomies
         {
@@ -29,6 +30,19 @@ namespace SoAEditor.ViewModels
             }
         }
 
+        public ObservableCollection<Range> Ranges
+        {
+            get
+            {
+                return _ranges;
+            }
+            set
+            {
+                Set(ref _ranges, value);
+            }
+        }
+
+        
         //==================================================================
 
 
@@ -40,6 +54,9 @@ namespace SoAEditor.ViewModels
         private CompanyInfoViewModel _companyInfoVM = null;
         private TaxonomyInfoViewModel _taxonomyInfoVM = null;
         private TechniqueViewModel _techiqueVM = null;
+        private RangeViewModel _rangeVM = null;
+
+        private String _lblCompanyInfoName = null;
 
         private string _fullPath = "";
         private bool _isSaveAs = false;
@@ -50,7 +67,7 @@ namespace SoAEditor.ViewModels
 
         public ShellViewModel()
         {
-
+            
             //CompanyInfoM = new CompanyInfoModel();
             //TaxonomyInfoM = new TaxonomyInfoModel();
             //CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
@@ -69,6 +86,10 @@ namespace SoAEditor.ViewModels
             ActivateItem(TechniqueVM);
         }
 
+        public void showRangeView(Taxonomy sender) {
+            ActivateItem(RangeVM);
+        }
+
         public void LoadCompanyInfo()
         {
             ActivateItem(CompanyInfoVM);
@@ -79,6 +100,8 @@ namespace SoAEditor.ViewModels
             ActivateItem(TaxonomyInfoVM);
         }
 
+        
+
         //public void runme(object sender)
         //{
         //    //if (!(sender is Label lbl)) return;
@@ -87,13 +110,15 @@ namespace SoAEditor.ViewModels
         //}
 
         public void OpenXMLFile()
-        {
+        {          
+
             CompanyInfoM = new CompanyInfoModel();
             TaxonomyInfoM = new TaxonomyInfoModel();
             CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
             CompanyInfoVM = new CompanyInfoViewModel(CompanyInfoM);
             TaxonomyInfoVM = new TaxonomyInfoViewModel();
             TechniqueVM = new TechniqueViewModel();
+            RangeVM = new RangeViewModel();
 
 
             SampleSOA = new Soa();
@@ -115,31 +140,45 @@ namespace SoAEditor.ViewModels
                 Helper.LoadCompanyInfoFromSoaObjectToOpen(SampleSOA, CompanyM); // assigns info extracted from XML to the CompanyM object
                 CompanyInfoVM.LoadCompanyInfo(); // copies info into local parameters to be shown in the view
                 ActivateItem(CompanyInfoVM);
+
+                //set name label
+                lblCompanyInfoName = CompanyInfoVM.Name;
             }
             catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("The data file is invalid!");
                 return;
             }
-
+            
 
             //fill in treeview
             Taxonomies = new ObservableCollection<Taxonomy>();
-            for (int i = 0; i < SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count(); i++)
+            for (int processTypeIndex = 0; processTypeIndex < SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count(); processTypeIndex++)
             {
-                Taxonomy tax = new Taxonomy(SampleSOA.CapabilityScope.Activities[0].ProcessTypes[i].name);
+                Taxonomy tax = new Taxonomy(SampleSOA.CapabilityScope.Activities[0].ProcessTypes[processTypeIndex].name);
                 Taxonomies.Add(tax);
 
-                for (int j = 0; j < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); j++)
+                for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
                 {
-                    Technique tech = new Technique(SampleSOA.CapabilityScope.Activities[0].Techniques[j].name);
+                    Technique tech = new Technique(SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].name);
                     tax.Techniques.Add(tech);
 
-                    //for (int k = 0; k < SampleSOA.CapabilityScope.Activities[0].Techniques[j].; k++)
-                    //{
+                    //fine the number of cases
+                    int caseCount = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count();
+                                      
+                    for (int caseIndex = 0; caseIndex < caseCount; caseIndex++)
+                    {
+                        int assertionCount = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions.Count();
+                        String rangeStr = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions[0].Value;
 
-                    //    SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[0].Ranges[0]
-                    //}
+                        for (int assertionIndex = 1; assertionIndex < assertionCount; assertionIndex++)
+                        {
+                            String rangeHeader = rangeStr + " " + SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions[assertionIndex].Value;
+
+                            Range range = new Range(rangeHeader);
+                            tech.Ranges.Add(range);
+                        }
+                    }                       
                 }
             }
 
@@ -190,6 +229,12 @@ namespace SoAEditor.ViewModels
            //System.Windows.Forms.Application.Current.Shutdown();
         }
 
+        public String lblCompanyInfoName
+        {
+            get { return _lblCompanyInfoName; }
+            set { _lblCompanyInfoName = value; NotifyOfPropertyChange(() => lblCompanyInfoName); }
+        }
+
         public CompanyModel CompanyM
         {
             get { return _companyM; }
@@ -226,6 +271,12 @@ namespace SoAEditor.ViewModels
             set { _techiqueVM = value; }
         }
 
+        public  RangeViewModel RangeVM
+        {
+            get { return _rangeVM; }
+            set { _rangeVM = value; }
+        }
+        
         public string FullPath
         {
             get { return _fullPath; }

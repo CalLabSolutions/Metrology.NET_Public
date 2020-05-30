@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:SoAEditor.Views"
         xmlns:VM="clr-namespace:SoAEditor.ViewModels"
         mc:Ignorable="d" 
-        Title="SoA Editor" Height="650" Width="1000" MinHeight="400" MinWidth="600" Icon="Icon.ico" WindowStartupLocation="CenterScreen">
+        Title="Scope of Accreditation editor" Height="650" Width="1000" MinHeight="400" MinWidth="600" Icon="Icon.ico" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
 
@@ -70,8 +70,9 @@
         <!-- __________________________________ -->
         
         <!-- Row 1: Cal Lab logo -->
-        <Image Source="{StaticResource logo}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="5" 
-               Margin="0,0,10,5" Height="45"/>
+        <Image Source="icon.ico" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="5" 
+               Margin="0,0,10,5" Height="46"/>
+        <!--for the Image Source, you may use Source="{StaticResource logo}"-->
         <!--> Resource dictionary must be added to the App.xaml to use logo <-->
         <!-- __________________________________ -->
 
@@ -95,7 +96,9 @@
 
         <Label Grid.Row="2" Grid.Column="1" Content="Company Info" Name="lblCompanyInfo" cal:Message.Attach="[Event MouseDown] = [Action LoadCompanyInfo()]" />
 
-        <Border Grid.Row="4" Grid.Column="1"  BorderBrush="DarkCyan" BorderThickness="2,5,2,4"  Name="treegrid" Margin="0,0,5,75">
+        <Label Grid.Row="2" Grid.Column="2" Content="" Name="lblCompanyInfoName"/>
+        
+        <Border Grid.Row="4" Grid.Column="1"  BorderBrush="Gray" BorderThickness="1,1,1,1"  Name="treegrid" Margin="0,0,5,75">
             <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualWidth}" HorizontalAlignment="Left">
 
                 <TreeView ItemsSource="{Binding Taxonomies}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" HorizontalAlignment="Left"  Margin="0,0,0,0" Foreground="Black" x:Name="tvMain" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >

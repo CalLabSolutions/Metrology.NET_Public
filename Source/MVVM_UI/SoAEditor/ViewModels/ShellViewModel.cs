@@ -52,7 +52,8 @@ namespace SoAEditor.ViewModels
         
 
         private CompanyInfoViewModel _companyInfoVM = null;
-        private TaxonomyInfoViewModel _taxonomyInfoVM = null;
+        private CreateTaxonomyViewModel _taxonomyInfoVM = null;
+        private TaxonomyViewModel _taxonomyVM = null;
         private TechniqueViewModel _techiqueVM = null;
         private RangeViewModel _rangeVM = null;
 
@@ -67,7 +68,7 @@ namespace SoAEditor.ViewModels
 
         public ShellViewModel()
         {
-            
+            ActivateItem(new WelcomeViewModel());
             //CompanyInfoM = new CompanyInfoModel();
             //TaxonomyInfoM = new TaxonomyInfoModel();
             //CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
@@ -97,7 +98,7 @@ namespace SoAEditor.ViewModels
 
         public void LoadTaxonomyInfo()
         {
-            ActivateItem(TaxonomyInfoVM);
+            ActivateItem(TaxonomyVM);
         }
 
         
@@ -110,13 +111,15 @@ namespace SoAEditor.ViewModels
         //}
 
         public void OpenXMLFile()
-        {          
-
+        {     
+            
             CompanyInfoM = new CompanyInfoModel();
             TaxonomyInfoM = new TaxonomyInfoModel();
             CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
             CompanyInfoVM = new CompanyInfoViewModel(CompanyInfoM);
-            TaxonomyInfoVM = new TaxonomyInfoViewModel();
+            //TaxonomyInfoVM = new CreateTaxonomyViewModel();
+            TaxonomyVM = new TaxonomyViewModel();
+            TaxonomyVM.ResultQuant = "test";
             TechniqueVM = new TechniqueViewModel();
             RangeVM = new RangeViewModel();
 
@@ -226,7 +229,7 @@ namespace SoAEditor.ViewModels
 
         public void ExitApp()
         {
-           //System.Windows.Forms.Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         public String lblCompanyInfoName
@@ -259,10 +262,16 @@ namespace SoAEditor.ViewModels
             set { _companyInfoVM = value; }
         }
 
-        public TaxonomyInfoViewModel TaxonomyInfoVM
+        public CreateTaxonomyViewModel TaxonomyInfoVM
         {
             get { return _taxonomyInfoVM; }
             set { _taxonomyInfoVM = value; }
+        }
+
+        public TaxonomyViewModel TaxonomyVM
+        {
+            get { return _taxonomyVM; }
+            set { _taxonomyVM = value; }
         }
 
         public TechniqueViewModel TechniqueVM

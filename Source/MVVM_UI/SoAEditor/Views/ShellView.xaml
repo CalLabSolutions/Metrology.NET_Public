@@ -70,7 +70,7 @@
         <!-- __________________________________ -->
         
         <!-- Row 1: Cal Lab logo -->
-        <Image Source="icon.ico" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="5" 
+        <Image Source="SoA.png" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="5" 
                Margin="0,0,10,5" Height="46"/>
         <!--for the Image Source, you may use Source="{StaticResource logo}"-->
         <!--> Resource dictionary must be added to the App.xaml to use logo <-->

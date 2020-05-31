@@ -9,7 +9,7 @@ using SoAEditor.Models;
 
 namespace SoAEditor.ViewModels
 {
-   public class TaxonomyInfoViewModel : Screen
+   public class CreateTaxonomyViewModel : Screen
     {
         private string _selectedOptionForTaxonomy;
         private string _selectedProcessType;
@@ -26,7 +26,7 @@ namespace SoAEditor.ViewModels
         private BindableCollection<MeasurementParameter> _optionalParameters = new BindableCollection<MeasurementParameter>();
         private BindableCollection<MeasurementParameter> _requiredParameters = new BindableCollection<MeasurementParameter>();
 
-        public TaxonomyInfoViewModel()
+        public CreateTaxonomyViewModel()
         {
             //SampleSOA = new Soa();
 

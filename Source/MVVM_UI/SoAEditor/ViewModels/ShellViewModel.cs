@@ -78,9 +78,9 @@ namespace SoAEditor.ViewModels
             //SampleSOA = new Soa();
         }
 
-        public void showTaxonomyView(Taxonomy sender)
+        public void showTaxonomyView(System.Windows.Controls.Label lbl)
         {
-            LoadTaxonomyInfo();
+            loadTaxonomyViewModelObj(lbl.Content.ToString());
         }
 
         public void showTechniqueView(Taxonomy sender) {
@@ -96,12 +96,16 @@ namespace SoAEditor.ViewModels
             ActivateItem(CompanyInfoVM);
         }
 
-        public void LoadTaxonomyInfo()
+        /*
+        public void LoadTaxonomyInfo(string lbl)
         {
+            TaxonomyVM = new TaxonomyViewModel();
+            
+            TaxonomyVM.ResultQuant = "me1";
             ActivateItem(TaxonomyVM);
         }
+        */
 
-        
 
         //public void runme(object sender)
         //{
@@ -109,6 +113,44 @@ namespace SoAEditor.ViewModels
         //    MessageBox.Show($"i'm in");
 
         //}
+
+        private void loadTaxonomyViewModelObj(string lbl)
+        {
+            TaxonomyVM = new TaxonomyViewModel();
+            //set result type
+            TaxonomyVM.ResultQuant = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.ResultTypes[0];
+
+            //set input params
+            TaxonomyInputParam inputParam;
+
+            for (int i = 0; i < SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters.Count(); i++)
+            {
+                string param = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[i].name;
+                string quantity = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[i].Quantity.name;
+                string optional = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Parameters[i].optional.ToString();
+
+                inputParam = new TaxonomyInputParam(param, quantity, optional);
+
+                TaxonomyVM.InputParams.Add(inputParam);
+            }
+
+            /*
+            //set external URL
+            if (SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Uri != null)
+            {
+                TaxonomyVM.ExternalURL = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Uri;
+            }
+            */
+
+            //set documentation
+            if (SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Documentation != null)
+            {
+                TaxonomyVM.EmbeddedDoc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Documentation.Document.ToString();
+            }
+
+            ActivateItem(TaxonomyVM);
+        }
+
 
         public void OpenXMLFile()
         {     
@@ -118,8 +160,8 @@ namespace SoAEditor.ViewModels
             CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
             CompanyInfoVM = new CompanyInfoViewModel(CompanyInfoM);
             //TaxonomyInfoVM = new CreateTaxonomyViewModel();
-            TaxonomyVM = new TaxonomyViewModel();
-            TaxonomyVM.ResultQuant = "test";
+            
+            //TaxonomyVM.ResultQuant = "test";
             TechniqueVM = new TechniqueViewModel();
             RangeVM = new RangeViewModel();
 

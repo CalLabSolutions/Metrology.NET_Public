@@ -55,10 +55,6 @@ namespace SoAEditor.ViewModels
         public TaxonomyViewModel()
         {
             InputParams = new ObservableCollection<TaxonomyInputParam>();
-            {
-                new TaxonomyInputParam("p1", "q1", "o1");
-                new TaxonomyInputParam("p2", "q2", "o2");
-            };
         }
     }
 }

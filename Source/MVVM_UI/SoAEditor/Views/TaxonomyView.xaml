@@ -25,8 +25,7 @@
 
         <GroupBox Grid.Row="1" Grid.Column="1" BorderThickness="1"  Header="Input Parameters" HorizontalAlignment="Left" Height="140" Margin="10,50,0,0" VerticalAlignment="Top" Width="300">
             <DataGrid Grid.Row="1" Grid.Column="1" CanUserAddRows="True" x:Name="InputParams" ItemsSource="{Binding InputParams}" AutoGenerateColumns="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" 
-                      CanUserSortColumns="True">
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Parameter" Binding="{Binding Path=Param,UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
@@ -37,7 +36,7 @@
 
         <GroupBox Grid.Row="1" Grid.Column="2" BorderThickness="1"  Header="Output Results" HorizontalAlignment="Left" Height="140" Margin="10,50,0,0" VerticalAlignment="Top" Width="300">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="External URL:" />
+                <TextBlock Text="Result:" />
                 <TextBox x:Name="ResultQuant" Width="150" HorizontalAlignment="Left"/>
             </StackPanel>
         </GroupBox>

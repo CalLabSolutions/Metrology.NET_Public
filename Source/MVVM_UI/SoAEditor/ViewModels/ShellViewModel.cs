@@ -83,12 +83,17 @@ namespace SoAEditor.ViewModels
             loadTaxonomyViewModelObj(lbl.Content.ToString());
         }
 
-        public void showTechniqueView(Taxonomy sender) {
-            ActivateItem(TechniqueVM);
+        public void showTechniqueView(System.Windows.Controls.Label lbl)
+        {
+
+            loadTechniqueViewModelObj(lbl.Content.ToString());
+            //ActivateItem(TechniqueVM);
         }
 
-        public void showRangeView(Taxonomy sender) {
-            ActivateItem(RangeVM);
+        public void showRangeView(System.Windows.Controls.Label lbl)
+        {
+            loadRangeViewModelObj(lbl.Content.ToString());
+            //ActivateItem(RangeVM);
         }
 
         public void LoadCompanyInfo()
@@ -105,8 +110,7 @@ namespace SoAEditor.ViewModels
             ActivateItem(TaxonomyVM);
         }
         */
-
-
+        
         //public void runme(object sender)
         //{
         //    //if (!(sender is Label lbl)) return;
@@ -114,6 +118,7 @@ namespace SoAEditor.ViewModels
 
         //}
 
+        //show the corresponding taxonomy pane on the right-hand side based on the selected item from the menu
         private void loadTaxonomyViewModelObj(string lbl)
         {
             TaxonomyVM = new TaxonomyViewModel();
@@ -151,6 +156,20 @@ namespace SoAEditor.ViewModels
             ActivateItem(TaxonomyVM);
         }
 
+        //show the corresponding technique pane on the right-hand side based on the selected item from the menu
+        private void loadTechniqueViewModelObj(string lbl)
+        {
+            TechniqueVM = new TechniqueViewModel();
+            ActivateItem(TechniqueVM);
+        }
+
+        //show the corresponding range pane on the right-hand side based on the selected item from the menu
+        private void loadRangeViewModelObj(string lbl)
+        {
+            RangeVM = new RangeViewModel();
+            ActivateItem(RangeVM);
+        }
+
 
         public void OpenXMLFile()
         {     
@@ -162,8 +181,8 @@ namespace SoAEditor.ViewModels
             //TaxonomyInfoVM = new CreateTaxonomyViewModel();
             
             //TaxonomyVM.ResultQuant = "test";
-            TechniqueVM = new TechniqueViewModel();
-            RangeVM = new RangeViewModel();
+            //TechniqueVM = new TechniqueViewModel();
+            //RangeVM = new RangeViewModel();
 
 
             SampleSOA = new Soa();

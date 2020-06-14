@@ -10,25 +10,52 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
         <!-- Row 1 -->
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="This is the range view."></Label>
+        <!--<Label Grid.Row="1" Grid.Column="1" Content="This is the taxonomy view."/>-->
+
+        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Label Content="range description" Margin="0,0,0,20"/>
+
+            <DataGrid CanUserAddRows="True" x:Name="InputParams" ItemsSource="{Binding InputParams}" AutoGenerateColumns="False"
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Range" Binding="{Binding Path=Param,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Min" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Max" Binding="{Binding Path=Optional,UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--<Label Content="This is the taxonomy view."/>-->
+            <DataGrid CanUserAddRows="True" x:Name="InputParams2" ItemsSource="{Binding InputParams}" AutoGenerateColumns="False"
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Constant" Binding="{Binding Path=Param,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Value" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid CanUserAddRows="True" x:Name="InputParams3" ItemsSource="{Binding InputParams}" AutoGenerateColumns="False"
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Formula" Binding="{Binding Path=Param,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Variable" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Value" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Calculate" Margin="0,0,40,0"/>
+                <TextBlock Text="value"/>
+
+            </StackPanel>
+
         </StackPanel>
 
     </Grid>

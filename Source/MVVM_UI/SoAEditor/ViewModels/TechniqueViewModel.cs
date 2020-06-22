@@ -15,7 +15,7 @@ namespace SoAEditor.ViewModels
             InputParameterRanges = new ObservableCollection<Technique_InputParameterRange>();
             InputParameters = new ObservableCollection<Technique_InputParameter>();
             Outputs = new ObservableCollection<Technique_Output>();
-            Variables = new ObservableCollection<string>();
+            Variables = new ObservableCollection<Technique_Variable>();
         }
 
         private string _TaxonomyName;
@@ -95,9 +95,9 @@ namespace SoAEditor.ViewModels
         }
 
 
-        private ObservableCollection<string> _Variables;
+        private ObservableCollection<Technique_Variable> _Variables;
 
-        public ObservableCollection<string> Variables
+        public ObservableCollection<Technique_Variable> Variables
         {
             get
             {

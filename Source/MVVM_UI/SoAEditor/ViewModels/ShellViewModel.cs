@@ -160,6 +160,50 @@ namespace SoAEditor.ViewModels
         private void loadTechniqueViewModelObj(string lbl)
         {
             TechniqueVM = new TechniqueViewModel();
+            TechniqueVM.TaxonomyName = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ProcessTypeName;
+            TechniqueVM.TechniqueName = lbl;
+            TechniqueVM.Formula = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Expression;
+
+
+            for (int i = 0; i < SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges.Count(); i++)
+            {
+                string paramRangeName = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[i].name;
+                string paramMin = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[i].Start.Value.ToString();
+                string paramMax = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ParameterRanges[i].End.Value.ToString();
+
+                TechniqueVM.InputParameterRanges.Add(new Technique_InputParameterRange(paramRangeName, paramMin, paramMax));
+            }
+
+
+            for (int i = 0; i < SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters.Count(); i++)
+            {
+
+                string inputParamName = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters[i].name;
+                string inputParamQty;
+                if (SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters[i].Quantity != null)
+                {
+                    inputParamQty = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Parameters[i].Quantity.name;
+                }
+                else inputParamQty = "";
+
+                TechniqueVM.InputParameters.Add(new Technique_InputParameter(inputParamName, inputParamQty));
+                
+            }
+
+
+            string resultMin = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].Start.Value.ToString();
+            string resultMax = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.ResultRanges[0].End.Value.ToString();
+
+            TechniqueVM.Outputs.Add(new Technique_Output("result", resultMin, resultMax));
+
+
+            for (int i = 0; i < SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].ExpressionSymbols.Count; i++)
+            {
+                string varName = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].ExpressionSymbols[i].ToString();
+
+                TechniqueVM.Variables.Add(new Technique_Variable(varName));
+            }
+
             ActivateItem(TechniqueVM);
         }
 
@@ -167,6 +211,19 @@ namespace SoAEditor.ViewModels
         private void loadRangeViewModelObj(string lbl)
         {
             RangeVM = new RangeViewModel();
+            RangeVM.RangeName = "test";
+            RangeVM.CalculatedValue = "100";
+
+
+            RangeVM.Ranges.Add(new Range_Range("1", "1", "1"));
+            RangeVM.Ranges.Add(new Range_Range("2", "2", "2"));
+
+            RangeVM.Constants.Add(new Range_Constant("1", "1"));
+            RangeVM.Constants.Add(new Range_Constant("2", "2"));
+
+            RangeVM.Formulas.Add(new Range_Formula("1", "1"));
+            RangeVM.Formulas.Add(new Range_Formula("2", "2"));
+
             ActivateItem(RangeVM);
         }
 
@@ -365,3 +422,4 @@ namespace SoAEditor.ViewModels
 
     }
 }
+

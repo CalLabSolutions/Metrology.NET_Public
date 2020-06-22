@@ -92,6 +92,7 @@
     <Compile Include="Models\Technique_InputParameter.cs" />
     <Compile Include="Models\Technique_InputParameterRange.cs" />
     <Compile Include="Models\Technique_Output.cs" />
+    <Compile Include="Models\Technique_Variable.cs" />
     <Compile Include="ViewModels\CompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\Helper.cs" />
     <Compile Include="ViewModels\Range.cs" />

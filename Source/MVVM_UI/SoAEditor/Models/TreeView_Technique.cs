@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace SoAEditor.ViewModels
 {
-    public class Technique : PropertyChangedBase
+    public class TreeView_Technique : PropertyChangedBase
     {
-        private ObservableCollection<Range> _ranges;
+        private ObservableCollection<TreeView_Range> _ranges;
 
-        public Technique(string techniqueName)
+        public TreeView_Technique(string techniqueName)
         {
             TechniqueName = techniqueName;
-            Ranges = new ObservableCollection<Range>();
+            Ranges = new ObservableCollection<TreeView_Range>();
             //{
             //    new Range("range1"),
             //    new Range("range2")
             //};
         }
 
-        public ObservableCollection<Range> Ranges
+        public ObservableCollection<TreeView_Range> Ranges
         {
             get
             {

@@ -11,15 +11,15 @@
 
     <Window.Resources>
 
-        <HierarchicalDataTemplate ItemsSource="{Binding Techniques}" DataType="{x:Type VM:Taxonomy}">
+        <HierarchicalDataTemplate ItemsSource="{Binding Techniques}" DataType="{x:Type VM:TreeView_Taxonomy}">
             <Label Content="{Binding TaxonomyName}" cal:Message.Attach="[Event MouseDown] = [Action showTaxonomyView($source)]"/>
         </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate ItemsSource="{Binding Ranges}" DataType="{x:Type VM:Technique}">
+        <HierarchicalDataTemplate ItemsSource="{Binding Ranges}" DataType="{x:Type VM:TreeView_Technique}">
             <Label Content="{Binding TechniqueName}" cal:Message.Attach="[Event MouseDown] = [Action showTechniqueView($source)]"/>
         </HierarchicalDataTemplate>
 
-        <DataTemplate DataType="{x:Type VM:Range}">
+        <DataTemplate DataType="{x:Type VM:TreeView_Range}">
             <Label Content="{Binding RangeName}" cal:Message.Attach="[Event MouseDown] = [Action showRangeView($source)]"/>
         </DataTemplate>
 
@@ -63,6 +63,7 @@
                 <MenuItem Header="_Edit">
                 </MenuItem>
                 <MenuItem Header="_Help">
+                    <MenuItem Header="_About" cal:Message.Attach="showWelcomeScreen" Foreground="Black"/>
                 </MenuItem>
             </Menu>
         </DockPanel>

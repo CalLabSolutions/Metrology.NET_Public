@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SoAEditor.ViewModels
 {
-    public class Range : PropertyChangedBase
+    public class TreeView_Range : PropertyChangedBase
     {
         private string rangeName = string.Empty;
 
@@ -25,7 +25,7 @@ namespace SoAEditor.ViewModels
             }
         }
 
-        public Range(string rangeName)
+        public TreeView_Range(string rangeName)
         {
             RangeName = rangeName;
         }

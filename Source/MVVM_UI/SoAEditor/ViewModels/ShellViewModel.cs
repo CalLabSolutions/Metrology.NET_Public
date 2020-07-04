@@ -13,10 +13,10 @@ namespace SoAEditor.ViewModels
     public class ShellViewModel : Conductor<object>
     {
         //this is for treeview binding=====================================
-        private ObservableCollection<Taxonomy> _taxonomies;
-        private ObservableCollection<Range> _ranges;
+        private ObservableCollection<TreeView_Taxonomy> _taxonomies;
+        private ObservableCollection<TreeView_Range> _ranges;
 
-        public ObservableCollection<Taxonomy> Taxonomies
+        public ObservableCollection<TreeView_Taxonomy> Taxonomies
         {
             get
             {
@@ -30,7 +30,7 @@ namespace SoAEditor.ViewModels
             }
         }
 
-        public ObservableCollection<Range> Ranges
+        public ObservableCollection<TreeView_Range> Ranges
         {
             get
             {
@@ -45,12 +45,12 @@ namespace SoAEditor.ViewModels
         
         //==================================================================
 
-
+        
         private CompanyModel _companyM;
         private CompanyInfoModel _companyInfoM;
         private TaxonomyInfoModel _taxonomyInfoM;
-        
 
+        private WelcomeViewModel _WelcomeVM = null;
         private CompanyInfoViewModel _companyInfoVM = null;
         private CreateTaxonomyViewModel _taxonomyInfoVM = null;
         private TaxonomyViewModel _taxonomyVM = null;
@@ -68,7 +68,8 @@ namespace SoAEditor.ViewModels
 
         public ShellViewModel()
         {
-            ActivateItem(new WelcomeViewModel());
+            WelcomeVM = new WelcomeViewModel();
+            ActivateItem(WelcomeVM);
             //CompanyInfoM = new CompanyInfoModel();
             //TaxonomyInfoM = new TaxonomyInfoModel();
             //CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
@@ -101,6 +102,11 @@ namespace SoAEditor.ViewModels
             ActivateItem(CompanyInfoVM);
         }
 
+        public void showWelcomeScreen()
+        {
+            ActivateItem(WelcomeVM);
+        }
+
         /*
         public void LoadTaxonomyInfo(string lbl)
         {
@@ -110,7 +116,7 @@ namespace SoAEditor.ViewModels
             ActivateItem(TaxonomyVM);
         }
         */
-        
+
         //public void runme(object sender)
         //{
         //    //if (!(sender is Label lbl)) return;
@@ -273,15 +279,15 @@ namespace SoAEditor.ViewModels
             
 
             //fill in treeview
-            Taxonomies = new ObservableCollection<Taxonomy>();
+            Taxonomies = new ObservableCollection<TreeView_Taxonomy>();
             for (int processTypeIndex = 0; processTypeIndex < SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count(); processTypeIndex++)
             {
-                Taxonomy tax = new Taxonomy(SampleSOA.CapabilityScope.Activities[0].ProcessTypes[processTypeIndex].name);
+                TreeView_Taxonomy tax = new TreeView_Taxonomy(SampleSOA.CapabilityScope.Activities[0].ProcessTypes[processTypeIndex].name);
                 Taxonomies.Add(tax);
 
                 for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
                 {
-                    Technique tech = new Technique(SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].name);
+                    TreeView_Technique tech = new TreeView_Technique(SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].name);
                     tax.Techniques.Add(tech);
 
                     //fine the number of cases
@@ -296,7 +302,7 @@ namespace SoAEditor.ViewModels
                         {
                             String rangeHeader = rangeStr + " " + SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions[assertionIndex].Value;
 
-                            Range range = new Range(rangeHeader);
+                            TreeView_Range range = new TreeView_Range(rangeHeader);
                             tech.Ranges.Add(range);
                         }
                     }                       
@@ -354,6 +360,12 @@ namespace SoAEditor.ViewModels
         {
             get { return _lblCompanyInfoName; }
             set { _lblCompanyInfoName = value; NotifyOfPropertyChange(() => lblCompanyInfoName); }
+        }
+
+        public WelcomeViewModel WelcomeVM
+        {
+            get { return _WelcomeVM; }
+            set { _WelcomeVM = value; }
         }
 
         public CompanyModel CompanyM

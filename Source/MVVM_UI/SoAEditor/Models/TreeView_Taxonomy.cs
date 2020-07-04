@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace SoAEditor.ViewModels
 {
-    public class Taxonomy : PropertyChangedBase
+    public class TreeView_Taxonomy : PropertyChangedBase
     {
-        private ObservableCollection<Technique> _techniques;
+        private ObservableCollection<TreeView_Technique> _techniques;
 
-        public Taxonomy(string taxonomName)
+        public TreeView_Taxonomy(string taxonomName)
         {
             TaxonomyName = taxonomName;
-            Techniques = new ObservableCollection<Technique>();
+            Techniques = new ObservableCollection<TreeView_Technique>();
             //{
             //    new Technique("technique1"),
             //    new Technique("technique2")
             //};
         }
 
-        public ObservableCollection<Technique> Techniques
+        public ObservableCollection<TreeView_Technique> Techniques
         {
             get
             {

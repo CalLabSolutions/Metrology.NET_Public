@@ -83,16 +83,19 @@
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\CompanyInfoModel.cs" />
     <Compile Include="Models\MeasurementParameter.cs" />
+    <Compile Include="Models\Node.cs" />
     <Compile Include="Models\ProcessType.cs" />
     <Compile Include="Models\Range_Constant.cs" />
     <Compile Include="Models\Range_Formula.cs" />
     <Compile Include="Models\Range_Range.cs" />
+    <Compile Include="Models\Range_SubRange.cs" />
     <Compile Include="Models\TaxonomyInfoModel.cs" />
     <Compile Include="Models\TaxonomyInputParam.cs" />
     <Compile Include="Models\Technique_InputParameter.cs" />
     <Compile Include="Models\Technique_InputParameterRange.cs" />
     <Compile Include="Models\Technique_Output.cs" />
     <Compile Include="Models\Technique_Variable.cs" />
+    <Compile Include="Models\TreeView_helper.cs" />
     <Compile Include="ViewModels\CompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\Helper.cs" />
     <Compile Include="Models\TreeView_Range.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="ViewModels\TaxonomyViewModel.cs" />
     <Compile Include="Models\TreeView_Technique.cs" />
     <Compile Include="ViewModels\TechniqueViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\WelcomeViewModel.cs" />
     <Compile Include="Views\CompanyInfoView.xaml.cs">
       <DependentUpon>CompanyInfoView.xaml</DependentUpon>
@@ -124,6 +128,9 @@
     </Compile>
     <Compile Include="Views\TechniqueView.xaml.cs">
       <DependentUpon>TechniqueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WelcomeView.xaml.cs">
       <DependentUpon>WelcomeView.xaml</DependentUpon>
@@ -187,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TechniqueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2886,6 +2886,11 @@ namespace SOA_DataAccessLibrary
             get { return new Unc_Ranges(ranges.Where(x => x.Variable_name == name).ToList()); }
         }
 
+        public List<Unc_Range> getRanges()
+        {
+            return this.ranges;   
+        }
+
         public int Count()
         {
             return ranges.Count();

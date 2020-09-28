@@ -29,13 +29,13 @@
         
         <!-- Row 1: AB related Info -->
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="10 0 10 0">
-            <Label Content="AB ID"/>
-            <TextBox Height="30" x:Name="AccrBody"></TextBox>
+            <Label Content="AB ID:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="AccrBody"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Margin="10 0 10 0">
-            <Label Content="AB Logo Sign"/>
-            <TextBox Height="30" x:Name="AccrLogo"></TextBox>
+            <Label Content="AB Logo Signiture:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="AccrLogo"></TextBox>
         </StackPanel>
 
         <Label Grid.Row="1" Grid.Column="1" Height="2" 
@@ -44,28 +44,28 @@
         <!-- Row 2 -->
 
         <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0 10 0">
-            <Label Content="Scope ID"/>
-            <TextBox Height="30" x:Name="ScopeID"></TextBox>
+            <Label Content="Scope ID:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="ScopeID"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Margin="10 0 10 0">
-            <Label Content="Criteria"/>
-            <TextBox Height="30" x:Name="Criteria"></TextBox>
+            <Label Content="Criteria:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Criteria"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="3" Margin="10 0 10 0">
-            <Label Content="Effective Date"/>
-            <TextBox Height="30" x:Name="EffectiveDate"></TextBox>
+            <Label Content="Effective Date:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="EffectiveDate"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="4" Margin="10 0 10 0">
-            <Label Content="Expiration Date"/>
-            <TextBox Height="30" x:Name="ExpirDate"></TextBox>
+            <Label Content="Expiration Date" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="ExpirDate"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="5" Margin="10 0 10 0">
-            <Label Content="Statement"/>
-            <TextBox Height="30" x:Name="Statement"></TextBox>
+            <Label Content="Statement:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Statement"></TextBox>
         </StackPanel>
 
         <Label Grid.Row="2" Grid.Column="1" Height="2" 
@@ -74,23 +74,23 @@
         <!-- Row 3 -->
 
         <StackPanel Grid.Row="3" Grid.Column="1" Margin="10 0 10 0">
-            <Label Content="Name"/>
-            <TextBox Height="30" x:Name="Name"></TextBox>
+            <Label Content="Name:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Name"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="2" Margin="10 0 10 0">
-            <Label Content="Location ID"/>
-            <TextBox Height="30" x:Name="LocID"></TextBox>
+            <Label Content="Location ID:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="LocID"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="3" Margin="10 0 10 0">
-            <Label Content="Contact Name"/>
-            <TextBox Height="30" x:Name="ContactName"></TextBox>
+            <Label Content="Contact Name:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="ContactName"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="4" Margin="10 0 10 0">
-            <Label Content="Contact Info"/>
-            <TextBox Height="30" x:Name="PhoneNo"></TextBox>
+            <Label Content="Contact Info:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="PhoneNo"></TextBox>
         </StackPanel>
 
         <Label Grid.Row="3" Grid.Column="1" Height="2" 
@@ -98,23 +98,23 @@
         <!-- Row 4 -->
 
         <StackPanel Grid.Row="4" Grid.Column="1" Margin="10 0 10 0">
-            <Label Content="Street"/>
-            <TextBox Height="30" x:Name="Street"></TextBox>
+            <Label Content="Street:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Street"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="2" Margin="10 0 10 0">
-            <Label Content="City"/>
-            <TextBox Height="30" x:Name="City"></TextBox>
+            <Label Content="City:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="City"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3" Margin="10 0 10 0">
-            <Label Content="State"/>
-            <TextBox Height="30" x:Name="State"></TextBox>
+            <Label Content="State:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="State"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="4" Margin="10 0 10 0">
-            <Label Content="Zip"/>
-            <TextBox Height="30" x:Name="Zip"></TextBox>
+            <Label Content="Zip:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Zip"></TextBox>
         </StackPanel>
 
         <Label Grid.Row="4" Grid.Column="1" Height="2" 
@@ -122,7 +122,7 @@
 
         <!-- Row 5 -->
 
-        <Button x:Name="SaveCompanyInfo" Grid.Row="5" Grid.Column="1" Height="30" Background="LightBlue">Save Company Info</Button>
+        <Button x:Name="SaveCompanyInfo" Grid.Row="5" Grid.Column="1" Height="30">Save Company Info</Button>
 
     </Grid>
 </UserControl>

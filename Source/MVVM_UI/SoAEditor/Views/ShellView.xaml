@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cal="http://www.caliburnproject.org"
+        xmlns:models="clr-namespace:SoAEditor.Models"
         xmlns:local="clr-namespace:SoAEditor.Views"
         xmlns:VM="clr-namespace:SoAEditor.ViewModels"
         mc:Ignorable="d" 
         Title="Scope of Accreditation editor" Height="650" Width="1000" MinHeight="400" MinWidth="600" Icon="SoA.png" WindowStartupLocation="CenterScreen">
 
-    <Window.Resources>
+    <!--<Window.Resources>
 
         <HierarchicalDataTemplate ItemsSource="{Binding Techniques}" DataType="{x:Type VM:TreeView_Taxonomy}">
             <Label Content="{Binding TaxonomyName}" cal:Message.Attach="[Event MouseDown] = [Action showTaxonomyView($source)]"/>
@@ -23,7 +24,7 @@
             <Label Content="{Binding RangeName}" cal:Message.Attach="[Event MouseDown] = [Action showRangeView($source)]"/>
         </DataTemplate>
 
-    </Window.Resources>
+    </Window.Resources>-->
     
     <Grid>
         <Grid.RowDefinitions>
@@ -64,6 +65,7 @@
                 </MenuItem>
                 <MenuItem Header="_Help">
                     <MenuItem Header="_About" cal:Message.Attach="showWelcomeScreen" Foreground="Black"/>
+                    <MenuItem Header="_Test" cal:Message.Attach="showTestScreen" Foreground="Black"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -95,23 +97,34 @@
 
         </StackPanel>-->
 
-        <Label Grid.Row="2" Grid.Column="1" Content="Company Info" Name="lblCompanyInfo" cal:Message.Attach="[Event MouseDown] = [Action LoadCompanyInfo()]" />
+        
+        <Label Grid.Row="2" Grid.Column="1" Content="Company Info" FontWeight="Bold" Name="lblCompanyInfo" cal:Message.Attach="[Event MouseDown] = [Action LoadCompanyInfo()]" />
 
         <Label Grid.Row="2" Grid.Column="2" Content="" Name="lblCompanyInfoName"/>
         
         <Border Grid.Row="4" Grid.Column="1"  BorderBrush="Gray" BorderThickness="1,1,1,1"  Name="treegrid" Margin="0,0,5,75">
             <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualWidth}" HorizontalAlignment="Left">
 
-                <TreeView ItemsSource="{Binding Taxonomies}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" HorizontalAlignment="Left"  Margin="0,0,0,0" Foreground="Black" x:Name="tvMain" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
-                    <!--<TreeViewItem  Header="Company Info" />
-                    <TreeViewItem x:Name="prcss" Header="Process" >
-                        <TreeViewItem x:Name="tech_tree0" Header="Technique">
-                            <TreeViewItem x:Name="f_tree" Header="Function">
+                <!--this is the old treeview-->
+                <!--<TreeView ItemsSource="{Binding Taxonomies}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Height="400" HorizontalAlignment="Left"  Margin="0,0,0,0" Foreground="Black" x:Name="tvMain" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
+                </TreeView>-->
 
-                            </TreeViewItem>
-                        </TreeViewItem>
-                    </TreeViewItem>-->
+                <TreeView Margin="10" ItemsSource="{Binding RootNodes}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                            <!-- Could also put IsSelected here if we needed it in our Node class -->
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type models:Node}" ItemsSource="{Binding Children}">
+                            <!-- Can build any view we want here to be used for each node -->
+                            <!-- Simply displaying the name in a text block for this example -->
+                            <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseDown] = [Action treeviewNodeClick($dataContext)]"/>
+                        </HierarchicalDataTemplate>
+                    </ItemsControl.ItemTemplate>
                 </TreeView>
+
             </Grid>
         </Border>
         
@@ -119,7 +132,7 @@
                         x:Name="ActiveItem" />  
         
         <!-- Last Row: Copyright -->
-        <Label Content="Copyright 2019, Cal Lab Solutions, LLC" 
+        <Label Content="Copyright 2020, Cal Lab Solutions, LLC" 
                FontSize="11" FontFamily="Calibri" Foreground="White"
                FontWeight="Light" Background="#102E5B"
                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"

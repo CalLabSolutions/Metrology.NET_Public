@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SoAEditor.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,6 +21,7 @@
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Foreground="Gray" x:Name="textBlock" HorizontalAlignment="Center" Margin="10,36,0,0" TextWrapping="NoWrap" Text="MII Scope of Accreditation editor" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" FontSize="22"/>
             <Image  Source="SoA.png" VerticalAlignment="Stretch" HorizontalAlignment="Center"  Grid.ColumnSpan="5" Margin="0,20,10,5" Height="150"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

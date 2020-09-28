@@ -17,14 +17,42 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
-
+        
         <!-- Row 1 -->
         <!--<Label Grid.Row="1" Grid.Column="1" Content="This is the taxonomy view."/>-->
-
+        
+        
         <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Label Content="range description" Margin="0,0,0,20"/>
+            
+                    
+            <!--<ListBox x:Name="SubRanges"/>
 
-            <DataGrid CanUserAddRows="True" x:Name="Ranges" ItemsSource="{Binding Ranges}" AutoGenerateColumns="False"
+            <ListBox x:Name="FreqSubRanges"/>
+
+            <ListBox x:Name="NominalSubRanges"/>
+
+            <ListBox x:Name="ConstSubRanges"/>
+            
+            <TextBlock Text="k_nominal * nominal + k_range * range" x:Name="Formula"/>-->
+
+            <ScrollViewer  Width="auto" Height="300" ScrollViewer.VerticalScrollBarVisibility="Visible" Foreground="Red">
+                <DataGrid CanUserAddRows="True" x:Name="RangeGrid" ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="true"
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20" >
+                </DataGrid>
+            </ScrollViewer>
+
+            <TextBlock Text="" Margin="0,20,0,20" x:Name="Formula"/>
+
+            <StackPanel Orientation="Horizontal">
+                
+                <Button x:Name="calcButton" Content="Calculate" Margin="0,0,40,0"/>
+                <TextBlock Text="value" x:Name="CalculatedValue"/>
+
+            </StackPanel>
+
+
+            <!--<DataGrid CanUserAddRows="True" x:Name="Ranges" ItemsSource="{Binding Ranges}" AutoGenerateColumns="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Range" Binding="{Binding Path=Range,UpdateSourceTrigger=PropertyChanged}"/>
@@ -32,7 +60,7 @@
                     <DataGridTextColumn Header="Max" Binding="{Binding Path=Max,UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <!--<Label Content="This is the taxonomy view."/>-->
+            --><!--<Label Content="This is the taxonomy view."/>--><!--
             <DataGrid CanUserAddRows="True" x:Name="Constants" ItemsSource="{Binding Constants}" AutoGenerateColumns="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
                 <DataGrid.Columns>
@@ -47,13 +75,9 @@
                     <DataGridTextColumn Header="Formula Variable" Binding="{Binding Path=FormulaVariable,UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Value" Binding="{Binding Path=FormulaValue, UpdateSourceTrigger=PropertyChanged}"/>                   
                 </DataGrid.Columns>
-            </DataGrid>
+            </DataGrid>-->
 
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Calculate" Margin="0,0,40,0"/>
-                <TextBlock Text="value" x:Name="CalculatedVal"/>
 
-            </StackPanel>
 
         </StackPanel>
 

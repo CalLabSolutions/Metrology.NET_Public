@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:SoAEditor.Views"
         xmlns:VM="clr-namespace:SoAEditor.ViewModels"
         mc:Ignorable="d" 
-        Title="Scope of Accreditation editor" Height="650" Width="1000" MinHeight="400" MinWidth="600" Icon="SoA.png" WindowStartupLocation="CenterScreen">
+        Title="Scope of Accreditation editor" Height="750" Width="1000" MinHeight="400" MinWidth="600" Icon="/Icon/SoA.png" WindowStartupLocation="CenterScreen">
 
     <!--<Window.Resources>
 
@@ -71,9 +71,11 @@
         </DockPanel>
         
         <!-- __________________________________ -->
-        
+
+        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Content="" Name="fileAddr"/>
+
         <!-- Row 1: Cal Lab logo -->
-        <Image Source="SoA.png" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="5" 
+        <Image Source="/Icon/SoA.png" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3" 
                Margin="0,0,10,5" Height="46"/>
         <!--for the Image Source, you may use Source="{StaticResource logo}"-->
         <!--> Resource dictionary must be added to the App.xaml to use logo <-->
@@ -127,10 +129,11 @@
 
             </Grid>
         </Border>
-        
-        <ContentControl Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
-                        x:Name="ActiveItem" />  
-        
+
+        <ScrollViewer Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Width="auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ContentControl  x:Name="ActiveItem"/>
+        </ScrollViewer>
+
         <!-- Last Row: Copyright -->
         <Label Content="Copyright 2020, Cal Lab Solutions, LLC" 
                FontSize="11" FontFamily="Calibri" Foreground="White"

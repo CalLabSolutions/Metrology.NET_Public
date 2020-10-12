@@ -20,7 +20,7 @@
         <!-- Row 1 -->
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Foreground="Gray" x:Name="textBlock" HorizontalAlignment="Center" Margin="10,36,0,0" TextWrapping="NoWrap" Text="MII Scope of Accreditation editor" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" FontSize="22"/>
-            <Image  Source="SoA.png" VerticalAlignment="Stretch" HorizontalAlignment="Center"  Grid.ColumnSpan="5" Margin="0,20,10,5" Height="150"/>
+            <Image  Source="/Icon/SoA.png" VerticalAlignment="Stretch" HorizontalAlignment="Center"  Grid.ColumnSpan="5" Margin="0,20,10,5" Height="150"/>
 
         </StackPanel>
     </Grid>

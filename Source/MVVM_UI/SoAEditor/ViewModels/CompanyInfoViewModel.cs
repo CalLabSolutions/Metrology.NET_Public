@@ -59,7 +59,7 @@ namespace SoAEditor.ViewModels
                        
 
 
-        System.Windows.Forms.MessageBox.Show("Company Info Saved!");
+        //System.Windows.Forms.MessageBox.Show("Company Info Saved!");
 
         }
 

@@ -82,7 +82,7 @@ namespace SoAEditor.ViewModels
             WelcomeVM = new WelcomeViewModel();
             ActivateItem(WelcomeVM);
 
-            mRootNodes = new ObservableCollection<Node>();
+            //RootNodes = new ObservableCollection<Node>();
 
 
             //CompanyInfoM = new CompanyInfoModel();
@@ -245,8 +245,10 @@ namespace SoAEditor.ViewModels
         }
 
         //show the corresponding range pane on the right-hand side based on the selected item from the menu
-        private void loadRangeViewModelObj(string nodeName, String treeNodeName)
+        private void loadRangeViewModelObj(Node node)
         {
+
+            string nodeName = node.Name;
             RangeVM = new RangeViewModel();
             //RangeVM.RangeName = "test";
             //RangeVM.CalculatedValue = "";
@@ -273,11 +275,35 @@ namespace SoAEditor.ViewModels
             //RangeVM.Formulas.Add(new Range_Formula("2", "2"));
 
 
+            IList<String> formulaExpression = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables;
+
+            RangeVM.ExprVars = new ObservableCollection<ExpressionVariable>();
+
+            foreach (string var in formulaExpression)
+            {
+                RangeVM.ExprVars.Add(new ExpressionVariable(var));
+            }        
+            
+
+
+
 
             //SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[0].Assertions[0].Name
 
 
             RangeVM.RangeGrid = new DataTable();
+
+
+            string activeHierarchylbl = "";
+            Node tempNode = node;
+            while (tempNode.Parent != null)
+            {
+                activeHierarchylbl = tempNode.Name + "\n" + activeHierarchylbl;
+                tempNode = tempNode.Parent;
+            }
+
+            RangeVM.activeHierarchy = activeHierarchylbl; //node.Parent.Name + "\n" + node.Name;
+
 
             /*
             RangeVM.RangeGrid.Columns.Add("Connection", typeof(string));
@@ -391,6 +417,7 @@ namespace SoAEditor.ViewModels
                 if (SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions[foundAssertIndex].Value != nodeName)
                     continue;
 
+
                 //for each Assertion add a new cell to the row
                 assertCount = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions.Count();
                 for (int assertIndex = foundAssertIndex+1; assertIndex < assertCount; assertIndex++)
@@ -493,8 +520,9 @@ namespace SoAEditor.ViewModels
 
 
         public void OpenXMLFile()
-        {     
-            
+        {
+
+            RootNodes = new ObservableCollection<Node>();
             CompanyInfoM = new CompanyInfoModel();
             TaxonomyInfoM = new TaxonomyInfoModel();
             CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
@@ -520,6 +548,7 @@ namespace SoAEditor.ViewModels
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 FullPath = dlg.FileName;
+                fileAddr = "../" + dlg.SafeFileName;
                 dao.load(dlg.FileName);
                 SampleSOA = dao.SOADataMaster;
                 Helper.LoadCompanyInfoFromSoaObjectToOpen(SampleSOA, CompanyM); // assigns info extracted from XML to the CompanyM object
@@ -573,7 +602,7 @@ namespace SoAEditor.ViewModels
                 //add nodes in the Taxonomy level to the tree
                 string taxonomyName = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[processTypeIndex].name;
                 Node taxonom = new Node() { Name = taxonomyName };
-                mRootNodes.Add(taxonom);
+                RootNodes.Add(taxonom);
 
                 for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
                 {
@@ -631,7 +660,7 @@ namespace SoAEditor.ViewModels
                             string name = Convert.ToString(dr[c]);
                             if (parent == null)
                             {
-                                parent = new Node() { Name = name, Children = new ObservableCollection<Node>() };
+                                parent = new Node(techn) { Name = name, Children = new ObservableCollection<Node>() };
                                 current = techn.Children.Where(x => x.Name == parent.Name).SingleOrDefault();
                                 if (current == null)
                                     techn.Children.Add(parent);
@@ -640,7 +669,7 @@ namespace SoAEditor.ViewModels
                             }
                             else
                             {
-                                current = new Node() { Name = name, Children = new ObservableCollection<Node>() };
+                                current = new Node(parent) { Name = name, Children = new ObservableCollection<Node>() };
                                 if (parent.Children.Where(x => x.Name == current.Name).SingleOrDefault() == null)
                                     parent.Children.Add(current);
                                 else
@@ -756,7 +785,7 @@ namespace SoAEditor.ViewModels
                     break;
 
                 case "range":
-                    loadRangeViewModelObj(node.Name, node.Name);
+                    loadRangeViewModelObj(node);
                     break;
 
                 default:
@@ -788,14 +817,14 @@ namespace SoAEditor.ViewModels
                     // Code to write the stream goes here.
                     FullPath = saveFileDlg.FileName;
                     doc.Save(FullPath);
-                    System.Windows.Forms.MessageBox.Show("File saved!");
+                    System.Windows.Forms.MessageBox.Show("File saved!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
             }
             else if (FullPath.Length != 0)
             {
                 doc.Save(FullPath);
-                System.Windows.Forms.MessageBox.Show("File saved!");
+                System.Windows.Forms.MessageBox.Show("File saved!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -814,12 +843,20 @@ namespace SoAEditor.ViewModels
         //parameters                                                        |
         //===================================================================
 
+        private String _fileAddr;
+
+        public String fileAddr
+        {
+            get { return _fileAddr; }
+            set { Set(ref _fileAddr, value); }
+        }
+
 
         private ObservableCollection<Node> mRootNodes;
 
-        public IEnumerable<Node> RootNodes {
+        public ObservableCollection<Node> RootNodes {
             get { return mRootNodes; }
-            //set { Set(ref mRootNodes, (ObservableCollection < Node >)value); NotifyOfPropertyChange(() => mRootNodes); }
+            set { Set(ref mRootNodes, value); }
         }
 
         

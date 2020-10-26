@@ -11,6 +11,7 @@ using System.Data;
 using System.Collections.Generic;
 using Screen = Caliburn.Micro.Screen;
 using System.Linq;
+using System.Dynamic;
 
 namespace SoAEditor.ViewModels
 {    
@@ -56,7 +57,7 @@ namespace SoAEditor.ViewModels
 
         private WelcomeViewModel _WelcomeVM = null;
         private CompanyInfoViewModel _companyInfoVM = null;
-        private CreateTaxonomyViewModel _taxonomyInfoVM = null;
+        private TaxonomyInfoViewModel _taxonomyInfoVM = null;
         private TaxonomyViewModel _taxonomyVM = null;
         private TechniqueViewModel _techiqueVM = null;
         private RangeViewModel _rangeVM = null;
@@ -516,6 +517,35 @@ namespace SoAEditor.ViewModels
             //row.RemoveAt(row.Count - 1);
         }
 
+        public void AddNewChild(Node node)
+        {
+            //if the clicked node is the root node
+            if (node.Name == "SoA")
+            {
+                Node newNode = new Node(RootNodes[0]) { Name = "New Taxonomy" };
+                RootNodes[0].Children.Add(newNode);
+            }
+            else if (node.Parent.Name == "SoA") //it means a taxonomy node was clicked
+            {              
+                Node newNode = new Node(node) { Name = "New Technique" };
+                node.Children.Add(newNode);
+            }
+            else //it means a technique node was clicked
+            {
+                Node newNode = new Node(node) { Name = "New Range" };
+                node.Children.Add(newNode);
+            }
+
+            dynamic settings = new ExpandoObject();
+            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
+            settings.MinWidth = 450;
+            settings.Title = "Create New Item";
+
+            IWindowManager manager = new WindowManager();
+            manager.ShowDialog(new TaxonomyInfoViewModel(), null, settings);
+
+        }
 
 
 
@@ -596,13 +626,16 @@ namespace SoAEditor.ViewModels
             mRootNodes.Add(root2);
             */
 
+            Node rootNode = new Node() { Name = "SoA" };
+            RootNodes.Add(rootNode);
+
             Taxonomies = new ObservableCollection<TreeView_Taxonomy>();
             for (int processTypeIndex = 0; processTypeIndex < SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count(); processTypeIndex++)
             {
                 //add nodes in the Taxonomy level to the tree
                 string taxonomyName = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[processTypeIndex].name;
-                Node taxonom = new Node() { Name = taxonomyName };
-                RootNodes.Add(taxonom);
+                Node taxonom = new Node(rootNode) { Name = taxonomyName };
+                rootNode.Children.Add(taxonom);
 
                 for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
                 {
@@ -896,7 +929,7 @@ namespace SoAEditor.ViewModels
             set { _companyInfoVM = value; }
         }
 
-        public CreateTaxonomyViewModel TaxonomyInfoVM
+        public TaxonomyInfoViewModel TaxonomyInfoVM
         {
             get { return _taxonomyInfoVM; }
             set { _taxonomyInfoVM = value; }

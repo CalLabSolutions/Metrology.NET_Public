@@ -102,7 +102,7 @@
     <Compile Include="Models\TreeView_Range.cs" />
     <Compile Include="ViewModels\RangeViewModel.cs" />
     <Compile Include="Models\TreeView_Taxonomy.cs" />
-    <Compile Include="ViewModels\CreateTaxonomyViewModel.cs" />
+    <Compile Include="ViewModels\TaxonomyInfoViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\TaxonomyViewModel.cs" />
     <Compile Include="Models\TreeView_Technique.cs" />
@@ -118,8 +118,8 @@
     <Compile Include="Views\RangeView.xaml.cs">
       <DependentUpon>RangeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreateTaxonomyView.xaml.cs">
-      <DependentUpon>CreateTaxonomyView.xaml</DependentUpon>
+    <Compile Include="Views\TaxonomyInfoView.xaml.cs">
+      <DependentUpon>TaxonomyInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -182,7 +182,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateTaxonomyView.xaml">
+    <Page Include="Views\TaxonomyInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

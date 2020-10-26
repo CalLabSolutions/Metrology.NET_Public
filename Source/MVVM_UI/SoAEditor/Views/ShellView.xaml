@@ -1,4 +1,5 @@
 ﻿<Window x:Class="SoAEditor.Views.ShellView"
+        x:Name="myShellWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -103,9 +104,9 @@
         <Label Grid.Row="2" Grid.Column="1" Content="Company Info" FontWeight="Bold" Name="lblCompanyInfo" cal:Message.Attach="[Event MouseDown] = [Action LoadCompanyInfo()]" />
 
         <Label Grid.Row="2" Grid.Column="2" Content="" Name="lblCompanyInfoName"/>
-        
+
         <Border Grid.Row="4" Grid.Column="1"  BorderBrush="Gray" BorderThickness="1,1,1,1"  Name="treegrid" Margin="0,0,5,75">
-            <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualWidth}" HorizontalAlignment="Left">
+            <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualWidth}" HorizontalAlignment="Left" >
 
                 <!--this is the old treeview-->
                 <!--<TreeView ItemsSource="{Binding Taxonomies}" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}" Height="400" HorizontalAlignment="Left"  Margin="0,0,0,0" Foreground="Black" x:Name="tvMain" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Yu Gothic UI" >
@@ -122,14 +123,20 @@
                         <HierarchicalDataTemplate DataType="{x:Type models:Node}" ItemsSource="{Binding Children}">
                             <!-- Can build any view we want here to be used for each node -->
                             <!-- Simply displaying the name in a text block for this example -->
-                            <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseDown] = [Action treeviewNodeClick($dataContext)]"/>
+                            <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseDown] = [Action treeviewNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
+
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                        <MenuItem Header="Add New Child" cal:Message.Attach="AddNewChild($dataContext)"/>                                        
+                                    </ContextMenu>                                    
+                                </TextBlock.ContextMenu>
+                            </TextBlock>
                         </HierarchicalDataTemplate>
                     </ItemsControl.ItemTemplate>
                 </TreeView>
-
             </Grid>
         </Border>
-
+        
         <ScrollViewer Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Width="auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ContentControl  x:Name="ActiveItem"/>
         </ScrollViewer>

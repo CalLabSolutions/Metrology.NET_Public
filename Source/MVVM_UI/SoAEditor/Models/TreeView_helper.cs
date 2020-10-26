@@ -1,6 +1,7 @@
 ﻿using SOA_DataAccessLibrary;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ namespace SoAEditor.Models
 {
     class TreeView_helper
     {
-        public static String getNodeType(String nodeName, Soa SampleSOA) {
+        public static String getNodeType(String nodeName, Soa SampleSOA)
+        {
 
 
             for (int processTypeIndex = 0; processTypeIndex < SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count(); processTypeIndex++)
@@ -40,7 +42,7 @@ namespace SoAEditor.Models
 
         public static int getAssertionNodeIndex(String nodeName, Soa SampleSOA)
         {
-            
+
             for (int rangeIndex = 0; rangeIndex < SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count(); rangeIndex++)
             {
                 for (int assertIndex = 0; assertIndex < SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[0].Assertions.Count(); assertIndex++)
@@ -54,6 +56,27 @@ namespace SoAEditor.Models
 
         }
 
+        //public static Node getNodeObject(String nodeName, ObservableCollection<Node> rootNodes)
+        //{                        
+        //    return findNode(nodeName, rootNodes[0]);
+        //}
 
+        ////recursive function to find the node in the node tree
+        //private static Node findNode(string nodeName, Node node)
+        //{
+        //    if (node.Name == nodeName)
+        //        return node;
+        //    else if (node.Children != null)
+        //    {
+        //        foreach (Node n in node.Children.ToList())
+        //        {
+        //            findNode(nodeName, n);
+        //        }
+        //    }
+
+        //    return null;
+        //}
+
+       
     }
 }

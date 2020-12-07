@@ -40,6 +40,7 @@ namespace SoAEditor.Models
             return "";
         }
 
+        //gets the index of the selected assertion node in the assertion list from the xml file
         public static int getAssertionNodeIndex(String nodeName, Soa SampleSOA)
         {
 

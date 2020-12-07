@@ -57,5 +57,13 @@ namespace SoAEditor.ViewModels
             CompanyM.CompanyInfo.Zip = SampleSoA.CapabilityScope.Locations[0].Address.Zip;
         }
 
+        //global variable for name of the created node on the tree
+        private static string _treeViewNewNodeName;
+        public static string treeViewNewNodeName
+        {
+            get { return _treeViewNewNodeName; }
+            set { _treeViewNewNodeName = value; }
+        }
+
     }
 }

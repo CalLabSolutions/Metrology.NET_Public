@@ -177,6 +177,8 @@ namespace SoAEditor.ViewModels
                 TaxonomyVM.InputParams.Add(inputParam);
             }
 
+            
+
             /*
             //set external URL
             if (SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].Uri != null)
@@ -193,6 +195,25 @@ namespace SoAEditor.ViewModels
 
             ActivateItem(TaxonomyVM);
         }
+
+        //show the taxonomy pane on the right-hand side based on the newly created taxonomy node
+        private void loadNewNodeTaxonomyViewModelObj(string lbl)
+        {
+            TaxonomyVM = new TaxonomyViewModel();
+            
+            //set result type
+            TaxonomyVM.ResultQuant = "";
+
+            //set input params
+            //TaxonomyVM.InputParams;
+
+            //set documentation
+            TaxonomyVM.EmbeddedDoc = "";
+
+
+            ActivateItem(TaxonomyVM);
+        }
+
 
         //show the corresponding technique pane on the right-hand side based on the selected item from the menu
         private void loadTechniqueViewModelObj(string lbl)
@@ -415,9 +436,11 @@ namespace SoAEditor.ViewModels
 
                 //here do the filtering based on the item selected from the left-side menu
                 //if the value does not match continue with the next item in the case list
-                if (SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions[foundAssertIndex].Value != nodeName)
-                    continue;
-
+                if (!nodeName.ToUpper().Equals("ALL"))
+                {
+                    if (SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions[foundAssertIndex].Value != nodeName)
+                        continue;
+                }
 
                 //for each Assertion add a new cell to the row
                 assertCount = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[caseIndex].Assertions.Count();
@@ -522,8 +545,23 @@ namespace SoAEditor.ViewModels
             //if the clicked node is the root node
             if (node.Name == "SoA")
             {
-                Node newNode = new Node(RootNodes[0]) { Name = "New Taxonomy" };
-                RootNodes[0].Children.Add(newNode);
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.MinWidth = 450;
+                settings.Title = "Add new taxonomy";
+
+                IWindowManager manager = new WindowManager();
+                manager.ShowDialog(new TaxonomyInfoViewModel(), null, settings);
+                if (Helper.treeViewNewNodeName != null && Helper.treeViewNewNodeName != "." && Helper.treeViewNewNodeName != "")
+                {
+                    Node newNode = new Node(RootNodes[0]) { Name = Helper.treeViewNewNodeName };
+                    RootNodes[0].Children.Add(newNode);
+
+                    //add the new node to the soa object
+                    //to be done
+                }
+
             }
             else if (node.Parent.Name == "SoA") //it means a taxonomy node was clicked
             {              
@@ -536,14 +574,7 @@ namespace SoAEditor.ViewModels
                 node.Children.Add(newNode);
             }
 
-            dynamic settings = new ExpandoObject();
-            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            settings.ResizeMode = ResizeMode.NoResize;
-            settings.MinWidth = 450;
-            settings.Title = "Create New Item";
 
-            IWindowManager manager = new WindowManager();
-            manager.ShowDialog(new TaxonomyInfoViewModel(), null, settings);
 
         }
 
@@ -683,6 +714,11 @@ namespace SoAEditor.ViewModels
                     //second step -> build the subtree  |
                     //-----------------------------------
 
+                    //add a single node as "All" to show the whole assetion grid
+                    Node assertAllNode = new Node(techn) { Name = "All" };
+                    techn.Children.Add(assertAllNode);
+
+                    //build the assertion subtree from the assertionMatrix
                     for (int c = 0; c < assertionMatrix.Columns.Count; c++)
                     {
                         Node parent = null;
@@ -805,6 +841,16 @@ namespace SoAEditor.ViewModels
         public void treeviewNodeClick(Node node)
         {
             //System.Windows.Forms.MessageBox.Show("node clicked");
+
+            //if clicked node is the root node, do nothing
+            if (node.Name.ToUpper().Equals("SOA"))
+                return;
+            if (node.Name.ToUpper().Equals("ALL"))
+            {
+                loadRangeViewModelObj(node);
+                return;
+            }
+
                         
             String returnedType = TreeView_helper.getNodeType(node.Name, SampleSOA);
             switch (returnedType)
@@ -819,6 +865,10 @@ namespace SoAEditor.ViewModels
 
                 case "range":
                     loadRangeViewModelObj(node);
+                    break;
+
+                case "": //means this is a newly created node   
+                    loadNewNodeTaxonomyViewModelObj(node.Name);
                     break;
 
                 default:

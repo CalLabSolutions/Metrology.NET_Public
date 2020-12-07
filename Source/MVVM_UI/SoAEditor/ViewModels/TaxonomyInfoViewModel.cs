@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using SoAEditor.Models;
+using System.Windows;
 
 namespace SoAEditor.ViewModels
 {
@@ -36,12 +37,15 @@ namespace SoAEditor.ViewModels
             _currentProcessType = new ProcessType();
 
             LoadTaxonomyDatabase();
+
+            //select a default value
+            SelectedOptionForTaxonomy = "Source";
         }
 
         public void LoadTaxonomyDatabase()
         {
             XmlDocument db = new XmlDocument();
-            db.Load(@"c:\temp\MetrologyNET_Taxonomy_v2.xml"); //the path should be updated in the final version
+            db.Load(@"c:\temp\MetrologyNET_Taxonomy_v2 -original.xml"); //the path should be updated in the final version
 
             //////////////////////////////
 
@@ -178,6 +182,14 @@ namespace SoAEditor.ViewModels
                 NotifyOfPropertyChange(() => OptionalParameters);
                 NotifyOfPropertyChange(() => SelectedProcessType);
             }
+        }
+
+        public void okButton(Object obj)
+        {
+            String newTaxonomyStr = SelectedOptionForTaxonomy + "." + SelectedProcessType;
+            Helper.treeViewNewNodeName = newTaxonomyStr;
+            this.TryClose(null);
+
         }
 
         public bool CanSelectATaxonomy

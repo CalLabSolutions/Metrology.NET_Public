@@ -1253,13 +1253,13 @@ namespace SOA_DataAccessLibrary
         public string Name
         {
             get { return name; }
-            //set { name = value; }
+            set { name = value; }
         }
 
         public UomDataSource.Quantity Quantity
         {
             get { return quantity; }
-            //set { quantity = value; }
+            set { quantity = value; }
         }
 
         private void setQuantity(UomSpaceHelper uomSpaceHelper)
@@ -1281,7 +1281,7 @@ namespace SOA_DataAccessLibrary
             quantity.writeTo(Result.Element);
         }
 
-        private Mtc_ProcessResult() { }
+        public Mtc_ProcessResult() { }
 
         public Mtc_ProcessResult(XElement datasource)
         {
@@ -1307,6 +1307,16 @@ namespace SOA_DataAccessLibrary
                 var set = results.Where(x => x.Name == name);
                 return (set.Count() > 0) ? set.First() : null; 
             }
+        }
+
+        public void Add()
+        {
+            results.Add(new Mtc_ProcessResult());
+        }
+
+        public void Add(Mtc_ProcessResult mtc_ProcessResult)
+        {
+            results.Add(mtc_ProcessResult);
         }
 
         public int Count()
@@ -4476,6 +4486,16 @@ namespace SOA_DataAccessLibrary
            processTypes.Add(new Unc_ProcessType());
         }
 
+        public void Add()
+        {
+            processTypes.Add(new Unc_ProcessType());
+        }
+
+        public void Add(Unc_ProcessType unc_ProcessType)
+        {
+            processTypes.Add(unc_ProcessType);
+        }
+
         public Unc_ProcessTypes(XElement datasource)
         {
             loadProcessTypes(new UncSpaceHelper(datasource));
@@ -4523,15 +4543,14 @@ namespace SOA_DataAccessLibrary
             cmcs.writeTo(CMCs.Element);
         }
 
-        public Unc_CMCs(Soa_Activity activity) {
+        public Unc_CMCs() {
             processTypes = new Unc_ProcessTypes();
             techniques = new Unc_Techniques(this);
             cmcs = new Unc_CMCList(this);       
         }
 
-        public Unc_CMCs(XElement datasource, Soa_Activity activity)
+        public Unc_CMCs(XElement datasource)
         {
-            this.activity = activity;
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
             try
             {
@@ -4578,14 +4597,14 @@ namespace SOA_DataAccessLibrary
         }
 
         public Soa_Activity() {
-            cMCs = new Unc_CMCs(this);
+            cMCs = new Unc_CMCs();
         }
 
         public Soa_Activity(XElement datasource)
         {
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
             var el = uncSpaceHelper.getElement("CMCs");
-            if (el != null) cMCs = new Unc_CMCs(el, this);
+            if (el != null) cMCs = new Unc_CMCs(el);
         }
     }
 
@@ -4615,7 +4634,7 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        public void writeTo(XElement CapabilityScope, Soa_Activities activities)
+        public void writeTo(XElement CapabilityScope)
         {
             SoaSpaceHelper CapabilityScopeHelper = new SoaSpaceHelper(CapabilityScope);
             var Activities = CapabilityScopeHelper.addChild("Activities");
@@ -4984,7 +5003,7 @@ namespace SOA_DataAccessLibrary
             }
         }
 
-        public void writeTo(XElement CapabilityScope, Soa_CapabilityScope_Locations locations)
+        public void writeTo(XElement CapabilityScope)
         {
             var Locations = new SoaSpaceHelper(CapabilityScope).addChild("Locations");
             foreach (Soa_CapabilityScope_Location location in locations)
@@ -5057,18 +5076,18 @@ namespace SOA_DataAccessLibrary
             get { return localLanguage; }
             //set { localLanguage = value; }
         }
-        public void writeTo(XElement root, Soa_CapabilityScope cScope)
+        public void writeTo(XElement root)
         {
             SoaSpaceHelper rootHelper = new SoaSpaceHelper(root);
             var CapabilityScope = rootHelper.addChild("CapabilityScope");
-            CapabilityScope.addChild("MeasuringEntity").setValue(cScope.MeasuringEntity);
-            locations.writeTo(CapabilityScope.Element, cScope.Locations);
-            activities.writeTo(CapabilityScope.Element, cScope.Activities);
+            CapabilityScope.addChild("MeasuringEntity").setValue(MeasuringEntity);
+            locations.writeTo(CapabilityScope.Element);
+            activities.writeTo(CapabilityScope.Element);
             XiSpaceHelper uomHelper = new XiSpaceHelper(CapabilityScope.Element);
             uomHelper.addChild("include").Element.Add(new XAttribute("href", Configuration.UomDatabaseURL));
-            CapabilityScope.addChild("ScopeNotes").setValue(cScope.ScopeNotes);
-            CapabilityScope.addChild("Version").setValue(cScope.Version);
-            CapabilityScope.addChild("LocaleLanguage").setValue(cScope.LocalLanguage);
+            CapabilityScope.addChild("ScopeNotes").setValue(ScopeNotes);
+            CapabilityScope.addChild("Version").setValue(Version);
+            CapabilityScope.addChild("LocaleLanguage").setValue(LocalLanguage);
         }
 
         public Soa_CapabilityScope() {
@@ -5275,23 +5294,23 @@ namespace SOA_DataAccessLibrary
             return (element != null) ? element.Value : "";
         }
 
-        public void writeTo(XDocument doc, Soa soa) {
+        public void writeTo(XDocument doc) {
             if (doc.Root != null) doc = new XDocument();
             doc.Declaration = new XDeclaration("1.0", "UTF-8", "no");
             SoaSpaceHelper docHelper = new SoaSpaceHelper(doc);
             var root = docHelper.addChild("SOADataMaster");
             root.Element.Add(Configuration.NameSpaces.NameSpaceDeclarations);
-            root.addChild("AB_ID").setValue(soa.Ab_ID);
-            root.addChild("AB_Logo-Signature").setValue(soa.Ab_Logo_Signature);
-            root.addChild("Scope_ID_Number").setValue(soa.Scope_ID_Number);
+            root.addChild("AB_ID").setValue(Ab_ID);
+            root.addChild("AB_Logo-Signature").setValue(Ab_Logo_Signature);
+            root.addChild("Scope_ID_Number").setValue(Scope_ID_Number);
             if (scopeUrls != null) scopeUrls.writeTo(root.Element);
-            root.addChild("Criteria").setValue(soa.Criteria);
-            root.addChild("EffectiveDate").setValue(soa.EffectiveDate);
+            root.addChild("Criteria").setValue(Criteria);
+            root.addChild("EffectiveDate").setValue(EffectiveDate);
             root.addChild("ExpirationDate").setValue(ExpirationDate);
-            root.addChild("Statement").setValue(soa.Statement);
-            if (capabilityScope != null) capabilityScope.writeTo(root.Element, soa.CapabilityScope);
-            root.addChild("HumanReadableDocument").setValue(soa.HumanReadableDocument);
-            root.addChild("VisualAidsScript").setValue(soa.VisualAidsScript);
+            root.addChild("Statement").setValue(this.Statement);
+            if (capabilityScope != null) capabilityScope.writeTo(root.Element);
+            root.addChild("HumanReadableDocument").setValue(HumanReadableDocument);
+            root.addChild("VisualAidsScript").setValue(VisualAidsScript);
         }
 
         public Soa() {

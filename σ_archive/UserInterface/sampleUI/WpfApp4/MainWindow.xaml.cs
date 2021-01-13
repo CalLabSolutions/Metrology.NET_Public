@@ -217,9 +217,51 @@ namespace WpfApp4
             TreeViewItem technode = new TreeViewItem();
             TreeViewItem funcnode = new TreeViewItem();
             TreeViewItem cnode = new TreeViewItem();
+
+            // Adding ProcessType //
+            
+            // Start with an Unc Proc Type
+            Unc_ProcessType uncProcType = new Unc_ProcessType();
+            uncProcType.name = "Unc.TestProc";
+            uncProcType.Uri = "https://onmetrology.net/test/";
+
+            // Then pass the Unc ProcType(parent) to the Mtc_ProcType
+            Mtc_ProcessType mtcProcType = new Mtc_ProcessType(uncProcType)
+            {
+                Name = "Mtc.TestProc"
+            };
+
+            // Add a mtc parameter
+            mtcProcType.Parameters.add(new Mtc_Parameter("Volts", "voltage", false));
+
+            // mtc documentation
+            Mtc_Documentation doc = new Mtc_Documentation
+            {
+                Document = "mtcProcType Documentation"
+            };
+            mtcProcType.Documentation = doc;
+
+            // Mtc Process Result
+            Mtc_ProcessResult mtcProcResult = new Mtc_ProcessResult();
+            mtcProcResult.Name = "Volts";
+            mtcProcResult.Quantity = UomDataSource.getQuantity("voltage");
+            mtcProcType.ProcessResults.Add(mtcProcResult);
+
+            // Mtc Result Types
+            mtcProcType.ResultTypes.Add("voltage");
+
+            // Add to the Unc Proc Type
+            uncProcType.ProcessType = mtcProcType;
+
+            // Add to the over all Proc Types
+            SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Add(uncProcType);
+
+            // update proc type count
+            pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
+
             for (int i=0;i<pc;i++)
             {
-                
+
                 string s = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[i].ProcessType.Name;
                 tt.Content = s;
                 int ic=tvMain.Items.Count;
@@ -387,7 +429,7 @@ namespace WpfApp4
             if (result == true)
             {
                 // Save document
-                SampleSOA.writeTo(savefile, SampleSOA);
+                SampleSOA.writeTo(savefile);
                 savefile.Save(dlg2.FileName);
                 //XMLdoc.Save(dlg2.FileName);
                 //dao.SOADataMaster.Save("ser");

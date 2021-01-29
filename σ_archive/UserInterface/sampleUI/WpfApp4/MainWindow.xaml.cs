@@ -27,7 +27,7 @@ namespace WpfApp4
     /// MainWindow.xaml etkileşim mantığı
     /// </summary>
     /// 
-    
+
     public partial class MainWindow : Window
     {
         XmlDocument XMLdoc = new XmlDocument();
@@ -40,12 +40,12 @@ namespace WpfApp4
         List<TextBlock> textboxes = new List<TextBlock>();
 
         int fdataindex;
-        string[] data1=new string[9];
+        string[] data1 = new string[9];
         string[] data2 = new string[9];
 
         public static readonly RoutedEvent CloseTabEvent = EventManager.RegisterRoutedEvent("CloseTab", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CloseableTabItem));
         private object tv;
-        private int changed_no=0;
+        private int changed_no = 0;
         private int casenumber = 1;
         TextBlock t = new TextBlock();
 
@@ -53,13 +53,13 @@ namespace WpfApp4
         {
             InitializeComponent();
             var bc = new BrushConverter();
-            Brush mycolor= (Brush)bc.ConvertFrom("#008b8b ");
+            Brush mycolor = (Brush)bc.ConvertFrom("#008b8b ");
             //load the process database
             db.Load("MetrologyNET_Taxonomy_v2.xml");
             //dao2.load("MetrologyNET_Taxonomy_v2.xml");
-                //process counts in the database
+            //process counts in the database
             int process_count = db.GetElementsByTagName("mtc:ProcessType").Count;
-                //put the processes into combobox(combo2)
+            //put the processes into combobox(combo2)
             ComboBoxItem comboitem2 = null;
             comboitem2 = new ComboBoxItem();
             for (int i = 0; i < process_count; i++)
@@ -73,7 +73,7 @@ namespace WpfApp4
 
             //cd0.Width = new GridLength(0, GridUnitType.Pixel);
             cd1.Width = new GridLength(0, GridUnitType.Pixel);
-            
+
             /*
             split1.Width = 0;
             cv1.Visibility = Visibility.Hidden;
@@ -103,10 +103,10 @@ namespace WpfApp4
             sp2.Children.Add(b2);*/
             //MessageBox.Show(db.GetElementsByTagName("mtc:ProcessType")[0].ChildNodes.Count.ToString());
             //XmlNode x= db.GetElementsByTagName("mtc:ProcessType")[1].ChildNodes[0].Attributes["name"].Value;
-            tabs.SelectedIndex=0;
+            tabs.SelectedIndex = 0;
 
         }
-        
+
         public event RoutedEventHandler CloseTab
         {
             add { AddHandler(CloseTabEvent, value); }
@@ -123,8 +123,8 @@ namespace WpfApp4
         {
             int ic = tvMain.Items.Count;
             TreeViewItem treeItem = new TreeViewItem();
-            treeItem = new TreeViewItem() { Header = "Process"+(ic-1).ToString() };
-            tvMain.Items.Insert(ic-1, treeItem);
+            treeItem = new TreeViewItem() { Header = "Process" + (ic - 1).ToString() };
+            tvMain.Items.Insert(ic - 1, treeItem);
             //(tvMain.Items[ic - 1] as TreeViewItem).MouseLeftButtonUp += slct_prcss;
 
 
@@ -138,14 +138,14 @@ namespace WpfApp4
             TreeViewItem treeItem = new TreeViewItem();
             if (ind > 0)
             {
-                (tvMain.Items[ind] as TreeViewItem).Items.Add(new TreeViewItem() { Header = "Technique" + (tc+1).ToString()});
+                (tvMain.Items[ind] as TreeViewItem).Items.Add(new TreeViewItem() { Header = "Technique" + (tc + 1).ToString() });
             }
         }
         private void RemoveTreeItem(object sender, RoutedEventArgs e)
         {
-            if(tvMain.Items.IndexOf(tvMain.SelectedItem)>0)
-            tvMain.Items.RemoveAt(tvMain.Items.IndexOf(tvMain.SelectedItem));
-            else if(tvMain.Items.IndexOf(tvMain.SelectedItem)==tvMain.Items.Count)
+            if (tvMain.Items.IndexOf(tvMain.SelectedItem) > 0)
+                tvMain.Items.RemoveAt(tvMain.Items.IndexOf(tvMain.SelectedItem));
+            else if (tvMain.Items.IndexOf(tvMain.SelectedItem) == tvMain.Items.Count)
             {
                 MessageBox.Show("Please Choose Process or Technique to Delete!");
             }
@@ -174,29 +174,29 @@ namespace WpfApp4
 
                 return;
             }
-                //make empty main tree
-            
-                //resize column defitions of the tree&tab grid 
+            //make empty main tree
+
+            //resize column defitions of the tree&tab grid 
             //cd0.Width = new GridLength(0, GridUnitType.Auto);
             cd1.Width = new GridLength(220, GridUnitType.Pixel);
-                
+
             SampleSOA = dao.SOADataMaster;
             set_company_info(SampleSOA);
 
 
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
-            
-            string techwithext= SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
+
+            string techwithext = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
             string fwithext = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].name;
             //MessageBox.Show(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases.Count().ToString());
             int cc;
             int pl = prcss.Header.ToString().Length;
             int tl = techwithext.Length;
             int fl = fwithext.Length;
-            
+
             //SampleSOA.CapabilityScope.Activities[0].ProcessTypes[0].ProcessType.Name = "jj";            //MessageBox.Show(pl.ToString());
-            string t=techwithext.Substring(0, 3);
-            tech_tree0.Header = techwithext.Substring(pl+1);
+            string t = techwithext.Substring(0, 3);
+            tech_tree0.Header = techwithext.Substring(pl + 1);
             f_tree.Header = fwithext.Substring(tl + 1);
             tec_name.Text = tech_tree0.Header.ToString();
 
@@ -218,46 +218,330 @@ namespace WpfApp4
             TreeViewItem funcnode = new TreeViewItem();
             TreeViewItem cnode = new TreeViewItem();
 
-            // Adding ProcessType //
-            
-            // Start with an Unc Proc Type
-            Unc_ProcessType uncProcType = new Unc_ProcessType();
-            uncProcType.name = "Unc.TestProc";
-            uncProcType.Uri = "https://onmetrology.net/test/";
-
-            // Then pass the Unc ProcType(parent) to the Mtc_ProcType
-            Mtc_ProcessType mtcProcType = new Mtc_ProcessType(uncProcType)
+            // Test Code for adding objects programmaticlly
+            if (pc == 1)
             {
-                Name = "Mtc.TestProc"
-            };
+                // Adding a ProcessType //
 
-            // Add a mtc parameter
-            mtcProcType.Parameters.add(new Mtc_Parameter("Volts", "voltage", false));
+                // Start with an Unc Proc Type
+                Unc_ProcessType uncProcType = new Unc_ProcessType();
+                uncProcType.name = "Measure.Voltage.DC";
+                // the URI is for external defitions only, do not set it to anything
 
-            // mtc documentation
-            Mtc_Documentation doc = new Mtc_Documentation
-            {
-                Document = "mtcProcType Documentation"
-            };
-            mtcProcType.Documentation = doc;
+                // Then pass the Unc ProcType(parent) to the Mtc_ProcType
+                Mtc_ProcessType mtcProcType = new Mtc_ProcessType(uncProcType)
+                {
+                    Name = "Measure.Voltage.DC"
+                };
 
-            // Mtc Process Result
-            Mtc_ProcessResult mtcProcResult = new Mtc_ProcessResult();
-            mtcProcResult.Name = "Volts";
-            mtcProcResult.Quantity = UomDataSource.getQuantity("voltage");
-            mtcProcType.ProcessResults.Add(mtcProcResult);
+                // Add a mtc parameter
+                mtcProcType.Parameters.add(new Mtc_Parameter("Volts", "voltage", false));
 
-            // Mtc Result Types
-            mtcProcType.ResultTypes.Add("voltage");
+                // mtc documentation
+                Mtc_Documentation doc = new Mtc_Documentation
+                {
+                    Document = "mtcProcType Documentation"
+                };
+                mtcProcType.Documentation = doc;
 
-            // Add to the Unc Proc Type
-            uncProcType.ProcessType = mtcProcType;
+                // Mtc Process Result
+                Mtc_ProcessResult mtcProcResult = new Mtc_ProcessResult();
+                mtcProcResult.Name = "Volts";
+                mtcProcResult.Quantity = UomDataSource.getQuantity("voltage");
+                mtcProcType.ProcessResults.Add(mtcProcResult);
 
-            // Add to the over all Proc Types
-            SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Add(uncProcType);
+                // Mtc Result Types
+                mtcProcType.ResultTypes.Add("voltage");
 
-            // update proc type count
-            pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
+                // Add to the Unc Proc Type
+                uncProcType.ProcessType = mtcProcType;
+
+                // Add to the over all Proc Types
+                SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Add(uncProcType);
+
+
+
+                // Adding a Technique //
+
+                // New Unc Technique
+                Unc_Technique uncTech = new Unc_Technique(SampleSOA.CapabilityScope.Activities[0].Unc_CMCs)
+                {
+                    Name = "Volts DC 5790A",
+                    Process = "Measure.Voltage.DC",
+                    // the URI is for external defitions only, do not set it to anything
+                };
+
+                // Add name and other Data to the Mtc Technique
+                Mtc_Technique mtcTech = uncTech.Technique;
+                mtcTech.Name = "Volts DC 5790A";
+
+                // Add RequiredEquipment to Mtc Technique
+                mtcTech.RequiredEquipment = new Mtc_RequiredEquipment();
+                mtcTech.RequiredEquipment.Roles.Add(
+                     new Mtc_Role
+                     {
+                         Name = "source",
+                         DeviceTypes = new List<string>() { "Meter Calibrator" }
+                     }
+                );
+
+                // Mtc Technique Documentation
+                mtcTech.Documentation = new Mtc_Documentation
+                {
+                    Document = "mtcTechnique Documentation"
+                };
+
+                // Mtc Parameters
+                mtcTech.Parameters.add(new Mtc_Parameter("Reading", "voltage", false));
+                mtcTech.Parameters.add(new Mtc_Parameter("Range", "voltage", false));
+                mtcTech.Parameters.add(new Mtc_Parameter("Resolution", "", false));
+                mtcTech.Parameters.add(new Mtc_Parameter("Floor", "voltage", false));
+
+                // Mtc Process Type - The xml reader would associate the one we just made above;
+                mtcTech.ProcessType = mtcProcType;
+                mtcTech.ProcessTypeName = mtcProcType.Name; // make sure this is the Process Type Name not the Technique name
+
+                // Start and End or Parmaeter and Result Range
+                UomDataSource.Quantity quantity = UomDataSource.getQuantity("voltage");
+                Mtc_Range_Start mtcStart = new Mtc_Range_Start();
+                mtcStart.Quantity = quantity.name;
+                mtcStart.symbol = quantity.UoM.symbol;
+                mtcStart.Value = new decimal(0.0);
+                mtcStart.ValueString = mtcStart.Value.ToString();
+                mtcStart.format = mtcStart.ValueString;
+                mtcStart.test = "at";
+
+                Mtc_Range_End mtcEnd = new Mtc_Range_End();
+                mtcEnd.Quantity = quantity.name;
+                mtcEnd.symbol = quantity.UoM.symbol;
+                mtcEnd.Value = new decimal(10.0);
+                mtcEnd.ValueString = mtcEnd.Value.ToString();
+                mtcEnd.format = mtcEnd.ValueString;
+                mtcEnd.test = "at";
+
+                mtcTech.ParameterRanges.Add(new Mtc_Range
+                {
+                    name = "Reading",
+                    Start = mtcStart,
+                    End = mtcEnd
+                });
+                mtcTech.ResultRanges.Add(new Mtc_Range
+                {
+                    name = "Output",
+                    Start = mtcStart,
+                    End = mtcEnd
+                });
+
+                // Add Mtc CMC Uncertainty function data
+                Mtc_CMCUncertainty mtc_CMCUnc = new Mtc_CMCUncertainty();
+                mtc_CMCUnc.function_name = "Calculate VDC Unceraintry";
+                mtc_CMCUnc.Expression = "(Reading * Floor * Resolution) + (Range * Floor * Resolution)";
+                mtc_CMCUnc.Quantity = UomDataSource.getQuantity("voltage");
+                mtc_CMCUnc.SymbolDefinitions.Add(new Mtc_Symbol(mtcTech, "Reading", Mtc_Symbol.SymbolType.Variable));
+                mtc_CMCUnc.SymbolDefinitions.Add(new Mtc_Symbol(mtcTech, "Range", Mtc_Symbol.SymbolType.Variable));
+                mtc_CMCUnc.SymbolDefinitions.Add(new Mtc_Symbol(mtcTech, "Resolution", Mtc_Symbol.SymbolType.Constant));
+                mtc_CMCUnc.SymbolDefinitions.Add(new Mtc_Symbol(mtcTech, "Floor", Mtc_Symbol.SymbolType.Constant));
+                mtc_CMCUnc.ExpressionSymbols.Add("Reading");
+                mtcTech.CMCUncertainties.Add(mtc_CMCUnc);
+
+                // Add the Technique
+                uncTech.Technique = mtcTech;
+                SampleSOA.CapabilityScope.Activities[0].Techniques.Add(uncTech);
+
+
+                // Adding the Uncertainity Template and related data //
+
+                // Add Category and DUT
+                Unc_CMC uncCMC = SampleSOA.CapabilityScope.Activities[0].CMCs.Add(SampleSOA.CapabilityScope.Activities[0].Unc_CMCs);
+                uncCMC.Category.Name = "AC/DC Low"; // Not going to worry about sub categories right now
+                uncCMC.DUT.DeviceTypes.Add("Multimeters and Scopes");
+
+                // New Unc Tempalte
+                Unc_Template uncTemplate = uncCMC.Templates[0]; // get the generated blank tempalte created within the constructor
+
+                // add our mtc proc type and technique
+                uncTemplate.MtcProcessType = mtcProcType;
+                uncTemplate.MtcTechnique = mtcTech;
+
+                // add Unc_Template Technique
+                Unc_TemplateTechnique uncTempTech = uncTemplate.TemplateTechnique;
+                uncTempTech.Name = "Volts DC 5790A"; // needs to match unc tech name
+
+                // I have no idea what these Overriedes are for, but lets add them anyways
+                Unc_ResultOverrides uros = new Unc_ResultOverrides();
+                Unc_Range_Start uncStart = new Unc_Range_Start();
+                uncStart.Quantity = quantity.name;
+                uncStart.symbol = quantity.UoM.symbol;
+                uncStart.Value = new decimal(0.0);
+                uncStart.ValueString = uncStart.Value.ToString();
+                uncStart.format = uncStart.ValueString;
+                uncStart.test = "at";
+
+                Unc_Range_End uncEnd = new Unc_Range_End();
+                uncEnd.Quantity = quantity.name;
+                uncEnd.symbol = quantity.UoM.symbol;
+                uncEnd.Value = new decimal(10.0);
+                uncEnd.ValueString = uncEnd.Value.ToString();
+                uncEnd.format = uncEnd.ValueString;
+                uncEnd.test = "at";
+                uros.Add(new Unc_RangeOverride()
+                {
+                    name = "Output",
+                    Start = uncStart,
+                    End = uncEnd
+                });
+                Unc_ParameterRangeOverrides pros = new Unc_ParameterRangeOverrides();
+                pros.Add(new Unc_RangeOverride()
+                {
+                    name = "Reading",
+                    Start = uncStart,
+                    End = uncEnd
+                });
+                uncTempTech.ParameterRangeOverrides = pros;
+
+                // Add unc Template Techique
+                uncTemplate.TemplateTechnique = uncTempTech;
+
+                // Add Influence Quantities
+                Unc_InfluenceQuantities uiqs = new Unc_InfluenceQuantities();
+                Uom_Quantity uomQuantity = new Uom_Quantity() { name = "voltage" };
+                uiqs.Add(new Unc_InfluenceQuantity("voltage", uomQuantity));
+                uncTemplate.InfluenceQuantities = uiqs;
+
+                // Add CMC_Functions
+                Unc_CMCFunction uncCMCFunction = new Unc_CMCFunction();
+                uncCMCFunction.Cases = new Unc_Cases();
+                uncCMCFunction.name = "Measure.Voltage.DC.Uncertainty";
+
+                // Function Cases
+                Unc_Case uncCase1 = new Unc_Case();
+                Unc_Case uncCase2 = new Unc_Case();
+
+                // Assertions
+                Unc_Assertions assertions = new Unc_Assertions();
+                assertions.Add(new Unc_Assertion()
+                {
+                    Name = "Resolution",
+                    Value = "6 1/2",
+                    type = "generic"
+                });
+                assertions.Add(new Unc_Assertion()
+                {
+                    Name = "Connection",
+                    Value = "High Output",
+                    type = "generic"
+                });
+                uncCase1.Assertions = assertions;
+                assertions = new Unc_Assertions();
+                assertions.Add(new Unc_Assertion()
+                {
+                    Name = "Resolution",
+                    Value = "4 1/2",
+                    type = "generic"
+                });
+                assertions.Add(new Unc_Assertion()
+                {
+                    Name = "Connection",
+                    Value = "Low Output",
+                    type = "generic"
+                });
+                uncCase2.Assertions = assertions;
+
+                // Create Ranges
+                Unc_Ranges uncRanges = new Unc_Ranges();
+                Unc_Ranges nestedRanges = new Unc_Ranges();
+                Unc_Range_Start uncRangeStart = new Unc_Range_Start();
+                uncRangeStart.Quantity = quantity.name;
+                uncRangeStart.symbol = quantity.UoM.symbol;
+                uncRangeStart.Value = new decimal(0.0);
+                uncRangeStart.ValueString = uncRangeStart.Value.ToString();
+                uncRangeStart.format = uncRangeStart.ValueString;
+                uncRangeStart.test = "at";
+
+                Unc_Range_End uncRangeEnd = new Unc_Range_End();
+                uncRangeEnd.Quantity = quantity.name;
+                uncRangeEnd.symbol = quantity.UoM.symbol;
+                uncRangeEnd.Value = new decimal(10.0);
+                uncRangeEnd.ValueString = uncRangeEnd.Value.ToString();
+                uncRangeEnd.format = uncRangeEnd.ValueString;
+                uncRangeEnd.test = "at";
+
+                Unc_Range_Start uncRangeNestedStart = new Unc_Range_Start();
+                uncRangeNestedStart.Quantity = quantity.name;
+                uncRangeNestedStart.symbol = quantity.UoM.symbol;
+                uncRangeNestedStart.Value = new decimal(0.0);
+                uncRangeNestedStart.ValueString = uncRangeNestedStart.Value.ToString();
+                uncRangeNestedStart.format = uncRangeNestedStart.ValueString;
+                uncRangeNestedStart.test = "at";
+
+                Unc_Range_End uncRangeNestedEnd = new Unc_Range_End();
+                uncRangeNestedEnd.Quantity = quantity.name;
+                uncRangeNestedEnd.symbol = quantity.UoM.symbol;
+                uncRangeNestedEnd.Value = new decimal(10.0);
+                uncRangeNestedEnd.ValueString = uncRangeNestedEnd.Value.ToString();
+                uncRangeNestedEnd.format = uncRangeNestedEnd.ValueString;
+                uncRangeNestedEnd.test = "at";
+
+                // Constant Value
+                Unc_ConstantValues cValues = new Unc_ConstantValues();
+                Unc_ConstantValue cValue = new Unc_ConstantValue();
+                cValue.Quantity = quantity.name;
+                cValue.symbol = quantity.UoM.symbol;
+                cValue.Value = new decimal(10.0);
+                cValue.ValueString = uncRangeNestedEnd.Value.ToString();
+                cValue.format = uncRangeNestedEnd.ValueString;
+                cValue.const_parameter_name = "floor";
+                cValues.Add(cValue);
+
+                // Nested Range
+                nestedRanges.Add(new Unc_Range()
+                {
+                    Start = uncRangeNestedStart,
+                    End = uncRangeNestedEnd,
+                    ConstantValues = cValues,
+                    Ranges = new Unc_Ranges() // do not leave null or write function will fail
+                });
+
+                // Overall Ranges
+                uncRanges.variable_name = "voltage";
+                uncRanges.variable_type = "influence_quantity";
+                uncRanges.Add(new Unc_Range()
+                {
+                    Variable_name = "reading",
+                    Variable_type = "parameter",
+                    Start = uncRangeStart,
+                    End = uncRangeEnd,
+                    Ranges = nestedRanges
+                }); ;
+
+                // Add Ranges to case 1
+                uncCase1.Ranges = uncRanges;
+                uncCase2.Ranges = uncRanges;
+
+                // Add Cases
+                uncCMCFunction.Cases.Add(uncCase1);
+                uncCMCFunction.Cases.Add(uncCase2);
+
+                uncCMCFunction.RangeVariables.Add("voltage");
+                uncCMCFunction.RangeVariables.Add("reading");
+
+                // Function Assertion names will need to match the assertions added in the cases
+                // The cases must be added first though
+                uncCMCFunction.AssertionNames.Add("Resolution");
+                uncCMCFunction.AssertionNames.Add("Connection");
+
+                // Add the unc function
+                uncTemplate.CMCUncertaintyFunctions.Add(uncCMCFunction);
+
+                // update proc type count
+                pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
+
+                // update tech count
+                tc = SampleSOA.CapabilityScope.Activities[0].Techniques.Count();
+
+                // update function count (templates)
+                fc = SampleSOA.CapabilityScope.Activities[0].Templates.Count();
+            }
 
             for (int i=0;i<pc;i++)
             {
@@ -274,67 +558,80 @@ namespace WpfApp4
                 for (int j=0;j<tc;j++)
                 {
 
-                    if (s == SampleSOA.CapabilityScope.Activities[0].Techniques[j].Technique.ProcessTypeName)
+                if (s == SampleSOA.CapabilityScope.Activities[0].Techniques[j].Technique.ProcessTypeName)
+                {
+                    string s2 = SampleSOA.CapabilityScope.Activities[0].Techniques[j].Name;
+                    tt.Content = s2;
+                    //technode.ToolTip = tt;
+                    //tt = new ToolTip();
+                    technode.Header = s2;// "Technique"+(q+1).ToString();
+                    technode.Name= "technique" + (j).ToString();
+                    for (int k=0;k<fc;k++)
                     {
-                        string s2 = SampleSOA.CapabilityScope.Activities[0].Techniques[j].name;
-                        tt.Content = s2;
-                        //technode.ToolTip = tt;
-                        //tt = new ToolTip();
-                        technode.Header = s2;// "Technique"+(q+1).ToString();
-                        technode.Name= "technique" + (j).ToString();
-                        for (int k=0;k<fc;k++)
+                        if(s2== SampleSOA.CapabilityScope.Activities[0].Templates[k].TemplateTechnique.Name)
                         {
-                            if(s2== SampleSOA.CapabilityScope.Activities[0].Templates[k].TemplateTechnique.name)
+                            string s3 = "";
+                            try
                             {
-                                string s3 = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].name;
-                                tt.Content = s3;
-                                //funcnode.ToolTip = k;
-                                //tt = new ToolTip();
-                                funcnode.Header = s3;// "Function" + (p + 1).ToString();
-                                funcnode.Name = "f" + (k).ToString();
-                                cc = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases.Count();
-                                if(cc==1)
+                                s3 = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].name;
+                            }
+                            catch
+                            {
+                                break;
+                            }
+                                
+                            tt.Content = s3;
+                            //funcnode.ToolTip = k;
+                            //tt = new ToolTip();
+                            funcnode.Header = s3;// "Function" + (p + 1).ToString();
+                            funcnode.Name = "f" + (k).ToString();
+                            cc = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases.Count();
+                            if(cc==1)
+                            {
+                            cnode.Name = "case" + casenumber.ToString();
+                            int an = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[0].Assertions.Count();
+                            cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[0].Assertions[0].Value;
+                            for (int u = 1; u < an; u++)
+                            {
+                                cnode.Header = cnode.Header + " " + SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[0].Assertions[u].Value;
+                            }
+                            cnode.Selected += slct_case;
+                            funcnode.Items.Add(cnode);
+                            cnode = new TreeViewItem();
+                            technode.Items.Add(funcnode);
+                            funcnode = new TreeViewItem(); p++;
+                            }
+                            if (cc > 1)
+                            {
+                                for (int x = 0; x < cc; x++)
                                 {
-                                cnode.Name = "case" + casenumber.ToString();
-                                cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[0].Ranges[0].Variable_name+" function";
-                                cnode.Selected += slct_case;
-                                funcnode.Items.Add(cnode);
-                                cnode = new TreeViewItem();
+                                    string temp = "";
+                                    cnode.Name = "case" + casenumber.ToString();
+                                    int an = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions.Count();
+                                    cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Value;
+                                    for (int u = 1; u < an; u++)
+                                    {
+                                        cnode.Header = cnode.Header+" "+ SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[u].Value;
+                                    }
+
+                                    cnode.Selected += slct_case;
+                                    funcnode.Items.Add(cnode);
+                                    cnode = new TreeViewItem();
+                                }
                                 technode.Items.Add(funcnode);
                                 funcnode = new TreeViewItem(); p++;
-                                }
-                                if (cc > 1)
-                                {
-                                    for (int x = 0; x < cc; x++)
-                                    {
-                                        string temp = "";
-                                        cnode.Name = "case" + casenumber.ToString();
-                                        int an = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions.Count();
-                                        cnode.Header = SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[0].Value;
-                                        for (int u = 1; u < an; u++)
-                                        {
-                                            cnode.Header = cnode.Header+" "+ SampleSOA.CapabilityScope.Activities[0].Templates[k].CMCUncertaintyFunctions[0].Cases[x].Assertions[u].Value;
-                                            
-                                        }
-
-                                        cnode.Selected += slct_case;
-                                        funcnode.Items.Add(cnode);
-                                        cnode = new TreeViewItem();
-                                    }
-                                    technode.Items.Add(funcnode);
-                                    funcnode = new TreeViewItem(); p++;
-                                }
+                            }
                                 
 
-                            }
-                            
                         }
-                        p = 0;
-                        processnode.Items.Add(technode);
-                        technode = new TreeViewItem();
-                        q++;
-                        
+                            
                     }
+                    p = 0;
+                    processnode.Items.Add(technode);
+                    technode = new TreeViewItem();
+                    q++;
+                        
+                }
                     
                 }
                 q = 0;
@@ -707,7 +1004,7 @@ namespace WpfApp4
                 t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].Expression;//"Function" +(u+1).ToString();
                 //addtexthw(t, sp2, 30, 150);t = new TextBlock();//old tech
                 addtexthwb(t, is6t, 30, 240); t = new TextBlock();
-                int fcv = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols.Count();
+                int fcv = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].SymbolDefinitions.Count();
                 globe += fcv;
                 addsepgrid(s, svgridt, globe*46); s = new Separator();
                 for (int y=0;y<fcv;y++)
@@ -715,7 +1012,7 @@ namespace WpfApp4
                     if (y == 0)
                     {
                         t.Text = "VARIABLES";
-                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols[y];
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].SymbolDefinitions[y].parameter;
                         addtexthw(t, is7t, 30, 90); t = new TextBlock();
                         addtexthwb(t, is8t, 30, 90); t = new TextBlock();
                     }
@@ -723,7 +1020,7 @@ namespace WpfApp4
                     else
                     {
                         t.Text = "";
-                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols[y];
+                        t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].SymbolDefinitions[y].parameter;
                         addtexthw(t, is7t, 30, 90); t = new TextBlock();
                         addtexthwb(t, is8t, 30, 90); t = new TextBlock();
                         addtexthwb(t, is6t, 30, 90); t = new TextBlock();
@@ -733,7 +1030,7 @@ namespace WpfApp4
                     addtexthw(t, sp1, 30, 150);t.TextAlignment =TextAlignment.Left;
                     t.Margin = new Thickness(12, 16, 0, 0);
                     t = new TextBlock();
-                    t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].ExpressionSymbols[y];
+                    t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.CMCUncertainties[u].SymbolDefinitions[y].parameter;
                     addtexthw(t, sp2, 30, 150); t = new TextBlock();
                 }
                 addsepgrid(s, fgrid, 46 + 46 *u* (1 + fcv)); s = new Separator();
@@ -835,7 +1132,7 @@ namespace WpfApp4
 
 
                 }
-                int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[f].Variables.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
+                int ip = SampleSOA.CapabilityScope.Activities[0].Templates[f].MtcTechnique.CMCUncertainties[0].Variables.Count();// .Techniques[tt].Technique.ParameterRanges.Count();
 
                 textboxes.Clear();
                 for (int i = 0; i < rn; i++)

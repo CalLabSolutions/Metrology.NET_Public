@@ -671,7 +671,7 @@ namespace SoAEditor.ViewModels
                 for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
                 {
                     //add nodes in the Technique level to the tree
-                    string techniqueName = SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].name;
+                    string techniqueName = SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].Name;
                     Node techn = new Node(taxonom) { Name = techniqueName };
                     taxonom.Children.Add(techn);
 
@@ -885,7 +885,7 @@ namespace SoAEditor.ViewModels
             Helper.LoadCompanyInfoToSoaObjectToSave(SampleSOA, CompanyInfoVM);
 
 
-            SampleSOA.writeTo(doc, SampleSOA);
+            SampleSOA.writeTo(doc);
 
             if (FullPath.Length == 0 || IsSaveAs == true) // Saving a new file or Save as...
             {

@@ -22,7 +22,7 @@ namespace SoAEditor.Models
 
             for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
             {
-                if (nodeName.ToUpper().Equals(SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].name.ToUpper()))
+                if (nodeName.ToUpper().Equals(SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].Name.ToUpper()))
                     return "technique";
             }
 

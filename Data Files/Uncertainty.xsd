@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" 
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" 
+    xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" 
+    xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" 
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" elementFormDefault="qualified" vc:minVersion="1.0" vc:maxVersion="1.1">
+    
+    <xs:import namespace="http://www.w3.org/1999/xhtml"
+        schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd"/>
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" 
+        schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" 
+        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog.xsd"/>
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" 
+        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd"/>
+    
+    <xs:element name="CMCs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Taxonomy" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice>
+                            <xs:element name="ExternalDefintion">
+                                <xs:complexType>
+                                    <xs:attribute name="uri" type="xs:anyURI"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element ref="mtc:Taxon" />
+                        </xs:choice>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Technique" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice>
+                            <xs:element name="ExternalDefinition">
+                                <xs:complexType>
+                                    <xs:attribute name="uri" type="xs:anyURI"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element ref="unc:Technique"/>
+                        </xs:choice>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                        <xs:attribute name="Procces" type="xs:string"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="CMC" maxOccurs="unbounded" type="unc:CMC_type"> </xs:element>
+            </xs:sequence>
+            <xs:attribute ref="xml:base"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="CMC_type">
+        <xs:sequence>
+            <xs:element name="Category">
+                <xs:complexType>
+                    <xs:sequence minOccurs="0">
+                        <xs:element name="Category">
+                            <xs:complexType>
+                                <xs:attribute name="name" type="xs:string"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="DUT">
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element ref="unc:DeviceTypes"/>
+                        <xs:element ref="unc:DeviceType"/>
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Template" type="unc:Template_type" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Template_type">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element minOccurs="0" name="InfluenceQuantities">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="unc:InfluenceQuantity"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" ref="unc:InfluenceQuantity"/>
+            </xs:choice>
+            <xs:element name="Technique">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="ResultRangeOverride">
+                            <xs:complexType mixed="false">
+                                <xs:sequence>
+                                    <xs:element name="Start" minOccurs="1" type="unc:RangeLimit_type"> </xs:element>
+                                    <xs:element name="End" minOccurs="1" type="unc:RangeLimit_type"> </xs:element>
+                                </xs:sequence>
+                                <xs:attribute name="name" type="xs:Name" use="optional"/>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="ParameterRangeOverride">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Start" type="unc:RangeLimit_type"> </xs:element>
+                                    <xs:element name="End" type="unc:RangeLimit_type"> </xs:element>
+                                </xs:sequence>
+                                <xs:attribute name="name" type="xs:Name" use="required"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="name" type="xs:Name" use="required"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="CMCFunction" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="Switch">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element maxOccurs="unbounded" ref="unc:Case"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" ref="unc:Ranges"/>
+                    </xs:choice>
+                    <xs:attribute name="name" type="xs:Name" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Assertion">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Name" type="xs:string"/>
+                <xs:element name="Value" type="xs:string"/>
+            </xs:sequence>
+            <xs:attribute default="generic" name="type" use="optional">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="generic"/>
+                        <xs:enumeration value="equipment"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Range">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Start" minOccurs="1" type="unc:RangeLimit_type"> </xs:element>
+                <xs:element name="End" type="unc:RangeLimit_type"> </xs:element>
+                <xs:choice>
+                    <xs:element name="ConstantValue" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:extension base="unc:Value_type">
+                                    <xs:attribute name="const_parameter_name" use="required" type="xs:Name"/>
+                                </xs:extension>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" ref="unc:Ranges"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Ranges">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="unc:Range"/>
+            </xs:sequence>
+            <xs:attribute name="variable_name" use="required" type="xs:Name"/>
+            <xs:attribute name="variable_type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="parameter"/>
+                        <xs:enumeration value="influence_quantity"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Case">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="unc:Assertion"/>
+                <xs:element maxOccurs="unbounded" ref="unc:Ranges"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="InfluenceQuantity">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="uom:Quantity"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:Name"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="RangeLimit_type">
+        <xs:simpleContent>
+            <xs:extension base="unc:Value_type">
+                <xs:attribute name="test" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="at"/>
+                            <xs:enumeration value="before"/>
+                            <xs:enumeration value="after"/>
+                            <xs:enumeration value="not applicable"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="DeviceType" type="xs:string"/>
+    <xs:element name="DeviceTypes">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element ref="unc:DeviceType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType mixed="true" name="Function_type">
+        <xs:sequence>
+            <xs:element name="Expression" nillable="false" type="xhtml:Text"/>
+            <xs:element name="Result">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="uom:Quantity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="Symbol">
+                <xs:complexType>
+                    <xs:attribute name="parameter" type="xs:Name" use="required"/>
+                    <xs:attribute name="type" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:token">
+                                <xs:enumeration value="Constant"/>
+                                <xs:enumeration value="Variable"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute form="unqualified" name="function_name" type="xs:Name" use="required"/>
+    </xs:complexType>
+    <xs:element name="Function" type="unc:Function_type"> </xs:element>
+    <xs:simpleType name="Decimal_type" final="">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[-+]?[0-9]*\.?[0-9]+([E][-+]?[0-9]+)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Value_type">
+        <xs:simpleContent>
+            <xs:extension base="unc:Decimal_type">
+                <xs:attribute name="uom_alternative" type="xs:Name"/>
+                <xs:attribute name="uom_alias_symbol" type="xs:Name"/>
+                <xs:attribute name="format" use="optional">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[0#,.]*"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:element name="Technique">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="ResultRange">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Start" type="unc:RangeLimit_type"> </xs:element>
+                            <xs:element name="End" type="unc:RangeLimit_type"> </xs:element>
+                        </xs:sequence>
+                        <xs:attribute form="unqualified" name="name" type="xs:Name"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:Parameter"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="ParameterRange">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Start" minOccurs="1" type="unc:RangeLimit_type"> </xs:element>
+                            <xs:element name="End" type="unc:RangeLimit_type"> </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:Name" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="RequiredEquipment">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="Role">
+                                <xs:complexType>
+                                    <xs:choice>
+                                        <xs:element ref="unc:DeviceTypes"/>
+                                        <xs:element name="DeviceType" type="xs:string"/>
+                                    </xs:choice>
+                                    <xs:attribute name="name" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="unc:Function"/>
+                <xs:element maxOccurs="unbounded" name="CMCUncertainty" minOccurs="0"
+                    type="unc:Function_type"> </xs:element>
+                <xs:element name="Documentation">
+                    <xs:complexType>
+                        <xs:choice>
+                            <xs:element name="ExternalDocument">
+                                <xs:complexType>
+                                    <xs:attribute name="href" type="xs:anyURI"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element ref="xhtml:html"/>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:Name" use="required"/>
+            <xs:attribute name="process" type="xs:Name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.0" vc:maxVersion="1.1" 
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
+    xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"
+    xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"
+    targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile">
+    
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty.xsd"/>
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd"/>
+    
+    
+    <xs:element name="SOADataMaster">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="AB_ID"/>
+                <xs:element name="AB_Logo-Signature"/>
+                <xs:element name="Scope_ID_Number"/>
+                <xs:element minOccurs="0" name="ScopeURLs">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="ScopeURL">
+                                <xs:complexType>
+                                    <xs:attribute name="ScopeType" use="required"/>
+                                    <xs:attribute name="CheckSum"/>
+                                    <xs:attribute name="URL" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Criteria"/>
+                <xs:element name="EffectiveDate"/>
+                <xs:element name="ExpirationDate"/>
+                <xs:element name="Statement"/>
+                <xs:element name="CapabilityScope">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="MeasuringEntity"/>
+                            <xs:element name="Locations">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Location">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="OrganizationAddress">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="Street" type="xs:string"/>
+                                                                <xs:element name="City" type="xs:string"/>
+                                                                <xs:element name="State" type="xs:string"/>
+                                                                <xs:element name="Zip" type="xs:string"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="ContactName" type="xs:string"/>
+                                                    <xs:element name="ContactInfo">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element maxOccurs="unbounded" minOccurs="0"
+                                                                    name="PhoneNumber">
+                                                                    <xs:complexType mixed="true">
+                                                                        <xs:attribute name="PhoneType">
+                                                                            <xs:simpleType>
+                                                                                <xs:restriction base="xs:token">
+                                                                                    <xs:enumeration value="Voice"/>
+                                                                                    <xs:enumeration value="Fax"/>
+                                                                                </xs:restriction>
+                                                                            </xs:simpleType>
+                                                                        </xs:attribute>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element maxOccurs="unbounded" minOccurs="0"
+                                                                    name="email" type="xs:string"/>
+                                                                <xs:element maxOccurs="unbounded" minOccurs="0"
+                                                                    name="URL" type="xs:string"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute name="id"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Activities">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Activity" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element ref="unc:CMCs"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element ref="uom:UOMDatabase"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="ScopeNotes"/>
+                            <xs:element name="Version"/>
+                            <xs:element name="LocaleLanguage"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="HumanReadableDocument"/>
+                <xs:element name="VisualAidsScript"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.0" vc:maxVersion="1.1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
+    xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog"
+    elementFormDefault="qualified" attributeFormDefault="unqualified"
+    targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog"
+    >
+    
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
+        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd"/>
+    
+    <xs:element name="Taxonomy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="mtc:Taxon"/>
+            </xs:sequence>           
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Result">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" ref="uom:Quantity" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:Name" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Parameter">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="uom:Quantity" minOccurs="0"/>
+                <xs:element minOccurs="0" name="Definition" type="xs:string" />
+            </xs:sequence>            
+            <xs:attribute name="name" type="xs:Name" use="required"/>
+            <xs:attribute default="false" name="optional" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="ExternalReference">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" ref="mtc:CategoryTag" />
+                <xs:element minOccurs="0" name="url" type="xs:string" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:Name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="CategoryTag">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="value" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Discipline">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="SubDiscipline" type="xs:string" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Taxon">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:ExternalReference"/>
+                <xs:element maxOccurs="unbounded" ref="mtc:Result"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:Parameter"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:Discipline"/>
+                <xs:element minOccurs="0" maxOccurs="1" name="Definition" type="xs:string"/>
+            </xs:sequence>
+            <xs:attribute form="unqualified" name="name" type="xs:Name" use="required"/>
+            <xs:attribute default="false" name="deprecated" type="xs:boolean"/>
+            <xs:attribute default="false" name="replacement" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

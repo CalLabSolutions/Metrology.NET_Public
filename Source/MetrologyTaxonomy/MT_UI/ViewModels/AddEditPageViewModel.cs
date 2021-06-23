@@ -213,7 +213,7 @@ namespace MT_UI.ViewModels
             }            
 
             // make sure it does not already exist
-            if (factory.GetAllTaxons().Where(w => w.Name.ToLower().Equals(Form.TaxonToSave.Name.ToLower())).ToList().Count > 0)
+            if (!edit && factory.GetAllTaxons().Where(w => w.Name.ToLower().Equals(Form.TaxonToSave.Name.ToLower())).ToList().Count > 0)
             {
                 dialog.Content = string.Format("Taxon \"{0}\" already exists.", Form.TaxonToSave.Name);
                 return false;

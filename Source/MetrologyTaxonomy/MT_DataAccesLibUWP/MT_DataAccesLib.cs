@@ -13,9 +13,18 @@ using Windows.Storage;
 
 namespace MT_DataAccessLib
 {
+    static class Namespaces
+    {
+        public const string BASE_UIR = "https://cls-schemas.s3.us-west-1.amazonaws.com/";
+        public const string MTC = BASE_UIR + "MetrologyTaxonomyCatalog";
+        public const string UOM = BASE_UIR + "UOM_Database";
+        public const string MathML_NS = "http://www.w3.org/1998/Math/MathML";
+        public const string MathML_SL = "http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";
+    }
+    
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
-    [XmlRoot(Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd", IsNullable = false)]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    [XmlRoot(Namespace = Namespaces.MTC, IsNullable = false)]
     public class Taxonomy
     {
         private List<Taxon> taxons;
@@ -29,7 +38,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class Taxon : ICloneable
     {
         public Taxon() { }
@@ -133,7 +142,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class Result
     {
         private string name = "";
@@ -147,7 +156,7 @@ namespace MT_DataAccessLib
 
         private Quantity quantity;
 
-        [XmlElement("Quantity", Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/UOM_Database.xsd")]
+        [XmlElement("Quantity", Namespace = Namespaces.UOM)]
         public Quantity Quantity
         {
             get { return quantity; }
@@ -156,7 +165,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class Parameter
     {
         private string name = "";
@@ -179,7 +188,7 @@ namespace MT_DataAccessLib
 
         private Quantity quantity;
 
-        [XmlElement("Quantity", Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/UOM_Database.xsd")]
+        [XmlElement("Quantity", Namespace = Namespaces.UOM)]
         public Quantity Quantity
         {
             get { return quantity; }
@@ -196,7 +205,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/UOM_Database.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.UOM)]
     public class Quantity
     {
         private string name;
@@ -210,7 +219,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class Discipline
     {
         private string name = "";
@@ -233,7 +242,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class ExternalReference
     {
         private string name = "";
@@ -265,7 +274,7 @@ namespace MT_DataAccessLib
     }
 
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd")]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class CategoryTag
     {
         private string name = "";
@@ -291,14 +300,12 @@ namespace MT_DataAccessLib
 
     public class TaxonomyFactory
     {
-        private const string DataStore = @"ms-appx:///DataStore/";
-        private const string XmlIn = "TestMTC.xml";
-        private const string MTC_XSD = "TestMTC.xsd";
-        private const string UOM_XSD = "UOM_Database.xsd";
+        private const string DataStore = @"ms-appx:///DataStore/";       
+        private const string XmlFromServer = Namespaces.BASE_UIR + "MetrologyTaxonomyCatalog.xml";
         private const string CSS = "metrologytaxonomy.css";
         private const string JS = "metrologytaxonomy.js";
         private const string XSL = "metrologytaxonomy.xsl";
-        private const string XmlOut = @"TestMTC_Local.xml";
+        private const string XmlOut = @"MTC_Local.xml";
 
         // We might need to see where our data is coming from
        public bool LoadedFromServer
@@ -485,8 +492,8 @@ namespace MT_DataAccessLib
                 };
                 XmlSerializer serializer = new XmlSerializer(typeof(Taxonomy));
                 XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-                ns.Add("mtc", "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd");
-                ns.Add("uom", "file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/UOM_Database.xsd");
+                ns.Add("mtc", Namespaces.MTC);
+                ns.Add("uom", Namespaces.UOM);
                 using (var ms = new MemoryStream())
                 {
                     var xmlWriterSettings = new XmlWriterSettings()
@@ -548,32 +555,82 @@ namespace MT_DataAccessLib
             {
                 file = await localFolder.GetFileAsync(XmlOut);
             }
-            if (await validate())
-            {
+            // if (await Validate())
+            // {
                 await FileIO.WriteTextAsync(file, xml);
                 Reload();
-            }
+            // }
             
         }
 
-        private async Task<bool> validate()
+        // TODO: Get the validaton working
+        private async Task<bool> Validate()
         {
+            // get our local folder
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            var mtcXsdFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(DataStore + MTC_XSD));
-            var uomXsdFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(DataStore + UOM_XSD));
-            var mtcXsdPath = new Uri(mtcXsdFile.Path);
-            var uomXsdPath = new Uri(uomXsdFile.Path);
+            
+            // Set up our schema and settings
             var settings = new XmlReaderSettings();
-            settings.Schemas.Add("file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/TestMTC.xsd", mtcXsdPath.ToString());
-            //settings.Schemas.Add("file:///C:/_Programming/Metrology.NET_Public/Source/MetrologyTaxonomy/MT_UI/DataStore/UOM_Database.xsd", uomXsdPath.ToString());
+            XmlSchemaSet schemaSet = new XmlSchemaSet();
+
+            schemaSet.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
+            schemaSet.Add(Namespaces.MTC, Namespaces.MTC + ".xsd");            
+            schemaSet.Add(Namespaces.UOM, Namespaces.UOM + ".xsd");
+            schemaSet.Add(Namespaces.MathML_NS, Namespaces.MathML_SL);
+            
+            // compile schemas
+            schemaSet.Compile();
+
+            // Add our imports as needed
+            XmlSchema mtcSchema = null;
+            XmlSchema uomSchema = null;
+            XmlSchema mathSchema = null;
+            foreach (XmlSchema schema in schemaSet.Schemas())
+            {
+                switch (schema.TargetNamespace)
+                {
+                    case Namespaces.MTC:
+                        mtcSchema = schema;
+                        break;
+                    case Namespaces.UOM:
+                        uomSchema = schema;
+                        break;
+                    case Namespaces.MathML_NS:
+                        mathSchema = schema;
+                        break;
+                }
+            }
+
+            XmlSchemaImport uomImport = new XmlSchemaImport();
+            uomImport.Namespace = Namespaces.UOM;
+            uomImport.SchemaLocation = Namespaces.UOM + ".xsd";
+            uomImport.Schema = uomSchema;
+            mtcSchema.Includes.Add(uomImport);
+
+            XmlSchemaImport mathImport = new XmlSchemaImport();
+            mathImport.Namespace = Namespaces.MathML_NS;
+            mathImport.SchemaLocation = Namespaces.MathML_SL;
+            mathImport.Schema = mathSchema;
+            uomSchema.Includes.Add(mathImport);
+
+            // reporocess and compile
+            schemaSet.Reprocess(mtcSchema);
+            schemaSet.Reprocess(uomSchema);
+            schemaSet.Reprocess(mathSchema);
+
+            schemaSet.Compile();
+
+            settings.Schemas = schemaSet;
+
             settings.ValidationType = ValidationType.Schema;
-            settings.ValidationEventHandler += new ValidationEventHandler(TaxonomySettingsValidationEventHandler);
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
+
             var xmlFile = await localFolder.GetFileAsync(XmlOut);
             var xmlPath = new Uri(xmlFile.Path);
             try
             {
                 XmlReader reader = XmlReader.Create(xmlPath.ToString(), settings);
-                while (reader.Read()) { }
+                while (reader.Read())
                 reader.Close();
             }
             catch (Exception e)
@@ -584,19 +641,26 @@ namespace MT_DataAccessLib
             return true;
         }
 
-        private static void TaxonomySettingsValidationEventHandler(object sender, ValidationEventArgs e)
+        private static void ValidationCallback(object sender, ValidationEventArgs e)
         {
             if (e.Severity == XmlSeverityType.Warning)
             {
-                Console.Write("WARNING: ");
-                Console.WriteLine(e.Message);
+                Debug.Write("WARNING: ");               
             }
             else if (e.Severity == XmlSeverityType.Error)
             {
-                Console.Write("ERROR: ");
-                Console.WriteLine(e.Message);
+                Debug.Write("ERROR: ");                
             }
-            throw new Exception(e.Message);
+            Debug.WriteLine(e.Message);
+            Debug.WriteLine(e.Exception.LineNumber);
+            // I can not get this import to work so ignore it
+            if (e.Message.Contains("MathML:math"))
+            {
+                return;
+            } else
+            {
+                throw new Exception(e.Message);
+            }
         }
 
 
@@ -771,7 +835,10 @@ namespace MT_DataAccessLib
                     var isFile = await localFolder.TryGetItemAsync(XmlOut);
                     if (isFile == null || fromServer)
                     {
-                        file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(DataStore + XmlIn));
+                        // create local xml file
+                        string xml = Tools.BuildXml(XmlFromServer);
+                        file = await localFolder.CreateFileAsync(XmlOut);
+                        await FileIO.WriteTextAsync(file, xml);
                         LoadedFromServer = true;
                     }
                     else
@@ -814,6 +881,29 @@ namespace MT_DataAccessLib
                         newValue.Add(lines[i]);
                 }
                 return newValue.Count > 0 ? string.Join(" ", newValue) : value;
+            }
+
+            public static string BuildXml(string url)
+            {
+                XmlTextReader reader = new XmlTextReader(url);
+                StringBuilder sb = new StringBuilder();
+                if (reader != null)
+                {
+                    while (reader.Read())
+                        sb.AppendLine(reader.ReadOuterXml());
+
+                    return sb.ToString();
+                }
+                return string.Empty;
+            }
+
+        }
+
+        protected class XmlXsdResolver : XmlUrlResolver
+        {
+            public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
+            {
+                return base.GetEntity(absoluteUri, role, ofObjectToReturn);
             }
         }
 

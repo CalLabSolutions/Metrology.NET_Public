@@ -197,7 +197,7 @@
     <Content Include="DataStore\metrologytaxonomy.css" />
     <Content Include="DataStore\metrologytaxonomy.js" />
     <Content Include="DataStore\metrologytaxonomy.xsl" />
-    <Content Include="DataStore\TestMTC.xml" />
+    <Content Include="DataStore\MetrologyTaxonomyCatalog.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

@@ -27,27 +27,27 @@
                         <SymbolIcon Symbol="Home"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="ViewAllPage" Content="View All Taxons" x:Name="ViewAll">
+                <NavigationViewItem Tag="ViewAllPage" Content="View All" x:Name="ViewAll">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="AllApps"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="AddPage" Content="Add New Taxon" x:Name="Add" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
+                <NavigationViewItem Tag="AddPage" Content="Add" x:Name="Add" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="Add"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="EditPage" Content="Edit Selected Taxon" x:Name="Edit" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
+                <NavigationViewItem Tag="EditPage" Content="Edit" x:Name="Edit" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="Edit"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="DeletePage" Content="Delete Selected Taxon" x:Name="Delete" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
+                <NavigationViewItem Tag="DeletePage" Content="Delete" x:Name="Delete" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="Delete"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="DeprecatePage" Content="Deprecate Selected Taxon" x:Name="Deprecate" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
+                <NavigationViewItem Tag="DeprecatePage" Content="Deprecate" x:Name="Deprecate" Visibility="{Binding Mode=TwoWay, Path=Locked, Converter={StaticResource InverseBoolConverter}}">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="Dislike"/>
                     </NavigationViewItem.Icon>

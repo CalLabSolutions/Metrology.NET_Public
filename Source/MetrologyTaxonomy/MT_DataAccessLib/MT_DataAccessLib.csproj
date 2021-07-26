@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\metrologytaxonomy.css" />
+    <None Remove="Resources\metrologytaxonomy.js" />
+    <None Remove="Resources\metrologytaxonomy.xsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\metrologytaxonomy.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\metrologytaxonomy.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\metrologytaxonomy.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

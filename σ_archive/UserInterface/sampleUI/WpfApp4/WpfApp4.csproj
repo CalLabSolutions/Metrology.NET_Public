@@ -145,7 +145,7 @@
     <Resource Include="SoA1[4395].ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Source\SOA_DataAccessLib\SOA_DataAccessLib\SOA_DataAccessLibrary.csproj">
+    <ProjectReference Include="..\..\..\..\Source\SoA\SOA_DataAccessLib\SOA_DataAccessLib\SOA_DataAccessLibrary.csproj">
       <Project>{7af4b06c-7888-431f-ac46-db9b1a722990}</Project>
       <Name>SOA_DataAccessLibrary</Name>
     </ProjectReference>

@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="SoA_Editor.Views.CompanyInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoA_Editor.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" 
+             Background="White" BorderThickness="1" BorderBrush="#102E5B">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- Row 1: AB related Info -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10 0 10 0">
+            <Label Content="AB ID:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="AccrBody"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="2" Margin="10 0 10 0">
+            <Label Content="AB Logo Signiture:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="AccrLogo"></TextBox>
+        </StackPanel>
+
+        <Label Grid.Row="1" Grid.Column="1" Height="2" 
+               Margin="10 70 0 10" Grid.ColumnSpan="5" Background="#102E5B"/>
+
+        <!-- Row 2 -->
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0 10 0">
+            <Label Content="Scope ID:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="ScopeID"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="2" Margin="10 0 10 0">
+            <Label Content="Criteria:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Criteria"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="3" Margin="10 0 10 0">
+            <Label Content="Effective Date:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="EffectiveDate"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="4" Margin="10 0 10 0">
+            <Label Content="Expiration Date" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="ExpirDate"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="5" Margin="10 0 10 0">
+            <Label Content="Statement:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Statement"></TextBox>
+        </StackPanel>
+
+        <Label Grid.Row="2" Grid.Column="1" Height="2" 
+               Margin="10 70 0 10" Grid.ColumnSpan="5" Background="#102E5B"/>
+
+        <!-- Row 3 -->
+
+        <StackPanel Grid.Row="3" Grid.Column="1" Margin="10 0 10 0">
+            <Label Content="Name:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Name"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="2" Margin="10 0 10 0">
+            <Label Content="Location ID:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="LocID"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="3" Margin="10 0 10 0">
+            <Label Content="Contact Name:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="ContactName"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="4" Margin="10 0 10 0">
+            <Label Content="Contact Info:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="PhoneNo"></TextBox>
+        </StackPanel>
+
+        <Label Grid.Row="3" Grid.Column="1" Height="2" 
+               Margin="10 70 0 10" Grid.ColumnSpan="5" Background="#102E5B"/>
+        <!-- Row 4 -->
+
+        <StackPanel Grid.Row="4" Grid.Column="1" Margin="10 0 10 0">
+            <Label Content="Street:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Street"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Grid.Column="2" Margin="10 0 10 0">
+            <Label Content="City:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="City"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Grid.Column="3" Margin="10 0 10 0">
+            <Label Content="State:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="State"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Grid.Column="4" Margin="10 0 10 0">
+            <Label Content="Zip:" FontWeight="Bold"/>
+            <TextBox Height="25" x:Name="Zip"></TextBox>
+        </StackPanel>
+
+        <Label Grid.Row="4" Grid.Column="1" Height="2" 
+               Margin="10 70 0 10" Grid.ColumnSpan="5" Background="#102E5B"/>
+
+        <!-- Row 5 -->
+
+        <!--<Button x:Name="SaveCompanyInfo" Grid.Row="5" Grid.Column="1" Height="30">Save Company Info</Button>-->
+
+    </Grid>
+</UserControl>

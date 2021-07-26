@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<soa:SOADataMaster xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile.xsd">
+  <soa:AB_ID></soa:AB_ID>
+  <soa:AB_Logo-Signature></soa:AB_Logo-Signature>
+  <soa:Scope_ID_Number></soa:Scope_ID_Number>
+  <soa:Criteria></soa:Criteria>
+  <soa:EffectiveDate>3/29/2017</soa:EffectiveDate>
+  <soa:ExpirationDate>3/29/2018</soa:ExpirationDate>
+  <soa:Statement></soa:Statement>
+  <soa:CapabilityScope>
+    <soa:MeasuringEntity>Acme Calibration Labratory</soa:MeasuringEntity>
+    <soa:Locations>
+      <soa:Location id="">
+        <soa:OrganizationAddress>
+          <soa:Street>1234 Metrology Ave</soa:Street>
+          <soa:City>Accura</soa:City>
+          <soa:State>Ohio</soa:State>
+          <soa:Zip>31416</soa:Zip>
+        </soa:OrganizationAddress>
+        <soa:ContactName>Al P. Pie</soa:ContactName>
+        <soa:ContactInfo>
+          <soa:PhoneNumber></soa:PhoneNumber>
+        </soa:ContactInfo>
+      </soa:Location>
+    </soa:Locations>
+    <soa:Activities>
+      <soa:Activity>
+        <unc:CMCs>
+          <unc:Taxon name="TestProcess.Measure.Voltage.AC">
+            <mtc:Taxon name="TestProcess.Measure.Voltage.AC">
+              <mtc:Result name="Volts">
+                <uom:Quantity name="voltage" />
+              </mtc:Result>
+              <mtc:Parameter name="Volts" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Frequency" optional="False">
+                <uom:Quantity name="frequency" />
+              </mtc:Parameter>
+              <mtc:Parameter name="UUT.Input" optional="True" />
+              <mtc:Definition>This process measures the AC RMS (Root-Mean-Square) voltage sourced by the UUT. Values can only be expressed in RMS because the shape of the signal is not known.</mtc:Definition>
+            </mtc:Taxon>
+          </unc:Taxon>
+        </unc:CMCs>
+      </soa:Activity>
+    </soa:Activities>
+    <xi:include href="C:/_Programming/Metrology.NET_Public/Data Files/UOM_Database.xml AWS" />
+    <soa:ScopeNotes></soa:ScopeNotes>
+    <soa:Version></soa:Version>
+    <soa:LocaleLanguage></soa:LocaleLanguage>
+  </soa:CapabilityScope>
+  <soa:HumanReadableDocument></soa:HumanReadableDocument>
+  <soa:VisualAidsScript></soa:VisualAidsScript>
+</soa:SOADataMaster>

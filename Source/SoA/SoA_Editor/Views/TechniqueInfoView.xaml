@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="SoA_Editor.Views.TechniqueInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoA_Editor.Views"
+             xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:TechniqueInfoViewModel}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}" Padding="5">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>            
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}">Add Technique for Taxon:</TextBlock>
+            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" FontWeight="Bold" x:Name="TaxonName" d:Text="TaxonName" Margin="5 0 0 0"/>            
+        </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 24 0 0">
+                <materialDesign:PackIcon Kind="FormTextbox" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding Name, Mode=TwoWay}" Width="250"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                materialDesign:HintAssist.Hint="Technique Name" VerticalAlignment="Center"
+                materialDesign:HintAssist.HelperText="Field is required"/>
+            </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 24 0 0">
+            <materialDesign:PackIcon Kind="Shape" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Category, Mode=TwoWay}" Width="250"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                materialDesign:HintAssist.Hint="Category" VerticalAlignment="Center"/>
+        </StackPanel>
+        <!-- If the user enters this field none of the parameter or result data gets saved
+             I guess it is purely for outside reference and not for the editor
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 24 0 0">
+            <materialDesign:PackIcon Kind="Web" VerticalAlignment="Center" />
+            <TextBox Text="{Binding Url, Mode=TwoWay}" Width="250"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                materialDesign:HintAssist.Hint="URL" VerticalAlignment="Center"/>
+        </StackPanel>
+        -->
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 24 0 0">
+            <materialDesign:PackIcon Kind="FunctionVariant" />
+            <TextBox Text="{Binding FunctionName, Mode=TwoWay}" Width="250"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                materialDesign:HintAssist.Hint="Uncertainty Name" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0 24 0 0">
+            <materialDesign:PackIcon Kind="Server" VerticalAlignment="Center" Margin="0 0 0 35"/>
+            <TextBox TextWrapping="Wrap" VerticalAlignment="Stretch" Width="250"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            AcceptsReturn="True" Text="{Binding Dut, Mode=TwoWay}"
+            VerticalScrollBarVisibility="Auto"
+            SpellCheck.IsEnabled="True"
+            materialDesign:HintAssist.Hint="Required Equipment"
+            materialDesign:HintAssist.HelperText="One Device per line."
+            Height="80" />
+        </StackPanel>
+        <TextBlock Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="17 14 0 0" FontSize="10" Grid.Row="6">Seperate each device with a comma and Equipment type.<LineBreak/> S for Source or M for Measure for example, Meter Calibrator,S</TextBlock>
+
+        <Button x:Name="Save" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
+        <TextBlock FontSize="12" FontStyle="Italic" Grid.Row="8" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="*Required Parameters and Results from the Taxon will be automatically added to the Technique as needed."/>
+    </Grid>
+</UserControl>

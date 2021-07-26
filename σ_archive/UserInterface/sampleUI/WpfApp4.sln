@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp4", "WpfApp4\WpfApp4.csproj", "{A534DBD6-F3C5-474D-BC8C-D0E6684A27D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOA_DataAccessLibrary", "..\..\..\Source\SOA_DataAccessLib\SOA_DataAccessLib\SOA_DataAccessLibrary.csproj", "{7AF4B06C-7888-431F-AC46-DB9B1A722990}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOA_DataAccessLibrary", "..\..\..\Source\SoA\SOA_DataAccessLib\SOA_DataAccessLib\SOA_DataAccessLibrary.csproj", "{7AF4B06C-7888-431F-AC46-DB9B1A722990}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

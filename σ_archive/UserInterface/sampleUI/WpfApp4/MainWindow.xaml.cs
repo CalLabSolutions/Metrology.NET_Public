@@ -184,7 +184,7 @@ namespace WpfApp4
             set_company_info(SampleSOA);
 
 
-            var process_name1 = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();//
+            var process_name1 = SampleSOA.CapabilityScope.Activities[0].Taxons.Count();//
 
             string techwithext = SampleSOA.CapabilityScope.Activities[0].Techniques[0].Technique.Name;
             string fwithext = SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].name;
@@ -204,7 +204,7 @@ namespace WpfApp4
             //tvMain.Items.RemoveAt(1);
             tvMain.Items.Clear();
             ToolTip tt = new ToolTip(); ToolTip tt2 = new ToolTip();
-            int pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
+            int pc = SampleSOA.CapabilityScope.Activities[0].Taxons.Count();
             int tc = SampleSOA.CapabilityScope.Activities[0].Techniques.Count();
             int fc = SampleSOA.CapabilityScope.Activities[0].Templates.Count();
             int q = 0;
@@ -224,12 +224,12 @@ namespace WpfApp4
                 // Adding a ProcessType //
 
                 // Start with an Unc Proc Type
-                Unc_ProcessType uncProcType = new Unc_ProcessType();
+                Unc_Taxon uncProcType = new Unc_Taxon();
                 uncProcType.name = "Measure.Voltage.DC";
                 // the URI is for external defitions only, do not set it to anything
 
                 // Then pass the Unc ProcType(parent) to the Mtc_ProcType
-                Mtc_ProcessType mtcProcType = new Mtc_ProcessType(uncProcType)
+                Mtc_Taxon mtcProcType = new Mtc_Taxon(uncProcType)
                 {
                     Name = "Measure.Voltage.DC"
                 };
@@ -238,26 +238,26 @@ namespace WpfApp4
                 mtcProcType.Parameters.add(new Mtc_Parameter("Volts", "voltage", false));
 
                 // mtc documentation
-                Mtc_Documentation doc = new Mtc_Documentation
+                Mtc_Definition doc = new Mtc_Definition
                 {
-                    Document = "mtcProcType Documentation"
+                    Value = "mtcProcType Documentation"
                 };
-                mtcProcType.Documentation = doc;
+                mtcProcType.Definition = doc;
 
                 // Mtc Process Result
-                Mtc_ProcessResult mtcProcResult = new Mtc_ProcessResult();
+                Mtc_Result mtcProcResult = new Mtc_Result();
                 mtcProcResult.Name = "Volts";
                 mtcProcResult.Quantity = UomDataSource.getQuantity("voltage");
-                mtcProcType.ProcessResults.Add(mtcProcResult);
+                mtcProcType.Results.Add(mtcProcResult);
 
                 // Mtc Result Types
                 mtcProcType.ResultTypes.Add("voltage");
 
                 // Add to the Unc Proc Type
-                uncProcType.ProcessType = mtcProcType;
+                uncProcType.Taxon = mtcProcType;
 
                 // Add to the over all Proc Types
-                SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Add(uncProcType);
+                SampleSOA.CapabilityScope.Activities[0].Taxons.Add(uncProcType);
 
 
 
@@ -267,7 +267,7 @@ namespace WpfApp4
                 Unc_Technique uncTech = new Unc_Technique(SampleSOA.CapabilityScope.Activities[0].Unc_CMCs)
                 {
                     Name = "Volts DC 5790A",
-                    Process = "Measure.Voltage.DC",
+                    Taxon = "Measure.Voltage.DC",
                     // the URI is for external defitions only, do not set it to anything
                 };
 
@@ -298,8 +298,8 @@ namespace WpfApp4
                 mtcTech.Parameters.add(new Mtc_Parameter("Floor", "voltage", false));
 
                 // Mtc Process Type - The xml reader would associate the one we just made above;
-                mtcTech.ProcessType = mtcProcType;
-                mtcTech.ProcessTypeName = mtcProcType.Name; // make sure this is the Process Type Name not the Technique name
+                mtcTech.Taxon = mtcProcType;
+                mtcTech.TaxonName = mtcProcType.Name; // make sure this is the Process Type Name not the Technique name
 
                 // Start and End or Parmaeter and Result Range
                 UomDataSource.Quantity quantity = UomDataSource.getQuantity("voltage");
@@ -360,7 +360,7 @@ namespace WpfApp4
                 Unc_Template uncTemplate = uncCMC.Templates[0]; // get the generated blank tempalte created within the constructor
 
                 // add our mtc proc type and technique
-                uncTemplate.MtcProcessType = mtcProcType;
+                uncTemplate.MtcTaxon = mtcProcType;
                 uncTemplate.MtcTechnique = mtcTech;
 
                 // add Unc_Template Technique
@@ -465,7 +465,7 @@ namespace WpfApp4
                 uncRangeEnd.ValueString = uncRangeEnd.Value.ToString();
                 uncRangeEnd.format = uncRangeEnd.ValueString;
                 uncRangeEnd.test = "at";
-
+                
                 Unc_Range_Start uncRangeNestedStart = new Unc_Range_Start();
                 uncRangeNestedStart.Quantity = quantity.name;
                 uncRangeNestedStart.symbol = quantity.UoM.symbol;
@@ -481,38 +481,53 @@ namespace WpfApp4
                 uncRangeNestedEnd.ValueString = uncRangeNestedEnd.Value.ToString();
                 uncRangeNestedEnd.format = uncRangeNestedEnd.ValueString;
                 uncRangeNestedEnd.test = "at";
-
+                
                 // Constant Value
                 Unc_ConstantValues cValues = new Unc_ConstantValues();
-                Unc_ConstantValue cValue = new Unc_ConstantValue();
-                cValue.Quantity = quantity.name;
-                cValue.symbol = quantity.UoM.symbol;
-                cValue.Value = new decimal(10.0);
-                cValue.ValueString = uncRangeNestedEnd.Value.ToString();
-                cValue.format = uncRangeNestedEnd.ValueString;
-                cValue.const_parameter_name = "floor";
-                cValues.Add(cValue);
+                Unc_ConstantValue cValue1 = new Unc_ConstantValue();
+                Unc_ConstantValue cValue2 = new Unc_ConstantValue();
+                cValue1.Quantity = quantity.name;
+                cValue1.symbol = quantity.UoM.symbol;
+                cValue1.Value = new decimal(0.03);
+                cValue1.ValueString = "0.003";
+                cValue1.format = "0.003";
+                cValue1.const_parameter_name = "k_nominal";
+                cValues.Add(cValue1);
 
-                // Nested Range
-                nestedRanges.Add(new Unc_Range()
+                cValue2.Quantity = quantity.name;
+                cValue2.symbol = quantity.UoM.symbol;
+                cValue2.Value = new decimal(0.005);
+                cValue2.ValueString = "0.005";
+                cValue2.format = "0.005";
+                cValue2.const_parameter_name = "k_range";
+                cValues.Add(cValue2);
+
+                /*
+                nestedRanges.variable_name = "voltage";
+                nestedRanges.variable_type = "influence_quantity";
+                nestedRanges.Ranges.Add(new Unc_Range()
                 {
                     Start = uncRangeNestedStart,
                     End = uncRangeNestedEnd,
+                    Variable_name = "nominal",
+                    Variable_type = "parameter",
                     ConstantValues = cValues,
-                    Ranges = new Unc_Ranges() // do not leave null or write function will fail
+                    Ranges = new Unc_Ranges()
                 });
 
-                // Overall Ranges
+                // Influence Range
                 uncRanges.variable_name = "voltage";
                 uncRanges.variable_type = "influence_quantity";
-                uncRanges.Add(new Unc_Range()
+                uncRanges.Ranges.Add(new Unc_Range()
                 {
-                    Variable_name = "reading",
+                    // Parameter Ranges need their Influence variable data
+                    Variable_name = "nominal",
                     Variable_type = "parameter",
                     Start = uncRangeStart,
                     End = uncRangeEnd,
-                    Ranges = nestedRanges
-                }); ;
+                    ConstantValues = cValues,
+                    Ranges = new Unc_Ranges()
+                });*/
 
                 // Add Ranges to case 1
                 uncCase1.Ranges = uncRanges;
@@ -534,7 +549,7 @@ namespace WpfApp4
                 uncTemplate.CMCUncertaintyFunctions.Add(uncCMCFunction);
 
                 // update proc type count
-                pc = SampleSOA.CapabilityScope.Activities[0].ProcessTypes.Count();
+                pc = SampleSOA.CapabilityScope.Activities[0].Taxons.Count();
 
                 // update tech count
                 tc = SampleSOA.CapabilityScope.Activities[0].Techniques.Count();
@@ -546,7 +561,7 @@ namespace WpfApp4
             for (int i=0;i<pc;i++)
             {
 
-                string s = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[i].ProcessType.Name;
+                string s = SampleSOA.CapabilityScope.Activities[0].Taxons[i].Taxon.Name;
                 tt.Content = s;
                 int ic=tvMain.Items.Count;
 
@@ -558,7 +573,7 @@ namespace WpfApp4
                 for (int j=0;j<tc;j++)
                 {
 
-                if (s == SampleSOA.CapabilityScope.Activities[0].Techniques[j].Technique.ProcessTypeName)
+                if (s == SampleSOA.CapabilityScope.Activities[0].Techniques[j].Technique.TaxonName)
                 {
                     string s2 = SampleSOA.CapabilityScope.Activities[0].Techniques[j].Name;
                     tt.Content = s2;
@@ -805,10 +820,10 @@ namespace WpfApp4
             //load the exsiting process name into combobox
             ComboBoxItem comboitem = null;
             comboitem = new ComboBoxItem();
-            comboitem.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p-1].ProcessType.Name;
+            comboitem.Content = SampleSOA.CapabilityScope.Activities[0].Taxons[p-1].Taxon.Name;
             combo2.Items.Add(comboitem);
             comboitem.IsSelected = true;
-            prcss.Header = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p-1].ProcessType.Name;
+            prcss.Header = SampleSOA.CapabilityScope.Activities[0].Taxons[p-1].Taxon.Name;
             //*
             Separator s = new Separator();
             ComboBox c = new ComboBox();
@@ -816,7 +831,7 @@ namespace WpfApp4
             TextBlock t = new TextBlock();
             CheckBox b = new CheckBox();
 
-            int ic = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p-1].ProcessType.Parameters.Count();
+            int ic = SampleSOA.CapabilityScope.Activities[0].Taxons[p-1].Taxon.Parameters.Count();
             is1.Children.Clear();
             is2.Children.Clear();
             is3.Children.Clear();
@@ -829,12 +844,12 @@ namespace WpfApp4
                 
                 addsep(s, is1); s = new Separator();
                 addsep(s, is1); s = new Separator();
-                t.Text = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].name;
+                t.Text = SampleSOA.CapabilityScope.Activities[0].Taxons[p - 1].Taxon.Parameters[x].name;
                 addtext(t, is1, 60); t = new TextBlock();
                 addsep(s, is1); s = new Separator();
-                if(SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].Quantity!=null)
+                if(SampleSOA.CapabilityScope.Activities[0].Taxons[p - 1].Taxon.Parameters[x].Quantity!=null)
                 {
-                    i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.Parameters[x].Quantity.name;
+                    i.Content = SampleSOA.CapabilityScope.Activities[0].Taxons[p - 1].Taxon.Parameters[x].Quantity.name;
 
                 }
                 c.Items.Add(i);
@@ -853,7 +868,7 @@ namespace WpfApp4
             addsep(s, os1); s = new Separator();
             t.Text = "Result:";
             addtext(t, os1, 60); t = new TextBlock();
-            i.Content = SampleSOA.CapabilityScope.Activities[0].ProcessTypes[p - 1].ProcessType.ProcessResults[0].Quantity.name;
+            i.Content = SampleSOA.CapabilityScope.Activities[0].Taxons[p - 1].Taxon.Results[0].Quantity.name;
             c.Items.Add(i);
             i.IsSelected = true;
             i = new ComboBoxItem();
@@ -898,7 +913,7 @@ namespace WpfApp4
             addtexthwb(t, is6t, 30, 90); t = new TextBlock();
             addtexthwb(t, is7t, 30, 90); t = new TextBlock();
             addtexthwb(t, is8t, 30, 90); t = new TextBlock();
-            textBlock11t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.ProcessTypeName+"; \n"+SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Name;
+            textBlock11t.Text = SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.TaxonName+"; \n"+SampleSOA.CapabilityScope.Activities[0].Techniques[tt].Technique.Name;
             for (int x = 0; x < it; x++)
             {
                 

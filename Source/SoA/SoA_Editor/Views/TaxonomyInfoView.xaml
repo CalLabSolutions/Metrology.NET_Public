@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="SoA_Editor.Views.TaxonomyInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SoA_Editor.Views"
+             xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:TaxonomyInfoViewModel}"
+             BorderThickness="1" BorderBrush="#102E5B"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="85" />           
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Row 1 -->
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="Action"></Label>
+            <ComboBox Margin="10 0 10 10" x:Name="TaxonomyOptions" Height="40"
+                      SelectedItem="{Binding Path=SelectedOptionForTaxonomy, Mode=TwoWay}" ></ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" >
+            <Label Content="Taxonomy"></Label>
+            <ComboBox Margin="10 0 10 10" x:Name="SelectedTaxonomy" Height="40"
+                      ItemsSource="{Binding Taxons}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding Path=SelectedTaxon, Mode=TwoWay}"
+                      IsEnabled="{Binding CanSelectATaxonomy}"></ComboBox>            
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0 25 0 0">
+            <TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1">Parameters</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <DataGrid x:Name="RequiredParameters"
+                      CanUserAddRows="False"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column" Margin="4 0 25 0"
+                      BorderThickness="0" MinColumnWidth="150"
+                      HorizontalScrollBarVisibility="Hidden">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Required"
+                                Binding="{Binding Path=ParameterName}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid x:Name="OptionalParameters"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column" Margin="4 0 25 0"
+                      BorderThickness="0" MinColumnWidth="150"
+                      HorizontalScrollBarVisibility="Hidden">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Optional"
+                                Binding="{Binding Path=ParameterName}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>            
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0 25 0 0">
+            <TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1">Results</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <DataGrid ItemsSource="{Binding Results}"
+                      CanUserAddRows="False"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column" Margin="4 0 25 0"
+                      BorderThickness="0" MinColumnWidth="150"
+                      HorizontalScrollBarVisibility="Hidden">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"
+                                Binding="{Binding Path=Name}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Results}"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column" Margin="4 0 25 0"
+                      BorderThickness="0" MinColumnWidth="150"
+                      HorizontalScrollBarVisibility="Hidden">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Quantity"
+                                Binding="{Binding Path=Quantity.Name}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+
+        <Button Margin="0 20 0 5" Width="100" Height="35" Grid.Row="4" Grid.Column="1" x:Name="okButton">Ok</Button>
+    </Grid>
+</UserControl>

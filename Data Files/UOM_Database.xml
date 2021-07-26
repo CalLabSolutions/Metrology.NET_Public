@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
 	xmlns:m="http://www.w3.org/1998/Math/MathML"
-	xsi:schemaLocation="http://schema.metrology.net/UOM_Database http://schema.metrology.net/UOM_Database.xsd">
+	xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd">
 	<uom:Categories>
 		<uom:Category id="physical"/>
 		<uom:Category id="optical"/>
@@ -78,7 +78,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</uom:Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="parts-per-hundred-billion" symbol="pphb" metric="false">
 							<LinearConverter ScaleFactor="1.0e-11" Offset="0.0"/>
 							<uom:Presentation>
@@ -87,7 +87,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="parts-per-trillion" symbol="ppt" metric="false">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
@@ -96,7 +96,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="parts-per-ten-million" symbol="pptm" metric="false">
 							<LinearConverter ScaleFactor="1.0e-7" Offset="0.0"/>
 							<uom:Presentation>
@@ -105,7 +105,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="parts-per-ten-billion" symbol="pptb" metric="false">
 							<LinearConverter ScaleFactor="1.0e-10" Offset="0.0"/>
 							<uom:Presentation>
@@ -114,7 +114,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="parts-per-hundred-million" symbol="pphm" metric="false">
 							<LinearConverter ScaleFactor="1.0e-8" Offset="0.0"/>
 							<uom:Presentation>
@@ -181,7 +181,7 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Aliases/>
-					<Alternatives xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Alternatives xmlns="http://schema.metrology.net/UOM_Database">
 						<Alternative name="nanowatts-per-watt" symbol="nW/W" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -279,7 +279,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</uom:Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanovolts-per-volt" symbol="nV/V" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -291,7 +291,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millivolts-per-volt" symbol="mV/V" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -303,7 +303,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microvolts-per-millivolt" symbol="μV/mV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -315,7 +315,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millivolts-per-millivolt" symbol="mV/mV" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
@@ -327,7 +327,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="volts-per-kilovolt" symbol="V/kV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -339,7 +339,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanovolts-per-millivolt" symbol="nV/mV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -351,7 +351,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millivolts-per-microvolt" symbol="mV/μV" metric="true">
 							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -363,7 +363,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kilovolts-per-kilovolt" symbol="kV/kV" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
@@ -393,7 +393,7 @@
 							</m:mfrac>
 						</m:math>
 					</uom:Presentation>
-					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 						<Alias symbol="E">
 							<uom:Presentation>
 								<m:math>
@@ -403,7 +403,7 @@
 						</Alias>
 					</Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microinches-per-inch" symbol="μin/in" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -424,7 +424,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="inches-per-foot" symbol="in/ft" metric="false">
 							<LinearConverter ScaleFactor="0.0833333333333333333333333333"
 								Offset="0.0"/>
@@ -437,7 +437,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microinches-per-foot" symbol="μin/ft" metric="false">
 							<LinearConverter ScaleFactor="0.0833333333333333333333333333e-6"
 								Offset="0.0"/>
@@ -450,7 +450,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="inches-per-inch" symbol="in/in" metric="false">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
@@ -462,7 +462,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="micrometers-per-millimeter" symbol="μm/mm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -474,7 +474,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="micrometers-per-meter" symbol="μm/m" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -514,7 +514,7 @@
 					</uom:Presentation>
 					<uom:Aliases/>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microohms-per-ohm" symbol="μΩ/Ω" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -526,7 +526,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="milliohms-per-ohm" symbol="mΩ/Ω" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -538,7 +538,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="ohms-per-kiloohm" symbol="Ω/kΩ" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -550,7 +550,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="ohms-per-megaohm" symbol="Ω/MΩ" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -562,7 +562,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kiloohms-per-megaohm" symbol="kΩ/MΩ" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -574,7 +574,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="megaohms-per-megaohm" symbol="MΩ/MΩ" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
@@ -586,7 +586,7 @@
 								</m:math>
 							</uom:Presentation>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="megaohms-per-ohm" symbol="MΩ/Ω" metric="true">
 							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -600,7 +600,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="amperes-per-ampere" symbol="A/A">
 					<uom:Quantities>
 						<uom:Quantity name="current-ratio"/>
@@ -699,7 +699,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="farads-per-farad"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="farads-per-farad"
 					symbol="F/F">
 					<uom:Quantities>
 						<uom:Quantity name="capacitance-ratio"/>
@@ -817,7 +817,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="seconds-per-second" symbol="s/s">
 					<uom:Quantities>
 						<uom:Quantity name="time-ratio"/>
@@ -931,7 +931,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="hertz-per-hertz"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="hertz-per-hertz"
 					symbol="Hz/Hz">
 					<uom:Quantities>
 						<uom:Quantity name="frequency-ratio"/>
@@ -1024,7 +1024,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="counts" symbol="">
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="counts" symbol="">
 
 
 
@@ -1051,7 +1051,7 @@
 					</Aliases>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="turns" symbol="">
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="turns" symbol="">
 
 
 
@@ -1068,7 +1068,7 @@
 					</uom:Presentation>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="increments"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="increments"
 					symbol="">
 
 
@@ -1086,7 +1086,7 @@
 					</uom:Presentation>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="cubic-meters-per-cubic-meter" symbol="m3/m3">
 					<uom:Quantities>
 						<uom:Quantity name="volume-ratio"/>
@@ -1151,7 +1151,7 @@
 							<m:mi>rad</m:mi>
 						</m:math>
 					</uom:Presentation>
-					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 						<Alias symbol="radians">
 							<uom:Presentation>
 								<m:math>
@@ -1161,7 +1161,7 @@
 						</Alias>
 					</Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="degrees" symbol="°" metric="false">
 							<LinearConverter ScaleFactor="0.01745329251994329576923690768489"
 								Offset="0.0"/>
@@ -1187,7 +1187,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millidegrees" symbol="m°" metric="false">
 							<LinearConverter ScaleFactor="0.01745329251994329576923690768489e-3"
 								Offset="0.0"/>
@@ -1198,7 +1198,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="seconds-angle" symbol="&quot;" metric="false">
 							<LinearConverter ScaleFactor="4.8481368110953599358991410235795e-6"
 								Offset="0.0"/>
@@ -1245,7 +1245,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="minutes-angle" symbol="'" metric="false">
 							<LinearConverter ScaleFactor="2.9088820866572159615394846141477e-4"
 								Offset="0.0"/>
@@ -1287,7 +1287,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="steradians"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="steradians"
 					symbol="sr">
 					<uom:Quantities>
 						<uom:Quantity name="solid-angle"/>
@@ -1302,7 +1302,7 @@
 					</uom:Presentation>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="threads-per-unit-length" symbol="threads-per-meter">
 					<uom:Quantities>
 
@@ -1334,7 +1334,7 @@
 						</uom:Alternative>
 					</uom:Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="power-of-hydrogen" symbol="pH">
 					<uom:Quantities>
 						<uom:Quantity name="acidity"/>
@@ -1359,7 +1359,7 @@
 					</Aliases>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="henrys-per-henry"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="henrys-per-henry"
 					symbol="H/H">
 					<uom:Quantities>
 						<uom:Quantity name="inductance-ratio"/>
@@ -1422,7 +1422,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="pascals-per-pascal" symbol="Pa/Pa">
 					<uom:Quantities>
 						<uom:Quantity name="pressure-ratio"/>
@@ -1487,7 +1487,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="newton-meters-per-newton-meter" symbol="(N·m)/(N·m)">
 					<uom:Quantities>
 						<uom:Quantity name="torque-ratio"/>
@@ -1566,7 +1566,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="newtons-per-newton" symbol="N/N">
 					<uom:Quantities>
 						<uom:Quantity name="force-ratio"/>
@@ -1608,7 +1608,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="kelvin-per-kelvin" symbol="K/K">
 					<uom:Quantities>
 						<uom:Quantity name="temperature-ratio"/>
@@ -1719,7 +1719,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="moles-per-mole"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="moles-per-mole"
 					symbol="mol/mol">
 					<uom:Quantities>
 						<uom:Quantity name="amount-of-substance-ratio"/>
@@ -1771,7 +1771,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="brix"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="brix"
 					symbol="°Bx">
 					<uom:Quantities>
 						<uom:Quantity name="solution-sugar-concentration"/>
@@ -1799,7 +1799,7 @@
 					</Aliases>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="radians-per-second-per-radians-per-second" symbol="(rad/s)/(rad/s)">
 					<uom:Quantities>
 						<uom:Quantity name="angular-velocity-ratio"/>
@@ -1836,7 +1836,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="lux-per-lux"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="lux-per-lux"
 					symbol="lx/lx">
 					<uom:Quantities>
 						<uom:Quantity name="illuminance-ratio"/>
@@ -1868,7 +1868,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="decibels-per-decibel" symbol="dB/dB">
 					<uom:Quantities>
 						<uom:Quantity name="attenuation-ratio"/>
@@ -1888,7 +1888,7 @@
 					</uom:Presentation>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="seconds-per-division" symbol="s/Div">
 					<uom:Quantities>
 						<uom:Quantity name="oscilloscope-horizontal-scale"/>
@@ -1920,7 +1920,7 @@
 					</Aliases>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="meters-per-meter-per-second" symbol="m/m/s">
 					<uom:Quantities>
 						<uom:Quantity name="strain-rate"/>
@@ -1958,7 +1958,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="strain-per-strain" symbol="E/E">
 					<uom:Quantities>
 						<uom:Quantity name="strain-ratio"/>
@@ -2003,7 +2003,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="kilograms-per-cubic-meter-per-kilogram-per-cubic-meter"
 					symbol="(kg·m-3)/(kg·m-3)">
 					<uom:Quantities>
@@ -2057,7 +2057,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="kilograms-per-kilogram" symbol="kg/kg">
 					<uom:Quantities>
 						<uom:Quantity name="mass-ratio"/>
@@ -2167,7 +2167,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="pascals-gage-per-pascal-gage" symbol="Pa/Pa">
 					<uom:Quantities>
 						<uom:Quantity name="pressure-gage-ratio"/>
@@ -2200,7 +2200,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-per-g"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="volts-per-g"
 					symbol="V/G">
 					<uom:Quantities>
 						<uom:Quantity name="accelerometer-sensitivity"/>
@@ -2217,7 +2217,7 @@
 					<uom:Aliases/>
 					<uom:Alternatives/>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="relative-humidity" symbol="RH">
 					<uom:Quantities>
 						<uom:Quantity name="relative-humidity"/>
@@ -2245,7 +2245,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="relative-humidity-per-relative-humidity" symbol="(RH)/(RH)">
 					<uom:Quantities>
 						<uom:Quantity name="relative-humidity-ratio"/>
@@ -2270,7 +2270,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="nephelometric-turbidity-unit" symbol="NTU">
 					<uom:Quantities>
 						<uom:Quantity name="nephelometric-turbidity"/>
@@ -2304,7 +2304,7 @@
 					</uom:Presentation>
 					<uom:Aliases/>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="inches" symbol="in" metric="false">
 							<LinearConverter ScaleFactor="0.0254" Offset="0.0"/>
 							<uom:Presentation>
@@ -2333,7 +2333,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="centimeters" symbol="cm" metric="true">
 							<LinearConverter ScaleFactor="0.01" Offset="0.0"/>
 							<uom:Presentation>
@@ -2343,7 +2343,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millimeters" symbol="mm" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -2353,7 +2353,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="micrometers" symbol="μm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -2379,7 +2379,7 @@
 
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanometers" symbol="nm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -2389,7 +2389,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="picometers" symbol="pm" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
@@ -2399,7 +2399,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="feet"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database" name="feet"
 							symbol="ft" metric="false">
 							<LinearConverter ScaleFactor="0.3048" Offset="0.0"/>
 							<uom:Presentation>
@@ -2417,7 +2417,7 @@
 								</uom:Alias>
 							</uom:Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="mils"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database" name="mils"
 							symbol="mil" metric="false">
 							<LinearConverter ScaleFactor="2.54e-5" Offset="0.0"/>
 							<uom:Presentation>
@@ -2435,7 +2435,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microinches" symbol="μin" metric="false">
 							<LinearConverter ScaleFactor="2.54e-8" Offset="0.0"/>
 							<uom:Presentation>
@@ -2445,7 +2445,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="lines"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database" name="lines"
 							symbol="lin" metric="false">
 							<LinearConverter ScaleFactor="0.00254" Offset="0.0"/>
 							<uom:Presentation>
@@ -2475,7 +2475,7 @@
 					</uom:Presentation>
 					<uom:Aliases/>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="milligrams" symbol="mg" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -2485,7 +2485,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="micrograms" symbol="μg" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -2495,7 +2495,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="grams"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database" name="grams"
 							symbol="g" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -2505,7 +2505,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="tons-short" symbol="t" metric="false">
 							<LinearConverter ScaleFactor="9.0718473999949625437524174972214e2"
 								Offset="0.0"/>
@@ -2524,7 +2524,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="micropounds-mass" symbol="μlb" metric="false">
 							<LinearConverter ScaleFactor="0.45359236999974812718762087486107e-6"
 								Offset="0.0"/>
@@ -2535,7 +2535,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="pounds-mass" symbol="lb" metric="false">
 							<LinearConverter ScaleFactor="0.45359236999974812718762087486107"
 								Offset="0.0"/>
@@ -2565,7 +2565,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="grains" symbol="gr" metric="false">
 							<LinearConverter ScaleFactor="6.479891e-5" Offset="0.0"/>
 							<uom:Presentation>
@@ -2611,7 +2611,7 @@
 						</uom:Alias>
 					</uom:Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millikelvin" symbol="mK" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -2621,7 +2621,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millidegrees-celsius" symbol="m°C" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="-273.15e3"/>
 							<uom:Presentation>
@@ -2631,7 +2631,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="degrees-fahrenheit" symbol="F" metric="false">
 							<LinearConverter ScaleFactor="0.55555555555555555555555555555556"
 								Offset="-459.67"/>
@@ -2659,7 +2659,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="degrees-celsius" symbol="C" metric="false">
 							<LinearConverter ScaleFactor="1.0" Offset="-273.15"/>
 							<uom:Presentation>
@@ -2725,7 +2725,7 @@
 									<m:mi>GHz</m:mi>
 								</m:math>
 							</uom:Presentation>
-							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+							<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 								<Alias symbol="f">
 									<uom:Presentation>
 										<m:math>
@@ -2762,7 +2762,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</uom:Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microhertz" symbol="µHz" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -2774,7 +2774,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="radians-per-second" symbol="rad/s">
 					<uom:Quantities>
 						<uom:Quantity name="angular-velocity"/>
@@ -2866,7 +2866,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="counts-per-second" symbol="cps">
 					<uom:Quantities>
 						<uom:Quantity name="particle-flux"/>
@@ -2892,7 +2892,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="flashes-per-second" symbol="fps">
 					<uom:Quantities>
 						<uom:Quantity name="flash-rate"/>
@@ -2916,7 +2916,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kiloflashes-per-minute" symbol="KFPM" metric="false">
 							<LinearConverter ScaleFactor="16.666666666666666666666667" Offset="0.0"/>
 							<uom:Presentation>
@@ -2936,7 +2936,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="becquerels"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="becquerels"
 					symbol="Bq">
 					<uom:Quantities>
 						<uom:Quantity name="activity-radioactive"/>
@@ -3043,7 +3043,7 @@
 									</m:mfrac>
 								</m:math>
 							</uom:Presentation>
-							<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+							<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 								<Alias symbol="°/GHz">
 									<uom:Presentation>
 										<m:math>
@@ -3085,14 +3085,14 @@
 								</m:math>
 							</uom:Presentation>
 						</uom:Alias>
-						<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure" symbol="S">
+						<Alias xmlns="http://schema.metrology.net/UOM_Database" symbol="S">
 							<uom:Presentation>
 								<m:math>
 									<m:mi>S</m:mi>
 								</m:math>
 							</uom:Presentation>
 						</Alias>
-						<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure" symbol="seconds">
+						<Alias xmlns="http://schema.metrology.net/UOM_Database" symbol="seconds">
 							<uom:Presentation>
 								<m:math>
 									<m:mi>seconds</m:mi>
@@ -3101,7 +3101,7 @@
 						</Alias>
 					</uom:Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microseconds" symbol="µs" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -3133,7 +3133,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanoseconds" symbol="ns" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -3151,7 +3151,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="milliseconds" symbol="ms" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3169,7 +3169,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="picoseconds" symbol="ps" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
@@ -3187,7 +3187,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure" name="hours"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database" name="hours"
 							symbol="h" metric="false">
 							<LinearConverter ScaleFactor="3.6e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3212,7 +3212,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="femtoseconds" symbol="fs" metric="true">
 							<LinearConverter ScaleFactor="1.0e-15" Offset="0.0"/>
 							<uom:Presentation>
@@ -3230,7 +3230,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="minutes-time" symbol="min" metric="false">
 							<LinearConverter ScaleFactor="60" Offset="0.0"/>
 							<uom:Presentation>
@@ -3250,7 +3250,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="decibels-c-per-hertz" symbol="dBc·Hz-1">
 					<uom:Quantities>
 						<uom:Quantity name="phase-noise"/>
@@ -3302,7 +3302,7 @@
 					</uom:Presentation>
 					<uom:Aliases/>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="british-thermal-units-it-per-hour" symbol="Btu/h" metric="false">
 							<LinearConverter ScaleFactor="2.930711e-1" Offset="0.0"/>
 							<uom:Presentation>
@@ -3326,7 +3326,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="milliwatts" symbol="mW" metric="true">
 							<LinearConverter ScaleFactor="1.0e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3336,7 +3336,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="megawatts" symbol="MW" metric="true">
 							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
 							<uom:Presentation>
@@ -3346,7 +3346,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kilowatts" symbol="kW" metric="true">
 							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3364,7 +3364,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microwatts" symbol="µW" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -3382,7 +3382,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanowatts" symbol="nW" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -3392,7 +3392,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="decibel-milliwatts" symbol="dBm" metric="false">
 							<LogarithmicConverter LinScaleFactor="1.0e-3" LogScaleFactor="10.0"/>
 							<uom:Presentation>
@@ -3437,7 +3437,7 @@
 					</uom:Presentation>
 					<uom:Aliases/>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="femtoamperes" symbol="fA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-15" Offset="0.0"/>
 							<uom:Presentation>
@@ -3447,7 +3447,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanoamperes" symbol="nA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -3465,7 +3465,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="picoamperes" symbol="pA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-12" Offset="0.0"/>
 							<uom:Presentation>
@@ -3475,7 +3475,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="milliamperes" symbol="mA" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -3485,7 +3485,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microamperes" symbol="μA" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -3504,7 +3504,7 @@
 
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kiloamperes" symbol="kA" metric="true">
 							<LinearConverter ScaleFactor="1.0e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3546,7 +3546,7 @@
 								</m:math>
 							</uom:Presentation>
 						</uom:Alias>
-						<Alias xmlns="http://schema.metrology.net/UnitsOfMeasure" symbol="V AC">
+						<Alias xmlns="http://schema.metrology.net/UOM_Database" symbol="V AC">
 							<uom:Presentation>
 								<m:math>
 									<m:mi>V AC</m:mi>
@@ -3555,7 +3555,7 @@
 						</Alias>
 					</uom:Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="volts-sinusoidal-root-mean-square" symbol="Vrms" metric="true">
 							<LinearConverter ScaleFactor="0.7071067811865475" Offset="0.0"/>
 							<uom:Presentation>
@@ -3568,7 +3568,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="volts-sinusoidal-peak-to-peak" symbol="Vpp" metric="true">
 							<LinearConverter ScaleFactor="0.5" Offset="0.0"/>
 							<uom:Presentation>
@@ -3613,7 +3613,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millivolts-sinusoidal-peak-to-peak" symbol="mVpp" metric="true">
 							<LinearConverter ScaleFactor="0.5e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -3654,7 +3654,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microvolts-sinusoidal-peak-to-peak" symbol="μVpp" metric="false">
 							<LinearConverter ScaleFactor="0.5e-6" Offset="0"/>
 							<uom:Presentation>
@@ -3704,7 +3704,7 @@
 							<m:mi>V</m:mi>
 						</m:math>
 					</uom:Presentation>
-					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 						<Alias symbol="Vdc">
 							<uom:Presentation>
 								<m:math>
@@ -3725,7 +3725,7 @@
 						</Alias>
 					</Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microvolts" symbol="µV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -3735,7 +3735,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kilovolts" symbol="kV" metric="true">
 							<LinearConverter ScaleFactor="1000.0" Offset="0.0"/>
 							<uom:Presentation>
@@ -3745,7 +3745,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="megavolts" symbol="MV" metric="true">
 							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
 							<uom:Presentation>
@@ -3755,7 +3755,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanovolts" symbol="nV" metric="true">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -3765,7 +3765,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millivolts" symbol="mV" metric="true">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -3788,7 +3788,7 @@
 						</Alternative>
 					</uom:Alternatives>
 				</uom:UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-square"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="volts-square"
 					symbol="Vpk">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-square"/>
@@ -3939,7 +3939,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-triangular"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="volts-triangular"
 					symbol="Vpk">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-triangular"/>
@@ -4017,7 +4017,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="volts-per-division" symbol="V/div">
 					<uom:Quantities>
 						<uom:Quantity name="oscilloscope-vertical-scale"/>
@@ -4060,7 +4060,7 @@
 					</uom:Presentation>
 					<uom:Aliases/>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="newton-meters" symbol="N·m" metric="true">
 							<LinearConverter ScaleFactor="1.0" Offset="0.0"/>
 							<uom:Presentation>
@@ -4080,7 +4080,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="millijoules" symbol="mJ" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -4090,7 +4090,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="nanojoules" symbol="nJ" metric="false">
 							<LinearConverter ScaleFactor="1.0e-9" Offset="0.0"/>
 							<uom:Presentation>
@@ -4100,7 +4100,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="watt-hours" symbol="W·h" metric="false">
 							<LinearConverter ScaleFactor="3.6e3" Offset="0.0"/>
 							<uom:Presentation>
@@ -4120,7 +4120,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kilowatt-hours" symbol="kW·h" metric="false">
 							<LinearConverter ScaleFactor="3.6e6" Offset="0.0"/>
 							<uom:Presentation>
@@ -4156,7 +4156,7 @@
 							<m:mi>m</m:mi>
 						</m:math>
 					</uom:Presentation>
-					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 
 
 						<uom:Alias symbol="Nm">
@@ -4168,7 +4168,7 @@
 						</uom:Alias>
 					</Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="pound-force-feet" symbol="lbf·ft" metric="false">
 							<LinearConverter ScaleFactor="1.35581795" Offset="0.0"/>
 							<uom:Presentation>
@@ -4245,7 +4245,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="pound-force-inches" symbol="lbf·in" metric="false">
 							<LinearConverter ScaleFactor="0.112984829" Offset="0.0"/>
 							<uom:Presentation>
@@ -4326,7 +4326,7 @@
 								</uom:Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="ounce-force-inches" symbol="ozf·in" metric="false">
 							<LinearConverter ScaleFactor="7.061552e-3" Offset="0.0"/>
 							<uom:Presentation>
@@ -4406,7 +4406,7 @@
 						</m:math>
 					</uom:Presentation>
 					<uom:Aliases/>
-					<Alternatives xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Alternatives xmlns="http://schema.metrology.net/UOM_Database">
 						<Alternative name="centistoke" symbol="cSt" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -4457,8 +4457,8 @@
 							<m:mi>Pa·s</m:mi>
 						</m:math>
 					</uom:Presentation>
-					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure"> </Aliases>
-					<Alternatives xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Aliases xmlns="http://schema.metrology.net/UOM_Database"> </Aliases>
+					<Alternatives xmlns="http://schema.metrology.net/UOM_Database">
 						<Alternative name="poise" symbol="P" metric="false">
 							<LinearConverter ScaleFactor="0.1" Offset="0.0"/>
 							<uom:Presentation>
@@ -4512,7 +4512,7 @@
 							<m:mi>&amp;Omega;</m:mi>
 						</m:math>
 					</uom:Presentation>
-					<Aliases xmlns="http://schema.metrology.net/UnitsOfMeasure">
+					<Aliases xmlns="http://schema.metrology.net/UOM_Database">
 						<Alias symbol="ohm">
 							<uom:Presentation>
 								<m:math>
@@ -4543,7 +4543,7 @@
 						</uom:Alias>
 					</Aliases>
 					<uom:Alternatives>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="microohms" symbol="μΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e-6" Offset="0.0"/>
 							<uom:Presentation>
@@ -4553,7 +4553,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="kiloohms" symbol="kΩ" metric="false">
 							<LinearConverter ScaleFactor="1000" Offset="0.0"/>
 							<uom:Presentation>
@@ -4578,7 +4578,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="milliohms" symbol="mΩ" metric="false">
 							<LinearConverter ScaleFactor="0.001" Offset="0.0"/>
 							<uom:Presentation>
@@ -4588,7 +4588,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="teraohms" symbol="TΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e12" Offset="0.0"/>
 							<uom:Presentation>
@@ -4598,7 +4598,7 @@
 							</uom:Presentation>
 							<uom:Aliases/>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="megaohms" symbol="MΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e6" Offset="0.0"/>
 							<uom:Presentation>
@@ -4623,7 +4623,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="gigaohms" symbol="GΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e9" Offset="0.0"/>
 							<uom:Presentation>
@@ -4641,7 +4641,7 @@
 								</Alias>
 							</Aliases>
 						</Alternative>
-						<Alternative xmlns="http://schema.metrology.net/UnitsOfMeasure"
+						<Alternative xmlns="http://schema.metrology.net/UOM_Database"
 							name="petaohms" symbol="PΩ" metric="false">
 							<LinearConverter ScaleFactor="1.0e15" Offset="0.0"/>
 							<uom:Presentation>
@@ -4657,7 +4657,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-1" kg="1" s="-2" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pascals-absolute"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="pascals-absolute"
 					symbol="Pa">
 					<uom:Quantities>
 						<Quantity name="pressure:absolute"/>
@@ -4917,7 +4917,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="pascals-differential" symbol="Pa">
 					<uom:Quantities>
 						<Quantity name="pressure:differential"/>
@@ -5172,7 +5172,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="pascals-gage"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="pascals-gage"
 					symbol="Pa">
 					<uom:Quantities>
 						<Quantity name="pressure:gage"/>
@@ -5431,7 +5431,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="2" kg="1" s="-2" A="-2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="henrys"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="henrys"
 					symbol="H">
 					<uom:Quantities>
 						<uom:Quantity name="inductance"/>
@@ -5469,7 +5469,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-2" kg="-1" s="4" A="2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="farads"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="farads"
 					symbol="F">
 					<uom:Quantities>
 						<uom:Quantity name="capacitance"/>
@@ -5525,7 +5525,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-3" kg="1" s="0" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="kilograms-per-cubic-meter" symbol="kg·m-3">
 					<uom:Quantities>
 						<uom:Quantity name="density-mass"/>
@@ -5610,7 +5610,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="3" kg="0" s="-1" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="cubic-meters-per-second" symbol="m³/s">
 					<uom:Quantities>
 						<uom:Quantity name="volume-divided-by-time"/>
@@ -5932,7 +5932,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="standard-cubic-meters-per-second" symbol="scms">
 					<uom:Quantities>
 						<uom:Quantity name="flow-volume-standard"/>
@@ -6031,7 +6031,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-3" kg="0" s="0" A="0" K="0" mol="1" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="moles-per-cubic-meter" symbol="mol·m-3">
 					<uom:Quantities>
 						<uom:Quantity name="molar-concentration"/>
@@ -6073,7 +6073,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="1" kg="0" s="-1" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="meters-per-second" symbol="m/s">
 					<uom:Quantities>
 						<uom:Quantity name="speed"/>
@@ -6185,7 +6185,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="2" kg="0" s="-3" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="grays-per-second"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="grays-per-second"
 					symbol="Gy/s">
 					<uom:Quantities>
 						<uom:Quantity name="absorbed-dose-rate"/>
@@ -6251,7 +6251,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="sieverts-per-second" symbol="Sv/s">
 					<uom:Quantities>
 						<uom:Quantity name="equivalent-dose-rate"/>
@@ -6286,7 +6286,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="1" kg="1" s="-2" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="newtons"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="newtons"
 					symbol="N">
 					<uom:Quantities>
 						<uom:Quantity name="force"/>
@@ -6393,7 +6393,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="3" kg="0" s="0" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="cubic-meters"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="cubic-meters"
 					symbol="m3">
 					<uom:Quantities>
 						<uom:Quantity name="volume"/>
@@ -6515,7 +6515,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-1" kg="1" s="-3" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="watts-per-steradian-per-square-meter-per-meter" symbol="W⋅sr−1⋅m−3">
 					<uom:Quantities>
 						<uom:Quantity name="spectral-radiance"/>
@@ -6569,7 +6569,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-2" kg="0" s="0" A="0" K="0" mol="0" cd="1">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="lux" symbol="lx">
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="lux" symbol="lx">
 					<uom:Quantities>
 						<uom:Quantity name="illuminance"/>
 					</uom:Quantities>
@@ -6629,7 +6629,7 @@
 						</Alternative>
 					</Alternatives>
 				</UOM>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="candelas-per-square-meter" symbol="cd·m-2">
 					<uom:Quantities>
 						<uom:Quantity name="luminance"/>
@@ -6674,7 +6674,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="1" s="-3" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="watts-per-square-meter" symbol="W·m-2">
 					<uom:Quantities>
 						<uom:Quantity name="irradiance"/>
@@ -6750,7 +6750,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="1" kg="0" s="-2" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="meters-per-second-squared" symbol="m/s²">
 					<uom:Quantities>
 						<uom:Quantity name="acceleration"/>
@@ -6801,7 +6801,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="0" s="0" A="0" K="0" mol="1" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="moles"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="moles"
 					symbol="mol">
 					<uom:Quantities>
 						<uom:Quantity name="amount-of-substance"/>
@@ -6821,7 +6821,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="3" kg="0" s="-1" A="-2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="ohms-per-pascal"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="ohms-per-pascal"
 					symbol="Ω·Pa-1">
 					<uom:Quantities>
 						<uom:Quantity name="resistance-pressure-ratio"/>
@@ -6844,7 +6844,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="3" kg="0" s="-1" A="-1" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="volts-per-pascal"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="volts-per-pascal"
 					symbol="V·Pa-1">
 					<uom:Quantities>
 						<uom:Quantity name="voltage-pressure-ratio"/>
@@ -6880,7 +6880,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="0" s="-1" A="0" K="0" mol="1" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="moles-per-second"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="moles-per-second"
 					symbol="mol/s">
 					<uom:Quantities>
 						<uom:Quantity name="mole-flow-rate"/>
@@ -6903,7 +6903,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-2" kg="-1" s="3" A="2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="siemens"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="siemens"
 					symbol="S">
 					<uom:Quantities>
 						<uom:Quantity name="electrical-conductance"/>
@@ -6941,7 +6941,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-3" kg="-1" s="3" A="2" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="siemens-per-meter" symbol="S·m-1">
 					<uom:Quantities>
 						<uom:Quantity name="electrical-conductivity"/>
@@ -7065,7 +7065,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="1" s="2" A="1" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure" base_name="teslas"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database" base_name="teslas"
 					symbol="T">
 					<uom:Quantities>
 						<uom:Quantity name="magnetic-flux-density"/>
@@ -7118,7 +7118,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="1" s="-1" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="kilograms-per-second" symbol="kg/s">
 					<uom:Quantities>
 						<uom:Quantity name="mass-divided-by-time"/>
@@ -7276,7 +7276,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="-1" s="1" A="1" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="coulombs-per-kilogram" symbol="C·kg-1">
 					<uom:Quantities>
 						<uom:Quantity name="radiation-exposure"/>
@@ -7320,7 +7320,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="-1" kg="0" s="1" A="0" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="kilograms-per-pascal-second-square-meter" symbol="kg·Pa-1·s-1·m-2">
 					<uom:Quantities>
 						<uom:Quantity name="permeability"/>
@@ -7369,7 +7369,7 @@
 		</uom:Dimension>
 		<uom:Dimension m="0" kg="-1" s="0" A="1" K="0" mol="0" cd="0">
 			<uom:UOMs>
-				<UOM xmlns="http://schema.metrology.net/UnitsOfMeasure"
+				<UOM xmlns="http://schema.metrology.net/UOM_Database"
 					base_name="coulombs-per-kilogram-second" symbol="C·kg-1·s-1">
 					<uom:Quantities>
 						<uom:Quantity name="radiation-exposure-rate"/>

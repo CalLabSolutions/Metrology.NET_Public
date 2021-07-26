@@ -1,3 +1,4 @@
+using SOA_DataAccessLibrary;
 using System;
 
 namespace SoA_WebAPI
@@ -11,5 +12,7 @@ namespace SoA_WebAPI
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
         public string Summary { get; set; }
+
+        public SOA_DataAccess dao = new();
     }
 }

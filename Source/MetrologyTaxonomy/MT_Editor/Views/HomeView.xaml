@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="MT_Editor.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+             xmlns:local="clr-namespace:MT_Editor.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}" Margin="10 30 10 0">
+    <Grid HorizontalAlignment="Left">
+        <StackPanel MaxWidth="800">
+            <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Text="Metrology Taxonomy" Margin="0,0,0,24" />
+
+            <TextBlock Margin="0,0,0,15" FontSize="15" TextWrapping="Wrap">
+                Welcome to the MII's Group Metrology Taxonomy Editor.
+            </TextBlock>
+
+            <TextBlock FontSize="15" TextWrapping="Wrap" Margin="0,0,0,15">
+                This Application was designed to help better understand the parts and purpose of our Measurement and Source Taxons.
+                With this Application you can easily view and search for any Taxon by Name, Type, Parameter, or Result.
+            </TextBlock>
+
+            <TextBlock FontSize="15" TextWrapping="Wrap" Margin="0,0,0,5">If given access beyond read only, you will also be able to:</TextBlock>
+            <ListView>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="false"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListViewItem>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">&#8226;</TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap">                        
+                            Add Taxons using our detailed form that breaks the Taxon down to it's components, including Disciplines and External References
+                        </TextBlock>
+                    </Grid>
+                </ListViewItem>
+                <ListViewItem>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">&#8226;</TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap">                        
+                            Edit an existing Taxon using the same detailed form
+                        </TextBlock>
+                    </Grid>
+                </ListViewItem>
+                <ListViewItem>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">&#8226;</TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap">                        
+                            Delete unwanted Taxons
+                        </TextBlock>
+                    </Grid>
+                </ListViewItem>
+                <ListViewItem>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">&#8226;</TextBlock>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap">                        
+                            Deprecation, for situations where you want to track the progression of a Taxon due knowledge growth or collaboration
+                        </TextBlock>
+                    </Grid>
+                </ListViewItem>
+            </ListView>
+
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="0 50">
+                *Being able to edit will only allow you to save, load, and export a local version of the Metrology Taxonomy. You will not be able to edit the master version. Additions to the master copy must go through the MII Group's approval process.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap">
+
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

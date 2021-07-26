@@ -1,0 +1,208 @@
+﻿<UserControl
+    x:Class="MT_Editor.Views.AddEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MT_Editor.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="500" d:Background="White"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:vm="clr-namespace:MT_Editor.ViewModels"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:MT_Editor.Converters"
+    d:DataContext="{d:DesignInstance Type=vm:AddEditViewModel}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontWeight="Regular"
+    TextElement.FontSize="13"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}" Margin="10 30 10 0">
+
+    <UserControl.Resources>
+        <converters:TypeConverter x:Key="TypeConverter"></converters:TypeConverter>
+        <converters:Types x:Key="Source">Source</converters:Types>
+        <converters:Types x:Key="Measure">Measure</converters:Types>
+        <converters:IsNotBlankConverter x:Key="IsNotBlankConverter"></converters:IsNotBlankConverter>
+        <converters:IsBlankConverter x:Key="IsBlankConverter"></converters:IsBlankConverter>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0"
+            Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+            BorderThickness="0"
+            BorderBrush="Transparent"
+            TabStripPlacement="Top"
+            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+            materialDesign:ColorZoneAssist.Mode="Standard"
+            SnapsToDevicePixels="True">
+            <!-- Details -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Height="Auto" Width="Auto">
+                        <materialDesign:PackIcon Kind="Details" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Details" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Margin="0 10 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">Details</TextBlock>
+                    <StackPanel Grid.Row="1" Margin="0,24,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="TestProcess." />
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding TypeStr, Mode=TwoWay}" />
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding QuantityStr, Mode=TwoWay}" />
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <TextBlock Text="Type" FontWeight="Bold" Margin="0,24,0,0" />
+                        <RadioButton x:Name="Measure" Loaded="Measure_Loaded" GroupName="Types" Content="Measure" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter}, ConverterParameter={StaticResource Measure}}" />
+                        <RadioButton  x:Name="Source" Loaded="Source_Loaded" GroupName="Types" Content="Source"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource Source}}" />
+                        <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
+                        <ComboBox x:Name="Quantities" Loaded="Quantities_Loaded" HorizontalAlignment="Left" ItemsSource="{Binding Quantities}" Width="480" SelectedItem="{Binding SelectedQuantity, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Quantity:&#160;</TextBlock>
+                                        <TextBlock FontWeight="Bold" Text="{Binding QuantitiyName}" />
+                                        <TextBlock>&#160;&#160;|&#160;&#160;</TextBlock>
+                                        <TextBlock>Base:&#160;</TextBlock>
+                                        <TextBlock FontWeight="Bold" Text="{Binding BaseName}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Process</TextBlock>
+                        <TextBox Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" Width="480" HorizontalAlignment="Left" />
+                        <TextBlock FontSize="12" FontStyle="Italic">Dot sepereated generic description of how the quantity is sourced or measured.</TextBlock>
+                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
+                        <ScrollViewer>
+                            <TextBox Text="{Binding Definition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Parameters -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Height="Auto" Width="Auto">
+                        <materialDesign:PackIcon Kind="FormatListBulletedSquare" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Parameters" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Margin="0 10 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0">Parameteres</TextBlock>
+                    <StackPanel Grid.Row="1" Margin="0,24,0,0">
+                        <ListView x:Name="ParamList" ItemsSource="{Binding Parameters, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Transparent" BorderThickness="4">
+                                        <Grid Width="448">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="75" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" />
+                                                    <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"  Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Visibility="{Binding ParamDefinition, Converter={StaticResource IsNotBlankConverter}}">
+                                                    <TextBlock Text="Definition:" />
+                                                    <TextBlock Text="{Binding Definition}" Margin="15,0,0,0" TextWrapping="Wrap" Width="300" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
+                                                    <TextBlock Text="Quantity:" />
+                                                    <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent" 
+                                                    Command="{Binding ElementName=ParamList, Path=DataContext.DeleteParam}" CommandParameter="{Binding Name}">
+                                                <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Name</TextBlock>
+                        <TextBox Text="{Binding ParamName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
+                        <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
+                        <ComboBox ItemsSource="{Binding ParamQuantities}" Width="480" SelectedItem="{Binding SelectedParamQuantity}" HorizontalAlignment="Left">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Quantity:&#160;</TextBlock>
+                                        <TextBlock FontWeight="Bold" Text="{Binding QuantitiyName}" />
+                                        <TextBlock>&#160;&#160;|&#160;&#160;</TextBlock>
+                                        <TextBlock>Base:&#160;</TextBlock>
+                                        <TextBlock FontWeight="Bold" Text="{Binding BaseName}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
+                        <ScrollViewer>
+                            <TextBox Text="{Binding ParamDefinition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                        </ScrollViewer>
+                        <CheckBox Margin="0,24,0,0" Content="Optional" IsChecked="{Binding Optional, Mode=TwoWay}" />
+                        <Button Width="75" Content="Add" x:Name="AddParam" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
+                        <Border BorderThickness="1" BorderBrush="Gray" Width="480" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Results -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Height="Auto" Width="Auto">
+                        <materialDesign:PackIcon Kind="Export" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Results" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Disciplines -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Height="Auto" Width="Auto">
+                        <materialDesign:PackIcon Kind="AtomVariant" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Disciplines" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Ext. Ref. -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Height="Auto" Width="Auto">
+                        <materialDesign:PackIcon Kind="Bookshelf" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Ext. Rreference" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+
+        <!-- Save Taxon -->
+        <Button Grid.Row="1" x:Name="SaveTaxon" Width="85" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="ContentSave" />
+                <TextBlock>Save</TextBlock>
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>

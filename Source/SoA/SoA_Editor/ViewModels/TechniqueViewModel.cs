@@ -1,11 +1,7 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SoA_Editor.Models;
 using System.Collections.ObjectModel;
+using SOA_DataAccessLib;
 
 namespace SoA_Editor.ViewModels
 {
@@ -16,7 +12,13 @@ namespace SoA_Editor.ViewModels
             InputParameters = new ObservableCollection<Technique_InputParameter>();
             Outputs = new ObservableCollection<Technique_Output>();
             Variables = new ObservableCollection<Technique_Variable>();
+            VariableTypes = new ObservableCollection<string>();
+            VariableTypes.Add("Variable");
+            VariableTypes.Add("Constant");
         }
+
+        public static TechniqueViewModel Instance { get; set; }
+        public Unc_Technique Technique = null;
 
         private string _TaxonomyName;
 
@@ -59,6 +61,7 @@ namespace SoA_Editor.ViewModels
         }
 
         private string category;
+
         public string Category
         {
             get { return category; }
@@ -73,6 +76,7 @@ namespace SoA_Editor.ViewModels
             set { sourceEquipment = value; NotifyOfPropertyChange(() => SourceEquipment); }
         }
 
+
         private BindableCollection<string> measureEquipment = new BindableCollection<string>();
 
         public BindableCollection<string> MeasureEquipment
@@ -80,6 +84,7 @@ namespace SoA_Editor.ViewModels
             get { return measureEquipment; }
             set { measureEquipment = value; NotifyOfPropertyChange(() => MeasureEquipment); }
         }
+
 
         private ObservableCollection<Technique_InputParameterRange> _InputParameterRanges;
 
@@ -139,5 +144,15 @@ namespace SoA_Editor.ViewModels
                 Set(ref _Variables, value);
             }
         }
+
+
+        private ObservableCollection<string> variableTypes;
+
+        public ObservableCollection<string> VariableTypes
+        {
+            get { return variableTypes; }
+            set { variableTypes = value; NotifyOfPropertyChange(() => VariableTypes); }
+        }
+
     }
 }

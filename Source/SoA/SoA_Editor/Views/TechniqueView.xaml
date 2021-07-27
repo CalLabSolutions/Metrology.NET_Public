@@ -89,10 +89,29 @@
                     </Grid>
                 </materialDesign:Card>
             </StackPanel>
-            <Grid>
-                
-            </Grid>
-            <DataGrid CanUserAddRows="True" x:Name="InputParameterRanges" ItemsSource="{Binding InputParameterRanges}" AutoGenerateColumns="False"
+
+            <DataGrid x:Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False" CanUserAddRows="False"
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Input Parameters" Binding="{Binding Path=InputParam,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridCheckBoxColumn Header="Variable" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            Binding="{Binding Variable, UpdateSourceTrigger=PropertyChanged}">                        
+                        <DataGridCheckBoxColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridCheckBoxColumn.HeaderStyle>
+                    </DataGridCheckBoxColumn>
+                    <materialDesign:DataGridComboBoxColumn  Header="Variable Type" Width="Auto" IsEditable="False" 
+                                                            ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.VariableTypes}"
+                                                            SelectedValueBinding="{Binding VariableType, UpdateSourceTrigger=PropertyChanged}">
+                    </materialDesign:DataGridComboBoxColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid x:Name="InputParameterRanges" ItemsSource="{Binding InputParameterRanges}" AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Input Parameter Ranges" Binding="{Binding Path=InputParamRange,UpdateSourceTrigger=PropertyChanged}"/>
@@ -101,15 +120,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <DataGrid CanUserAddRows="True" x:Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Input Parameters" Binding="{Binding Path=InputParam,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <DataGrid CanUserAddRows="True" x:Name="Outputs" ItemsSource="{Binding Outputs}" AutoGenerateColumns="False"
+            <DataGrid x:Name="Outputs" ItemsSource="{Binding Outputs}" AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Outputs" Binding="{Binding Path=Output,UpdateSourceTrigger=PropertyChanged}"/>
@@ -135,19 +146,23 @@
                 <Label Grid.Row="1" Grid.Column="1" Content="Formulas"/>
                 <Label Grid.Row="1" Grid.Column="2" Content="Variables"/>
 
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="formula text" x:Name="Formula"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Formula, Mode=TwoWay}"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"                    
+                    AcceptsReturn="True"
+                    VerticalScrollBarVisibility="Auto"
+                    materialDesign:HintAssist.Hint="Multiline text"
+                    Height="80"/>     
 
-                <DataGrid Grid.Row="2" Grid.Column="2" CanUserAddRows="True" x:Name="Variables" ItemsSource="{Binding Variables}" AutoGenerateColumns="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True">
+                <DataGrid Grid.Row="2" Grid.Column="2" x:Name="Variables" ItemsSource="{Binding Variables}" AutoGenerateColumns="False"
+                     CanUserReorderColumns="True" CanUserSortColumns="True" CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Path=Value,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Parameter" Binding="{Binding Path=Value,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding Path=Type,UpdateSourceTrigger=PropertyChanged}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
             </Grid>
-
-            <Label Content="Documentation"/>
-
         </StackPanel>
 
     </Grid>

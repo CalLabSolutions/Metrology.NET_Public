@@ -1,23 +1,14 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoA_Editor.Models
 {
     public class Technique_Variable : PropertyChangedBase
     {
-        public Technique_Variable(string value)
+        public Technique_Variable(string value, string type)
         {
             Value = value;
-        }
-
-        public Technique_Variable()
-        {
-
-        }
+            Type = type;
+        }        
 
         private string _Value;
 
@@ -25,6 +16,14 @@ namespace SoA_Editor.Models
         {
             get { return _Value; }
             set { _Value = value; NotifyOfPropertyChange(() => Value); }
+        }
+
+        private string _Type;
+
+        public string Type
+        {
+            get { return _Type; }
+            set { _Type = value; NotifyOfPropertyChange(() => Type); }
         }
     }
 }

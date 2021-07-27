@@ -27,7 +27,7 @@ namespace SoA_Editor.ViewModels
         private TechniqueViewModel _techiqueVM = null;
         private RangeViewModel _rangeVM = null;
 
-        private String _lblCompanyInfoName = null;
+        private string _lblCompanyInfoName = null;
 
         private string _fullPath = "";
         private bool _isSaveAs = false;
@@ -95,7 +95,7 @@ namespace SoA_Editor.ViewModels
                 inputParam = new TaxonomyInputParam(param, quantity, optional);
 
                 TaxonomyVM.InputParams.Add(inputParam);
-            }           
+            }
 
             //set definition
             if (taxon.Definition != null)
@@ -104,7 +104,7 @@ namespace SoA_Editor.ViewModels
             }
 
             _ = ActivateItemAsync(TaxonomyVM);
-        }        
+        }
 
         //show the corresponding technique pane on the right-hand side based on the selected item from the menu
         private void LoadTechniqueViewModelObj(string lbl)
@@ -149,8 +149,20 @@ namespace SoA_Editor.ViewModels
                     inputParamQty = technique.Technique.Parameters[i].Quantity.name;
                 }
                 else inputParamQty = "";
+                
+                bool variable = false;
+                string type = "";
+                for (int j = 0; j < technique.Technique.CMCUncertainties[0].SymbolDefinitions.Count(); j++)
+                {
+                    if (technique.Technique.CMCUncertainties[0].SymbolDefinitions[j].parameter == inputParamName)
+                    {
+                        variable = true;
+                        type = technique.Technique.CMCUncertainties[0].SymbolDefinitions[j].type;                        
+                        break;
+                    }
+                }
 
-                TechniqueVM.InputParameters.Add(new Technique_InputParameter(inputParamName, inputParamQty));
+                TechniqueVM.InputParameters.Add(new Technique_InputParameter(inputParamName, inputParamQty, variable, type));
             }
 
             for (int i = 0; i < technique.Technique.ResultRanges.Count(); i++)
@@ -163,13 +175,17 @@ namespace SoA_Editor.ViewModels
                 TechniqueVM.Outputs.Add(new Technique_Output(name, resultMin, resultMax));
             }
 
-            for (int i = 0; i < technique.Technique.CMCUncertainties[0].ExpressionSymbols.Count; i++)
+            for (int i = 0; i < technique.Technique.CMCUncertainties[0].SymbolDefinitions.Count(); i++)
             {
-                string varName = technique.Technique.CMCUncertainties[0].ExpressionSymbols[i].ToString();
+                string varName = technique.Technique.CMCUncertainties[0].SymbolDefinitions[i].parameter;
+                string type = technique.Technique.CMCUncertainties[0].SymbolDefinitions[i].type;
 
-                TechniqueVM.Variables.Add(new Technique_Variable(varName));
+                TechniqueVM.Variables.Add(new Technique_Variable(varName, type));
             }
 
+            // We will need to update data
+            TechniqueVM.Technique = technique;
+            TechniqueViewModel.Instance = TechniqueVM;
             _ = ActivateItemAsync(TechniqueVM);
         }
 

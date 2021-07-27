@@ -704,6 +704,24 @@ namespace SOA_DataAccessLib
             setQuantity(parameterSource);
         }
 
+        public Mtc_Symbol(Mtc_Parameters parameterSource, String name, SymbolType sType)
+        {
+            var param = parameterSource[name];
+            _parameter = param.name;
+            switch (sType)
+            {
+                case SymbolType.Constant:
+                    _type = "Constant";
+                    break;
+
+                case SymbolType.Variable:
+                    _type = "Variable";
+                    break;
+            }            
+        }
+
+
+
         public Mtc_Symbol(XElement datasource, IParameterSource parameterSource)
         {
             MtcSpaceHelper mtcSpaceHelper = new MtcSpaceHelper(datasource);
@@ -729,6 +747,11 @@ namespace SOA_DataAccessLib
                 var set = symbols.Where(x => x.parameter == parameterName);
                 return (set.Count() > 0) ? set.First() : null;
             }
+        }
+
+        public void Remove(Mtc_Symbol symbol)
+        {
+            symbols.Remove(symbol);
         }
 
         public void Add(Mtc_Symbol symbol)

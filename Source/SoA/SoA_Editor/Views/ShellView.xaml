@@ -18,15 +18,17 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Scope of Accreditation Editor" Height="750" Width="1100" MinHeight="400" MinWidth="600" Icon="/Icon/SoA.png" WindowStartupLocation="CenterScreen">    
+        Title="Scope of Accreditation Editor" Height="750" Width="1100" MinHeight="400" MinWidth="600" Icon="/Icon/SoA.png" WindowStartupLocation="CenterScreen">
+
     
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="55"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>            
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -35,8 +37,8 @@
             <ColumnDefinition Width="240" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />            
-        </Grid.ColumnDefinitions>
-        
+        </Grid.ColumnDefinitions>       
+
         <DockPanel Grid.Row="0" Grid.ColumnSpan="5">
             <Menu IsMainMenu="True" Background="{DynamicResource PrimaryHueMidBrush}">
                 <MenuItem Header="_File" VerticalAlignment="Center">
@@ -136,5 +138,5 @@
                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                Grid.Row="4" VerticalContentAlignment="Bottom"
                Grid.ColumnSpan="5" Margin="0 3 0 0"/>
-    </Grid>
+    </Grid>    
 </Window>

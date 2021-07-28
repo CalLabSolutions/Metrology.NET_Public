@@ -143,6 +143,7 @@ namespace SoA_Editor.ViewModels
             for (int i = 0; i < technique.Technique.Parameters.Count(); i++)
             {
                 string inputParamName = technique.Technique.Parameters[i].name;
+                bool inputParamOptional = technique.Technique.Parameters[i].optional;
                 string inputParamQty;
                 if (technique.Technique.Parameters[i].Quantity != null)
                 {
@@ -162,7 +163,7 @@ namespace SoA_Editor.ViewModels
                     }
                 }
 
-                TechniqueVM.InputParameters.Add(new Technique_InputParameter(inputParamName, inputParamQty, variable, type));
+                TechniqueVM.InputParameters.Add(new Technique_InputParameter(inputParamName, inputParamQty, inputParamOptional, variable, type));
             }
 
             for (int i = 0; i < technique.Technique.ResultRanges.Count(); i++)

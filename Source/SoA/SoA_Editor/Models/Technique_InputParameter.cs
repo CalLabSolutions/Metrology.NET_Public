@@ -6,18 +6,21 @@ namespace SoA_Editor.Models
 {
     public class Technique_InputParameter : PropertyChangedBase
     {
-        public Technique_InputParameter(string inputParam, string quantity, bool variable, string vType)
+        public Technique_InputParameter(string inputParam, string quantity, bool optional, bool variable, string vType)
         {
             InputParam = inputParam;
-            Quantity = quantity;
+            Quantity = ViewModels.Quantity.FormatUomQuantity(UomDataSource.getQuantity(quantity)).FormatedName;
             Variable = variable;
             VariableType = vType;
+            allowUpdate = true;
+            Optional = optional ? "Yes" : "No";
         }
 
+        private bool allowUpdate = false;
         public static TechniqueViewModel TechniqueVM = null;
+        private Mtc_Symbol.SymbolType SymbolType;
 
         private string _InputParam;
-        private Mtc_Symbol.SymbolType SymbolType;
 
         public string InputParam
         {
@@ -31,6 +34,18 @@ namespace SoA_Editor.Models
         {
             get { return _Quantity; }
             set { _Quantity = value; NotifyOfPropertyChange(() => Quantity); }
+        }
+
+        private string optional;
+
+        public string Optional
+        {
+            get { return optional; }
+            set
+            {
+                optional = value;
+                NotifyOfPropertyChange(() => Optional);
+            }
         }
 
         private string _VariableType;
@@ -76,7 +91,7 @@ namespace SoA_Editor.Models
         {
             TechniqueVM = TechniqueViewModel.Instance;
 
-            if (TechniqueVM != null)
+            if (TechniqueVM != null && allowUpdate)
             {
                 Mtc_Technique technique = TechniqueVM.Technique.Technique;
 
@@ -103,7 +118,7 @@ namespace SoA_Editor.Models
         {
             TechniqueVM = TechniqueViewModel.Instance;
 
-            if (TechniqueVM != null)
+            if (TechniqueVM != null && allowUpdate)
             {
                 Mtc_Technique technique = TechniqueVM.Technique.Technique;
                 if (Variable)
@@ -125,7 +140,8 @@ namespace SoA_Editor.Models
                             {
                                 technique.CMCUncertainties[0].Variables.Remove(InputParam);
                                 technique.CMCUncertainties[0].Constants.Add(InputParam);
-                            } else if (SymbolType == Mtc_Symbol.SymbolType.Variable)
+                            }
+                            else if (SymbolType == Mtc_Symbol.SymbolType.Variable)
                             {
                                 technique.CMCUncertainties[0].Variables.Add(InputParam);
                             }
@@ -139,6 +155,7 @@ namespace SoA_Editor.Models
                 }
             }
         }
+
         private void AddSymbol(Mtc_Technique technique)
         {
             Mtc_Symbol symbol;

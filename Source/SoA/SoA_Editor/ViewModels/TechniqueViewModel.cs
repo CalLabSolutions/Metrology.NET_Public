@@ -2,6 +2,10 @@
 using SoA_Editor.Models;
 using System.Collections.ObjectModel;
 using SOA_DataAccessLib;
+using SoA_Editor.Views;
+using MaterialDesignThemes.Wpf;
+using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace SoA_Editor.ViewModels
 {
@@ -16,6 +20,10 @@ namespace SoA_Editor.ViewModels
             VariableTypes.Add("Variable");
             VariableTypes.Add("Constant");
         }
+
+        #region Properties
+
+        private InputParameterDialogView inputParamView;
 
         public static TechniqueViewModel Instance { get; set; }
         public Unc_Technique Technique = null;
@@ -101,6 +109,18 @@ namespace SoA_Editor.ViewModels
         }
 
 
+        private Technique_InputParameter _InputParameter;
+        public Technique_InputParameter InputParameter
+        {
+            get { return _InputParameter; }
+            set
+            {
+                _InputParameter = value;
+                NotifyOfPropertyChange(() => InputParameter);
+            }
+        }
+
+
         private ObservableCollection<Technique_InputParameter> _InputParameters;
 
         public ObservableCollection<Technique_InputParameter> InputParameters
@@ -154,5 +174,62 @@ namespace SoA_Editor.ViewModels
             set { variableTypes = value; NotifyOfPropertyChange(() => VariableTypes); }
         }
 
+        #endregion
+
+        #region Methods        
+
+        public async void OpenInputParameterDialog()
+        {
+            // set up our dialog view
+            inputParamView = new InputParameterDialogView()
+            {
+                DataContext = new InputParameterDialogViewModel(Technique.Technique.Parameters)
+            };
+
+            // Reset the error
+            var viewModel = (InputParameterDialogViewModel)inputParamView.DataContext;
+            viewModel.Error = "";
+
+            // get our result
+            object result = await DialogHost.Show(inputParamView, "TechniqueDialog", ClosingEventHandler);
+            
+            // if passed validation in ClosingEventHandler, save the parameter
+            viewModel.Save((bool)result);
+
+            // Add the parameter to our view
+            var param = Technique.Technique.Parameters[Technique.Technique.Parameters.Count() - 1];
+            InputParameters.Add(new Technique_InputParameter(param.name, param.Quantity.name, param.optional, false, ""));
+        }
+
+        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter)
+            {
+                var viewModel = (InputParameterDialogViewModel)inputParamView.DataContext;
+                // validate
+                bool error = false;
+                if (viewModel.ParamName == "" || viewModel.ParamName == null)
+                {
+                    viewModel.Error = "Please enter a Parameter Name";
+                    error = true;
+                }
+
+                else if (viewModel.Quantity == null)
+                {
+                    viewModel.Error = "Please select a Quantity";
+                    error = true;
+                }
+
+                else if (viewModel.Quantity != null && UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName) == null)
+                {
+                    viewModel.Error = "Please select a valid Quantity from the list.";
+                    error = true;
+                }
+
+                if (error) eventArgs.Cancel();
+            }
+        }
+
+        #endregion
     }
 }

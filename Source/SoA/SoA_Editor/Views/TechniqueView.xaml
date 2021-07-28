@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:SoA_Editor.Views"
              xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
              mc:Ignorable="d" 
@@ -38,7 +39,6 @@
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
-        <!-- Row 1 -->       
         <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <StackPanel Orientation="Horizontal">
                 <materialDesign:Card
@@ -91,10 +91,11 @@
             </StackPanel>
 
             <DataGrid x:Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                      CanUserDeleteRows="True" IsReadOnly="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20" SelectedItem="{Binding InputParameter}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Input Parameters" Binding="{Binding Path=InputParam,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Input Parameters" Binding="{Binding Path=InputParam}" />
                     <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Optional" Binding="{Binding Path=Optional}" />
                     <DataGridCheckBoxColumn Header="Variable" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
                                             Binding="{Binding Variable, UpdateSourceTrigger=PropertyChanged}">                        
@@ -111,8 +112,10 @@
                 </DataGrid.Columns>
             </DataGrid>
 
+            <Button x:Name="OpenInputParameterDialog" Content="Add Input Parameter" Width="175" Style="{DynamicResource MaterialDesignOutlinedButton}" HorizontalAlignment="Left"/>
+
             <DataGrid x:Name="InputParameterRanges" ItemsSource="{Binding InputParameterRanges}" AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Input Parameter Ranges" Binding="{Binding Path=InputParamRange,UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Min" Binding="{Binding Path=Min, UpdateSourceTrigger=PropertyChanged}"/>
@@ -164,7 +167,7 @@
 
             </Grid>
         </StackPanel>
-
+        <materialDesign:DialogHost Identifier="TechniqueDialog" DialogTheme="Inherit" CloseOnClickAway="True" />
     </Grid>
 </UserControl>
 

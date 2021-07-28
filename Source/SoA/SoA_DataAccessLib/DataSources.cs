@@ -570,6 +570,24 @@ namespace SOA_DataAccessLib
             get { return Doc.Root; }
         }
 
+        public static Dictionary<string, Quantity> getQuantities()
+        {
+            if (Database != null)
+            {
+                var qtys = Database.Descendants(ns + "Quantity");
+                if (qtys != null)
+                {
+                    foreach (XElement el in qtys)
+                    {
+                        var name = (string)el.Attribute("name");
+                        var els = qtys.Where(x => (string)x.Attribute("name") == name);
+                        qtyCache[name] = (els.Count() > 0) ? new Quantity(els.First()) : null;
+                    }
+                }
+            }
+            return qtyCache;
+        }
+
         public static Quantity getQuantity(string QuantityName)
         {
             if (!qtyCache.Keys.Contains(QuantityName))

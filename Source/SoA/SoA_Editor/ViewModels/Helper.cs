@@ -82,6 +82,7 @@ namespace SoA_Editor.ViewModels
             set { treeViewTechnique = value; }
         }
 
+        // Class to help with Message boxes
         internal class MessageDialog
         {
             public string Title = "";
@@ -93,6 +94,74 @@ namespace SoA_Editor.ViewModels
             {
                 MessageBox.Show(Message, Title, Button, Image);
             }
+        }
+    }
+
+    // Quantity Object for the view
+    public class Quantity
+    {
+        private string baseName;
+
+        public string BaseName
+        {
+            get { return baseName; }
+            set { baseName = value; }
+        }
+
+        private string quantitiyName;
+
+        public string QuantitiyName
+        {
+            get { return quantitiyName; }
+            set { quantitiyName = value; }
+        }
+
+        private string formatedName;
+
+        public string FormatedName
+        {
+            get { return formatedName; }
+            set { formatedName = value; }
+        }
+
+        public static Quantity FormatUomQuantity(SOA_DataAccessLib.UomDataSource.Quantity quantity)
+        {
+            var bname = quantity.UoM.name;
+            var bnameArr = bname.Split("-");
+            if (bnameArr.Length > 0)
+            {
+                for (int i = 0; i < bnameArr.Length; i++)
+                {
+                    bnameArr[i] = bnameArr[i][0].ToString().ToUpper() + bnameArr[i].Substring(1);
+                }
+                bname = string.Join(" ", bnameArr);
+            }
+            else
+            {
+                bname = bname[0].ToString().ToUpper() + bname.Substring(1);
+            }
+
+            var qname = quantity.name;
+            var qnameArr = qname.Split("-");
+            if (qnameArr.Length > 0)
+            {
+                for (int i = 0; i < qnameArr.Length; i++)
+                {
+                    qnameArr[i] = qnameArr[i][0].ToString().ToUpper() + qnameArr[i].Substring(1);
+                }
+                qname = string.Join("-", qnameArr);
+            }
+            else
+            {
+                qname = qname[0].ToString().ToUpper() + qname.Substring(1);
+            }
+
+            return new Quantity()
+            {
+                BaseName = bname,
+                FormatedName = qname,
+                QuantitiyName = quantity.name
+            };
         }
     }
 }

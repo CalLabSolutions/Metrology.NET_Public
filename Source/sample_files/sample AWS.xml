@@ -37,10 +37,10 @@
                             <mtc:Result name="Volts">
                                 <uom:Quantity name="voltage"/>
                             </mtc:Result>
-                            <mtc:Parameter name="nominal">
+                            <mtc:Parameter name="nominal" optional="false">
                                 <uom:Quantity name="voltage"/>
                             </mtc:Parameter>
-                            <mtc:Parameter name="frequency">
+                            <mtc:Parameter name="frequency" optional="true">
                                 <uom:Quantity name="frequency"/>
                             </mtc:Parameter>
                             <mtc:Definition>Measure.Voltage</mtc:Definition>

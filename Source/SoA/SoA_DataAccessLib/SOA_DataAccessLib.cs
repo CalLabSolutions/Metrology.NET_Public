@@ -428,6 +428,7 @@ namespace SOA_DataAccessLib
         }
     }
 
+    [Serializable]
     public class Mtc_Parameters : IEnumerable<Mtc_Parameter>
     {
         private List<Mtc_Parameter> parameters = new List<Mtc_Parameter>();
@@ -452,6 +453,11 @@ namespace SOA_DataAccessLib
             return value;
         }
 
+        public void Remove(Mtc_Parameter value)
+        {
+            parameters.Remove(value);
+        }
+
         public Mtc_Parameter Add(string name, Mtc_Enumeration enumeration, Boolean optional)
         {
             Mtc_Parameter new_parameter = new Mtc_Parameter(name, enumeration, optional);
@@ -469,6 +475,11 @@ namespace SOA_DataAccessLib
         public int Count()
         {
             return parameters.Count();
+        }
+
+        public List<Mtc_Parameter> ToList()
+        {
+            return parameters;
         }
 
         private void loadParameters(MtcSpaceHelper mtcSpaceHelper)
@@ -1411,6 +1422,11 @@ namespace SOA_DataAccessLib
             ranges.Add(range);
         }
 
+        public void Remove(Mtc_Range range)
+        {
+            ranges.Remove(range);
+        }
+
         public int Count()
         {
             return ranges.Count();
@@ -1485,9 +1501,19 @@ namespace SOA_DataAccessLib
             ranges.Add(range);
         }
 
+        public void Remove(Mtc_Range range)
+        {
+            ranges.Remove(range);
+        }
+
         public int Count()
         {
             return ranges.Count();
+        }
+
+        public List<Mtc_Range> ToList()
+        {
+            return ranges;
         }
 
         private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_Taxon taxon)

@@ -1,27 +1,18 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SOA_DataAccessLib;
 
 namespace SoA_Editor.Models
 {
     public class Technique_InputParameterRange : PropertyChangedBase
     {
-
-        public Technique_InputParameterRange(string inputParamRange, string min, string max)
+        public Technique_InputParameterRange(string inputParamRange, string min, string max, string testMin, string testMax)
         {
             InputParamRange = inputParamRange;
             Min = min;
             Max = max;
+            TestMin = testMin;
+            TestMax = testMax;
         }
-
-        public Technique_InputParameterRange()
-        {
-
-        }
-
 
         private string _InputParamRange;
 
@@ -31,7 +22,6 @@ namespace SoA_Editor.Models
             set { _InputParamRange = value; NotifyOfPropertyChange(() => InputParamRange); }
         }
 
-
         private string _Min;
 
         public string Min
@@ -39,7 +29,6 @@ namespace SoA_Editor.Models
             get { return _Min; }
             set { _Min = value; NotifyOfPropertyChange(() => Min); }
         }
-
 
         private string _Max;
 
@@ -49,6 +38,20 @@ namespace SoA_Editor.Models
             set { _Max = value; NotifyOfPropertyChange(() => Max); }
         }
 
+        private string _TestMax;
+
+        public string TestMax
+        {
+            get { return _TestMax; }
+            set { _TestMax = value; NotifyOfPropertyChange(() => TestMax); }
+        }
+
+        private string _TestMin;
+
+        public string TestMin
+        {
+            get { return _TestMin; }
+            set { _TestMin = value; NotifyOfPropertyChange(() => TestMin); }
+        }        
     }
 }
-

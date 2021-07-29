@@ -37,8 +37,7 @@
                 <materialDesign:PackIcon Kind="FormTextbox" VerticalAlignment="Center"/>
                 <TextBox Text="{Binding Name, Mode=TwoWay}" Width="250"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                materialDesign:HintAssist.Hint="Technique Name" VerticalAlignment="Center"
-                materialDesign:HintAssist.HelperText="Field is required"/>
+                materialDesign:HintAssist.Hint="Technique Name" VerticalAlignment="Center"/>
             </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 24 0 0">

@@ -39,6 +39,19 @@ namespace SoA_Editor.ViewModels
             dialog.Button = MessageBoxButton.OK;
             dialog.Image = MessageBoxImage.Exclamation;
             dialog.Title = "Validation Error";
+            EditMode = false;
+        }
+
+        public TechniqueInfoViewModel(Unc_Technique technique)
+        {
+            EditMode = true;
+            Name = technique.Name;
+            functionName = technique.Technique.CMCUncertainties[0].function_name;
+        }
+
+        public void Edit()
+        {
+
         }
 
         public void Save()
@@ -271,6 +284,18 @@ namespace SoA_Editor.ViewModels
             {
                 functionName = value.Trim();
                 NotifyOfPropertyChange(() => FunctionName);
+            }
+        }
+
+        private bool editMode;
+        
+        public bool EditMode
+        {
+            get { return editMode; }
+            set
+            {
+                editMode = value;
+                NotifyOfPropertyChange(() => EditMode);
             }
         }
 

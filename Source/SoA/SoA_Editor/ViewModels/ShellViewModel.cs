@@ -136,8 +136,10 @@ namespace SoA_Editor.ViewModels
                 string paramRangeName = technique.Technique.ParameterRanges[i].name;
                 string paramMin = technique.Technique.ParameterRanges[i].Start.Value.ToString();
                 string paramMax = technique.Technique.ParameterRanges[i].End.Value.ToString();
+                string testMin = technique.Technique.ParameterRanges[i].Start.test;
+                string testMax = technique.Technique.ParameterRanges[i].End.test;
 
-                TechniqueVM.InputParameterRanges.Add(new Technique_InputParameterRange(paramRangeName, paramMin, paramMax));
+                TechniqueVM.InputParameterRanges.Add(new Technique_InputParameterRange(paramRangeName, paramMin, paramMax, testMin, testMax));
             }
 
             for (int i = 0; i < technique.Technique.Parameters.Count(); i++)
@@ -172,8 +174,10 @@ namespace SoA_Editor.ViewModels
                 string resultMax = technique.Technique.ResultRanges[i].End.Value.ToString();
 
                 string name = technique.Technique.ResultRanges[i].name == "" ? "result" : technique.Technique.ResultRanges[i].name;
+                string testMin = technique.Technique.ResultRanges[i].Start.test;
+                string testMax = technique.Technique.ResultRanges[i].End.test;
 
-                TechniqueVM.Outputs.Add(new Technique_Output(name, resultMin, resultMax));
+                TechniqueVM.Outputs.Add(new Technique_Output(name, resultMin, resultMax, testMin, testMax));
             }
 
             for (int i = 0; i < technique.Technique.CMCUncertainties[0].SymbolDefinitions.Count(); i++)

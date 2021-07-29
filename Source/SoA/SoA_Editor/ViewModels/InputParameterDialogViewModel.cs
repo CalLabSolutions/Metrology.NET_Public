@@ -15,24 +15,22 @@ namespace SoA_Editor.ViewModels
         public InputParameterDialogViewModel(Mtc_Parameters parameters, string name = "", string qty = "", bool optional = false)
         {
             
-            ParamName = name;
-            if (qty != "")
-            {
-                var tempQty = UomDataSource.getQuantity(qty);
-                Quantity = Quantity.FormatUomQuantity(tempQty);
-            }            
+            ParamName = name;                    
             Optional = optional;
             quantityDictionary = UomDataSource.getQuantities();
             Quantities = new();
-            dialog = new();
-            dialog.Title = "Validation Error";
-            dialog.Button = System.Windows.MessageBoxButton.OK;
-            dialog.Image = System.Windows.MessageBoxImage.Error;
-            Parameters = parameters;
+            foreach (KeyValuePair<string, UomDataSource.Quantity> entry in quantityDictionary)
+            {
+                // Format for Display
+                if (entry.Value != null)
+                    quantities.Add(Quantity.FormatUomQuantity(entry.Value));
+            }
+            if (qty != "")
+            {
+                Quantity = Quantities.SingleOrDefault(q => q.QuantitiyName == qty);
+            }
         }
         private Dictionary<string, UomDataSource.Quantity> quantityDictionary;
-        private Mtc_Parameters Parameters;
-        private Helper.MessageDialog dialog;
 
         #region Properties
 
@@ -74,15 +72,7 @@ namespace SoA_Editor.ViewModels
         {
             get
             {
-                if (quantities.Count == 0)
-                {
-                    foreach (KeyValuePair<string, UomDataSource.Quantity> entry in quantityDictionary)
-                    {
-                        // Helperat for Display
-                        if (entry.Value != null)
-                            quantities.Add(Quantity.FormatUomQuantity(entry.Value));
-                    }
-                }
+                
                 return quantities;
             }
             set
@@ -100,20 +90,6 @@ namespace SoA_Editor.ViewModels
             {
                 quantity = value;
                 NotifyOfPropertyChange(() => Quantity);
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        public void Save(bool result)
-        {
-            // If we made it here the fields have already been validated
-            // durning the close dialog event
-            if (result)
-            {
-                Parameters.Add(new Mtc_Parameter(ParamName, Quantity.QuantitiyName, Optional));
             }
         }
 

@@ -49,7 +49,7 @@
 
                     <unc:Technique name="Measure.Voltage.AC.LowVoltage" taxon="Measure.Voltage.AC"> <!-- needed when Technique is externally defined, when locally defined as here, not so much. -->
                         <mtc:Technique name="Measure.Voltage.AC.LowVoltage" taxon="Measure.Voltage.AC">
-                            <mtc:ResultRange>
+                            <mtc:ResultRange name="Volts">
                                 <mtc:Start test="at">0</mtc:Start>
                                 <mtc:End test="at" uom_alternative="kilovolts">0.110</mtc:End>
                             </mtc:ResultRange>

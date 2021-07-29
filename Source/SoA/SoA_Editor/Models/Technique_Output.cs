@@ -9,16 +9,13 @@ namespace SoA_Editor.Models
 {
     public class Technique_Output : PropertyChangedBase
     {
-        public Technique_Output(string output, string min, string max)
+        public Technique_Output(string output, string min, string max, string testMin, string testMax)
         {
             Output = output;
             Min = min;
             Max = max;
-        }
-
-        public Technique_Output()
-        {
-
+            TestMin = testMin;
+            TestMax = testMax;
         }
 
         private string _Output;
@@ -43,6 +40,22 @@ namespace SoA_Editor.Models
         {
             get { return _Max; }
             set { _Max = value; NotifyOfPropertyChange(() => Max); }
+        }
+
+        private string _TestMin;
+
+        public string TestMin
+        {
+            get { return _TestMin; }
+            set { _TestMin = value; NotifyOfPropertyChange(() => TestMin); }
+        }
+
+        private string _TestMax;
+
+        public string TestMax
+        {
+            get { return _TestMax; }
+            set { _TestMax = value; NotifyOfPropertyChange(() => TestMax); }
         }
     }
 }

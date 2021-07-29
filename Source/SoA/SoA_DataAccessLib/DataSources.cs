@@ -168,6 +168,7 @@ namespace SOA_DataAccessLib
         /// <summary>
         /// object type held in UomDataSource.Quantity.altCache that is used as a faster alternative to repeated LINQ queries returning the same results over and over again
         /// </summary>
+        [Serializable]
         public class Alternative
         {
             private XElement altElement = null;

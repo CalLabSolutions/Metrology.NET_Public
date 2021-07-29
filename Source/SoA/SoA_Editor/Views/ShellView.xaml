@@ -36,8 +36,8 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="240" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />            
-        </Grid.ColumnDefinitions>       
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>        
 
         <DockPanel Grid.Row="0" Grid.ColumnSpan="5">
             <Menu IsMainMenu="True" Background="{DynamicResource PrimaryHueMidBrush}">
@@ -131,12 +131,13 @@
         </Grid>
         
 
-        <!-- Last Row: Copyright -->
         <Label Content="Copyright 2020, Cal Lab Solutions, LLC" 
                FontSize="11" FontFamily="Calibri" Foreground="White"
                FontWeight="Light" Background="{DynamicResource PrimaryHueMidBrush}"
                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                Grid.Row="4" VerticalContentAlignment="Bottom"
                Grid.ColumnSpan="5" Margin="0 3 0 0"/>
+
+        <materialDesign:DialogHost Identifier="RootDialog" DialogTheme="Inherit" Grid.Row="0" Grid.RowSpan="5"  Grid.ColumnSpan="5"/>
     </Grid>    
 </Window>

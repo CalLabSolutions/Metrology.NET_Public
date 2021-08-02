@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using SOA_DataAccessLib;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using static SoA_Editor.ViewModels.Helper;
 
@@ -25,33 +26,86 @@ namespace SoA_Editor.ViewModels
         // private string url = "";
         private string functionName = "";
 
+        
         private Unc_Technique uncTechnique;
+        private Unc_CMC cmc;
+
+        // private vars for saving a new technique
         private Unc_Taxon uncTaxon;
         private Unc_CMCs uncCMCs;
 
+        // private vars for editing an existing technique;
+        private Unc_Template template;
+        
+
         private MessageDialog dialog = new MessageDialog();
 
-        public TechniqueInfoViewModel(Unc_Taxon taxon, Unc_CMCs cMCs)
+        public TechniqueInfoViewModel(Unc_Taxon taxon, Unc_CMCs cmcs)
         {
             taxonName = taxon.name;
             uncTaxon = taxon;
-            uncCMCs = cMCs;
+            uncCMCs = cmcs;
             dialog.Button = MessageBoxButton.OK;
             dialog.Image = MessageBoxImage.Exclamation;
             dialog.Title = "Validation Error";
             EditMode = false;
         }
 
-        public TechniqueInfoViewModel(Unc_Technique technique)
+        public TechniqueInfoViewModel(Unc_Technique technique, Unc_Template template, Unc_CMC cmc)
         {
+            // We are in edit mode, populate the fields as needed
             EditMode = true;
             Name = technique.Name;
-            functionName = technique.Technique.CMCUncertainties[0].function_name;
+            FunctionName = technique.Technique.CMCUncertainties[0].function_name;
+            int roleIndex = technique.Technique.RequiredEquipment.Roles.Count();
+            foreach (Mtc_Role role in technique.Technique.RequiredEquipment.Roles)
+            {
+                if (role.Name.ToLower() == "source")
+                {
+                    Dut += string.Join(",S\n", role.DeviceTypes);
+                }
+                else
+                {
+                    Dut += string.Join(",M\n", role.DeviceTypes);
+                }
+            }
+            // make sure the last device has the correct identifer
+            var lastRole = technique.Technique.RequiredEquipment.Roles[roleIndex - 1];
+            if (lastRole.Name.ToLower() == "source")
+            {
+                Dut += ",S";
+            }
+            else
+            {
+                Dut += ",M";
+            }
+            Category = cmc.Category.Name;
+            this.template = template;
+            this.cmc = cmc;
+            this.uncTechnique = technique;
         }
 
         public void Edit()
         {
+            if (Validate())
+            {
+                // Update technique and functions names where needed
+                template.TemplateTechnique.Name = Name;
+                template.CMCUncertaintyFunctions[0].name = FunctionName;
+                uncTechnique.Technique.CMCUncertainties[0].function_name = FunctionName;
+                uncTechnique.Name = Name;
+                uncTechnique.Technique.Name = Name;                
+                
+                // cmc category
+                cmc.Category.Name = Category;
 
+                // Clear and update device types
+                cmc.DUT.DeviceTypes.Clear();
+                uncTechnique.Technique.RequiredEquipment.Roles.Clear();
+                UpdateDeviceTypes();
+                TreeViewTechnique = uncTechnique;
+                base.TryCloseAsync(null);
+            }
         }
 
         public void Save()
@@ -61,7 +115,7 @@ namespace SoA_Editor.ViewModels
                 if (Validate())
                 {
                     // Add new CMC object
-                    Unc_CMC cmc = uncCMCs.CMC.Add(uncCMCs);
+                    cmc = uncCMCs.CMCs.Add(uncCMCs);
                     cmc.Category.Name = Category;
 
                     // we need to get the newest template
@@ -114,36 +168,7 @@ namespace SoA_Editor.ViewModels
                     }
 
                     // Device Types
-                    string deviceName;
-                    char type = 's';
-                    string[] duts;
-                    Mtc_Role source = new Mtc_Role() { Name = "source" };
-                    Mtc_Role measure = new Mtc_Role() { Name = "measure" };
-                    Mtc_Roles roles = new Mtc_Roles();
-                    foreach (string dt in Dut.Split("\n"))
-                    {
-                        duts = dt.Split(",");
-                        deviceName = duts[0].Trim();
-                        if (duts.Length > 1)
-                        {
-                            type = duts[1][0];
-                            type = char.ToLower(type);
-                            type = type == 's' || type == 'm' ? type : 's';
-                        }
-                        if (type == 's')
-                        {
-                            source.DeviceTypes.Add(deviceName);
-                        }
-                        else
-                        {
-                            measure.DeviceTypes.Add(deviceName);
-                        }
-
-                        cmc.DUT.DeviceTypes.Add(deviceName);
-                    }
-                    if (measure.DeviceTypes.Count > 0) roles.Add(measure);
-                    if (source.DeviceTypes.Count > 0) roles.Add(source);
-                    uncTechnique.Technique.RequiredEquipment.Roles = roles;
+                    UpdateDeviceTypes();
 
                     // Uncertainty/Function
                     Mtc_CMCUncertainty mtcUncertainty = new Mtc_CMCUncertainty()
@@ -321,6 +346,41 @@ namespace SoA_Editor.ViewModels
             end.format = end.ValueString;
             end.test = "at";
             return end;
+        }
+
+        // Add/Update device types
+        public void UpdateDeviceTypes()
+        {
+            string deviceName;
+            char type = 's';
+            string[] duts;
+            Mtc_Role source = new Mtc_Role() { Name = "source" };
+            Mtc_Role measure = new Mtc_Role() { Name = "measure" };
+            Mtc_Roles roles = new Mtc_Roles();
+            foreach (string dt in Dut.Split("\n"))
+            {
+                duts = dt.Split(",");
+                deviceName = duts[0].Trim();
+                if (duts.Length > 1)
+                {
+                    type = duts[1][0];
+                    type = char.ToLower(type);
+                    type = type == 's' || type == 'm' ? type : 's';
+                }
+                if (type == 's')
+                {
+                    source.DeviceTypes.Add(deviceName);
+                }
+                else
+                {
+                    measure.DeviceTypes.Add(deviceName);
+                }
+
+                cmc.DUT.DeviceTypes.Add(deviceName);
+            }
+            if (measure.DeviceTypes.Count > 0) roles.Add(measure);
+            if (source.DeviceTypes.Count > 0) roles.Add(source);
+            uncTechnique.Technique.RequiredEquipment.Roles = roles;
         }
     }
 }

@@ -18,7 +18,9 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Scope of Accreditation Editor" Height="750" Width="1100" MinHeight="400" MinWidth="600" Icon="/Icon/SoA.png" WindowStartupLocation="CenterScreen">
+        Title="Scope of Accreditation Editor" 
+        Height="750" Width="1100" MinHeight="400" MinWidth="600" 
+        Icon="/Icon/SoA.png" WindowStartupLocation="CenterScreen" KeyDown="myShellWindow_KeyDown">
 
     
 
@@ -43,8 +45,8 @@
             <Menu IsMainMenu="True" Background="{DynamicResource PrimaryHueMidBrush}">
                 <MenuItem Header="_File" VerticalAlignment="Center">
                     <MenuItem Header="_New" cal:Message.Attach="LoadCompanyViewModelObj" Icon="{materialDesign:PackIcon Kind=FileCode}" />
-                    <MenuItem Header="_Open" x:Name="OpenXMLFile" Icon="{materialDesign:PackIcon Kind=FolderOpen}" />
-                    <MenuItem Header="_Save" x:Name="SaveXML" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                    <MenuItem Header="_Open" x:Name="OpenXMLFile" Icon="{materialDesign:PackIcon Kind=FolderOpen}" InputGestureText="Ctrl+O"/>
+                    <MenuItem Header="_Save" x:Name="SaveXML" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+S"/>
                     <MenuItem Header="_Save As" x:Name="SaveAsXML" Icon="{materialDesign:PackIcon Kind=ContentSaveMove}"/>
                     <Separator />
                     <MenuItem Header="_Exit" x:Name="ExitApp" Icon="{materialDesign:PackIcon Kind=ExitToApp}"/>

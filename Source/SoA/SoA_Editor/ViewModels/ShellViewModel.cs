@@ -107,10 +107,10 @@ namespace SoA_Editor.ViewModels
         }
 
         //show the corresponding technique pane on the right-hand side based on the selected item from the menu
-        private void LoadTechniqueViewModelObj(string lbl)
+        private void LoadTechniqueViewModelObj(TechniqueNode node)
         {
             TechniqueVM = new TechniqueViewModel();
-            var technique = soa.CapabilityScope.Activities[0].Techniques[lbl];
+            var technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
             TechniqueVM.TaxonomyName = technique.Taxon;
             TechniqueVM.TechniqueName = technique.Name;
 
@@ -190,6 +190,9 @@ namespace SoA_Editor.ViewModels
 
             // We will need to update data
             TechniqueVM.Technique = technique;
+            TechniqueVM.template = template;
+            TechniqueVM.cmc = soa.CapabilityScope.Activities[0].Unc_CMCs.GetCMCByFunctionName(function[0].function_name);
+            TechniqueVM.node = node;
             TechniqueViewModel.Instance = TechniqueVM;
             _ = ActivateItemAsync(TechniqueVM);
         }
@@ -453,7 +456,7 @@ namespace SoA_Editor.ViewModels
 
         public void TechniqueNodeClick(TechniqueNode node)
         {
-            LoadTechniqueViewModelObj(node.Name);
+            LoadTechniqueViewModelObj(node);
         }
 
         public void AssertionNodeClick(AssertionNode node)
@@ -644,9 +647,10 @@ namespace SoA_Editor.ViewModels
             {
                 SaveFileDialog saveFileDlg = new SaveFileDialog();
 
-                saveFileDlg.Filter = "XML Files (*.xml)|*.xml|All Files(*.*)|*.*";
+                saveFileDlg.Filter = "XML Files (*.xml)|*.xml";
                 saveFileDlg.FilterIndex = 2;
                 saveFileDlg.RestoreDirectory = true;
+                saveFileDlg.FileName = soa.CapabilityScope.MeasuringEntity + ".xml";
 
                 bool? dialogResult = saveFileDlg.ShowDialog();
                 if (dialogResult.HasValue && dialogResult.Value)
@@ -654,15 +658,15 @@ namespace SoA_Editor.ViewModels
                     // Code to write the stream goes here.
                     FullPath = saveFileDlg.FileName;
                     doc.Save(FullPath);
-                    MessageBox.Show("File saved!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    IsSaveAs = false;
                     return;
                 }
             }
             else if (FullPath.Length != 0)
             {
                 doc.Save(FullPath);
-                MessageBox.Show("File saved!", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            IsSaveAs = false;
         }
 
         public void SaveAsXML()

@@ -1159,6 +1159,11 @@ namespace SOA_DataAccessLib
             return roles.Count();
         }
 
+        public void Clear()
+        {
+            roles.Clear();
+        }
+
         private void loadRoles(MtcSpaceHelper mtcSpaceHelper)
         {
             var els = mtcSpaceHelper.getElements("Role");            
@@ -3025,7 +3030,7 @@ namespace SOA_DataAccessLib
 
         public string GetCMC_Category()
         {
-            foreach (Unc_CMC cmc in cMCs.CMC.ToList())
+            foreach (Unc_CMC cmc in cMCs.CMCs.ToList())
             {
                 foreach (Unc_Template template in cmc.Templates)
                 {
@@ -3577,7 +3582,7 @@ namespace SOA_DataAccessLib
         public void Remove(Unc_Technique technique)
         {
             // First remove associated objects
-            var cmcs = this.cMCs.CMC;
+            var cmcs = this.cMCs.CMCs;
             bool breakOut = false;
             foreach (Unc_CMC cmc in cmcs)
             {
@@ -3589,7 +3594,7 @@ namespace SOA_DataAccessLib
                         {
                             template.CMCUncertaintyFunctions.Remove(function);
                             cmc.Templates.Remove(template);
-                            cMCs.CMC.Remove(cmc);
+                            cMCs.CMCs.Remove(cmc);
                             breakOut = true;
                             break;
                         }
@@ -3820,7 +3825,7 @@ namespace SOA_DataAccessLib
             get { return techniques; }
         }
 
-        public Unc_CMCList CMC
+        public Unc_CMCList CMCs
         {
             get { return cmcs; }
         }
@@ -3839,6 +3844,24 @@ namespace SOA_DataAccessLib
             taxons = new Unc_Taxons();
             techniques = new Unc_Techniques(this);
             cmcs = new Unc_CMCList(this);
+        }
+
+        public Unc_CMC GetCMCByFunctionName(string functionName)
+        {
+            foreach(Unc_CMC cmc in cmcs)
+            {
+                foreach (Unc_Template template in cmc.Templates)
+                {
+                    foreach (Unc_CMCFunction function in template.CMCUncertaintyFunctions)
+                    {
+                        if (function.name == functionName)
+                        {
+                            return cmc;
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         public Unc_CMCs(XElement datasource)
@@ -3873,7 +3896,7 @@ namespace SOA_DataAccessLib
 
         public Unc_CMCList CMCs
         {
-            get { return Unc_CMCs.CMC; }
+            get { return Unc_CMCs.CMCs; }
         }
 
         public Unc_CMCs Unc_CMCs
@@ -3883,7 +3906,7 @@ namespace SOA_DataAccessLib
 
         public List<Unc_Template> Templates
         {
-            get { return Unc_CMCs.CMC.Select(x => x.Templates).SelectMany(y => y).ToList(); }
+            get { return Unc_CMCs.CMCs.Select(x => x.Templates).SelectMany(y => y).ToList(); }
         }
 
         public Unc_Template GetTemplateByTemplateTechnique(string name)

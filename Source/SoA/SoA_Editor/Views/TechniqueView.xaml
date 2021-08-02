@@ -55,8 +55,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label FontWeight="Bold" Grid.Row="0" Grid.Column="0">Taxon:</Label>
-                        <Label Grid.Row="0" Grid.Column="1" Content="taxonomy" x:Name="TaxonomyName" />
+                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="0" Grid.Column="0">Taxon:</Label>
+                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="0" Grid.Column="1" Content="taxonomy" x:Name="TaxonomyName" />
                         <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Technique:</Label>
                         <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="1" Grid.Column="1" Content="technique" x:Name="TechniqueName" />
                         <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="2" Grid.Column="0">Uncertainty:</Label>
@@ -79,10 +79,10 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label FontWeight="Bold" Grid.Row="0" Grid.Column="0">Category:</Label>
-                        <Label Grid.Row="0" Grid.Column="1" Content="category" x:Name="Category" />
-                        <Label FontWeight="Bold" Grid.Row="1" Grid.Column="0">Source Equipment:</Label>
-                        <Label FontWeight="Bold" Grid.Row="1" Grid.Column="1">Measure Equipment:</Label>
+                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="0" Grid.Column="0">Category:</Label>
+                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="0" Grid.Column="1" Content="category" x:Name="Category" />
+                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Source Equipment:</Label>
+                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="1">Measure Equipment:</Label>
                         <ItemsControl Margin="15 0 0 0" ItemsSource="{Binding SourceEquipment}" Grid.Row="2" Grid.Column="0" />
                         <ItemsControl Margin="20 0 0 0" ItemsSource="{Binding MeasureEquipment}" Grid.Row="2" Grid.Column="1" />
                     </Grid>
@@ -132,7 +132,7 @@
             <DataGrid x:Name="InputParameterRanges" ItemsSource="{Binding InputParameterRanges}" AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Input Parameter Ranges" Binding="{Binding Path=InputParamRange,UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Input Parameter Ranges" IsReadOnly="True" Binding="{Binding Path=InputParamRange,UpdateSourceTrigger=PropertyChanged}" />
                     <DataGridTemplateColumn Header="Minimum" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -177,7 +177,7 @@
             <DataGrid x:Name="Outputs" ItemsSource="{Binding Outputs}" AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Outputs" Binding="{Binding Path=Output}" />
+                    <DataGridTextColumn Header="Outputs" Binding="{Binding Path=Output}" IsReadOnly="True"/>
                     <DataGridTemplateColumn Header="Minimum">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

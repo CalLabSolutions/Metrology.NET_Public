@@ -66,7 +66,7 @@ namespace SOA_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "C:/_Programming/Metrology.NET_Public/Data Files/UOM_Database.xml AWS"; }
+            get { return "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml"; }
         }
 
         public static string NamespaceKey(string value)

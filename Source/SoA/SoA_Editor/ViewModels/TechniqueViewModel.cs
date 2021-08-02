@@ -30,6 +30,9 @@ namespace SoA_Editor.ViewModels
 
         public static TechniqueViewModel Instance { get; set; }
         public Unc_Technique Technique = null;
+        public Unc_Template template = null;
+        public Unc_CMC cmc = null;
+        public TechniqueNode node;
 
         private string _TaxonomyName;
 
@@ -170,6 +173,7 @@ namespace SoA_Editor.ViewModels
         #endregion Properties
 
         #region Methods
+
         // Technique
         public void EditTechnique()
         {
@@ -180,7 +184,37 @@ namespace SoA_Editor.ViewModels
             settings.Title = "Edit Technique";
 
             IWindowManager manager = new WindowManager();
-            manager.ShowDialogAsync(new TechniqueInfoViewModel(Technique), null, settings);
+            manager.ShowDialogAsync(new TechniqueInfoViewModel(Technique, template, cmc), null, settings);
+            if (Helper.TreeViewTechnique != null)
+            {
+                // Update Technique Info
+                TechniqueName = Helper.TreeViewTechnique.Name;
+                Category = cmc.Category.Name;
+                FunctionName = Helper.TreeViewTechnique.Technique.CMCUncertainties[0].function_name;
+                SourceEquipment.Clear();
+                MeasureEquipment.Clear();
+                foreach (Mtc_Role r in Helper.TreeViewTechnique.Technique.RequiredEquipment.Roles)
+                {
+                    if (r.Name.ToLower() == "source")
+                    {
+                        foreach (string d in r.DeviceTypes)
+                        {
+                            SourceEquipment.Add(d);
+                        }
+                    }
+                    else
+                    {
+                        foreach (string d in r.DeviceTypes)
+                        {
+                            MeasureEquipment.Add(d);
+                        }
+                    }
+                }
+
+                node.Name = Helper.TreeViewTechnique.Name;
+                node.IsExpanded = true;
+                Helper.TreeViewTechnique = null;
+            }
         }
 
         // Input Param Methods
@@ -418,6 +452,11 @@ namespace SoA_Editor.ViewModels
                     viewModel.Error = "Please enter a valid Maximum number";
                     error = true;
                 }
+                if (double.Parse(viewModel.Max) < double.Parse(viewModel.Min))
+                {
+                    viewModel.Error = "Please make sure your Maximum value is greater than the Minimum value.";
+                    error = true;
+                }
 
                 if (error) eventArgs.Cancel();
             }
@@ -549,6 +588,11 @@ namespace SoA_Editor.ViewModels
             if (!double.TryParse(viewModel.Max, out test))
             {
                 viewModel.Error = "Please enter a valid Maximum number";
+                error = true;
+            }
+            if (double.Parse(viewModel.Max) < double.Parse(viewModel.Min))
+            {
+                viewModel.Error = "Please make sure your Maximum value is greater than the Minimum value.";
                 error = true;
             }
 

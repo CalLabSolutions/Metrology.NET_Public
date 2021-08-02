@@ -54,7 +54,10 @@ namespace SoA_Editor.ViewModels
         public void LoadCompanyViewModelObj()
         {
             if (soa != null)
+            {
+                Helper.LoadCompanyInfoFromSoaObjectToOpen(soa, CompanyM);
                 _ = ActivateItemAsync(CompanyInfoVM);
+            }
         }
 
         // show the welcome page
@@ -480,8 +483,19 @@ namespace SoA_Editor.ViewModels
         public void NewXML()
         {
             soa = new Soa();
+            soa.CapabilityScope.Activities[0].Techniques.Clear();
+            soa.CapabilityScope.Activities[0].Templates.Clear();
+            soa.CapabilityScope.Activities[0].Taxons.Clear();
+            soa.CapabilityScope.Activities[0].CMCs.Clear();
+            soa.CapabilityScope.MeasuringEntity = "Company Name";
+            RootNode = new();
+            CompanyM = new(new CompanyInfoModel(), new TaxonomyInfoModel());
+            CompanyInfoVM = new(new CompanyInfoModel());
+            CompanyInfoVM.Name = soa.CapabilityScope.MeasuringEntity;
+            RootNode.Name = "soa";
             IsSaveAs = true;
-            SaveXML();
+            lblCompanyInfoName = "";
+            SaveXML(true);
         }
 
         public void OpenXMLFile()
@@ -493,7 +507,7 @@ namespace SoA_Editor.ViewModels
 
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.CheckFileExists = true;
-            dlg.Filter = "XML Files (*.xml)|*.xml|All Files(*.*)|*.*";
+            dlg.Filter = "XML Files (*.xml)|*.xml";
             dlg.Multiselect = false;
             //string path = dlg.FileName;
             try
@@ -642,11 +656,19 @@ namespace SoA_Editor.ViewModels
             return null;
         }
 
-        public void SaveXML()
+        public void SaveXML(bool newFile = false)
         {
             doc = new XDocument();
 
-            Helper.LoadCompanyInfoToSoaObjectToSave(soa, CompanyInfoVM);
+            if (!newFile)
+            {
+                Helper.LoadCompanyInfoToSoaObjectToSave(soa, CompanyInfoVM);
+            }
+            else
+            {
+                LoadCompanyViewModelObj();
+            }
+            
 
             soa.writeTo(doc);
 
@@ -655,7 +677,6 @@ namespace SoA_Editor.ViewModels
                 SaveFileDialog saveFileDlg = new SaveFileDialog();
 
                 saveFileDlg.Filter = "XML Files (*.xml)|*.xml";
-                saveFileDlg.FilterIndex = 2;
                 saveFileDlg.RestoreDirectory = true;
                 saveFileDlg.FileName = soa.CapabilityScope.MeasuringEntity + ".xml";
 
@@ -666,6 +687,7 @@ namespace SoA_Editor.ViewModels
                     FullPath = saveFileDlg.FileName;
                     doc.Save(FullPath);
                     IsSaveAs = false;
+                    lblCompanyInfoName = soa.CapabilityScope.MeasuringEntity;
                     return;
                 }
             }
@@ -695,9 +717,9 @@ namespace SoA_Editor.ViewModels
 
         #region Properties
 
-        private String _fileAddr;
+        private string _fileAddr;
 
-        public String fileAddr
+        public string fileAddr
         {
             get { return _fileAddr; }
             set { Set(ref _fileAddr, value); }
@@ -711,7 +733,7 @@ namespace SoA_Editor.ViewModels
             set { Set(ref mRootNode, value); }
         }
 
-        public String lblCompanyInfoName
+        public string lblCompanyInfoName
         {
             get { return _lblCompanyInfoName; }
             set { _lblCompanyInfoName = value; NotifyOfPropertyChange(() => lblCompanyInfoName); }

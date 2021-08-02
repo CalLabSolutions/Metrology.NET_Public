@@ -3402,6 +3402,11 @@ namespace SOA_DataAccessLib
             return cmcList.Count();
         }
 
+        public void Clear()
+        {
+            cmcList.Clear();
+        }
+
         private void loadCMCs(UncSpaceHelper uncSpaceHelper, Unc_CMCs cMCs)
         {
             var els = uncSpaceHelper.getElements("CMC");
@@ -3577,6 +3582,11 @@ namespace SOA_DataAccessLib
         public void Add(Unc_Technique technique)
         {
             techniques.Add(technique);
+        }
+
+        public void Clear()
+        {
+            techniques.Clear();
         }
 
         public void Remove(Unc_Technique technique)
@@ -3790,6 +3800,11 @@ namespace SOA_DataAccessLib
         public void Add(Unc_Taxon unc_Taxon)
         {
             taxons.Add(unc_Taxon);
+        }
+
+        public void Clear()
+        {
+            taxons.Clear();
         }
 
         public Unc_Taxons(XElement datasource)

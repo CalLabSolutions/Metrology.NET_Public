@@ -51,8 +51,8 @@
             </DataGrid>
         </GroupBox>
 
-        <GroupBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Width="650" BorderThickness="1" HorizontalAlignment="Left" Header="Definition" Height="100" Margin="10 24 0 0">
-            <TextBlock x:Name="Definition" d:Text="Definition"></TextBlock>
+        <GroupBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Width="650" BorderThickness="1" HorizontalAlignment="Left" Header="Definition" Height="Auto" Margin="10 24 0 0">
+            <TextBlock x:Name="Definition" d:Text="Definition" TextWrapping="Wrap"/>
         </GroupBox>
     </Grid>
 </UserControl>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<soa:SOADataMaster xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile.xsd">
+  <soa:AB_ID></soa:AB_ID>
+  <soa:AB_Logo-Signature></soa:AB_Logo-Signature>
+  <soa:Scope_ID_Number></soa:Scope_ID_Number>
+  <soa:ScopeURLs>
+    <soa:ScopeURL ScopeType="" CheckSum="" URL="" />
+  </soa:ScopeURLs>
+  <soa:Criteria></soa:Criteria>
+  <soa:EffectiveDate></soa:EffectiveDate>
+  <soa:ExpirationDate></soa:ExpirationDate>
+  <soa:Statement></soa:Statement>
+  <soa:CapabilityScope>
+    <soa:MeasuringEntity>Company Name</soa:MeasuringEntity>
+    <soa:Locations>
+      <soa:Location id="">
+        <soa:OrganizationAddress>
+          <soa:Street></soa:Street>
+          <soa:City></soa:City>
+          <soa:State></soa:State>
+          <soa:Zip></soa:Zip>
+        </soa:OrganizationAddress>
+        <soa:ContactName></soa:ContactName>
+        <soa:ContactInfo />
+      </soa:Location>
+    </soa:Locations>
+    <soa:Activities>
+      <soa:Activity>
+        <unc:CMCs />
+      </soa:Activity>
+    </soa:Activities>
+    <xi:include href="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml" />
+    <soa:ScopeNotes></soa:ScopeNotes>
+    <soa:Version></soa:Version>
+    <soa:LocaleLanguage></soa:LocaleLanguage>
+  </soa:CapabilityScope>
+  <soa:HumanReadableDocument></soa:HumanReadableDocument>
+  <soa:VisualAidsScript></soa:VisualAidsScript>
+</soa:SOADataMaster>

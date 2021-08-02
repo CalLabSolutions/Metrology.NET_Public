@@ -38,6 +38,12 @@ namespace SoA_Editor.Views
                 var viewModel = (ShellViewModel)this.DataContext;
                 viewModel.OpenXMLFile();
             }
+
+            if (e.Key == Key.N && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                var viewModel = (ShellViewModel)this.DataContext;
+                viewModel.NewXML();
+            }
         }
     }
 }

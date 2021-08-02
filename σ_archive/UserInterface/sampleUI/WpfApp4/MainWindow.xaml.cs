@@ -2,22 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SOA_DataAccessLib;
 using System.Xml;
-using MaterialDesignColors;
-using System.IO;
-using SOA_DataAccessLibrary;
 using System.Xml.Linq;
-using Kent.Boogaart.Converters;
 using System.Data;
 using System.Globalization;
 

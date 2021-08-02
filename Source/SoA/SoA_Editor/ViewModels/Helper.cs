@@ -26,13 +26,30 @@ namespace SoA_Editor.ViewModels
             SampleSoA.CapabilityScope.Locations[0].ContactName = companyInfoVM.ContactName;
 
             //need to first remove existing phone numners, then add new one
+            SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.removePhoneNumber("");
+            SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.removeEmail("");
+            SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls.removeUrl("");
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(companyInfoVM.PhoneNo);
+            string[] temp = companyInfoVM.PhoneNo.Split(',');
+            foreach (string number in temp)
+            {
+                SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(number);
+            }
+
+            temp = companyInfoVM.Emails.Split(',');
+            foreach (string email in temp)
+            {
+                SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.addEmail(email);
+            }
+            temp = companyInfoVM.Urls.Split(',');
+            foreach (string url in temp)
+            {
+                SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls.addUrl(url);
+            }
         }
 
         public static void LoadCompanyInfoFromSoaObjectToOpen(Soa SampleSoA, CompanyModel CompanyM)
         {
-            //SampleSoA = aSampleSoA;
-
             CompanyM.CompanyInfo.AccrBody = SampleSoA.Ab_ID;
             CompanyM.CompanyInfo.AccrLogo = SampleSoA.Ab_Logo_Signature;
             CompanyM.CompanyInfo.ScopeID = SampleSoA.Scope_ID_Number;
@@ -46,6 +63,9 @@ namespace SoA_Editor.ViewModels
             CompanyM.CompanyInfo.Emails = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts);
             CompanyM.CompanyInfo.Urls = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls);
             CompanyM.CompanyInfo.PhoneNo = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers);
+            if (CompanyM.CompanyInfo.Emails == null) CompanyM.CompanyInfo.Emails = "";
+            if (CompanyM.CompanyInfo.Urls == null) CompanyM.CompanyInfo.Urls = "";
+            if (CompanyM.CompanyInfo.PhoneNo == null) CompanyM.CompanyInfo.PhoneNo = "";
 
             CompanyM.CompanyInfo.Street = SampleSoA.CapabilityScope.Locations[0].Address.Street;
             CompanyM.CompanyInfo.City = SampleSoA.CapabilityScope.Locations[0].Address.City;

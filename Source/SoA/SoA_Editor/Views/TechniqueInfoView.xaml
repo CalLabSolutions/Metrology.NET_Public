@@ -74,7 +74,7 @@
         </StackPanel>
         <TextBlock Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="17 14 0 0" FontSize="10" Grid.Row="6">Seperate each device with a comma and Equipment type.<LineBreak/> S for Source or M for Measure for example, Meter Calibrator,S</TextBlock>
 
-        <Button Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" x:Name="Save" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
+        <Button Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" x:Name="Save" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
         <Button Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" x:Name="Edit" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
         <TextBlock FontSize="12" FontStyle="Italic" Grid.Row="8" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="*Required Parameters and Results from the Taxon will be automatically added to the Technique as needed."/>
     </Grid>

@@ -120,7 +120,7 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "C:/_Programming/Metrology.NET_Public/Data Files/UOM_Database AWS.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml";
             }
 
             set

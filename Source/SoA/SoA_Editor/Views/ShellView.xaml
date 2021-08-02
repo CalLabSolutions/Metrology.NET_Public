@@ -44,7 +44,7 @@
         <DockPanel Grid.Row="0" Grid.ColumnSpan="5">
             <Menu IsMainMenu="True" Background="{DynamicResource PrimaryHueMidBrush}">
                 <MenuItem Header="_File" VerticalAlignment="Center">
-                    <MenuItem Header="_New" cal:Message.Attach="LoadCompanyViewModelObj" Icon="{materialDesign:PackIcon Kind=FileCode}" />
+                    <MenuItem Header="_New" cal:Message.Attach="NewXML" Icon="{materialDesign:PackIcon Kind=FileCode}" InputGestureText="Ctrl+N"/>
                     <MenuItem Header="_Open" x:Name="OpenXMLFile" Icon="{materialDesign:PackIcon Kind=FolderOpen}" InputGestureText="Ctrl+O"/>
                     <MenuItem Header="_Save" x:Name="SaveXML" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+S"/>
                     <MenuItem Header="_Save As" x:Name="SaveAsXML" Icon="{materialDesign:PackIcon Kind=ContentSaveMove}"/>

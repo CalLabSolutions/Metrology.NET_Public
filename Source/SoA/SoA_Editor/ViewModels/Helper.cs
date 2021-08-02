@@ -7,7 +7,7 @@ namespace SoA_Editor.ViewModels
 {
     public static class Helper
     {
-        public static void LoadCompanyInfoToSoaObjectToSave(Soa SampleSoA, CompanyInfoViewModel companyInfoVM)
+        public static void LoadCompanyInfoToSoaObjectToSave(Soa SampleSoA, CompanyInfoViewModel companyInfoVM, bool newFile = false)
         {
             SampleSoA.CapabilityScope.Locations[0].Address.Street = companyInfoVM.Street;
             SampleSoA.CapabilityScope.Locations[0].Address.City = companyInfoVM.City;

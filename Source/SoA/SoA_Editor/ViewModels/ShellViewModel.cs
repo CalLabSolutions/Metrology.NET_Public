@@ -477,6 +477,13 @@ namespace SoA_Editor.ViewModels
 
         #region File IO
 
+        public void NewXML()
+        {
+            soa = new Soa();
+            IsSaveAs = true;
+            SaveXML();
+        }
+
         public void OpenXMLFile()
         {
             CompanyInfoM = new CompanyInfoModel();

@@ -33,11 +33,11 @@ namespace MT_Editor.ViewModels
             set
             {
                 selectedTaxon = value;
-                //MT_Data.SelectedTaxon = selectedTaxon;
                 NotifyOfPropertyChange(() => SelectedTaxon);
                 if (value != null)
                 {
                     Helper.SelectedTaxon = selectedTaxon;
+                    Helper.UnselectMenuItems();
                     Helper.Shell.ActivateItemAsync(new DetailsViewModel(SelectedTaxon));
                 }
             }   

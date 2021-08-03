@@ -29,4 +29,8 @@
     <ProjectReference Include="..\SoA_DataAccessLib\SoA_DataAccessLib.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="XCOPY &quot;$(TargetDir)*&quot; &quot;C:\_Programming\Metrology.NET_Public\Source\Executables\SoA_Editor&quot; /S /Y" />
+  </Target>
+
 </Project>

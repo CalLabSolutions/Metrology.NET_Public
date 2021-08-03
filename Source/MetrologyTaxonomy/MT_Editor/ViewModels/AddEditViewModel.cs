@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using MT_DataAccessLib;
 using MT_Editor.Converters;
+using MT_Editor.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace MT_Editor.ViewModels
         private bool edit;
         private bool parsing = false;
         private TaxonomyFactory factory = null;
-        private MessageDialog dialog = null;
+        private MessageDialog dialog = null;        
 
         public AddEditViewModel()
         {
@@ -25,6 +26,15 @@ namespace MT_Editor.ViewModels
         {
             // Edit or add flag
             this.edit = edit;
+
+            if (this.edit)
+            {
+                AddEdit = "Edit Taxon";
+            }
+            else
+            {
+                AddEdit = "Add Taxon";
+            }
 
             // Factory and Dialog
             factory = new();
@@ -48,11 +58,62 @@ namespace MT_Editor.ViewModels
             }
             Parameters = new ObservableCollection<Parameter>(TaxonToSave.Parameters);
 
+            // Set up Results Tab
+            if (TaxonToSave.Results == null)
+            {
+                TaxonToSave.Results = new List<Result>();
+            }
+            Results = new ObservableCollection<Result>(TaxonToSave.Results);
+
+            // Set up Discipline Tab
+            if (TaxonToSave.Discipline == null)
+            {
+                TaxonToSave.Discipline = new Discipline
+                {
+                    SubDisciplines = new List<string>()
+                };
+            }
+            else if (TaxonToSave.Discipline != null && TaxonToSave.Discipline.SubDisciplines == null)
+            {
+                TaxonToSave.Discipline.SubDisciplines = new List<string>();
+            }
+            DisciplineName = TaxonToSave.Discipline.Name;
+            SubDisciplines = new ObservableCollection<string>(TaxonToSave.Discipline.SubDisciplines);
+
+            // Set up Ext. Reference Tab
+            if (TaxonToSave.ExternalReference == null)
+            {
+                TaxonToSave.ExternalReference = new ExternalReference()
+                {
+                    CategoryTags = new List<CategoryTag>()
+                };
+            }
+            else if (TaxonToSave.ExternalReference != null && TaxonToSave.ExternalReference.CategoryTags == null)
+            {
+                TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>();
+            }
+
+            RefName = TaxonToSave.ExternalReference.Name;
+            Url = TaxonToSave.ExternalReference.Url;
+            CategoryTags = new ObservableCollection<CategoryTag>(TaxonToSave.ExternalReference.CategoryTags);
+
             // Set up validation message
             parsing = false;
             dialog.Title = "Validation Error";
             dialog.Button = MessageBoxButton.OK;
             dialog.Image = MessageBoxImage.Error;
+        }
+
+        private string addEdit;
+
+        public string AddEdit
+        {
+            get { return addEdit; }
+            set
+            {
+                addEdit = value;
+                NotifyOfPropertyChange(() => AddEdit);
+            }
         }
 
         //========================================================================
@@ -376,7 +437,7 @@ namespace MT_Editor.ViewModels
         {
             get
             {
-                if (quantities.Count == 0)
+                if (paramQuantities.Count == 0)
                 {
                     foreach (KeyValuePair<string, UomDataSource.Quantity> entry in quantitiesDic)
                     {
@@ -402,7 +463,7 @@ namespace MT_Editor.ViewModels
                 return false;
             }
 
-            if (SelectedQuantity == null)
+            if (SelectedParamQuantity == null)
             {
                 dialog.Message = "A Parameter must have a Quantity";
                 return false;
@@ -424,7 +485,7 @@ namespace MT_Editor.ViewModels
             {
                 var q = new MT_DataAccessLib.Quantity()
                 {
-                    Name = SelectedQuantity.QuantitiyName
+                    Name = SelectedParamQuantity.QuantitiyName
                 };
                 Parameter param = new Parameter()
                 {
@@ -442,7 +503,291 @@ namespace MT_Editor.ViewModels
             }
         }
 
+        public void DeleteParam(string name)
+        {
+            Parameters.RemoveAll(p => p.Name.ToLower().Equals(name.ToLower()));
+            TaxonToSave.Parameters = new List<Parameter>(Parameters);
+        }
+
         #endregion Parameters Methods
+
+        //========================================================================
+        // Results Tab Properties and Methods                                    |
+        //========================================================================
+
+        #region Results Properties
+
+        private string resultName;
+
+        public string ResultName
+        {
+            get { return resultName; }
+            set
+            {
+                resultName = value;
+                NotifyOfPropertyChange(() => ResultName);
+            }
+        }
+
+        private ObservableCollection<Result> results;
+
+        public ObservableCollection<Result> Results
+        {
+            get { return results; }
+            set
+            {
+                if (value == null) return;
+                results = value;
+                NotifyOfPropertyChange(() => Results);
+            }
+        }
+
+        private Quantity selectedResultQuantity;
+
+        public Quantity SelectedResultQuantity
+        {
+            get { return selectedResultQuantity; }
+            set
+            {
+                if (value == null) return;
+                selectedResultQuantity = value;
+                NotifyOfPropertyChange(() => SelectedResultQuantity);
+            }
+        }
+
+        private List<Quantity> resultQuantities = new List<Quantity>();
+
+        public List<Quantity> ResultQuantities
+        {
+            get
+            {
+                if (resultQuantities.Count == 0)
+                {
+                    foreach (KeyValuePair<string, UomDataSource.Quantity> entry in quantitiesDic)
+                    {
+                        // Format for Display
+                        if (entry.Value != null)
+                            resultQuantities.Add(Quantity.FormatUomQuantity(entry.Value));
+                    }
+                }
+                return resultQuantities;
+            }
+        }
+
+        #endregion Results Properties
+
+        #region Results Methods
+
+        private bool ValidateResults()
+        {
+            // verify required inputs
+            if (ResultName == null || ResultName == "")
+            {
+                dialog.Message = "A Result must have a name";
+                return false;
+            }
+
+            if (SelectedResultQuantity == null)
+            {
+                dialog.Message = "A Result must have a Quantity";
+                return false;
+            }
+
+            // make sure the name is not already in use
+            if (Results.Where(r => r.Name.ToLower().Equals(ResultName)).ToList().Count > 0)
+            {
+                dialog.Message = "That Result Name already exists";
+                return false;
+            }
+
+            return true;
+        }
+
+        public void AddResult()
+        {
+            if (ValidateResults())
+            {
+                var q = new MT_DataAccessLib.Quantity()
+                {
+                    Name = SelectedResultQuantity.QuantitiyName
+                };
+                Result result = new Result()
+                {
+                    Name = ResultName,
+                    Quantity = q
+                };
+                Results.Add(result);
+                TaxonToSave.Results = new List<Result>(Results);
+            }
+            else
+            {
+                dialog.Show();
+            }
+        }
+
+        public void DeleteResult(string name)
+        {
+            Results.RemoveAll(p => p.Name.ToLower().Equals(name.ToLower()));
+            TaxonToSave.Results = new List<Result>(Results);
+        }
+
+        #endregion Results Methods
+
+        //========================================================================
+        // Discipline Tab Properties and Methods                                 |
+        //========================================================================
+
+        #region Discipline Properties
+
+        private string disciplineName;
+
+        public string DisciplineName
+        {
+            get { return disciplineName; }
+            set
+            {
+                disciplineName = value;
+                TaxonToSave.Discipline.Name = value;
+                NotifyOfPropertyChange(() => DisciplineName);
+            }
+        }
+
+        private string subDisciplineName;
+
+        public string SubDisciplineName
+        {
+            get { return subDisciplineName; }
+            set
+            {
+                subDisciplineName = value;
+                NotifyOfPropertyChange(() => SubDisciplineName);
+            }
+        }
+
+        private ObservableCollection<string> subDisciplines;
+
+        public ObservableCollection<string> SubDisciplines
+        {
+            get { return subDisciplines; }
+            set
+            {
+                subDisciplines = value;
+                NotifyOfPropertyChange(() => SubDisciplines);
+            }
+        }
+
+        #endregion Discipline Properties
+
+        #region Discipline Methods
+
+        public void AddSub(string subName)
+        {
+            // make sure the name is not already in use
+            if (SubDisciplines.Where(s => s.ToLower().Equals(subName)).ToList().Count > 0)
+            {
+                dialog.Message = "That Sub Discipline already exists";
+                dialog.Show();
+                return;
+            }
+            SubDisciplines.Add(subName);
+            TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
+        }
+
+        public void DeleteSub(string subName)
+        {
+            SubDisciplines.RemoveAll(s => s.ToLower().Equals(subName.ToLower()));
+            TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
+        }
+
+        #endregion Discipline Methods
+
+        //========================================================================
+        // Ext. reference Tab Properties and Methods                             |
+        //========================================================================
+
+        #region Ext. Reference Properties
+
+        private string refName;
+
+        public string RefName
+        {
+            get { return refName; }
+            set
+            {
+                refName = value;
+                TaxonToSave.ExternalReference.Name = value;
+                NotifyOfPropertyChange(() => RefName);
+            }
+        }
+
+        private string url;
+
+        public string Url
+        {
+            get { return url; }
+            set
+            {
+                url = value;
+                TaxonToSave.ExternalReference.Url = value;
+                NotifyOfPropertyChange(() => Url);
+            }
+        }
+
+        private CategoryTag categoryTag = new CategoryTag();
+
+        public CategoryTag CategoryTag
+        {
+            get { return categoryTag; }
+            set
+            {
+                categoryTag = value;
+                NotifyOfPropertyChange(() => CategoryTag);
+            }
+        }
+
+        private ObservableCollection<CategoryTag> categoryTags;
+
+        public ObservableCollection<CategoryTag> CategoryTags
+        {
+            get { return categoryTags; }
+            set
+            {
+                categoryTags = value;
+                NotifyOfPropertyChange(() => CategoryTags);
+            }
+        }
+
+        #endregion Ext. Reference Properties
+
+        #region Ext. Reference Methods
+
+        public void AddCat(CategoryTag catTag)
+        {
+            if (catTag.Name == null) catTag.Name = "";
+            if (catTag.Name != "" && CategoryTags.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
+            {
+                dialog.Message = "That Category Name already exists";
+                dialog.Show();
+                return;
+            }
+            if (catTag.Value == null)
+            {
+                dialog.Message = "Category Tag must at least have a Value";
+                dialog.Show();
+                return;
+            }
+            CategoryTags.Add(catTag);
+            TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>(CategoryTags);
+            CategoryTag = new CategoryTag();
+        }
+
+        public void DeleteCat(CategoryTag catTag)
+        {
+            CategoryTags.RemoveAll(c => c.Value.ToLower().Equals(catTag.Value.ToLower()));
+            TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>(CategoryTags);
+        }
+
+        #endregion Ext. Reference Methods
     }
 
     // Quantity Object for the view
@@ -462,6 +807,14 @@ namespace MT_Editor.ViewModels
         {
             get { return quantitiyName; }
             set { quantitiyName = value; }
+        }
+
+        private string formatedName;
+
+        public string FormatedName
+        {
+            get { return formatedName; }
+            set { formatedName = value; }
         }
 
         public static Quantity FormatUomQuantity(UomDataSource.Quantity quantity)
@@ -499,7 +852,8 @@ namespace MT_Editor.ViewModels
             return new Quantity()
             {
                 BaseName = bname,
-                QuantitiyName = qname
+                QuantitiyName = qname,
+                FormatedName = string.Format("Quantity: {0}  |  Base: {1}", qname, bname)
             };
         }
     }

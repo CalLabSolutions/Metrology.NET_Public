@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyName>Metrology Taxonomy Editor</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,5 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MT_DataAccessLib\MT_DataAccessLib.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="XCOPY &quot;$(TargetDir)*&quot; &quot;C:\_Programming\Metrology.NET_Public\Source\Executables\MT_Editor&quot; /S /Y" />
+  </Target>
 
 </Project>

@@ -56,14 +56,14 @@
     </Window.Triggers>
 
     <Grid>
-        <Grid x:Name="GridBackground" Margin="0 0 0 0">
+        <Grid x:Name="GridBackground" Margin="0 0 0 0" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ContentControl  x:Name="ActiveItem" />
         </Grid>
 
         <Button x:Name="ButtonOpen" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Width="30" Height="30" Padding="0">
             <materialDesign:PackIcon Kind="Menu" Foreground="DarkSlateGray" Width="25" Height="25" />
         </Button>
-        <Grid x:Name="GridMenu" Width="250" HorizontalAlignment="Left" Margin="-250 0 0 0" Background="{DynamicResource MaterialDesignShadowBrush}">
+        <Grid x:Name="GridMenu" Width="250" HorizontalAlignment="Left" Margin="-250 0 0 0" Background="{StaticResource MaterialDesignShadowBrush}">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform />

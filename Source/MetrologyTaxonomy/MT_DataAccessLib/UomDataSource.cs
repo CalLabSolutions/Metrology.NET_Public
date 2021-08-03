@@ -123,7 +123,7 @@ namespace MT_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_Database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml";
             }
 
             set
@@ -619,14 +619,14 @@ namespace MT_DataAccessLib
     public class NameSpaces
     {
         private Dictionary<string, string> map = new Dictionary<string, string>(){
-            {"soa", @"http://schema.metrology.net/SOA_Master_Datafile"},
+            {"soa", @"https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"},
             {"xsi", @"http://www.w3.org/2001/XMLSchema-instance"},
             {"xi", @"http://www.w3.org/2001/XInclude"},
-            {"uom", @"http://schema.metrology.net/UOM_Database"},
-            {"unc", @"http://schema.metrology.net/Uncertainty"},
+            {"uom", @"https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"},
+            {"unc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"},
             {"mml", @"http://www.w3.org/1998/Math/MathML"},
             {"xhtml", @"http://www.w3.org/1999/xhtml"},
-            {"mtc", @"http://schema.metrology.net/MetrologyTaxonomyCatalog"}
+            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog"}
         };
 
         public string this[string key]
@@ -675,7 +675,7 @@ namespace MT_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_Database.xml"; }
+            get { return "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml"; }
         }
 
         public static string NamespaceKey(string value)

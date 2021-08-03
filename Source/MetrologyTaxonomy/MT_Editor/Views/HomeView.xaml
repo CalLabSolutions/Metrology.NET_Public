@@ -84,6 +84,7 @@
                 </ListViewItem>
             </ListView>
 
+            <Image Margin="0,-15,0,-25" Source="/Icon/MetrologyNet_pyr_SIUnits300x300.png" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center" />
             <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="0 50">
                 *Being able to edit will only allow you to save, load, and export a local version of the Metrology Taxonomy. You will not be able to edit the master version. Additions to the master copy must go through the MII Group's approval process.
             </TextBlock>

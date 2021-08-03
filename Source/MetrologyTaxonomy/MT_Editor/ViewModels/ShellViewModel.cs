@@ -24,6 +24,7 @@ namespace MT_Editor.ViewModels
             set
             {
                 selectedMenuItem = value;
+                if (value == null) return;
                 string name = selectedMenuItem.Name.ToLower();
                 NotifyOfPropertyChange(() => SelectedMenuItem);
                 LoadMenuItem(name);
@@ -93,15 +94,14 @@ namespace MT_Editor.ViewModels
             // see if we have a menu item that requires an selected Taxon
             if ((name == "edit" || name == "deprecate" || name == "delete") && Helper.SelectedTaxon == null)
             {
-                LoadAllView();
+                Helper.Navigate(Helper.MenuItem.ALL);             
                 MessageBox.Show("You must Select a Taxon from the \"View All\" Page Before can " + name + ".", "Notice",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (name == "deprecate" && Helper.SelectedTaxon != null && Helper.SelectedTaxon.Deprecated.Equals(true))
-            {
-                LoadAllView();
+            {                           
                 MessageBox.Show(Helper.SelectedTaxon.Name + "Is already Deprecated.", "Notice",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 return;

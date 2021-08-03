@@ -66,7 +66,7 @@ namespace MT_Editor.ViewModels
             };
             bool? dialogResult = openFileDialog.ShowDialog();
 
-            if (dialogResult.HasValue || dialogResult.Value)
+            if (dialogResult.HasValue && dialogResult.Value)
             {
                 string xml = File.ReadAllText(openFileDialog.FileName);
                 factory.ReplaceLocal(xml);

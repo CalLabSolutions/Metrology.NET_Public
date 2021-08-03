@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using MT_DataAccessLib;
-using MT_Editor.ViewModels;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -18,12 +17,55 @@ namespace MT_Editor
 
         public static void Navigate(MenuItem item)
         {
-            Menu.SelectedIndex = (int)item;
+            ListViewItem listItem = (ListViewItem)Menu.Items.GetItemAt((int)item);
+            Menu.SelectedItem = listItem;
+            foreach (ListViewItem i in Menu.Items)
+            {
+                i.IsSelected = false;
+            }
+        }
+
+        public static void UnselectMenuItems()
+        {
+            foreach (ListViewItem i in Menu.Items)
+            {
+                i.IsSelected = false;
+            }
         }
 
         public enum MenuItem
         {
-            HOME, ALL, ADD, EDIT, DELETE, DEPRACATE, SETTINGS
+            HOME, ALL, ADD, EDIT, DELETE, DEPRECATE, SETTINGS
+        }
+
+        private static string MenuName(MenuItem item)
+        {
+            switch (item)
+            {
+                case MenuItem.HOME:
+                    return "home";
+
+                case MenuItem.ALL:
+                    return "all";
+
+                case MenuItem.ADD:
+                    return "add";
+
+                case MenuItem.EDIT:
+                    return "edit";
+
+                case MenuItem.DELETE:
+                    return "delete";
+
+                case MenuItem.DEPRECATE:
+                    return "deprecate";
+
+                case MenuItem.SETTINGS:
+                    return "settings";
+
+                default:
+                    return "";
+            }
         }
 
         // Track our selected Taxon

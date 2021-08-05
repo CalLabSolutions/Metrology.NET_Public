@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="MT_UI.Pages.DeletePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MT_UI.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="25">Are you sure you want to delete this Taxon? This can not be undone.</TextBlock>
+            <TextBlock TextAlignment="Center" FontSize="25" FontWeight="Bold" d:Text="Taxon to Delete" Text="{x:Bind taxon.Name}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25,0,0">
+                <Button x:Name="Yes" CornerRadius="5" FontSize="18" Background="Red" Width="85" Margin="0,0,25,0" Click="Yes_Click">Yes</Button>
+                <Button x:Name="No" CornerRadius="5" FontSize="18" Foreground="White" Background="Navy" Width="85" Margin="25,0,0,0" Click="No_Click">No</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

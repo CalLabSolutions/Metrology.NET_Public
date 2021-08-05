@@ -203,31 +203,8 @@ namespace SoA_Editor.ViewModels
         //show the corresponding range pane on the right-hand side based on the selected item from the menu
         private void LoadRangeViewModelObj(Node node)
         {
-            string nodeName = node.Name;
-            RangeVM = new RangeViewModel();
-
-            IList<String> formulaExpression = soa.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables;
-
-            RangeVM.ExprVars = new ObservableCollection<ExpressionVariable>();
-
-            foreach (string var in formulaExpression)
-            {
-                RangeVM.ExprVars.Add(new ExpressionVariable(var));
-            }
-
-            RangeVM.RangeGrid = new DataTable();
-
-            string activeHierarchylbl = "";
-            Node tempNode = node;
-            while (tempNode.Parent != null)
-            {
-                activeHierarchylbl = tempNode.Name + "\n" + activeHierarchylbl;
-                tempNode = tempNode.Parent;
-            }
-
-            RangeVM.activeHierarchy = activeHierarchylbl; //node.Parent.Name + "\n" + node.Name;
-
             // see if we are a child of the technique or assertion and get the required data
+            string nodeName = node.Name;
             string techniqueName = "";
             Unc_Template template;
             Unc_Technique technique;
@@ -249,7 +226,35 @@ namespace SoA_Editor.ViewModels
             template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
             uncertainty = technique.Technique.CMCUncertainties[0];
             function = template.CMCUncertaintyFunctions[uncertainty.function_name];
+            RangeVM = new RangeViewModel();
 
+            IList<String> formulaExpression = soa.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables;
+
+            RangeVM.ExprVars = new ObservableCollection<ExpressionVariable>();
+
+            foreach (string var in formulaExpression)
+            {
+                RangeVM.ExprVars.Add(new ExpressionVariable(var));
+            }
+
+            RangeVM.RangeGrid = new DataTable();
+
+            string activeHierarchylbl = "";
+            Node tempNode = node;
+            while (tempNode.Parent != null)
+            {
+                activeHierarchylbl = tempNode.Name + "\n" + activeHierarchylbl;
+                if (tempNode.Name != techniqueName && tempNode.Name != "")
+                {
+                    RangeVM.assertionNodeValues.Add(tempNode.Name);
+                }
+                tempNode = tempNode.Parent;
+            }
+
+            RangeVM.activeHierarchy = activeHierarchylbl; //node.Parent.Name + "\n" + node.Name;
+
+            
+            
             //to insert first columns into the grid, only add assetion columns after the selected node (assertion node in the subtree)
             //first find the index of the selected assertion (node in the subtree) in the assertion list
             int foundAssertIndex = TreeView_helper.getAssertionNodeIndex(nodeName, function);
@@ -301,6 +306,8 @@ namespace SoA_Editor.ViewModels
             }
 
             RangeVM.Formula = uncertainty.Expression;
+            RangeVM.functionName = function.name;
+            RangeVM.template = template;
 
             _ = ActivateItemAsync(RangeVM);
         }

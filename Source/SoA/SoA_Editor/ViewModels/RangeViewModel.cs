@@ -8,116 +8,36 @@ using SoA_Editor.Models;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows.Controls;
+using System.Diagnostics;
+using SOA_DataAccessLib;
 
 namespace SoA_Editor.ViewModels
 {
     public class RangeViewModel: Screen
     {
-        /*
-        private String _SelectedSubRange;
 
-        public String SelectedSubRange
-        {
-            get { return _SelectedSubRange; }
-            set
-            {
-                if (_SelectedSubRange != value)
-                {
-                    FreqSubRanges.Add("frequency 60, 60");
-                    FreqSubRanges.Add("frequency 400, 400");
-
-                    _SelectedSubRange = value;
-                    NotifyOfPropertyChange();
-                }
-            }
-        }
-
-
-        private String _SelectedFreqSubRange;
-
-        public String SelectedFreqSubRange
-        {
-            get { return _SelectedFreqSubRange; }
-            set
-            {
-                if (_SelectedFreqSubRange != value)
-                {
-                    NominalSubRanges.Add("nominal 0, 11");
-                    NominalSubRanges.Add("nominal 11, 110");
-
-                    _SelectedFreqSubRange = value;
-                    NotifyOfPropertyChange();
-                }
-            }
-        }
-
-        private String _SelectedNominalSubRange;
-
-        public String SelectedNominalSubRange
-        {
-            get { return _SelectedNominalSubRange; }
-            set
-            {
-                if (_SelectedNominalSubRange != value)
-                {
-                    ConstSubRanges.Add("k_nominal 0.0001");
-                    ConstSubRanges.Add("k_range 0.0002");
-
-                    _SelectedNominalSubRange = value;
-                    NotifyOfPropertyChange();
-                }
-            }
-        }
-
-
-        private String _SelectedConstSubRange;
-
-        public String SelectedConstSubRange
-        {
-            get { return _SelectedConstSubRange; }
-            set
-            {
-                if (_SelectedConstSubRange != value)
-                {
-
-
-                    _SelectedConstSubRange = value;
-                    NotifyOfPropertyChange();
-                }
-            }
-        }
-        */
+        // public vars needed for the calculation
+        public Unc_Template template;
+        public string functionName;
+        public Mtc_CMCUncertainty uncertainty;
+        public List<string> assertionNodeValues;
 
         public RangeViewModel()
         {
-
-
-
-            /*
-            SubRanges = new ObservableCollection<String>();
-            FreqSubRanges = new ObservableCollection<String>();
-            NominalSubRanges = new ObservableCollection<String>();
-            ConstSubRanges = new ObservableCollection<String>();
-            */
-
-
-            //Ranges = new ObservableCollection<Range_Range>();
-            //Constants = new ObservableCollection<Range_Constant>();
-            //Formulas = new ObservableCollection<Range_Formula>();
+            assertionNodeValues = new();
         }
 
+        // private var for the calculation
+        private string calculatedResult;
 
 
+        // Calculate selected row
         public void calcButton()
         {
             updateValues();
             CalculatedValue = calculatedResult;
         }
-
-
-        private string calculatedResult;
-
-
+        
         private string _CalculatedValue;
 
         public string CalculatedValue
@@ -147,26 +67,25 @@ namespace SoA_Editor.ViewModels
             get { return _activeHierarchy; }
             set { Set(ref _activeHierarchy, value); }
         }
-
-
-        //private ObservableCollection<Range_Formula> _RangeGrid;
-
-        //public ObservableCollection<Range_Formula> RangeGrid
-        //{
-        //    get
-        //    {
-        //        return _RangeGrid;
-        //    }
-        //    set
-        //    {
-        //        Set(ref _RangeGrid, value);
-        //    }
-        //}
         
+        private DataRowView row;
         
-        private String _Formula;
+        public DataRowView Row
+        {
+            get { return row; }
+            set
+            {
+                if (value == null) return;
 
-        public String Formula
+                row = value;
+                UpdateFormula(row.Row);
+                NotifyOfPropertyChange(() => Row);
+            }
+        }
+        
+        private string _Formula;
+
+        public string Formula
         {
             get
             {
@@ -199,16 +118,7 @@ namespace SoA_Editor.ViewModels
             formulaExpression = ((RangeViewModel)e.Target).Formula;
 
             updateValues();
-
-            //foreach (var addedRow in e.AddedRows)
-            //{
-            //    _selectedRows.Add(addedRow as RowViewModel);
-            //}
-
-            //foreach (var removedRow in e.RemovedRows)
-            //{
-            //    _selectedRows.Remove(removedRow as RowViewModel);
-            //}
+           
         }
 
         private void updateValues()
@@ -309,116 +219,58 @@ namespace SoA_Editor.ViewModels
 
 
 
-        /*
-        private string _RangeName;
-
-        public string RangeName
+        private void UpdateFormula(DataRow row)
         {
-            get { return _RangeName; }
-            set { _RangeName = value; }
+            var data = row.ItemArray;
+            var table = row.Table;
+
+            // build our column to value list
+            Dictionary<string, string> rowData = new();
+            int index = 0;
+            foreach (DataColumn col in table.Columns)
+            {
+                rowData.Add(col.ColumnName, data[index].ToString());
+                index++;
+            }
+
+            // See if we have values we need to pair up with their assertionName
+            List<string> searchNames = new();
+            if (assertionNodeValues.Count > 0)
+            {
+                foreach (string searchValue in assertionNodeValues)
+                {
+                    searchNames = template.getCMCFunctionAssertionNames(functionName).ToList();
+                    foreach (string name in searchNames)
+                    {
+                        var values = template.getCMCFunctionAssertionValues(functionName, name);
+                        foreach (string value in values)
+                        {
+                            if (value == searchValue)
+                            {
+                                rowData.Add(name, value);
+                                
+                            }
+                        }
+                    }
+                }
+            }
+
+            // lets find the right case now
+            searchNames = template.getCMCFunctionAssertionNames(functionName).ToList();
+            List<Unc_Case> cases = new();
+            foreach (string name in searchNames)
+            {
+                var value = rowData[name];
+                
+                foreach (Unc_Case _case in template.CMCUncertaintyFunctions[0].Cases)
+                {
+                    if (_case.Assertions[name].Value == value)
+                    {
+                        cases.Add(_case);
+                    }
+                }
+            }
+            Debug.WriteLine(cases.Count());
         }
-
-
-        private ObservableCollection<String> _SubRanges;
-
-        public ObservableCollection<String> SubRanges
-        {
-            get
-            {
-                return _SubRanges;
-            }
-            set
-            {
-                Set(ref _SubRanges, value);
-            }
-        }
-
-        private ObservableCollection<String> _Freq_SubRanges;
-
-        public ObservableCollection<String> FreqSubRanges
-        {
-            get
-            {
-                return _Freq_SubRanges;
-            }
-            set
-            {
-                Set(ref _Freq_SubRanges, value);
-            }
-        }
-
-        private ObservableCollection<String> _Nominal_SubRanges;
-
-        public ObservableCollection<String> NominalSubRanges
-        {
-            get
-            {
-                return _Nominal_SubRanges;
-            }
-            set
-            {
-                Set(ref _Nominal_SubRanges, value);
-            }
-        }
-
-
-        private ObservableCollection<String> _Const_SubRanges;
-
-        public ObservableCollection<String> ConstSubRanges
-        {
-            get
-            {
-                return _Const_SubRanges;
-            }
-            set
-            {
-                Set(ref _Const_SubRanges, value);
-            }
-        }
-        */
-
-
-
-        //private ObservableCollection<Range_Range> _Ranges;
-
-        //public ObservableCollection<Range_Range> Ranges
-        //{
-        //    get
-        //    {
-        //        return _Ranges;
-        //    }
-        //    set
-        //    {
-        //        Set(ref _Ranges, value);
-        //    }
-        //}
-
-        //private ObservableCollection<Range_Constant> _Constants;
-
-        //public ObservableCollection<Range_Constant> Constants
-        //{
-        //    get
-        //    {
-        //        return _Constants;
-        //    }
-        //    set
-        //    {
-        //        Set(ref _Constants, value);
-        //    }
-        //}
-
-        //private ObservableCollection<Range_Formula> _Formulas;
-
-        //public ObservableCollection<Range_Formula> Formulas
-        //{
-        //    get
-        //    {
-        //        return _Formulas;
-        //    }
-        //    set
-        //    {
-        //        Set(ref _Formulas, value);
-        //    }
-        //}
     }
 }

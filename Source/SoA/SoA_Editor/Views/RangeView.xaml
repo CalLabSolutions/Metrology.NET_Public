@@ -33,24 +33,9 @@
             <Label x:Name="activeHierarchy" Content="range description" Margin="0,0,0,20"/>
 
             <DataGrid CanUserAddRows="True" SelectionMode="Extended" Height="300" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        SelectionUnit="FullRow" x:Name="RangeGrid" 
-                        ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="true"
-                        CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20"
-                        cal:Message.Attach="[Event SelectionChanged] = [SelectedRowsChangeEvent($executionContext)]">
-
-                <!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <d:ActionMessage MethodName="SelectedRowsChangeEvent">
-                            <d:Parameter Value="$eventArgs" />
-                        </d:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
-
-                <!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseClick">
-                        <ei:CallMethodAction MethodName="SelectedRowsChangeEvent" TargetObject="{Binding}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
+                        SelectionUnit="FullRow" x:Name="RangeGrid" SelectedItem="{Binding Row}"
+                        ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="true" IsReadOnly="True"
+                        CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
             </DataGrid>
 
 
@@ -68,40 +53,11 @@
             </ItemsControl>
 
             <StackPanel Orientation="Horizontal">
-                
+
                 <Button x:Name="calcButton" Content="Calculate" Margin="0,0,40,0"/>
                 <TextBlock Text="value" x:Name="CalculatedValue"/>
 
             </StackPanel>
-
-
-            <!--<DataGrid CanUserAddRows="True" x:Name="Ranges" ItemsSource="{Binding Ranges}" AutoGenerateColumns="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Range" Binding="{Binding Path=Range,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Min" Binding="{Binding Path=Min, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Max" Binding="{Binding Path=Max,UpdateSourceTrigger=PropertyChanged}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            --><!--<Label Content="This is the taxonomy view."/>--><!--
-            <DataGrid CanUserAddRows="True" x:Name="Constants" ItemsSource="{Binding Constants}" AutoGenerateColumns="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Constant" Binding="{Binding Path=ConstName,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Value" Binding="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <DataGrid CanUserAddRows="True" x:Name="Formulas" ItemsSource="{Binding Formulas}" AutoGenerateColumns="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Formula Variable" Binding="{Binding Path=FormulaVariable,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Value" Binding="{Binding Path=FormulaValue, UpdateSourceTrigger=PropertyChanged}"/>                   
-                </DataGrid.Columns>
-            </DataGrid>-->
-
-
-
         </StackPanel>
 
     </Grid>

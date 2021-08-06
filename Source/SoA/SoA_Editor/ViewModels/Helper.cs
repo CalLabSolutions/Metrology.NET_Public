@@ -1,6 +1,7 @@
 ﻿using MT_DataAccessLib;
 using SOA_DataAccessLib;
 using SoA_Editor.Models;
+using System;
 using System.Windows;
 
 namespace SoA_Editor.ViewModels
@@ -177,6 +178,31 @@ namespace SoA_Editor.ViewModels
                 FormatedName = qname,
                 QuantitiyName = quantity.name
             };
+        }
+    }
+
+    public static class ToEngineeringFormat
+    {
+        // Used in adding the units to the return string
+        private static string[] prefix_const = { " y", " z", " a", " f", " p", " n", " u", " m", " ", " k", " M", " G", " T" };
+
+        // number: The number to convert.
+        // 
+        // significant_digits: The number of significant digits to return. digits should be a minimum of 3 for 
+        // Engineering notation this routine will work with any number from 1 to 15
+        // But when significant_digits is less than 3 the output may be in scientific notation
+        //
+        // units: what the number is a measure of, like "Hz", "Farads", "Tesla", etc.
+        public static string Convert(double value)
+        {
+            int exp = (int)(Math.Floor(Math.Log10(value) / 3.0) * 3.0);
+            double newValue = value * Math.Pow(10.0, -exp);
+            if (newValue >= 1000.0)
+            {
+                newValue = newValue / 1000.0;
+                exp = exp + 3;
+            }
+            return string.Format("{0:##0}e{1}", newValue, exp);
         }
     }
 }

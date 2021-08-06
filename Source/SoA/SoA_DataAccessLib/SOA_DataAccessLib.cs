@@ -885,7 +885,10 @@ namespace SOA_DataAccessLib
 
         public decimal? evaluate()
         {
-            return Math.Round((decimal)evaluator.Execute(), 28);
+            var x = Math.Round((decimal)evaluator.Execute(), 28);
+            evaluator.Reset();
+            evaluator.Parse(expression);
+            return x;
         }
 
         private string fixWhiteSpace(string raw)
@@ -2023,6 +2026,11 @@ namespace SOA_DataAccessLib
             get { return new Unc_Ranges(ranges.Where(x => x.Variable_name == name).ToList()); }
         }
 
+        public Unc_Ranges RangesByVarType(string varType)
+        {
+            return new Unc_Ranges(ranges.Where(x => x.Variable_type == varType).ToList());
+        }
+
         public List<Unc_Range> getRanges()
         {
             return this.ranges;
@@ -3116,6 +3124,18 @@ namespace SOA_DataAccessLib
         {
             var fnc = CMCUncertaintyFunctions[functionName];
             return fnc.getAssertionValuesByAssertionName(assertionName);
+        }
+
+        public Unc_Case getCaseByAssertionValues(string functionName, string[] assertionValues)
+        {
+            var fuc = CMCUncertaintyFunctions[functionName];
+            foreach (Unc_Case _case in fuc.Cases)
+            {
+                var assertions = _case.Assertions;
+                int count = assertions.Where(a => assertionValues.Contains(a.Value)).Count();
+                if (count == assertionValues.Length) return _case;
+            }
+            return null;
         }
 
         public UomDataSource.Quantity getQuantity(string parameterName)

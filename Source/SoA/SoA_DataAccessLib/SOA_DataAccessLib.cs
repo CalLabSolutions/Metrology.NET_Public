@@ -922,7 +922,7 @@ namespace SOA_DataAccessLib
         {
             var Function = new MtcSpaceHelper(Parent).addChild("CMCUncertainty").setAttribute("function_name", function_name);
             Function.addChild("Expression").Value = expression;
-            quantity.writeTo(Function.addChild("Result").Element);
+            if (quantity != null) quantity.writeTo(Function.addChild("Result").Element);
             symbolDefinitions.writeTo(Function.Element);
         }
 
@@ -2668,8 +2668,10 @@ namespace SOA_DataAccessLib
             ranges.writeTo(Case.Element);
         }
 
-        public Unc_Case()
+        public Unc_Case(Unc_Template template, Unc_Assertions assertions)
         {
+            this.template = template;
+            this.Assertions = assertions;
         }
 
         public Unc_Case(Unc_Assertions Assertions, Unc_Template Template, String FunctionName, String VariableName, String VariableType, IEnumerable<Unc_Range> Ranges)
@@ -2883,6 +2885,7 @@ namespace SOA_DataAccessLib
         public void writeTo(XElement Template)
         {
             var CMCFunction = new UncSpaceHelper(Template).addChild("CMCFunction").setAttribute("name", name);
+            if (Cases == null) Cases = new();
             Cases.writeTo(CMCFunction.Element);
         }
 
@@ -3136,6 +3139,19 @@ namespace SOA_DataAccessLib
                 if (count == assertionValues.Length) return _case;
             }
             return null;
+        }
+
+        public List<Unc_Case> getCasesByAssertionValue(string functionName, string assertionValue)
+        {
+            var fuc = CMCUncertaintyFunctions[functionName];
+            List<Unc_Case> cases = new();
+            foreach (Unc_Case _case in fuc.Cases)
+            {
+                var assertions = _case.Assertions;
+                int count = assertions.Where(a => a.Value == assertionValue).Count();
+                if (count > 0) cases.Add(_case);
+            }
+            return cases;
         }
 
         public UomDataSource.Quantity getQuantity(string parameterName)

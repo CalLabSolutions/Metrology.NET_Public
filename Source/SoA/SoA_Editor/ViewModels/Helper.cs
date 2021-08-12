@@ -98,6 +98,13 @@ namespace SoA_Editor.ViewModels
             set { treeViewTechnique = value; }
         }
 
+        private static Unc_Case treeViewCase;
+        public static Unc_Case TreeViewCase
+        {
+            get { return treeViewCase; }
+            set { treeViewCase = value; }
+        }
+
         // Class to help with Message boxes
         internal class MessageDialog
         {

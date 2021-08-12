@@ -107,19 +107,27 @@
                                         <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
                                             <MenuItem Header="Delete Technique" cal:Message.Attach="DeleteTechnique($dataContext)"/>
                                             <Separator />
-                                            <MenuItem Header="Add Range"/>
+                                            <MenuItem Header="Add Range" cal:Message.Attach="AddRange($dataContext)"/>
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
                             </HierarchicalDataTemplate>
                             <HierarchicalDataTemplate DataType="{x:Type models:AssertionNode}" ItemsSource="{Binding Children}">
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action AssertionNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
-
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                            <MenuItem Header="Delete Range" cal:Message.Attach="DeleteRange($dataContext)"/>                                            
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
                                 </TextBlock>
                             </HierarchicalDataTemplate>
                             <HierarchicalDataTemplate DataType="{x:Type models:RangeNode}" ItemsSource="{Binding Children}">
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action RangeNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
-
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                            <MenuItem Header="Delete Range" cal:Message.Attach="DeleteRange($dataContext)"/>                                            
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
                                 </TextBlock>
                             </HierarchicalDataTemplate>
                         </TreeView.Resources>

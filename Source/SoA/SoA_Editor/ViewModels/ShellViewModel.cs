@@ -155,7 +155,7 @@ namespace SoA_Editor.ViewModels
                     inputParamQty = technique.Technique.Parameters[i].Quantity.name;
                 }
                 else inputParamQty = "";
-                
+
                 bool variable = false;
                 string type = "";
                 for (int j = 0; j < technique.Technique.CMCUncertainties[0].SymbolDefinitions.Count(); j++)
@@ -163,7 +163,7 @@ namespace SoA_Editor.ViewModels
                     if (technique.Technique.CMCUncertainties[0].SymbolDefinitions[j].parameter == inputParamName)
                     {
                         variable = true;
-                        type = technique.Technique.CMCUncertainties[0].SymbolDefinitions[j].type;                        
+                        type = technique.Technique.CMCUncertainties[0].SymbolDefinitions[j].type;
                         break;
                     }
                 }
@@ -253,8 +253,6 @@ namespace SoA_Editor.ViewModels
 
             RangeVM.activeHierarchy = activeHierarchylbl; //node.Parent.Name + "\n" + node.Name;
 
-            
-            
             //to insert first columns into the grid, only add assetion columns after the selected node (assertion node in the subtree)
             //first find the index of the selected assertion (node in the subtree) in the assertion list
             int foundAssertIndex = TreeView_helper.getAssertionNodeIndex(nodeName, function);
@@ -469,6 +467,101 @@ namespace SoA_Editor.ViewModels
             LoadTechniqueViewModelObj(node);
         }
 
+        public void AddRange(TechniqueNode node)
+        {
+            dynamic settings = new ExpandoObject();
+            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
+            settings.MinWidth = 450;
+
+            IWindowManager manager = new WindowManager();
+
+            Unc_Template template;
+            Unc_Technique technique;
+            bool firstCase = false;
+
+            // get the template and cases
+            template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(node.Name);
+            technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
+
+            // see if we have added any cases yet because the same assertions must be used moving fwd
+            if (template.CMCUncertaintyFunctions[0].Cases.Count() == 0)
+            {
+                node.Children.Add(new AssertionNode(node) { Name = "All" } );
+                settings.Title = "Add Assertion Names for new Ranges";
+                manager.ShowDialogAsync(new RangeInfoViewModel(Array.Empty<string>(), Array.Empty<string>(), template), null, settings);
+                if (Helper.TreeViewCase != null)
+                {
+                    AssertionNode newNode = new AssertionNode(node) { Name = Helper.TreeViewCase.Assertions[0].Value };
+                    node.Children.Add(newNode);
+
+                    template.CMCUncertaintyFunctions[0].Cases.Add(Helper.TreeViewCase);
+                    Helper.TreeViewCase = null;
+                    firstCase = true; // we want to prefill and disable our assertion values if its the first case
+                }
+            }
+
+            // Now let the user add a range because we should have assertions at this point
+            settings.Title = "Add new Ranges";
+            manager.ShowDialogAsync(new RangeInfoViewModel(Array.Empty<string>(), Array.Empty<string>(), template, firstCase), null, settings);
+        }
+
+        public void DeleteRange(Node node)
+        {
+            if (node.Name.ToLower() == "all") return;
+
+            if (node.Parent.Type == NodeType.Technique)
+            {
+                // first lets get the technique
+                var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Name];
+
+                // get the template so we can remove the proper cases
+                var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
+
+                // see which cases have the selected assertion and remove them
+                List<Unc_Case> casesToRemove = new();
+                foreach (Unc_Case _case in template.CMCUncertaintyFunctions[0].Cases)
+                {
+                    var assertions = _case.Assertions;
+
+                    if (assertions.Where(a => a.Value == node.Name).Count() > 0)
+                    {
+                        casesToRemove.Add(_case);
+                    }
+                }
+                if (casesToRemove.Count > 0)
+                {
+                    foreach (Unc_Case _case in casesToRemove)
+                    {
+                        template.CMCUncertaintyFunctions[0].Cases.Remove(_case);
+                    }
+                }
+            }
+            else
+            {
+                // we need the parent node so that we are getting the exact case to remove
+                string[] assertions = new string[2];
+                assertions[0] = node.Parent.Name;
+                assertions[1] = node.Name;
+
+                // lets get the technique
+                var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Parent.Name];
+
+                // get the template so we can remove the proper cases
+                var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
+
+                var Case = template.getCaseByAssertionValues(technique.Technique.CMCUncertainties[0].function_name, assertions);
+                if (Case != null)
+                {
+                    template.CMCUncertaintyFunctions[0].Cases.Remove(Case);
+                }
+            }
+
+            // remove the node
+            node.Parent.Children.Remove(node);
+            LoadWelcomeViewModelObj();
+        }
+
         public void AssertionNodeClick(AssertionNode node)
         {
             LoadRangeViewModelObj(node);
@@ -583,6 +676,8 @@ namespace SoA_Editor.ViewModels
                         //number of cases in the switch
                         int caseCount = function.Cases.Count();
 
+                        if (caseCount == 0) return;
+
                         //number of assertions in a case. assuming it's the same for all cases, we look at the first case
                         int assertionCount = function.Cases[0].Assertions.Count();
 
@@ -675,7 +770,6 @@ namespace SoA_Editor.ViewModels
             {
                 LoadCompanyViewModelObj();
             }
-            
 
             soa.writeTo(doc);
 

@@ -179,7 +179,7 @@ namespace SoA_Editor.ViewModels
                     Unc_CMCFunction uncFunction = new Unc_CMCFunction()
                     {
                         name = FunctionName,
-                        TechniqueName = Name
+                        TechniqueName = Name,
                     };
                     uncTechnique.Technique.CMCUncertainties.Add(mtcUncertainty);
                     template.CMCUncertaintyFunctions.Add(uncFunction);

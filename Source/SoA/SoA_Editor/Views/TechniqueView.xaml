@@ -89,7 +89,7 @@
                 </materialDesign:Card>
             </StackPanel>
 
-            <DataGrid x:Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False" CanUserAddRows="False"
+            <DataGrid Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Input Parameters" Binding="{Binding Path=InputParam}" IsReadOnly="True" />
@@ -97,7 +97,7 @@
                     <DataGridTextColumn IsReadOnly="True" Header="Optional" Binding="{Binding Path=Optional}" />
                     <DataGridCheckBoxColumn Header="Variable" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                                            Binding="{Binding Variable, UpdateSourceTrigger=PropertyChanged}">
+                                            Binding="{Binding Variable, UpdateSourceTrigger=PropertyChanged}" x:Name="Variable">
                         <DataGridCheckBoxColumn.HeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -234,7 +234,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="1" Grid.Column="1" Content="Formulas" />
-                <Label Grid.Row="1" Grid.Column="2" Content="Variables" />
+                <Label Grid.Row="1" Grid.Column="2" Content="Variables - Select a value to add it to the Fomula" />
 
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Formula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"
@@ -245,7 +245,7 @@
                     Height="80" />
 
                 <DataGrid Grid.Row="2" Grid.Column="2" x:Name="Variables" ItemsSource="{Binding Variables}" AutoGenerateColumns="False"
-                     CanUserReorderColumns="True" CanUserSortColumns="True" CanUserAddRows="False">
+                     CanUserSortColumns="True" CanUserAddRows="False" IsReadOnly="True" SelectedItem="{Binding Variable}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Parameter" Binding="{Binding Path=Value,UpdateSourceTrigger=PropertyChanged}" />
                         <DataGridTextColumn Header="Type" Binding="{Binding Path=Type,UpdateSourceTrigger=PropertyChanged}" />

@@ -170,6 +170,18 @@ namespace SoA_Editor.ViewModels
             set { variableTypes = value; NotifyOfPropertyChange(() => VariableTypes); }
         }
 
+        private Technique_Variable variable;
+        public Technique_Variable Variable
+        {
+            get { return variable; }
+            set
+            {
+                variable = value;
+                Formula = Formula += " " + variable.Value;
+                NotifyOfPropertyChange(() => Variable);
+            }
+        }
+
         #endregion Properties
 
         #region Methods
@@ -239,6 +251,7 @@ namespace SoA_Editor.ViewModels
 
             if ((bool)result)
             {
+                UpdateParamRangeAndVars(param.name, viewModel.ParamName);
                 param.name = viewModel.ParamName;
                 param.optional = viewModel.Optional;
                 param.Quantity = UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName);
@@ -286,6 +299,24 @@ namespace SoA_Editor.ViewModels
         {
             InputParameters.Remove(inputParameter);
             Technique.Technique.Parameters.Remove(Technique.Technique.Parameters[inputParameter.InputParam]);
+
+            // remove any ranges and variable matching the input param
+            foreach (Technique_InputParameterRange range in InputParameterRanges)
+            {
+                if (range.InputParamRange == inputParameter.InputParam)
+                {
+                    InputParameterRanges.Remove(range);
+                    Technique.Technique.ParameterRanges.Remove(Technique.Technique.ParameterRanges[range.InputParamRange]);
+                }
+            }
+
+            foreach (Technique_Variable _var in Variables)
+            {
+                if (_var.Value == inputParameter.InputParam)
+                {
+                   // Start here
+                }
+            }
         }
 
         private void ClosingEventHandlerInputParam(object sender, DialogClosingEventArgs eventArgs)
@@ -555,8 +586,9 @@ namespace SoA_Editor.ViewModels
 
         public void DeleteOutput(Technique_Output output)
         {
-            Technique.Technique.ResultRanges.Remove(Technique.Technique.ResultRanges[output.Output]);
             Outputs.Remove(output);
+            if (output.Output == "result") output.Output = "";
+            Technique.Technique.ResultRanges.Remove(Technique.Technique.ResultRanges[output.Output]);
         }
 
         private void ClosingEventHandlerOutput(object sender, DialogClosingEventArgs eventArgs)
@@ -597,6 +629,26 @@ namespace SoA_Editor.ViewModels
             }
 
             if (error) eventArgs.Cancel();
+        }
+
+        private void UpdateParamRangeAndVars(string oldName, string newName)
+        {
+            foreach (Technique_InputParameterRange range in InputParameterRanges)
+            {
+                if (range.InputParamRange == oldName)
+                {
+                    range.InputParamRange = newName;
+                    Technique.Technique.ParameterRanges[oldName].name = newName;
+                }
+            }
+
+            foreach (Technique_Variable _var in Variables)
+            {
+                if (_var.Value == oldName)
+                {
+                    _var.Value = newName;
+                }
+            }
         }
 
         #endregion Methods

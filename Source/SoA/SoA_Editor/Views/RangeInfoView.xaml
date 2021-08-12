@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="SoA_Editor.Views.RangeInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
+             mc:Ignorable="d" d:Background="White"
+             d:DesignHeight="2000" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:RangeInfoViewModel}"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}" Padding="5">
+    <Grid>
+        <StackPanel>
+            <!-- First form for adding our first case -->
+            <Grid Visibility="{Binding NoCases, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Margin="0 0 0 10" Grid.Row="0" Grid.ColumnSpan="2">
+                You must enter at least one Assertion, i.e. Resolution, Impedance, Connection, etc.<LineBreak />
+                You will be prompted to enter the Ranges after the Assertions have been saved.
+                </TextBlock>
+                <TextBox Grid.Row="1" Width="200" Margin="0 0 15 0" Grid.Column="0" Text="{Binding Assertion1.Name}" materialDesign:HintAssist.HelperText="Required Field"
+                     materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
+
+                <TextBox Grid.Row="1" Width="200" Grid.Column="1"  Text="{Binding Assertion1.Value}" materialDesign:HintAssist.HelperText="Required Field"
+                     materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
+
+                <TextBox Grid.Row="2" Width="200" Margin="0 25 15 0" Grid.Column="0" Text="{Binding Assertion2.Name}"
+                     materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
+
+                <TextBox Grid.Row="2" Width="200" Margin="0 25 0 0" Grid.Column="1"  Text="{Binding Assertion2.Value}"
+                     materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
+
+                <Button Grid.Row="3" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="SaveFirstCase" />
+            </Grid>
+
+            <!-- Second form for adding Cases/Ranges -->
+            <Grid Visibility="{Binding NoCases, Converter={StaticResource InverseBoolToVisConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="2">
+                    Please fill out your desired Assertion value(s).<LineBreak />
+                    Next choose your Influence Quantity, Variable Ranges,<LineBreak />
+                    and Constant values.
+                </TextBlock>
+                
+                <TextBlock Grid.Row="1" Width="Auto" Margin="0 0 15 0" Grid.Column="0" Text="{Binding Assertion1.Name}" d:Text="Name:" VerticalAlignment="Center" />
+                
+                <TextBox Grid.Row="1" Width="200" Grid.Column="1"  Text="{Binding Assertion1.Value}" materialDesign:HintAssist.HelperText="Required Field"
+                        materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"
+                        IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" />
+                
+                <TextBlock Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="Auto" Margin="0 25 15 0" Grid.Column="0"
+                          Text="{Binding Assertion2.Name}" d:Text="Name:" VerticalAlignment="Center" />
+                
+                <TextBox Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="200" Margin="0 25 0 0" Grid.Column="1"
+                        Text="{Binding Assertion2.Value}" IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" materialDesign:HintAssist.HelperText="Required Field"
+                        materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
+
+                <Button Grid.Row="3" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="SaveNewCase" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

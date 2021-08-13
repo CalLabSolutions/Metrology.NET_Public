@@ -478,18 +478,20 @@ namespace SoA_Editor.ViewModels
 
             Unc_Template template;
             Unc_Technique technique;
+            string functionName;
             bool firstCase = false;
 
             // get the template and cases
             template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(node.Name);
             technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
+            functionName = technique.Technique.CMCUncertainties[0].function_name;
 
             // see if we have added any cases yet because the same assertions must be used moving fwd
             if (template.CMCUncertaintyFunctions[0].Cases.Count() == 0)
             {
                 node.Children.Add(new AssertionNode(node) { Name = "All" } );
                 settings.Title = "Add Assertion Names for new Ranges";
-                manager.ShowDialogAsync(new RangeInfoViewModel(Array.Empty<string>(), Array.Empty<string>(), template), null, settings);
+                manager.ShowDialogAsync(new RangeInfoViewModel(Array.Empty<string>(), Array.Empty<string>(), Array.Empty<string>(), functionName, template), null, settings);
                 if (Helper.TreeViewCase != null)
                 {
                     AssertionNode newNode = new AssertionNode(node) { Name = Helper.TreeViewCase.Assertions[0].Value };
@@ -502,8 +504,16 @@ namespace SoA_Editor.ViewModels
             }
 
             // Now let the user add a range because we should have assertions at this point
-            settings.Title = "Add new Ranges";
-            manager.ShowDialogAsync(new RangeInfoViewModel(Array.Empty<string>(), Array.Empty<string>(), template, firstCase), null, settings);
+            settings.Title = "Add new Range";
+
+            // We need our influence quantity and available expression symbols (variables)
+            var expSymbols = technique.Technique.CMCUncertainties[0].ExpressionSymbols;
+            var _params = technique.Technique.Parameters.Where(p => !expSymbols.Contains(p.name)).ToList();
+            List<string> infQty = new();
+            _params.ForEach(p => infQty.Add(p.name));
+            string[] symbols = technique.Technique.CMCUncertainties[0].Variables.ToArray();
+            string[] constants = technique.Technique.CMCUncertainties[0].Constants.ToArray();
+            manager.ShowDialogAsync(new RangeInfoViewModel(infQty.ToArray(), symbols, constants, functionName, template, firstCase), null, settings);
         }
 
         public void DeleteRange(Node node)

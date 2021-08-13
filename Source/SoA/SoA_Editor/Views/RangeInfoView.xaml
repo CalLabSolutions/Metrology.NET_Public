@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
              mc:Ignorable="d" d:Background="White"
-             d:DesignHeight="2000" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:RangeInfoViewModel}"
+             d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:RangeInfoViewModel}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
              TextElement.FontSize="13"
@@ -60,8 +60,11 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="2">
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Width="400">
                     Please fill out your desired Assertion value(s).<LineBreak />
                     Next choose your Influence Quantity, Variable Ranges,<LineBreak />
                     and Constant values.
@@ -69,18 +72,48 @@
                 
                 <TextBlock Grid.Row="1" Width="Auto" Margin="0 0 15 0" Grid.Column="0" Text="{Binding Assertion1.Name}" d:Text="Name:" VerticalAlignment="Center" />
                 
-                <TextBox Grid.Row="1" Width="200" Grid.Column="1"  Text="{Binding Assertion1.Value}" materialDesign:HintAssist.HelperText="Required Field"
-                        materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"
-                        IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" />
+                <ComboBox Grid.Row="1" Width="300" Grid.Column="1" ItemsSource="{Binding AssertionsValues1}" SelectedItem="{Binding Assertion1.Value}" materialDesign:HintAssist.HelperText="Required Field"
+                        materialDesign:HintAssist.Hint="Value" VerticalAlignment="Center" IsEditable="True" IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" />
                 
                 <TextBlock Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="Auto" Margin="0 25 15 0" Grid.Column="0"
                           Text="{Binding Assertion2.Name}" d:Text="Name:" VerticalAlignment="Center" />
                 
-                <TextBox Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="200" Margin="0 25 0 0" Grid.Column="1"
-                        Text="{Binding Assertion2.Value}" IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" materialDesign:HintAssist.HelperText="Required Field"
-                        materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
+                <ComboBox Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="300" Margin="0 25 0 0" Grid.Column="1" IsEditable="True"
+                        IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" materialDesign:HintAssist.HelperText="Required Field"
+                        materialDesign:HintAssist.Hint="Value" VerticalAlignment="Center" ItemsSource="{Binding AssertionsValues2}" SelectedItem="{Binding Assertion2.Value}"/>
+                
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" Margin="0 35 0 0" HorizontalAlignment="Center">
+                    <ComboBox ItemsSource="{Binding InfQtyRange.InfQtys}" SelectedItem="{Binding InfQtyRange.InfQtyName}" materialDesign:HintAssist.Hint="Influence Quantity"/>
+                    <TextBox Text="{Binding InfQtyRange.Min}" materialDesign:HintAssist.Hint="Minimum" Width="Auto" Margin="15 0 0 0"/>
+                    <TextBox Text="{Binding InfQtyRange.Max}" materialDesign:HintAssist.Hint="Maximum" Width="Auto" Margin="15 0 0 0"/>
+                </StackPanel>
 
-                <Button Grid.Row="3" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="SaveNewCase" />
+                <DataGrid Grid.Row="4" Grid.ColumnSpan="2" Margin="0 25 0 0" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True"
+                          CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Vars}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Variable Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                        <DataGridCheckBoxColumn Header="Enable Range" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            Binding="{Binding Enable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <DataGridCheckBoxColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridCheckBoxColumn.HeaderStyle>
+                        </DataGridCheckBoxColumn>
+                        <DataGridTextColumn Header="Minimum" Binding="{Binding Path=Min, Mode=TwoWay}" />
+                        <DataGridTextColumn Header="Maximum" Binding="{Binding Path=Max, Mode=TwoWay}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <DataGrid Grid.Row="5" Grid.ColumnSpan="2" Margin="0 25 0 0" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True"
+                          CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Constants}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Constant Name" Binding="{Binding Path=ConstName}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Path=Value, Mode=TwoWay}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Row="6" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="SaveNewCase" />
             </Grid>
         </StackPanel>
     </Grid>

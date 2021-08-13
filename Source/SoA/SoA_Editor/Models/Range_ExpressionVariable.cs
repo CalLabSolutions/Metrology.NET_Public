@@ -41,5 +41,47 @@ namespace SoA_Editor.Models
                 Set(ref _Value, value);
             }
         }
+
+        private bool enable = false;
+        public bool Enable
+        {
+            get
+            {
+                return enable;
+            }
+
+            set
+            {
+                Set(ref enable, value);
+            }
+        }
+
+        private string min;
+        public string Min
+        {
+            get
+            {
+                return min;
+            }
+
+            set
+            {
+                Set(ref min, value);
+            }
+        }
+
+        private string max;
+        public string Max
+        {
+            get
+            {
+                return max;
+            }
+
+            set
+            {
+                Set(ref max, value);
+            }
+        }
     }
 }

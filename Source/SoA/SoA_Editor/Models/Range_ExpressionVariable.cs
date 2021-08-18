@@ -42,20 +42,6 @@ namespace SoA_Editor.Models
             }
         }
 
-        private bool enable = false;
-        public bool Enable
-        {
-            get
-            {
-                return enable;
-            }
-
-            set
-            {
-                Set(ref enable, value);
-            }
-        }
-
         private string min;
         public string Min
         {

@@ -1955,6 +1955,13 @@ namespace SOA_DataAccessLib
 
         public Unc_Range()
         {
+          
+        }
+
+        public Unc_Range(Unc_Template template)
+        {
+            this.template = template;
+            this.ranges = new();
         }
 
         public Unc_Range(XElement datasource, Unc_Template template, Unc_Ranges parent, string functionName)

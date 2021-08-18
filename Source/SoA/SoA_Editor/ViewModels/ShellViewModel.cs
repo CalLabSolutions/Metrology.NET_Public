@@ -1,13 +1,16 @@
 ﻿using Caliburn.Micro;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using SOA_DataAccessLib;
 using SoA_Editor.Models;
+using SoA_Editor.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
 using MessageBox = System.Windows.MessageBox;
@@ -401,11 +404,11 @@ namespace SoA_Editor.ViewModels
             manager.ShowDialogAsync(new TaxonomyInfoViewModel(soa.CapabilityScope.Activities[0].Taxons.Names()), null, settings);
             if (Helper.TreeViewSelectedTaxon != null)
             {
+                // create our new node
                 TaxonNode newNode = new TaxonNode() { Name = Helper.TreeViewSelectedTaxon.Name };
-                RootNode.Children.Add(newNode);
-
                 //add the new node to the soa object
                 soa.CapabilityScope.Activities[0].Taxons.Add(new Unc_Taxon(Helper.TreeViewSelectedTaxon));
+                ReloadTree(newNode);
                 Helper.TreeViewSelectedTaxon = null;
             }
         }
@@ -421,8 +424,7 @@ namespace SoA_Editor.ViewModels
             // Remove the taxon
             var taxon = soa.CapabilityScope.Activities[0].Taxons[node.Name];
             soa.CapabilityScope.Activities[0].Taxons.Remove(taxon);
-            RootNode.Children.Remove(node);
-            LoadWelcomeViewModelObj();
+            ReloadTree();
         }
 
         public void AddTechnique(TaxonNode node)
@@ -438,13 +440,13 @@ namespace SoA_Editor.ViewModels
                 soa.CapabilityScope.Activities[0].Unc_CMCs), null, settings);
             if (Helper.TreeViewTechnique != null)
             {
+                // create our new node
                 TechniqueNode newNode = new TechniqueNode(node) { Name = Helper.TreeViewTechnique.Name };
-                node.Children.Add(newNode);
-
+               
                 //add the new node to the soa object
                 soa.CapabilityScope.Activities[0].Techniques.Add(Helper.TreeViewTechnique);
+                ReloadTree(newNode);
                 Helper.TreeViewTechnique = null;
-                node.IsExpanded = true;
             }
         }
 
@@ -453,18 +455,7 @@ namespace SoA_Editor.ViewModels
             var technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
             // Remove technique
             soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
-            node.Parent.Children.Remove(node);
-            LoadWelcomeViewModelObj();
-        }
-
-        public void TaxonNodeClick(TaxonNode node)
-        {
-            LoadTaxonomyViewModelObj(node.Name);
-        }
-
-        public void TechniqueNodeClick(TechniqueNode node)
-        {
-            LoadTechniqueViewModelObj(node);
+            ReloadTree();
         }
 
         public void AddRange(TechniqueNode node)
@@ -486,12 +477,17 @@ namespace SoA_Editor.ViewModels
             technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
             functionName = technique.Technique.CMCUncertainties[0].function_name;
 
+            //Dictionary<string, Unc_Range_Min_Max> _vars = new();
+            //Dictionary<string, Unc_Range_Min_Max> infQty = new();
+            List<Mtc_Range> _vars = new();
+            List<Mtc_Range> infQty = new();
+
             // see if we have added any cases yet because the same assertions must be used moving fwd
             if (template.CMCUncertaintyFunctions[0].Cases.Count() == 0)
             {
-                node.Children.Add(new AssertionNode(node) { Name = "All" } );
+                node.Children.Add(new AssertionNode(node) { Name = "All" });
                 settings.Title = "Add Assertion Names for new Ranges";
-                manager.ShowDialogAsync(new RangeInfoViewModel(Array.Empty<string>(), Array.Empty<string>(), Array.Empty<string>(), functionName, template), null, settings);
+                manager.ShowDialogAsync(new RangeInfoViewModel(infQty, _vars, Array.Empty<string>(), functionName, template), null, settings);
                 if (Helper.TreeViewCase != null)
                 {
                     AssertionNode newNode = new AssertionNode(node) { Name = Helper.TreeViewCase.Assertions[0].Value };
@@ -508,12 +504,28 @@ namespace SoA_Editor.ViewModels
 
             // We need our influence quantity and available expression symbols (variables)
             var expSymbols = technique.Technique.CMCUncertainties[0].ExpressionSymbols;
-            var _params = technique.Technique.Parameters.Where(p => !expSymbols.Contains(p.name)).ToList();
-            List<string> infQty = new();
-            _params.ForEach(p => infQty.Add(p.name));
+            var _params = technique.Technique.Parameters.Where(p => !expSymbols.Contains(p.name)).ToArray();
             string[] symbols = technique.Technique.CMCUncertainties[0].Variables.ToArray();
+            var ranges = technique.Technique.ParameterRanges;
+
+            for (int i = 0; i < _params.Length; i++)
+            {
+                var range = ranges[_params[i].name];
+                if (range != null) infQty.Add(range);
+            }
+
+            for (int i = 0; i < symbols.Length; i++)
+            {
+                var range = ranges[symbols[i]];
+                if (range != null) _vars.Add(range);
+            }
             string[] constants = technique.Technique.CMCUncertainties[0].Constants.ToArray();
-            manager.ShowDialogAsync(new RangeInfoViewModel(infQty.ToArray(), symbols, constants, functionName, template, firstCase), null, settings);
+            manager.ShowDialogAsync(new RangeInfoViewModel(infQty, _vars, constants, functionName, template, firstCase), null, settings);
+            // At this point it would be simplier to just reload the whole tree
+            if (Helper.TreeViewCase != null)
+            {
+                ReloadTree(node);
+            }
         }
 
         public void DeleteRange(Node node)
@@ -567,9 +579,17 @@ namespace SoA_Editor.ViewModels
                 }
             }
 
-            // remove the node
-            node.Parent.Children.Remove(node);
-            LoadWelcomeViewModelObj();
+            ReloadTree();
+        }
+
+        public void TaxonNodeClick(TaxonNode node)
+        {
+            LoadTaxonomyViewModelObj(node.Name);
+        }
+
+        public void TechniqueNodeClick(TechniqueNode node)
+        {
+            LoadTechniqueViewModelObj(node);
         }
 
         public void AssertionNodeClick(AssertionNode node)
@@ -619,7 +639,6 @@ namespace SoA_Editor.ViewModels
             dlg.CheckFileExists = true;
             dlg.Filter = "XML Files (*.xml)|*.xml";
             dlg.Multiselect = false;
-            //string path = dlg.FileName;
             try
             {
                 bool? dialogResult = dlg.ShowDialog();
@@ -642,13 +661,32 @@ namespace SoA_Editor.ViewModels
                 {
                     return;
                 }
+
+                LoadTree();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 MessageBox.Show("The data file is invalid!");
                 return;
             }
+        }
 
+        private void Reload()
+        {
+            soa = new Soa();
+            dao = new SOA_DataAccess();
+            dao.load(FullPath);
+            soa = dao.SOADataMaster;
+            Helper.LoadCompanyInfoFromSoaObjectToOpen(soa, CompanyM); // assigns info extracted from XML to the CompanyM object
+            CompanyInfoVM.LoadCompanyInfo(); // copies info into local parameters to be shown in the view
+            _ = ActivateItemAsync(CompanyInfoVM);
+
+            //set name label
+            lblCompanyInfoName = CompanyInfoVM.Name;
+        }
+
+        private void LoadTree()
+        {
             //fill in treeview
             RootNode = new();
             RootNode.Name = "soa";
@@ -753,6 +791,41 @@ namespace SoA_Editor.ViewModels
             }
         }
 
+        private void ReloadTree(Node node = null)
+        {
+            // Auto Save
+            SaveXML();
+            // Reload to get some of the data populated correctly
+            Reload();
+            // Load the tree view
+            LoadTree();
+            // Expand out to the node we found
+            if (node != null)
+            {
+                findNode(node, node.Name).IsExpanded = true;
+            }
+        }
+
+        private async Task<ProgressBarView> ShowProgressBar()
+        {
+            if (!DialogHost.IsDialogOpen("RootDialog"))
+            {
+                // set up our dialog view
+                ProgressBarView bar = new ProgressBarView()
+                {
+                    DataContext = new ProgressBarViewModel()
+                };
+                _ = await DialogHost.Show("RootDialog", bar);
+                return bar;
+            }
+            return null;
+        }
+
+        private void HideProgressBar()
+        {
+            DialogHost.Close("RootDialog");
+        }
+
         public Node findNode(Node root, string findStr)
         {
             if (root.Name.Equals(findStr))
@@ -782,6 +855,7 @@ namespace SoA_Editor.ViewModels
             }
 
             soa.writeTo(doc);
+            lblCompanyInfoName = soa.CapabilityScope.MeasuringEntity;
 
             if (FullPath.Length == 0 || IsSaveAs == true) // Saving a new file or Save as...
             {

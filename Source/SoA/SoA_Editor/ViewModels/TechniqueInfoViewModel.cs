@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using SOA_DataAccessLib;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows;
 using static SoA_Editor.ViewModels.Helper;
 
@@ -183,6 +183,7 @@ namespace SoA_Editor.ViewModels
                     };
                     uncTechnique.Technique.CMCUncertainties.Add(mtcUncertainty);
                     template.CMCUncertaintyFunctions.Add(uncFunction);
+                    template.CMCUncertaintyFunctions[0].Cases = new Unc_Cases(template, new List<Unc_Case>());
 
                     // Add the technique to our template
                     template.MtcTechnique = uncTechnique.Technique;

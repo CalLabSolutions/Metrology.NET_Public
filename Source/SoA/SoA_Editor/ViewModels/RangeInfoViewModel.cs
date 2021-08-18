@@ -2,29 +2,32 @@
 using SOA_DataAccessLib;
 using SoA_Editor.Model;
 using SoA_Editor.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 
 namespace SoA_Editor.ViewModels
 {
     internal class RangeInfoViewModel : Screen
     {
-        private string[] avaiableInfQty;
-        private string[] vars;
+        private List<Mtc_Range> infQtys;
+        private List<Mtc_Range> vars;
         private string[] constants;
         private string functionName;
         private Unc_Template template;
         private Helper.MessageDialog dialog;
         private bool firstCase;
 
-        public RangeInfoViewModel(string[] avaiableInfQty, string[] vars, string[] constants, string functionName, Unc_Template template, bool firstCase = false)
+        public RangeInfoViewModel(List<Mtc_Range> infQtys, List<Mtc_Range> vars, string[] constants, string functionName, Unc_Template template, bool firstCase = false)
         {
-            this.avaiableInfQty = avaiableInfQty;
+            this.infQtys = infQtys;
             this.vars = vars;
             this.constants = constants;
             this.functionName = functionName;
             this.firstCase = firstCase;
             this.template = template;
             var assertionNames = this.template.getCMCFunctionAssertionNames(functionName);
+            MinMax = new();
 
             // if we do not have any cases to add Ranges to we need to make our assertions first
             if (this.template.CMCUncertaintyFunctions[0].Cases.Count() == 0)
@@ -81,16 +84,19 @@ namespace SoA_Editor.ViewModels
                     AssertionsValues2 = null;
                 }
                 // Get existing cases, vars, constants, and vars
-                InfQtyRange = new Range_Influence_Quantity(avaiableInfQty);
+                InfQtyRange = new Range_Influence_Quantity(infQtys);
+
+                Vars = new();
+                Vars = vars;
+
+                RangeGrid = new();
+                RangeGrid.Columns.Add("Minimum");
+                RangeGrid.Columns.Add("Maximum");
+
                 Constants = new();
                 for (int i = 0; i < constants.Length; i++)
                 {
-                    Constants.Add(new Range_Constant(this.constants[i], ""));
-                }
-                Vars = new();
-                for (int i = 0; i < vars.Length; i++)
-                {
-                    Vars.Add(new ExpressionVariable(this.vars[i]));
+                    RangeGrid.Columns.Add(constants[i]);
                 }
             }
 
@@ -160,16 +166,48 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        private ObservableCollection<ExpressionVariable> _vars;
+        private Mtc_Range selectedVar;
 
-        public ObservableCollection<ExpressionVariable> Vars
+        public Mtc_Range SelectedVar
         {
-            get { return _vars; }
+            get { return selectedVar; }
             set
             {
-                _vars = value;
+                selectedVar = value;
+                var range = selectedVar.Start.ValueString;
+                ParameterRange = "";
+                if (range != null || range != "")
+                {
+                    ParameterRange = string.Format("{0} to {1}", selectedVar.Start.ValueString, selectedVar.End.ValueString);
+                }
+                NotifyOfPropertyChange(() => SelectedVar);
+            }
+        }
+
+        private string parameterRange;
+
+        public string ParameterRange
+        {
+            get { return parameterRange; }
+            set { parameterRange = value; NotifyOfPropertyChange(() => ParameterRange); }
+        }
+
+        public List<Mtc_Range> Vars
+        {
+            get { return vars; }
+            set
+            {
+                vars = value;
                 NotifyOfPropertyChange(() => Vars);
             }
+        }
+
+        private ObservableCollection<Unc_Range_Min_Max> minMax;
+
+        public ObservableCollection<Unc_Range_Min_Max> MinMax
+        {
+            get { return minMax; }
+            set { minMax = value; NotifyOfPropertyChange(() => MinMax); }
         }
 
         private ObservableCollection<string> assertionsValues1;
@@ -193,6 +231,20 @@ namespace SoA_Editor.ViewModels
             {
                 assertionsValues2 = value;
                 NotifyOfPropertyChange(() => AssertionsValues2);
+            }
+        }
+
+        private DataTable rangeGrid;
+
+        public DataTable RangeGrid
+        {
+            get
+            {
+                return rangeGrid;
+            }
+            set
+            {
+                Set(ref rangeGrid, value);
             }
         }
 
@@ -230,26 +282,28 @@ namespace SoA_Editor.ViewModels
 
         public void SaveNewCase()
         {
-            // Make sue we have what we need before trying to save a case
-            bool error = false;
+            // Make sure we have what we need before trying to save a case
 
             // Check our assertions
             if (Assertion1.Value == "")
             {
                 dialog.Message = "Please Select or enter the first Assertion Value";
-                error = true;
+                dialog.Show();
+                return;
             }
             if (Assertion2 != null && Assertion2.Value == "")
             {
                 dialog.Message = "Please Select or enter the first Assertion Value";
-                error = true;
+                dialog.Show();
+                return;
             }
 
             // Check our Infuance quantity
-            if ((InfQtyRange.InfQtyName == null || InfQtyRange.InfQtyName == "") || (InfQtyRange.Min == "" || InfQtyRange.Max == ""))
+            if (InfQtyRange.SelectedQty.name == null || InfQtyRange.Min == "" || InfQtyRange.Max == "")
             {
                 dialog.Message = "You must select and Inflence Quantity, Minimum, and Maximum values";
-                error = true;
+                dialog.Show();
+                return;
             }
 
             // Check that the min max are numbers
@@ -257,25 +311,107 @@ namespace SoA_Editor.ViewModels
             if (!double.TryParse(infQtyRange.Min, out test) || !double.TryParse(infQtyRange.Max, out test))
             {
                 dialog.Message = "Your Influance Quantity min and max must be a number";
-                error = true;
+                dialog.Show();
+                return;
+            }
+
+            // that the min and max are with in range if they have a parameter range
+            var min = InfQtyRange.SelectedQty.Start.ValueString;
+            var max = InfQtyRange.SelectedQty.End.ValueString;
+            if (min != "" || min != null)
+            {
+                if (double.Parse(InfQtyRange.Min) < double.Parse(min) || double.Parse(InfQtyRange.Max) > double.Parse(max))
+                {
+                    dialog.Message = "Your Influance Quantity min and max is outside of the assinged range";
+                    dialog.Show();
+                    return;
+                }
+            }
+
+            if (SelectedVar.name == null || SelectedVar.name == "")
+            {
+                dialog.Message = "You must selected a Parameter";
+                dialog.Show();
+                return;
             }
 
             // Check Variables
-            foreach (ExpressionVariable _var in Vars)
+            DataRowCollection rows = RangeGrid.Rows;
+            DataColumnCollection cols = RangeGrid.Columns;
+            Dictionary<int, Dictionary<string, string>> rowData = new Dictionary<int, Dictionary<string, string>>();
+            int rowCount = 0;
+            int colCount;
+            foreach (DataRow row in rows)
             {
-                if (_var.Enable)
+                var items = row.ItemArray;
+                colCount = 0;
+                var newRowData = new Dictionary<string, string>();
+                foreach (DataColumn col in cols)
                 {
-                    if (_var.Min == null || _var.Max == null || _var.Min == "" || _var.Max == "")
+                    newRowData.Add(col.ColumnName, items[colCount].ToString());
+                    colCount++;
+                }
+                rowData.Add(rowCount, newRowData);
+                rowCount++;
+            }
+
+            // lets populate our min max for our variable parameter and our constant values
+            for (int i = 0; i < rowData.Count; i++)
+            {
+                var row = rowData[i];
+                MinMax.Add(new Unc_Range_Min_Max()
+                {
+                    Min = row["Minimum"],
+                    Max = row["Maximum"]
+                });
+                for (int j = 0; j < constants.Length; j++)
+                {
+                    Constants.Add(new Range_Constant()
                     {
-                        dialog.Message = "You have an enabled Variable with no Min or Max set.";
-                        error = true;
-                        break;
-                    }
-                    if (!double.TryParse(_var.Min, out test) || !double.TryParse(_var.Max, out test))
+                        ConstName = constants[j],
+                        Value = row[constants[j]]
+                    }); ;
+                }
+            }
+
+            // Now check that we have the values needed
+            if (MinMax.Count == 0)
+            {
+                dialog.Message = "You did not set any Uncertainty Ranges.";
+                dialog.Show();
+                return;
+            }
+
+            if (constants.Length > 0 && Constants.Count == 0)
+            {
+                dialog.Message = "This Uncertainty has Constants that must be entered.";
+                dialog.Show();
+                return;
+            }
+
+            foreach (Unc_Range_Min_Max minMax in MinMax)
+            {
+                if (minMax.Min == null || minMax.Max == null || minMax.Min == "" || minMax.Max == "")
+                {
+                    dialog.Message = "You Uncertainty Range with no Min or Max set.";
+                    dialog.Show();
+                    return;
+                }
+                if (!double.TryParse(minMax.Min, out test) || !double.TryParse(minMax.Max, out test))
+                {
+                    dialog.Message = "You have an Uncertianty Range's min and max that are not numbers";
+                    dialog.Show();
+                    return;
+                }
+                // Make sure the range they chose a value that falls withing the parameter range
+                if (SelectedVar.Start.ValueString != "")
+                {
+                    if (double.Parse(minMax.Min) < double.Parse(SelectedVar.Start.ValueString) ||
+                        double.Parse(minMax.Max) > double.Parse(SelectedVar.End.ValueString))
                     {
-                        dialog.Message = "Your Variables Range's min and max must be a number";
-                        error = true;
-                        break;
+                        dialog.Message = "One of your Uncertainty Ranges is outside the Parameter's assigned Range";
+                        dialog.Show();
+                        return;
                     }
                 }
             }
@@ -286,15 +422,9 @@ namespace SoA_Editor.ViewModels
                 if (!double.TryParse(constant.Value, out test))
                 {
                     dialog.Message = "Your Constant values must be a number";
-                    error = true;
+                    dialog.Show();
+                    return;
                 }
-            }
-
-            // If error show the user
-            if (error)
-            {
-                dialog.Show();
-                return;
             }
 
             // see if we have a case already
@@ -308,6 +438,7 @@ namespace SoA_Editor.ViewModels
             if (exsitingCase != null)
             {
                 AddRanges(exsitingCase);
+                Helper.TreeViewCase = exsitingCase;
             }
             else // We need to add a new case and ranges
             {
@@ -317,69 +448,103 @@ namespace SoA_Editor.ViewModels
                 if (Assertion2 != null) assertions.Add(Assertion2);
                 Unc_Case newCase = new Unc_Case(template, assertions);
                 AddRanges(newCase);
+                Helper.TreeViewCase = newCase;
+                template.CMCUncertaintyFunctions[0].Cases.Add(newCase);
             }
+            base.TryCloseAsync(null);
         }
 
         private void AddRanges(Unc_Case Case)
         {
-            // Influence Quantity
-            Case.Ranges.variable_name = InfQtyRange.InfQtyName;
-            Case.Ranges.variable_type = "influence_quantity";
+            // Influence Quantity, we need to check if we already have an influence qty type
+            Unc_Range infQtyRange = null;
+            bool newRanges = true;
+            foreach (Unc_Range range in Case.Ranges.getRanges())
+            {
+                if (range.Variable_name == InfQtyRange.SelectedQty.name)
+                {
+                    // now see if we are adding a new Qty via the ranges or a new set
+                    if (range.Start.Value == decimal.Parse(InfQtyRange.Min) && range.End.Value == decimal.Parse(InfQtyRange.Max))
+                    {
+                        infQtyRange = range;
+                        newRanges = false;
+                        break;
+                    }
+                }
+            }
 
-            // Start and stop ranges for the influence qty
-            Unc_Range infQtyRange = new Unc_Range();
-            infQtyRange.Start = SetStart("at", InfQtyRange.Min);
-            infQtyRange.End = SetEnd("at", InfQtyRange.Max);
+            if (infQtyRange == null)
+            {
+                Case.Ranges.variable_name = InfQtyRange.SelectedQty.name;
+                Case.Ranges.variable_type = "influence_quantity";
+
+                // Start and stop ranges for the influence qty
+                infQtyRange = new Unc_Range(template);
+                infQtyRange.Start = SetStart("at", InfQtyRange.Min, InfQtyRange.SelectedQty.Start.Quantity);
+                infQtyRange.End = SetEnd("at", InfQtyRange.Max, InfQtyRange.SelectedQty.Start.Quantity);
+                infQtyRange.Variable_name = InfQtyRange.SelectedQty.name;
+                infQtyRange.Variable_type = "influence_quantity";
+            }
 
             // Add our variable ranges and constants
             int count = 1;
-            foreach (ExpressionVariable _var in Vars)
+            Unc_Range paramRange = new Unc_Range(template);
+            paramRange.ConstantValues = new();
+            paramRange.Variable_name = SelectedVar.name;
+            paramRange.Variable_type = "parameter";
+            infQtyRange.Ranges.variable_name = SelectedVar.name;
+            infQtyRange.Ranges.variable_type = "parameter";
+            foreach (Unc_Range_Min_Max minMax in MinMax)
             {
-                if (!_var.Enable) continue;
-                Unc_Range paramRange = new Unc_Range();
-                paramRange.Variable_name = _var.Name;
-                paramRange.Variable_type = "parameter";
                 if (count > 1)
-                    paramRange.Start = SetStart("after", _var.Min);
+                    paramRange.Start = SetStart("after", minMax.Min, SelectedVar.Start.Quantity);
                 else
-                    paramRange.Start = SetStart("at", _var.Min);
-                paramRange.End = SetEnd("at", _var.Max);
+                    paramRange.Start = SetStart("at", minMax.Min, SelectedVar.Start.Quantity);
+                paramRange.End = SetEnd("at", minMax.Max, SelectedVar.Start.Quantity);
                 foreach (Range_Constant constant in Constants)
                 {
                     paramRange.ConstantValues.Add(new Unc_ConstantValue()
                     {
                         const_parameter_name = constant.ConstName,
-                        Value = decimal.Parse(constant.Value)
-                    });
+                        Value = decimal.Parse(constant.Value),
+                        Quantity = SelectedVar.Start.Quantity,
+                        symbol = UomDataSource.getQuantity(SelectedVar.Start.Quantity).UoM.symbol
+                });
                 }
                 count++;
                 infQtyRange.Ranges.Add(paramRange);
             }
 
-            Case.Ranges.Add(infQtyRange);
+            if (newRanges) Case.Ranges.Add(infQtyRange);
         }
 
-        private Unc_Range_Start SetStart(string test, string min)
+        private Unc_Range_Start SetStart(string test, string min, string quantity)
         {
             Unc_Range_Start start = new Unc_Range_Start();
-
+            var qty = UomDataSource.getQuantity(quantity);
             start.test = test;
             start.Value = decimal.Parse(min);
             start.ValueString = min;
-            start.Quantity = "";
-            start.symbol = "";
+            if (qty != null)
+            {
+                start.Quantity = qty.name;
+                start.symbol = qty.UoM.symbol;
+            }
             return start;
         }
 
-        private Unc_Range_End SetEnd(string test, string max)
+        private Unc_Range_End SetEnd(string test, string max, string quantity)
         {
             Unc_Range_End end = new Unc_Range_End();
-
+            var qty = UomDataSource.getQuantity(quantity);
             end.test = test;
             end.Value = decimal.Parse(max);
-            end.ValueString = max;
-            end.Quantity = "";
-            end.symbol = "";
+            end.ValueString = max;           
+            if (qty != null)
+            {
+                end.Quantity = qty.name;
+                end.symbol = qty.UoM.symbol;
+            }            
             return end;
         }
 

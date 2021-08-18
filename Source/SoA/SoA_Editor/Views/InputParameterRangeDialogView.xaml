@@ -33,10 +33,10 @@
                 </Grid.ColumnDefinitions>
                 
                 <ComboBox Grid.Row="0" Grid.Column="0" materialDesign:HintAssist.Hint="(at, before, after)" ItemsSource="{Binding TestsMin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=TestMin, Mode=TwoWay}" Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                <TextBox Name="TextMin" PreviewTextInput="TextMin_PreviewTextInput"  Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" Text="{Binding Min, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Minimum" />
+                <TextBox Name="TextMin" Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" Text="{Binding Min, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Minimum" />
 
                 <ComboBox Margin="0 12 0 0" Grid.Row="1" Grid.Column="0" materialDesign:HintAssist.Hint="(at, before, after)" ItemsSource="{Binding TestsMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=TestMax, Mode=TwoWay}" Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                <TextBox Margin="10 12 0 0" Name="TextMax" PreviewTextInput="TextMax_PreviewTextInput" Grid.Row="1" Grid.Column="1" Text="{Binding Max, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Maximum" />
+                <TextBox Margin="10 12 0 0" Name="TextMax" Grid.Row="1" Grid.Column="1" Text="{Binding Max, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Maximum" />
             </Grid>
             <StackPanel Orientation="Horizontal" Margin="0 25 0 0" HorizontalAlignment="Center">
                 <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}" IsDefault="True" Content="Save" Style="{DynamicResource MaterialDesignFlatButton}" Margin="0 0 25 0">

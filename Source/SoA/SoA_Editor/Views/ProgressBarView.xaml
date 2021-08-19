@@ -11,7 +11,7 @@
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
-             FontFamily="{DynamicResource MaterialDesignFont}" Width="100" Height="150">
+             FontFamily="{DynamicResource MaterialDesignFont}" Width="150" Height="150">
     <Grid>
         <ProgressBar
           Style="{DynamicResource MaterialDesignCircularProgressBar}"

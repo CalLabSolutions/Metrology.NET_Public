@@ -107,7 +107,7 @@
                                         <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
                                             <MenuItem Header="Delete Technique" cal:Message.Attach="DeleteTechnique($dataContext)"/>
                                             <Separator />
-                                            <MenuItem Header="Add Range" cal:Message.Attach="AddRange($dataContext)"/>
+                                            <MenuItem Header="Add Ranges" cal:Message.Attach="AddRange($dataContext)"/>
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
@@ -116,7 +116,7 @@
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action AssertionNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                            <MenuItem Header="Delete Range" cal:Message.Attach="DeleteRange($dataContext)"/>                                            
+                                            <MenuItem Header="Delete Ranges" cal:Message.Attach="DeleteRange($dataContext)"/>                                            
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
@@ -125,7 +125,7 @@
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action RangeNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                            <MenuItem Header="Delete Range" cal:Message.Attach="DeleteRange($dataContext)"/>                                            
+                                            <MenuItem Header="Delete Ranges" cal:Message.Attach="DeleteRange($dataContext)"/>                                            
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>
                                 </TextBlock>

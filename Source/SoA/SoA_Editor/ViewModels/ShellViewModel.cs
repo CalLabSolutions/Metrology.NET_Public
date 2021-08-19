@@ -413,18 +413,23 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        public void DeleteTaxon(TaxonNode node)
+        public async void DeleteTaxon(TaxonNode node)
         {
-            // First remove children Techniques adn assoicated objects
-            foreach (Node childNode in node.Children)
+            bool delete = await DeleteNode("Are you sure you want to delete the Taxon \"" + node.Name + "\"");
+
+            if (delete)
             {
-                var technique = soa.CapabilityScope.Activities[0].Techniques[childNode.Name];
-                soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
+                // First remove children Techniques adn assoicated objects
+                foreach (Node childNode in node.Children)
+                {
+                    var technique = soa.CapabilityScope.Activities[0].Techniques[childNode.Name];
+                    soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
+                }
+                // Remove the taxon
+                var taxon = soa.CapabilityScope.Activities[0].Taxons[node.Name];
+                soa.CapabilityScope.Activities[0].Taxons.Remove(taxon);
+                ReloadTree();
             }
-            // Remove the taxon
-            var taxon = soa.CapabilityScope.Activities[0].Taxons[node.Name];
-            soa.CapabilityScope.Activities[0].Taxons.Remove(taxon);
-            ReloadTree();
         }
 
         public void AddTechnique(TaxonNode node)
@@ -442,7 +447,7 @@ namespace SoA_Editor.ViewModels
             {
                 // create our new node
                 TechniqueNode newNode = new TechniqueNode(node) { Name = Helper.TreeViewTechnique.Name };
-               
+
                 //add the new node to the soa object
                 soa.CapabilityScope.Activities[0].Techniques.Add(Helper.TreeViewTechnique);
                 ReloadTree(newNode);
@@ -450,12 +455,17 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        public void DeleteTechnique(TechniqueNode node)
+        public async void DeleteTechnique(TechniqueNode node)
         {
-            var technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
-            // Remove technique
-            soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
-            ReloadTree();
+            bool delete = await DeleteNode("Are you sure you want to delete the Technique \"" + node.Name + "\"");
+
+            if (delete)
+            {
+                var technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
+                // Remove technique
+                soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
+                ReloadTree();
+            }
         }
 
         public void AddRange(TechniqueNode node)
@@ -528,34 +538,41 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        public void DeleteRange(Node node)
+        public async void DeleteRange(Node node)
         {
             if (node.Name.ToLower() == "all") return;
 
+            bool delete = false;
+
             if (node.Parent.Type == NodeType.Technique)
             {
-                // first lets get the technique
-                var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Name];
+                delete = await DeleteNode("Are you sure you want to delete the Ranges for Assertion \"" + node.Name + "\"");
 
-                // get the template so we can remove the proper cases
-                var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
-
-                // see which cases have the selected assertion and remove them
-                List<Unc_Case> casesToRemove = new();
-                foreach (Unc_Case _case in template.CMCUncertaintyFunctions[0].Cases)
+                if (delete)
                 {
-                    var assertions = _case.Assertions;
+                    // first lets get the technique
+                    var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Name];
 
-                    if (assertions.Where(a => a.Value == node.Name).Count() > 0)
+                    // get the template so we can remove the proper cases
+                    var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
+
+                    // see which cases have the selected assertion and remove them
+                    List<Unc_Case> casesToRemove = new();
+                    foreach (Unc_Case _case in template.CMCUncertaintyFunctions[0].Cases)
                     {
-                        casesToRemove.Add(_case);
+                        var assertions = _case.Assertions;
+
+                        if (assertions.Where(a => a.Value == node.Name).Count() > 0)
+                        {
+                            casesToRemove.Add(_case);
+                        }
                     }
-                }
-                if (casesToRemove.Count > 0)
-                {
-                    foreach (Unc_Case _case in casesToRemove)
+                    if (casesToRemove.Count > 0)
                     {
-                        template.CMCUncertaintyFunctions[0].Cases.Remove(_case);
+                        foreach (Unc_Case _case in casesToRemove)
+                        {
+                            template.CMCUncertaintyFunctions[0].Cases.Remove(_case);
+                        }
                     }
                 }
             }
@@ -566,20 +583,25 @@ namespace SoA_Editor.ViewModels
                 assertions[0] = node.Parent.Name;
                 assertions[1] = node.Name;
 
-                // lets get the technique
-                var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Parent.Name];
+                delete = await DeleteNode("Are you sure you want to delete the Ranges for Assertions \"" + assertions[0] + "\" and \"" + assertions[1] + "\"");
 
-                // get the template so we can remove the proper cases
-                var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
-
-                var Case = template.getCaseByAssertionValues(technique.Technique.CMCUncertainties[0].function_name, assertions);
-                if (Case != null)
+                if (delete)
                 {
-                    template.CMCUncertaintyFunctions[0].Cases.Remove(Case);
+                    // lets get the technique
+                    var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Parent.Name];
+
+                    // get the template so we can remove the proper cases
+                    var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
+
+                    var Case = template.getCaseByAssertionValues(technique.Technique.CMCUncertainties[0].function_name, assertions);
+                    if (Case != null)
+                    {
+                        template.CMCUncertaintyFunctions[0].Cases.Remove(Case);
+                    }
                 }
             }
 
-            ReloadTree();
+            if (delete) ReloadTree();
         }
 
         public void TaxonNodeClick(TaxonNode node)
@@ -600,6 +622,20 @@ namespace SoA_Editor.ViewModels
         public void RangeNodeClick(RangeNode node)
         {
             LoadRangeViewModelObj(node);
+        }
+
+        private async Task<bool> DeleteNode(string message)
+        {
+            DeleteDialogView view = new DeleteDialogView()
+            {
+                DataContext = new DeleteDialogViewModel()
+            };
+            var viewModel = (DeleteDialogViewModel)view.DataContext;
+            viewModel.Message = message;
+
+            object result = await DialogHost.Show(view, "RootDialog");
+
+            return (bool)result;
         }
 
         #endregion Context Menus
@@ -685,8 +721,10 @@ namespace SoA_Editor.ViewModels
             lblCompanyInfoName = CompanyInfoVM.Name;
         }
 
-        private void LoadTree()
+        private async void LoadTree()
         {
+            //var bar = await ShowProgressBar();
+            
             //fill in treeview
             RootNode = new();
             RootNode.Name = "soa";
@@ -789,6 +827,7 @@ namespace SoA_Editor.ViewModels
                     }
                 }
             }
+            //if (bar != null) HideProgressBar();
         }
 
         private void ReloadTree(Node node = null)
@@ -815,7 +854,7 @@ namespace SoA_Editor.ViewModels
                 {
                     DataContext = new ProgressBarViewModel()
                 };
-                _ = await DialogHost.Show("RootDialog", bar);
+                _ = await DialogHost.Show(bar, "RootDialog");
                 return bar;
             }
             return null;

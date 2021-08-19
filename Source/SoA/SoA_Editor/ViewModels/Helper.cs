@@ -22,7 +22,7 @@ namespace SoA_Editor.ViewModels
             SampleSoA.EffectiveDate = companyInfoVM.EffectiveDate;
             SampleSoA.ExpirationDate = companyInfoVM.ExpirDate;
             SampleSoA.Statement = companyInfoVM.Statement;
-            SampleSoA.CapabilityScope.MeasuringEntity = companyInfoVM.Name;
+            SampleSoA.CapabilityScope.MeasuringEntity = companyInfoVM.CompanyName;
             SampleSoA.CapabilityScope.Locations[0].id = companyInfoVM.LocID;
             SampleSoA.CapabilityScope.Locations[0].ContactName = companyInfoVM.ContactName;
 
@@ -31,7 +31,7 @@ namespace SoA_Editor.ViewModels
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.removeEmail("");
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls.removeUrl("");
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(companyInfoVM.PhoneNo);
-            string[] temp = companyInfoVM.PhoneNo.Split(',');
+            string[] temp = companyInfoVM.PhoneNo != null ? companyInfoVM.PhoneNo.Split(',') : new string[] {""};
             foreach (string number in temp)
             {
                 SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(number);

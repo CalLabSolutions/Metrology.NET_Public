@@ -38,7 +38,7 @@ namespace SoA_Editor.ViewModels
         public void SaveCompanyInfo()
         {
 
-            companyInfoM.Name= Name;
+            companyInfoM.Name= CompanyName;
             companyInfoM.AccrBody= AccrBody;
             companyInfoM.AccrLogo = AccrLogo;
             companyInfoM.ScopeID = ScopeID;
@@ -65,7 +65,7 @@ namespace SoA_Editor.ViewModels
 
         public void LoadCompanyInfo()
         {
-            Name = companyInfoM.Name;
+            CompanyName = companyInfoM.Name;
             AccrBody = companyInfoM.AccrBody;
             AccrLogo = companyInfoM.AccrLogo;
             ScopeID = companyInfoM.ScopeID;
@@ -85,7 +85,7 @@ namespace SoA_Editor.ViewModels
             Urls = companyInfoM.Urls;
         }
 
-        public string Name
+        public string CompanyName
         {
             get
             {
@@ -94,7 +94,7 @@ namespace SoA_Editor.ViewModels
             set
             {
                 _name = value;
-                NotifyOfPropertyChange(() => Name);
+                NotifyOfPropertyChange(() => CompanyName);
             }
         }
         public string AccrBody

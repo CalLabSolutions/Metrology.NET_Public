@@ -20,6 +20,11 @@ namespace SoA_Editor.ViewModels
 
         public RangeInfoViewModel(List<Mtc_Range> infQtys, List<Mtc_Range> vars, string[] constants, string functionName, Unc_Template template, bool firstCase = false)
         {
+            dialog = new();
+            dialog.Title = "Validation Error";
+            dialog.Button = System.Windows.MessageBoxButton.OK;
+            dialog.Image = System.Windows.MessageBoxImage.Warning;
+
             this.infQtys = infQtys;
             this.vars = vars;
             this.constants = constants;
@@ -50,19 +55,19 @@ namespace SoA_Editor.ViewModels
                     {
                         Assertion1.Value = "";
                         Assertion2.Value = "";
-                        foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[0]))
-                        {
-                            AssertionsValues1.Add(value);
-                        }
-                        foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[1]))
-                        {
-                            AssertionsValues2.Add(value);
-                        }
                     }
                     else
                     {
                         Assertion1.Value = this.template.CMCUncertaintyFunctions[0].Cases[0].Assertions[0].Value;
                         Assertion2.Value = this.template.CMCUncertaintyFunctions[0].Cases[0].Assertions[1].Value;
+                    }
+                    foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[0]))
+                    {
+                        AssertionsValues1.Add(value);
+                    }
+                    foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[1]))
+                    {
+                        AssertionsValues2.Add(value);
                     }
                 }
                 else
@@ -98,12 +103,13 @@ namespace SoA_Editor.ViewModels
                 {
                     RangeGrid.Columns.Add(constants[i]);
                 }
-            }
 
-            dialog = new();
-            dialog.Title = "Validation Error";
-            dialog.Button = System.Windows.MessageBoxButton.OK;
-            dialog.Image = System.Windows.MessageBoxImage.Warning;
+                if (InfQtyRange.InfQtys.Count == 0 || Vars.Count == 0)
+                {
+                    dialog.Message = "You must configure your Technique's variables before adding Uncertaitny Ranges.";
+                    dialog.Show();
+                }
+            }
         }
 
         #region properties;
@@ -509,7 +515,7 @@ namespace SoA_Editor.ViewModels
                         Value = decimal.Parse(constant.Value),
                         Quantity = SelectedVar.Start.Quantity,
                         symbol = UomDataSource.getQuantity(SelectedVar.Start.Quantity).UoM.symbol
-                });
+                    });
                 }
                 count++;
                 infQtyRange.Ranges.Add(paramRange);
@@ -539,12 +545,12 @@ namespace SoA_Editor.ViewModels
             var qty = UomDataSource.getQuantity(quantity);
             end.test = test;
             end.Value = decimal.Parse(max);
-            end.ValueString = max;           
+            end.ValueString = max;
             if (qty != null)
             {
                 end.Quantity = qty.name;
                 end.symbol = qty.UoM.symbol;
-            }            
+            }
             return end;
         }
 

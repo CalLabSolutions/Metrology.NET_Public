@@ -9,10 +9,10 @@ namespace SoA_Editor.ViewModels
 
         private string _name;
 
-        public string Name
+        public string TaxonName
         {
             get { return _name; }
-            set { _name = value; NotifyOfPropertyChange(() => Name); }
+            set { _name = value; NotifyOfPropertyChange(() => TaxonName); }
         }
         
         private ObservableCollection<TaxonomyResult> _resultQuant;

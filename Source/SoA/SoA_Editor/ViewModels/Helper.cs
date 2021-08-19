@@ -31,18 +31,18 @@ namespace SoA_Editor.ViewModels
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.removeEmail("");
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls.removeUrl("");
             SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(companyInfoVM.PhoneNo);
-            string[] temp = companyInfoVM.PhoneNo != null ? companyInfoVM.PhoneNo.Split(',') : new string[] {""};
+            string[] temp = companyInfoVM.PhoneNo != null ? companyInfoVM.PhoneNo.Split(',') : new string[] { "" };
             foreach (string number in temp)
             {
                 SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers.addPhoneNumber(number);
             }
 
-            temp = companyInfoVM.Emails.Split(',');
+            temp = companyInfoVM.Emails != null ? companyInfoVM.Emails.Split(',') : new string[] { "" };
             foreach (string email in temp)
             {
                 SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts.addEmail(email);
             }
-            temp = companyInfoVM.Urls.Split(',');
+            temp = companyInfoVM.Urls != null ? companyInfoVM.Urls.Split(',') : new string[] { "" };
             foreach (string url in temp)
             {
                 SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls.addUrl(url);
@@ -58,7 +58,7 @@ namespace SoA_Editor.ViewModels
             CompanyM.CompanyInfo.EffectiveDate = SampleSoA.EffectiveDate;
             CompanyM.CompanyInfo.ExpirDate = SampleSoA.ExpirationDate;
             CompanyM.CompanyInfo.Statement = SampleSoA.Statement;
-            CompanyM.CompanyInfo.Name = SampleSoA.CapabilityScope.MeasuringEntity.ToString();
+            CompanyM.CompanyInfo.CompanyName = SampleSoA.CapabilityScope.MeasuringEntity.ToString();
             CompanyM.CompanyInfo.LocID = SampleSoA.CapabilityScope.Locations[0].id;
             CompanyM.CompanyInfo.ContactName = SampleSoA.CapabilityScope.Locations[0].ContactName;
             CompanyM.CompanyInfo.Emails = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts);

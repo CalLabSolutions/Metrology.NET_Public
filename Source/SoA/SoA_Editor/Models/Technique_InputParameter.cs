@@ -8,8 +8,17 @@ namespace SoA_Editor.Models
     {
         public Technique_InputParameter(string inputParam, string quantity, bool optional, bool variable, string vType)
         {
+            string qty = "";
+            if (quantity != "")
+            {
+                var uom_qty = UomDataSource.getQuantity(quantity);
+                if (uom_qty != null)
+                {
+                    qty = ViewModels.Quantity.FormatUomQuantity(uom_qty).FormatedName;
+                }
+            }
             InputParam = inputParam;
-            Quantity = ViewModels.Quantity.FormatUomQuantity(UomDataSource.getQuantity(quantity)).FormatedName;
+            Quantity = qty;
             Variable = variable;
             VariableType = vType;
             allowUpdate = true;

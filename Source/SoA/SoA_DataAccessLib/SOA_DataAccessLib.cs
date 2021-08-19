@@ -2066,7 +2066,24 @@ namespace SOA_DataAccessLib
 
         public Unc_Ranges Remove(Unc_Range Range)
         {
-            if (ranges.Contains(Range)) ranges.Remove(Range);
+            if (ranges.Contains(Range))
+            {
+                ranges.Remove(Range);
+                return this;
+            }
+            else
+            {
+                int index = 0;
+                foreach (Unc_Range range in ranges)
+                {
+                    if (range.Ranges.ranges.Contains(Range))
+                    {
+                        range.Ranges.ranges.Remove(Range);
+                        return this;
+                    }
+                    index++;
+                }
+            }
             return this;
         }
 

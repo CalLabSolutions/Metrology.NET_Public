@@ -27,7 +27,7 @@ namespace SoA_Editor.Models
         private string _emails;
         private string _urls;
 
-        public string Name { get => _name; set => _name = value; }
+        public string CompanyName { get => _name; set => _name = value; }
         public string AccrBody { get => _accrBody; set => _accrBody = value; }
         public string AccrLogo { get => _accrLogo; set => _accrLogo = value; }
         public string ScopeID { get => _scopeID; set => _scopeID = value; }

@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
+using MaterialDesignThemes.Wpf;
 using SOA_DataAccessLib;
 using SoA_Editor.Models;
+using SoA_Editor.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -19,6 +21,7 @@ namespace SoA_Editor.ViewModels
 
         // private vars needed for the calculation
         private Unc_Range range = null;
+        private Unc_Case Case = null;
         private Helper.MessageDialog dialog;
 
         private string orginalFormula;
@@ -118,6 +121,30 @@ namespace SoA_Editor.ViewModels
             CalculatedValue =  calculatedResult;
         }
 
+        // Delete Range
+        public async void DeleteRange(DataRowView row)
+        {
+            if (!DialogHost.IsDialogOpen("RootDialog"))
+            {
+                DeleteDialogView view = new DeleteDialogView()
+                {
+                    DataContext = new DeleteDialogViewModel()
+                };
+                var viewModel = (DeleteDialogViewModel)view.DataContext;
+                viewModel.Message = "Are you sure your want to delete this Uncertainty Range";
+
+                object result = await DialogHost.Show(view, "RootDialog");
+
+                if ((bool)result)
+                {
+                    this.Case.Ranges.Remove(range);
+                    int index = RangeGrid.AsDataView().Table.Rows.IndexOf(row.Row);
+                    RangeGrid.Rows.RemoveAt(index);
+                }
+            }
+        }
+
+        // Update values for the formula
         private void updateValues()
         {
             // No range selected, don't bother evaluating
@@ -204,7 +231,7 @@ namespace SoA_Editor.ViewModels
             {
                 values.Add(rowData[name.ToLower()]);
             }
-            var Case = template.getCaseByAssertionValues(functionName, values.ToArray());
+            Case = template.getCaseByAssertionValues(functionName, values.ToArray());
 
             // find our influence quantity it will not be apart of our variables or constats
             List<string> rangeVars = template.getCMCFunctionRangeVariables(functionName).ToList();
@@ -222,7 +249,6 @@ namespace SoA_Editor.ViewModels
             // The ranges are not in the correct format back out and let the user know
             if (qtys.Length != 2 || _params.Length != 2)
             {
-               
                 dialog.Message = "The Selected Range is not in the correct format, the calculation will not work.";
                 dialog.Show();
             }

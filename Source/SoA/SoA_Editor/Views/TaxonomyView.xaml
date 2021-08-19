@@ -28,7 +28,7 @@
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" x:Name="Name" Style="{DynamicResource MaterialDesignHeadline5TextBlock}"/>
+        <TextBlock Margin="10,10,0,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" x:Name="TaxonName" Style="{DynamicResource MaterialDesignHeadline5TextBlock}"/>
 
         <GroupBox Grid.Row="1" Grid.Column="1" BorderThickness="1"  Header="Input Parameters" HorizontalAlignment="Left" Height="250" Margin="10,35,0,0" VerticalAlignment="Top" Width="300">
             <DataGrid Grid.Row="1" Grid.Column="1" CanUserAddRows="True" x:Name="InputParams" ItemsSource="{Binding InputParams}" AutoGenerateColumns="False"

@@ -78,7 +78,7 @@ namespace SoA_Editor.ViewModels
             Mtc_Taxon taxon = soa.CapabilityScope.Activities[0].Taxons[lbl].Taxon;
 
             // title
-            TaxonomyVM.Name = taxon.Name;
+            TaxonomyVM.TaxonName = taxon.Name;
 
             for (int i = 0; i < taxon.Results.Count(); i++)
             {
@@ -468,7 +468,7 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        public void AddRange(TechniqueNode node)
+        public void AddRanges(TechniqueNode node)
         {
             dynamic settings = new ExpandoObject();
             settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -538,7 +538,7 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        public async void DeleteRange(Node node)
+        public async void DeleteRanges(Node node)
         {
             if (node.Name.ToLower() == "all") return;
 
@@ -657,7 +657,7 @@ namespace SoA_Editor.ViewModels
             RootNode = new();
             CompanyM = new(new CompanyInfoModel(), new TaxonomyInfoModel());
             CompanyInfoVM = new(new CompanyInfoModel());
-            CompanyInfoVM.Name = soa.CapabilityScope.MeasuringEntity;
+            CompanyInfoVM.CompanyName = soa.CapabilityScope.MeasuringEntity;
             RootNode.Name = "soa";
             IsSaveAs = true;
             lblCompanyInfoName = "";
@@ -691,7 +691,7 @@ namespace SoA_Editor.ViewModels
                     _ = ActivateItemAsync(CompanyInfoVM);
 
                     //set name label
-                    lblCompanyInfoName = CompanyInfoVM.Name;
+                    lblCompanyInfoName = CompanyInfoVM.CompanyName;
                 }
                 else
                 {
@@ -702,6 +702,7 @@ namespace SoA_Editor.ViewModels
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.StackTrace);
                 MessageBox.Show("The data file is invalid!");
                 return;
             }
@@ -718,10 +719,10 @@ namespace SoA_Editor.ViewModels
             _ = ActivateItemAsync(CompanyInfoVM);
 
             //set name label
-            lblCompanyInfoName = CompanyInfoVM.Name;
+            lblCompanyInfoName = CompanyInfoVM.CompanyName;
         }
 
-        private async void LoadTree()
+        private /*async*/ void LoadTree()
         {
             //var bar = await ShowProgressBar();
             

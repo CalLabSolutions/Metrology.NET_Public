@@ -9,7 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\CompanyInfoView1.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Icon\SoA.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Views\CompanyInfoView1.xaml" />
   </ItemGroup>
 
   <ItemGroup>

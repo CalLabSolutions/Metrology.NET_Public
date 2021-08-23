@@ -20,7 +20,7 @@ namespace SoA_Editor.ViewModels
         public List<string> assertionNodeValues;
 
         // private vars needed for the calculation
-        private Unc_Range range = null;
+        private SOA_DataAccessLib.Unc_Range range = null;
         private Unc_Case Case = null;
         private Helper.MessageDialog dialog;
 
@@ -255,12 +255,12 @@ namespace SoA_Editor.ViewModels
 
             // search for the right range
             bool foundRange = false;
-            foreach (Unc_Range range in ranges.getRanges())
+            foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
             {
                 if (foundRange) break;
                 if (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[1])
                 {
-                    foreach (Unc_Range _range in range.Ranges.getRanges())
+                    foreach (SOA_DataAccessLib.Unc_Range _range in range.Ranges.getRanges())
                     {
                         if (_range.Start.ValueString == _params[0] && _range.End.ValueString == _params[1])
                         {

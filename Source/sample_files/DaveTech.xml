@@ -135,7 +135,7 @@
                   <unc:Case>
                     <unc:Assertion>
                       <unc:Name>Spec</unc:Name>
-                      <unc:Value>90</unc:Value>
+                      <unc:Value>90 Day</unc:Value>
                     </unc:Assertion>
                     <unc:Ranges variable_name="Volts" variable_type="influence_quantity">
                       <unc:Range>
@@ -143,8 +143,8 @@
                         <unc:End test="at">10</unc:End>
                         <unc:Ranges variable_name="Input" variable_type="parameter">
                           <unc:Range>
-                            <unc:Start test="after">2</unc:Start>
-                            <unc:End test="at">10</unc:End>
+                            <unc:Start test="at">0.2</unc:Start>
+                            <unc:End test="at">2</unc:End>
                             <unc:ConstantValue const_parameter_name="Floor">0.003</unc:ConstantValue>
                           </unc:Range>
                           <unc:Range>

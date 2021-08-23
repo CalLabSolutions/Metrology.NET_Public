@@ -8,24 +8,24 @@ namespace SoA_Editor.Models
 {
     public class CompanyInfoModel
     {
-        private string _name;
-        private string _accrBody;
-        private string _accrLogo;
-        private string _scopeID;
-        private string _criteria;
-        private string _effectiveDate;
-        private string _expirDate;
-        private string _statement;
+        private string _name = "";
+        private string _accrBody = "";
+        private string _accrLogo = "";
+        private string _scopeID = "";
+        private string _criteria = "";
+        private string _effectiveDate = "";
+        private string _expirDate = "";
+        private string _statement = "";
 
-        private string _locID;
-        private string _state;
-        private string _street;
-        private string _city;
-        private string _zip;
-        private string _contactName;
-        private string _phoneNo;
-        private string _emails;
-        private string _urls;
+        private string _locID = "";
+        private string _state = "";
+        private string _street = "";
+        private string _city = "";
+        private string _zip = "";
+        private string _contactName = "";
+        private string _phoneNo = "";
+        private string _emails = "";
+        private string _urls = "";
 
         public string CompanyName { get => _name; set => _name = value; }
         public string AccrBody { get => _accrBody; set => _accrBody = value; }

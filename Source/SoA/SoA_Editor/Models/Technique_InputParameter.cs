@@ -64,13 +64,16 @@ namespace SoA_Editor.Models
             get { return _VariableType; }
             set
             {
+                if (value == "") return;
                 _VariableType = value;
                 if (VariableType.ToLower() == "variable")
                     SymbolType = Mtc_Symbol.SymbolType.Variable;
                 else
                     SymbolType = Mtc_Symbol.SymbolType.Constant;
+                _Variable = true;
                 UpdateVarType();
                 NotifyOfPropertyChange(() => VariableType);
+                NotifyOfPropertyChange(() => Variable);
             }
         }
 
@@ -84,14 +87,15 @@ namespace SoA_Editor.Models
                 _Variable = value;
                 if (value)
                 {
-                    VariableType = "Variable";
+                    _VariableType = "Variable";
                 }
                 else
                 {
-                    VariableType = "";
+                    _VariableType = "";
                 }
                 UpdateVarList();
                 NotifyOfPropertyChange(() => Variable);
+                NotifyOfPropertyChange(() => VariableType);
             }
         }
 

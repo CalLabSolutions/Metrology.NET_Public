@@ -535,6 +535,7 @@ namespace SoA_Editor.ViewModels
             if (Helper.TreeViewCase != null)
             {
                 ReloadTree(node);
+                Helper.TreeViewCase = null;
             }
         }
 
@@ -649,19 +650,25 @@ namespace SoA_Editor.ViewModels
         public void NewXML()
         {
             soa = new Soa();
+            dao = new SOA_DataAccess();
             soa.CapabilityScope.Activities[0].Techniques.Clear();
             soa.CapabilityScope.Activities[0].Templates.Clear();
             soa.CapabilityScope.Activities[0].Taxons.Clear();
             soa.CapabilityScope.Activities[0].CMCs.Clear();
             soa.CapabilityScope.MeasuringEntity = "Company Name";
             RootNode = new();
-            CompanyM = new(new CompanyInfoModel(), new TaxonomyInfoModel());
-            CompanyInfoVM = new(new CompanyInfoModel());
+            CompanyInfoM = new CompanyInfoModel();
+            TaxonomyInfoM = new TaxonomyInfoModel();
+            CompanyM = new CompanyModel(CompanyInfoM, TaxonomyInfoM);
+            CompanyInfoVM = new CompanyInfoViewModel(CompanyInfoM);
             CompanyInfoVM.CompanyName = soa.CapabilityScope.MeasuringEntity;
             RootNode.Name = "soa";
             IsSaveAs = true;
             lblCompanyInfoName = "";
             SaveXML(true);
+            dao.load(FullPath);
+            soa = dao.SOADataMaster;
+            Helper.LoadCompanyInfoFromSoaObjectToOpen(soa, CompanyM);
         }
 
         public void OpenXMLFile()
@@ -763,7 +770,7 @@ namespace SoA_Editor.ViewModels
                         //number of cases in the switch
                         int caseCount = function.Cases.Count();
 
-                        if (caseCount == 0) return;
+                        if (caseCount == 0) continue;
 
                         //number of assertions in a case. assuming it's the same for all cases, we look at the first case
                         int assertionCount = function.Cases[0].Assertions.Count();
@@ -828,6 +835,9 @@ namespace SoA_Editor.ViewModels
                     }
                 }
             }
+            var list = RootNode.Children.OrderBy(c => c.Name).ToList();
+            RootNode.Children.Clear();
+            list.ForEach(c => RootNode.Children.Add(c));
             //if (bar != null) HideProgressBar();
         }
 
@@ -883,6 +893,11 @@ namespace SoA_Editor.ViewModels
 
         public void SaveXML(bool newFile = false)
         {
+            if (soa == null)
+            {
+                NewXML();
+                return;
+            }
             doc = new XDocument();
 
             if (!newFile)
@@ -925,6 +940,7 @@ namespace SoA_Editor.ViewModels
 
         public void SaveAsXML()
         {
+            if (soa == null) NewXML();
             IsSaveAs = true;
             SaveXML();
         }

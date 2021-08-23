@@ -198,7 +198,7 @@ namespace SoA_Editor.ViewModels
             int index = 0;
             foreach (DataColumn col in table.Columns)
             {
-                rowData.Add(col.ColumnName.ToLower(), data[index].ToString());
+                rowData.Add(col.ColumnName, data[index].ToString());
                 index++;
             }
 
@@ -217,7 +217,7 @@ namespace SoA_Editor.ViewModels
                         {
                             if (value == searchValue)
                             {
-                                rowData.Add(name.ToLower(), value);
+                                rowData.Add(name, value);
                             }
                         }
                     }
@@ -229,15 +229,15 @@ namespace SoA_Editor.ViewModels
             values.Clear();
             foreach (string name in searchNames)
             {
-                values.Add(rowData[name.ToLower()]);
+                values.Add(rowData[name]);
             }
             Case = template.getCaseByAssertionValues(functionName, values.ToArray());
 
             // find our influence quantity it will not be apart of our variables or constats
             List<string> rangeVars = template.getCMCFunctionRangeVariables(functionName).ToList();
             var symbols = template.getCMCUncertaintyFunctionSymbols(functionName);
-            string influenc_qty = rangeVars.Where(r => !symbols.Contains(r)).ToList()[0].ToLower();
-            string param = rangeVars.Where(r => symbols.Contains(r)).ToList()[0].ToLower();
+            string influenc_qty = rangeVars.Where(r => !symbols.Contains(r)).ToList()[0];
+            string param = rangeVars.Where(r => symbols.Contains(r)).ToList()[0];
 
             // get our possible ranges
             var ranges = Case.Ranges[influenc_qty];

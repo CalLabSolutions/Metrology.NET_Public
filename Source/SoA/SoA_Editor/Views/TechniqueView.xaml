@@ -106,7 +106,7 @@
                     </DataGridCheckBoxColumn>
                     <materialDesign:DataGridComboBoxColumn  Header="Variable Type" Width="Auto" IsEditable="False"
                                                             ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.VariableTypes}"
-                                                            SelectedValueBinding="{Binding VariableType, UpdateSourceTrigger=PropertyChanged}">
+                                                            SelectedValueBinding="{Binding VariableType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     </materialDesign:DataGridComboBoxColumn>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
@@ -241,7 +241,8 @@
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     VerticalScrollBarVisibility="Auto"
-                    materialDesign:HintAssist.Hint="Multiline text"
+                    materialDesign:HintAssist.Hint="Select a value from the varuable list to add it to the Fomula"
+                    materialDesign:HintAssist.HelperText="Please use a space between all variables and symbols"
                     Height="80" />
 
                 <DataGrid Grid.Row="2" Grid.Column="2" x:Name="Variables" ItemsSource="{Binding Variables}" AutoGenerateColumns="False"

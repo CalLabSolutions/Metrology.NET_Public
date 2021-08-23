@@ -20,7 +20,7 @@
     <Grid>
         <StackPanel>
             <TextBlock Visibility="{Binding Error, Converter={StaticResource StringIsEmptyVisibilityConverter}}" Text="{Binding Error, Mode=TwoWay}" Foreground="red" Style="{DynamicResource MaterialDesignBody2TextBlock}"  d:Text="Error" HorizontalAlignment="Center" TextWrapping="Wrap" Width="350" Margin="0 8 0 0"/>
-            <ComboBox Margin="0 24 0 0" Width="350" materialDesign:HintAssist.Hint="Input Parameter" ItemsSource="{Binding ParamRangeNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" SelectedItem="{Binding Path=ParamRangeName, Mode=TwoWay}" Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+            <ComboBox Margin="0 24 0 0" Width="350" materialDesign:HintAssist.Hint="Input Parameter" ItemsSource="{Binding ParamRangeNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" SelectedItem="{Binding Path=ParamRangeName, Mode=TwoWay}" Style="{StaticResource MaterialDesignFloatingHintComboBox}" IsEnabled="{Binding Edit, Converter={StaticResource InvertBooleanConverter}}"/>
             
             <Grid Margin="20 25 20 0" VerticalAlignment="Center">
                 <Grid.RowDefinitions>

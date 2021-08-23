@@ -19,7 +19,7 @@
              FontFamily="{DynamicResource MaterialDesignFont}" Width="400" Height="175" Padding="5">
     <Grid>
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock FontWeight="Bold" d:Text="Delete Me?" Text="{Binding Message}" Margin="0 20 0 0"/>
+            <TextBlock FontWeight="Bold" d:Text="Are you sure you want to delete TestProcess.Measure.Current.AC.Sinewave?" TextWrapping="Wrap" Text="{Binding Message}" Margin="0 20 0 0"/>
             <StackPanel Orientation="Horizontal" Margin="0 75 0 0" HorizontalAlignment="Center">
                 <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}" IsDefault="True" Content="Yes" Style="{DynamicResource MaterialDesignFlatButton}" Margin="0 0 25 0">
                     <Button.CommandParameter>

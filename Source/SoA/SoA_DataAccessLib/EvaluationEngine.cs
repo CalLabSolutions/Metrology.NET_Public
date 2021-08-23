@@ -108,7 +108,7 @@ internal class EvaluatorCore
 
     public void SetVariable(string VariableName, object value)
     {
-        string sval = value.ToString();
+        string sval = value == null ? "" : value.ToString();
         long lval;
         double dblval;
         decimal decval;
@@ -122,6 +122,11 @@ internal class EvaluatorCore
             throw new Exception("value is not a valid numeric");
         if (!Variables.ContainsKey(VariableName)) Variables.Add(VariableName, new Variable(VariableName));
         Variables[VariableName].value = value;
+    }
+
+    public void RemoveVariable(string name)
+    {
+        if (Variables.ContainsKey(name)) Variables.Remove(name);
     }
 
 }
@@ -853,6 +858,7 @@ internal class PostfixEvaluator
     {
         object o;
         if ((o1 is long) && (o2 is long)) o = (long)o2 * (long)(o1);
+        if ((o1 is decimal) && o2 is long) o = (long)o2 * (decimal)o1;
         else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 * (decimal)o1;
         else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 * (long)o1;
         else if ((o1 is decimal) && (o2 is int)) o = (long)o2 * (decimal)o1;

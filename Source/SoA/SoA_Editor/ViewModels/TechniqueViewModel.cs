@@ -236,6 +236,7 @@ namespace SoA_Editor.ViewModels
             if (DialogHost.IsDialogOpen("RootDialog")) return;
 
             var param = Technique.Technique.Parameters[inputParameter.InputParam];
+            var tParam = Technique.Technique.Parameters[inputParameter.InputParam];
             inputParamView = new InputParameterDialogView()
             {
                 DataContext = new InputParameterDialogViewModel(Technique.Technique.Parameters, param.name, param.Quantity.name, param.optional)
@@ -255,6 +256,9 @@ namespace SoA_Editor.ViewModels
                 param.name = viewModel.ParamName;
                 param.optional = viewModel.Optional;
                 param.Quantity = UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName);
+                tParam.name = viewModel.ParamName;
+                tParam.optional = viewModel.Optional;
+                tParam.Quantity = UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName);
                 inputParameter.InputParam = param.name;
                 inputParameter.Optional = param.optional ? "Yes" : "No";
                 inputParameter.Quantity = Quantity.FormatUomQuantity(param.Quantity).FormatedName;
@@ -284,6 +288,10 @@ namespace SoA_Editor.ViewModels
             {
                 // Add the param to our soa object
                 Technique.Technique.Parameters.Add(new Mtc_Parameter(viewModel.ParamName, viewModel.Quantity.QuantitiyName, viewModel.Optional));
+                var tParam = Technique.Technique.Taxon.Parameters[viewModel.ParamName];
+                if (tParam == null) // TODO: Reapprouch this when in next meeting
+                    Technique.Technique.Taxon.Parameters.Add(new Mtc_Parameter(viewModel.ParamName, viewModel.Quantity.QuantitiyName, viewModel.Optional));
+
                 // Add the parameter to our view
                 var param = Technique.Technique.Parameters[viewModel.ParamName];
                 InputParameters.Add(new Technique_InputParameter(param.name, param.Quantity.name, param.optional, false, ""));
@@ -299,6 +307,7 @@ namespace SoA_Editor.ViewModels
         {
             InputParameters.Remove(inputParameter);
             Technique.Technique.Parameters.Remove(Technique.Technique.Parameters[inputParameter.InputParam]);
+            Technique.Technique.Taxon.Parameters.Remove(Technique.Technique.Taxon.Parameters[inputParameter.InputParam]);
 
             // remove any ranges and variable matching the input param
             foreach (Technique_InputParameterRange range in InputParameterRanges)
@@ -307,6 +316,7 @@ namespace SoA_Editor.ViewModels
                 {
                     InputParameterRanges.Remove(range);
                     Technique.Technique.ParameterRanges.Remove(Technique.Technique.ParameterRanges[range.InputParamRange]);
+                    break;
                 }
             }
 
@@ -314,7 +324,8 @@ namespace SoA_Editor.ViewModels
             {
                 if (_var.Value == inputParameter.InputParam)
                 {
-                   // Start here
+                    Technique.Technique.CMCUncertainties[0].RemvoeSymbol(_var.Value);
+                    break;
                 }
             }
         }
@@ -408,7 +419,7 @@ namespace SoA_Editor.ViewModels
             inputParamRangeView = new InputParameterRangeDialogView()
             {
                 DataContext = new InputParameterRangeDialogViewModel(Technique.Technique.ParameterRanges, Technique.Technique.Parameters,
-                        param.name, param.Start.ValueString, param.End.ValueString, param.Start.test, param.End.test)
+                        param.name, param.Start.ValueString, param.End.ValueString, param.Start.test, param.End.test, true)
             };
 
             // Reset the error
@@ -433,7 +444,7 @@ namespace SoA_Editor.ViewModels
                 // update UI object
                 inputParamRange.InputParamRange = viewModel.ParamRangeName;
                 inputParamRange.Min = viewModel.Min;
-                inputParamRange.Min = viewModel.Max;
+                inputParamRange.Max = viewModel.Max;
                 inputParamRange.TestMin = viewModel.TestMin;
                 inputParamRange.TestMax = viewModel.TestMax;
             }
@@ -573,7 +584,7 @@ namespace SoA_Editor.ViewModels
                 // update UI object
                 output.Output = viewModel.OutputName;
                 output.Min = viewModel.Min;
-                output.Min = viewModel.Max;
+                output.Max = viewModel.Max;
                 output.TestMin = viewModel.TestMin;
                 output.TestMax = viewModel.TestMax;
             }
@@ -639,6 +650,7 @@ namespace SoA_Editor.ViewModels
                 {
                     range.InputParamRange = newName;
                     Technique.Technique.ParameterRanges[oldName].name = newName;
+                    break;
                 }
             }
 
@@ -647,6 +659,9 @@ namespace SoA_Editor.ViewModels
                 if (_var.Value == oldName)
                 {
                     _var.Value = newName;
+                    Technique.Technique.CMCUncertainties[0].SymbolDefinitions[oldName].parameter = newName;
+                    Technique.Technique.CMCUncertainties[0].EditSymbol(oldName, newName);
+                    break;
                 }
             }
         }

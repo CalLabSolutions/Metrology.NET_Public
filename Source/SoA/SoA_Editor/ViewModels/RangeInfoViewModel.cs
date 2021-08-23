@@ -72,8 +72,11 @@ namespace SoA_Editor.ViewModels
                 }
                 else
                 {
+                    Assertion1 = new();
+                    AssertionsValues1 = new();
                     Assertion1.Name = assertionNames[0];
                     Assertion2 = null;
+                    AssertionsValues2 = null;
                     if (!firstCase)
                     {
                         Assertion1.Value = "";
@@ -86,7 +89,6 @@ namespace SoA_Editor.ViewModels
                     {
                         AssertionsValues1.Add(value);
                     }
-                    AssertionsValues2 = null;
                 }
                 // Get existing cases, vars, constants, and vars
                 InfQtyRange = new Range_Influence_Quantity(infQtys);
@@ -142,7 +144,7 @@ namespace SoA_Editor.ViewModels
         {
             get { return assertion2; }
             set
-            {
+            {                
                 assertion2 = value;
                 NotifyOfPropertyChange(() => Assertion2);
             }
@@ -281,7 +283,8 @@ namespace SoA_Editor.ViewModels
 
             var assertions = new Unc_Assertions();
             assertions.Add(Assertion1);
-            assertions.Add(Assertion2);
+            if (assertion2.Name != "" & assertion2.Value != "")
+                assertions.Add(Assertion2);
             Helper.TreeViewCase = new Unc_Case(template, assertions);
             base.TryCloseAsync(null);
         }
@@ -443,6 +446,7 @@ namespace SoA_Editor.ViewModels
             // if we have an existing case add the unc range to it
             if (exsitingCase != null)
             {
+                if (exsitingCase.Ranges == null) exsitingCase.Ranges = new();
                 AddRanges(exsitingCase);
                 Helper.TreeViewCase = exsitingCase;
             }
@@ -453,6 +457,7 @@ namespace SoA_Editor.ViewModels
                 assertions.Add(Assertion1);
                 if (Assertion2 != null) assertions.Add(Assertion2);
                 Unc_Case newCase = new Unc_Case(template, assertions);
+                if (newCase.Ranges == null) newCase.Ranges = new();
                 AddRanges(newCase);
                 Helper.TreeViewCase = newCase;
                 template.CMCUncertaintyFunctions[0].Cases.Add(newCase);

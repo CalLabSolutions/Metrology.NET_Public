@@ -77,6 +77,7 @@ namespace SoA_Editor.Models
         public TaxonNode()
         {
             Type = NodeType.Taxon;
+            Children = new();
         }
     }
 
@@ -86,6 +87,7 @@ namespace SoA_Editor.Models
         {
             Parent = node;
             Type = NodeType.Technique;
+            Children = new();
         }
     }
 
@@ -95,6 +97,7 @@ namespace SoA_Editor.Models
         {
             Parent = node;
             Type = NodeType.Assertion;
+            Children = new();
         }
     }
 
@@ -104,6 +107,7 @@ namespace SoA_Editor.Models
         {
             Parent = node;
             Type = NodeType.Range;
+            Children = new();
         }
     }
 

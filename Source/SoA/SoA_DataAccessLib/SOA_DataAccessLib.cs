@@ -883,6 +883,20 @@ namespace SOA_DataAccessLib
             evaluator.SetVariable(name, value);
         }
 
+        public void EditSymbol(string oldName, string newName)
+        {
+            var variable = evaluator.GetVariable(oldName);
+            if (variable == null) variable = "0";
+            evaluator.RemoveVariable(oldName);
+            evaluator.SetVariable(newName, variable);
+        }
+
+        public void RemvoeSymbol(string name)
+        {
+            evaluator.RemoveVariable(name);
+            SymbolDefinitions.Remove(SymbolDefinitions[name]);
+        }
+
         public decimal? evaluate()
         {
             var x = Math.Round((decimal)evaluator.Execute(), 28);
@@ -2563,6 +2577,7 @@ namespace SOA_DataAccessLib
         public void writeTo(XElement Case)
         {
             var Assertion = new UncSpaceHelper(Case).addChild("Assertion");
+            if (_type == null) _type = "";
             if (_type != "") Assertion.setAttribute("type", type);
             Assertion.addChild("Name").Value = Name;
             Assertion.addChild("Value").Value = Value;
@@ -2781,6 +2796,14 @@ namespace SOA_DataAccessLib
             if ((cases.Count == 1) && (cases[0].Assertions.Count() == 0))
             {
                 cases[0].Ranges.writeTo(CMCFunction);
+            }
+            if ((cases.Count == 1) && (cases[0].Assertions.Count() >= 1))
+            {
+                var Switch = new UncSpaceHelper(CMCFunction).addChild("Switch");
+                foreach (Unc_Case _case in cases)
+                {
+                    _case.writeTo(Switch.Element);
+                }
             }
             else if (cases.Count > 1)
             {

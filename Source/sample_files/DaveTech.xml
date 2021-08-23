@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<soa:SOADataMaster xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile.xsd">
+  <soa:AB_ID></soa:AB_ID>
+  <soa:AB_Logo-Signature></soa:AB_Logo-Signature>
+  <soa:Scope_ID_Number></soa:Scope_ID_Number>
+  <soa:ScopeURLs>
+    <soa:ScopeURL ScopeType="" CheckSum="" URL="" />
+  </soa:ScopeURLs>
+  <soa:Criteria></soa:Criteria>
+  <soa:EffectiveDate></soa:EffectiveDate>
+  <soa:ExpirationDate></soa:ExpirationDate>
+  <soa:Statement></soa:Statement>
+  <soa:CapabilityScope>
+    <soa:MeasuringEntity></soa:MeasuringEntity>
+    <soa:Locations>
+      <soa:Location id="">
+        <soa:OrganizationAddress>
+          <soa:Street></soa:Street>
+          <soa:City></soa:City>
+          <soa:State></soa:State>
+          <soa:Zip></soa:Zip>
+        </soa:OrganizationAddress>
+        <soa:ContactName></soa:ContactName>
+        <soa:ContactInfo>
+          <soa:PhoneNumber></soa:PhoneNumber>
+          <soa:email></soa:email>
+          <soa:URL></soa:URL>
+        </soa:ContactInfo>
+      </soa:Location>
+    </soa:Locations>
+    <soa:Activities>
+      <soa:Activity>
+        <unc:CMCs>
+          <unc:Taxon name="TestProcess.Measure.Current.AC">
+            <mtc:Taxon name="TestProcess.Measure.Current.AC">
+              <mtc:Result name="Amps">
+                <uom:Quantity name="current" />
+              </mtc:Result>
+              <mtc:Parameter name="Amps" optional="False">
+                <uom:Quantity name="current" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Frequency" optional="False">
+                <uom:Quantity name="frequency" />
+              </mtc:Parameter>
+              <mtc:Parameter name="UUT.Output" optional="True">
+                <mtc:Enumeration />
+              </mtc:Parameter>
+              <mtc:Definition>The process measures the AC Current sourced by a device without knowing the shape of the signal. Values can only be tested in RMS because the shape to the signal is unknown.</mtc:Definition>
+            </mtc:Taxon>
+          </unc:Taxon>
+          <unc:Taxon name="TestProcess.Measure.Voltage.AC">
+            <mtc:Taxon name="TestProcess.Measure.Voltage.AC">
+              <mtc:Result name="Volts">
+                <uom:Quantity name="voltage" />
+              </mtc:Result>
+              <mtc:Parameter name="Volts" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Frequency" optional="False">
+                <uom:Quantity name="frequency" />
+              </mtc:Parameter>
+              <mtc:Parameter name="UUT.Input" optional="True">
+                <mtc:Enumeration />
+              </mtc:Parameter>
+              <mtc:Definition>This process measures the AC RMS (Root-Mean-Square) voltage sourced by the UUT. Values can only be expressed in RMS because the shape of the signal is not known.</mtc:Definition>
+            </mtc:Taxon>
+          </unc:Taxon>
+          <unc:Taxon name="TestProcess.Measure.Voltage.DC">
+            <mtc:Taxon name="TestProcess.Measure.Voltage.DC">
+              <mtc:Result name="Volts">
+                <uom:Quantity name="voltage" />
+              </mtc:Result>
+              <mtc:Parameter name="Volts" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Input" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Floor" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Definition>This test process measures the DC (Direct Current) voltage sourced from the UUT.</mtc:Definition>
+            </mtc:Taxon>
+          </unc:Taxon>
+          <unc:Technique name="Voltage DC 8508A" taxon="TestProcess.Measure.Voltage.DC">
+            <mtc:Technique name="Voltage DC 8508A" taxon="TestProcess.Measure.Voltage.DC">
+              <mtc:ResultRange name="Volts">
+                <mtc:Start test="at" format="0">-1050</mtc:Start>
+                <mtc:End format="10" test="at">1050</mtc:End>
+              </mtc:ResultRange>
+              <mtc:Parameter name="Volts" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Input" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:Parameter name="Floor" optional="False">
+                <uom:Quantity name="voltage" />
+              </mtc:Parameter>
+              <mtc:ParameterRange name="Volts">
+                <mtc:Start test="at" format="0">-1050</mtc:Start>
+                <mtc:End format="10" test="at">1050</mtc:End>
+              </mtc:ParameterRange>
+              <mtc:ParameterRange name="Input">
+                <mtc:Start test="at" format="-1050">-1050</mtc:Start>
+                <mtc:End format="-1050" test="at">1050</mtc:End>
+              </mtc:ParameterRange>
+              <mtc:RequiredEquipment>
+                <mtc:Role name="measure">
+                  <mtc:DeviceTypes>
+                    <mtc:DeviceType>8508A</mtc:DeviceType>
+                  </mtc:DeviceTypes>
+                </mtc:Role>
+                <mtc:Role name="source">
+                  <mtc:DeviceTypes>
+                    <mtc:DeviceType>5730A</mtc:DeviceType>
+                  </mtc:DeviceTypes>
+                </mtc:Role>
+              </mtc:RequiredEquipment>
+              <mtc:CMCUncertainty function_name="8508A Voltage DC Uncertaitny">
+                <mtc:Expression>Input * Floor</mtc:Expression>
+                <mtc:Symbol parameter="Floor" type="Constant" />
+                <mtc:Symbol parameter="Input" type="Variable" />
+              </mtc:CMCUncertainty>
+              <mtc:Documentation></mtc:Documentation>
+            </mtc:Technique>
+          </unc:Technique>
+          <unc:CMC>
+            <unc:Category name="AC/DC Low" />
+            <unc:DUT />
+            <unc:Template>
+              <unc:Technique name="Voltage DC 8508A" />
+              <unc:CMCFunction name="8508A Voltage DC Uncertaitny">
+                <unc:Switch>
+                  <unc:Case>
+                    <unc:Assertion>
+                      <unc:Name>Spec</unc:Name>
+                      <unc:Value>90</unc:Value>
+                    </unc:Assertion>
+                    <unc:Ranges variable_name="Volts" variable_type="influence_quantity">
+                      <unc:Range>
+                        <unc:Start test="at">0</unc:Start>
+                        <unc:End test="at">10</unc:End>
+                        <unc:Ranges variable_name="Input" variable_type="parameter">
+                          <unc:Range>
+                            <unc:Start test="after">2</unc:Start>
+                            <unc:End test="at">10</unc:End>
+                            <unc:ConstantValue const_parameter_name="Floor">0.003</unc:ConstantValue>
+                          </unc:Range>
+                          <unc:Range>
+                            <unc:Start test="after">2</unc:Start>
+                            <unc:End test="at">10</unc:End>
+                            <unc:ConstantValue const_parameter_name="Floor">0.006</unc:ConstantValue>
+                          </unc:Range>
+                        </unc:Ranges>
+                      </unc:Range>
+                    </unc:Ranges>
+                  </unc:Case>
+                </unc:Switch>
+              </unc:CMCFunction>
+            </unc:Template>
+          </unc:CMC>
+        </unc:CMCs>
+      </soa:Activity>
+    </soa:Activities>
+    <xi:include href="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml" />
+    <soa:ScopeNotes></soa:ScopeNotes>
+    <soa:Version></soa:Version>
+    <soa:LocaleLanguage></soa:LocaleLanguage>
+  </soa:CapabilityScope>
+  <soa:HumanReadableDocument></soa:HumanReadableDocument>
+  <soa:VisualAidsScript></soa:VisualAidsScript>
+</soa:SOADataMaster>

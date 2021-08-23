@@ -7,17 +7,26 @@ namespace SoA_Editor.ViewModels
 {
     internal class InputParameterRangeDialogViewModel : Screen
     {
-        
-        public InputParameterRangeDialogViewModel(Mtc_ParameterRanges inputParamRanges, Mtc_Parameters inputParams, string name = "", string min = "0", string max = "0", string testMin = "", string testMax = "")
+
+        public InputParameterRangeDialogViewModel(Mtc_ParameterRanges inputParamRanges, Mtc_Parameters inputParams, string name = "", string min = "0", string max = "0", string testMin = "", string testMax = "", bool edit = false)
         {
+            Edit = edit;
             ParamRangeNames = new();
-            foreach (Mtc_Parameter param in inputParams)
+            if (Edit)
             {
-                if (inputParamRanges[param.name] == null)
+                ParamRangeNames.Add(inputParamRanges[name].name);
+            }
+            else
+            {
+                foreach (Mtc_Parameter param in inputParams)
                 {
-                    ParamRangeNames.Add(param.name);
+                    if (inputParamRanges[param.name] == null)
+                    {
+                        ParamRangeNames.Add(param.name);
+                    }
                 }
             }
+            
             
             ParamRangeName = name;
 
@@ -137,6 +146,18 @@ namespace SoA_Editor.ViewModels
             {
                 error = value;
                 NotifyOfPropertyChange(() => Error);
+            }
+        }
+
+        private bool edit;
+
+        public bool Edit
+        {
+            get { return edit; }
+            set
+            {
+                edit = value;
+                NotifyOfPropertyChange(() => Edit);
             }
         }
 

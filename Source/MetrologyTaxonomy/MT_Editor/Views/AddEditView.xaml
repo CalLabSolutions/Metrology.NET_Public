@@ -26,6 +26,8 @@
         <converters:TypeConverter x:Key="TypeConverter"></converters:TypeConverter>
         <converters:Types x:Key="Source">Source</converters:Types>
         <converters:Types x:Key="Measure">Measure</converters:Types>
+        <converters:Types x:Key="MeasureRatio">MeasureRatio</converters:Types>
+        <converters:Types x:Key="SourceRatio">SourceRatio</converters:Types>
     </UserControl.Resources>
 
     <Grid>
@@ -67,6 +69,8 @@
                         <TextBlock Text="Type" FontWeight="Bold" Margin="0,24,0,0" />
                         <RadioButton x:Name="Measure" Loaded="Measure_Loaded" GroupName="Types" Content="Measure" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter}, ConverterParameter={StaticResource Measure}}" />
                         <RadioButton  x:Name="Source" Loaded="Source_Loaded" GroupName="Types" Content="Source"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource Source}}" />
+                        <RadioButton  x:Name="MeasureRatio" Loaded="MeasureRatio_Loaded" GroupName="Types" Content="Measure.Ratio" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource MeasureRatio}}" />
+                        <RadioButton  x:Name="SourceRatio" Loaded="SourceRatio_Loaded" GroupName="Types" Content="Source.Ratio"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource SourceRatio}}" />
                         <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
                         <ComboBox x:Name="Quantities" IsEditable="True" Loaded="Quantities_Loaded" HorizontalAlignment="Left" ItemsSource="{Binding Quantities}" DisplayMemberPath="FormatedName" Width="480" SelectedItem="{Binding SelectedQuantity, Mode=TwoWay}" materialDesign:HintAssist.Hint="Search"
                             materialDesign:HintAssist.HintOpacity=".26" />

@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="SoA_Editor.Views.EditSingleRangeDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoA_Editor.Views"
+             xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:EditSingleRangeDialogViewModel}"
+             d:DesignHeight="275" d:DesignWidth="400" d:Background="White"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}" Width="400" Height="315" Padding="10">
+    <Grid>
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Margin="0 0 0 10">Edit Single Uncertainty Range</TextBlock>
+            <TextBlock Visibility="{Binding Error, Converter={StaticResource StringIsEmptyVisibilityConverter}}" Text="{Binding Error, Mode=TwoWay}" Foreground="red" d:Text="Error" HorizontalAlignment="Center" TextWrapping="Wrap" Width="350"/>
+            <StackPanel Orientation="Horizontal" Margin="0 8 0 0">
+                <TextBlock >Variable:</TextBlock>
+                <TextBlock Text="{Binding Range.Variable_name}" FontWeight="Bold" Margin="5 0 0 5"/>
+            </StackPanel>
+            <TextBlock Visibility="{Binding ParameterRange, Converter={StaticResource StringIsEmptyVisibilityConverter}}" Text="{Binding ParameterRange, Mode=TwoWay}" d:Text="Overall Parameter Range: 10 to 100"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Width="75">Minimum:</TextBlock>
+                <TextBox Text="{Binding Range.Start.ValueString, Mode=TwoWay}" Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  VerticalAlignment="Center" Width="75">Maximum:</TextBlock>
+                <TextBox Text="{Binding Range.End.ValueString, Mode=TwoWay}" Width="100"/>
+            </StackPanel>
+            <TextBlock FontWeight="Bold"  Margin="0 15 0 5">Constants</TextBlock>
+            <ItemsControl ItemsSource="{Binding Range.ConstantValues}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding const_parameter_name}"/>
+                            <TextBox Grid.Column="1" Text="{Binding ValueString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Orientation="Horizontal" Margin="0 25 0 0" HorizontalAlignment="Center">
+                <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}" IsDefault="True" Content="Save" Style="{DynamicResource MaterialDesignFlatButton}" Margin="0 0 25 0">
+                    <Button.CommandParameter>
+                        <system:Boolean>True</system:Boolean>
+                    </Button.CommandParameter>
+                </Button>
+                <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}" IsCancel="True" Content="Cancel" Style="{DynamicResource MaterialDesignFlatAccentButton}"  Margin="25 0 0 0">
+                    <Button.CommandParameter>
+                        <system:Boolean>False</system:Boolean>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

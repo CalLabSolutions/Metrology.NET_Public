@@ -387,7 +387,7 @@ namespace SOA_DataAccessLib
 
         public void writeTo(XElement Parent)
         {
-            var Parameter = new MtcSpaceHelper(Parent).addChild("Parameter").setAttribute("name", name).setAttribute("optional", optional.ToString());
+            var Parameter = new MtcSpaceHelper(Parent).addChild("Parameter").setAttribute("name", name).setAttribute("optional", optional.ToString().ToLower());
             if (quantity != null)
             {
                 quantity.writeTo(Parameter.Element);
@@ -1183,7 +1183,7 @@ namespace SOA_DataAccessLib
 
         private void loadRoles(MtcSpaceHelper mtcSpaceHelper)
         {
-            var els = mtcSpaceHelper.getElements("Role");            
+            var els = mtcSpaceHelper.getElements("Role");
             foreach (XElement el in els)
             {
                 Mtc_Role role = new Mtc_Role(el);
@@ -1577,6 +1577,89 @@ namespace SOA_DataAccessLib
         }
     }
 
+    public class Mtc_RangeAssertions : IEnumerable<string>
+    {
+        private List<string> rangeAssertions = new List<string>();
+
+        public string this[int index]
+        {
+            get { return rangeAssertions[index]; }
+        }
+
+        public string this[string name]
+        {
+            get
+            {
+                var set = rangeAssertions.Where(x => x == name);
+                return (set.Count() > 0) ? set.First() : null;
+            }
+        }
+
+        public void Replace(string oldStr, string newStr)
+        {
+            for (int i = 0; i < rangeAssertions.Count; i++)
+            {
+                if (oldStr == rangeAssertions[i])
+                {
+                    rangeAssertions[i] = newStr;
+                }
+            }
+        }
+
+        public void writeTo(XElement Technique)
+        {
+            var RangeAssertions = new MtcSpaceHelper(Technique).addChild("RangeAssertions");
+            foreach (string name in rangeAssertions)
+            {
+                RangeAssertions.addChild("Assertion").setValue(name);
+            }
+        }
+        
+        public Mtc_RangeAssertions(XElement datasource)
+        {
+            var els = new MtcSpaceHelper(datasource).getElements("Assertion");
+            foreach (XElement el in els)
+            {
+                rangeAssertions.Add(el.Value);
+            }
+        }
+
+        public Mtc_RangeAssertions() { }
+
+        public int Count()
+        {
+            return rangeAssertions.Count();
+        }
+
+        public bool Contains(string value)
+        {
+            if (rangeAssertions.Contains(value))
+                return true;
+            else
+                return false;
+        }
+
+        public void Add(string rangeAssertion)
+        {
+            rangeAssertions.Add(rangeAssertion);
+        }
+
+        public void Remove(string rangeAssertion)
+        {
+            rangeAssertions.Remove(rangeAssertion);
+        }
+
+        IEnumerator<string> IEnumerable<string>.GetEnumerator()
+        {
+            return ((IEnumerable<string>)rangeAssertions).GetEnumerator();
+        }
+
+        public System.Collections.IEnumerator GetEnumerator()
+        {
+            return ((System.Collections.IEnumerable)rangeAssertions).GetEnumerator();
+        }
+    }
+
     public class Mtc_Technique : IParameterSource
     {
         private Unc_Technique parent = null;
@@ -1588,6 +1671,7 @@ namespace SOA_DataAccessLib
         private Mtc_RequiredEquipment requiredEquipment = null;
         private Mtc_Functions functions = null;
         private Mtc_CMCUncertainties cmcUncertainties = null;
+        private Mtc_RangeAssertions rangeAssertions = null;
         private Mtc_Documentation documentation = null;
 
         private Unc_CMCs cMCs;
@@ -1644,6 +1728,12 @@ namespace SOA_DataAccessLib
             set { documentation = value; }
         }
 
+        public Mtc_RangeAssertions RangeAssertions
+        {
+            get { return rangeAssertions; }
+            set { rangeAssertions = value; }
+        }
+
         public void writeTo(XElement UncTechnique)
         {
             var Technique = new MtcSpaceHelper(UncTechnique).addChild("Technique").setAttribute("name", name).setAttribute("taxon", taxonName);
@@ -1653,6 +1743,7 @@ namespace SOA_DataAccessLib
             requiredEquipment.writeTo(Technique.Element);
             if (functions != null) functions.writeTo(Technique.Element);
             cmcUncertainties.writeTo(Technique.Element);
+            rangeAssertions.writeTo(Technique.Element);
             documentation.writeTo(Technique.Element);
         }
 
@@ -1694,6 +1785,7 @@ namespace SOA_DataAccessLib
             this.parameterRanges = new Mtc_ParameterRanges();
             this.requiredEquipment = new Mtc_RequiredEquipment();
             this.cmcUncertainties = new Mtc_CMCUncertainties();
+            this.rangeAssertions = new Mtc_RangeAssertions();
             this.documentation = new Mtc_Documentation();
         }
 
@@ -1712,8 +1804,10 @@ namespace SOA_DataAccessLib
                 parameterRanges = new Mtc_ParameterRanges(datasource, taxon);
                 var el1 = mtcSpaceHelper.getElement("RequiredEquipment");
                 var el2 = mtcSpaceHelper.getElement("Documentation");
+                var el3 = mtcSpaceHelper.getElement("RangeAssertions");
                 if (el1 != null) requiredEquipment = new Mtc_RequiredEquipment(el1);
                 if (el2 != null) cmcUncertainties = new Mtc_CMCUncertainties(datasource, this);
+                if (el3 != null) rangeAssertions = new Mtc_RangeAssertions(el3);
                 documentation = new Mtc_Documentation(el2);
             }
             catch (Exception e)
@@ -2831,6 +2925,11 @@ namespace SOA_DataAccessLib
             return this;
         }
 
+        public void Clear()
+        {
+            cases.Clear();
+        }
+
         public Unc_Cases(Unc_Template Template, IEnumerable<Unc_Case> Cases)
         {
             this.template = Template;
@@ -3176,16 +3275,17 @@ namespace SOA_DataAccessLib
             return fnc.getAssertionValuesByAssertionName(assertionName);
         }
 
-        public Unc_Case getCaseByAssertionValues(string functionName, string[] assertionValues)
+        public List<Unc_Case> getCasesByAssertionValues(string functionName, string[] assertionValues)
         {
             var fuc = CMCUncertaintyFunctions[functionName];
+            List<Unc_Case> cases = new();
             foreach (Unc_Case _case in fuc.Cases)
             {
                 var assertions = _case.Assertions;
                 int count = assertions.Where(a => assertionValues.Contains(a.Value)).Count();
-                if (count == assertionValues.Length) return _case;
+                if (count == assertionValues.Length) cases.Add(_case);
             }
-            return null;
+            return cases;
         }
 
         public List<Unc_Case> getCasesByAssertionValue(string functionName, string assertionValue)

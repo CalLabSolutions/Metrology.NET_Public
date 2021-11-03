@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
              mc:Ignorable="d" d:Background="White"             
-             d:DesignHeight="600" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:RangeInfoViewModel}"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="500" d:DesignWidth="500" d:DataContext="{d:DesignInstance vm:RangeInfoViewModel}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:converters="clr-namespace:SoA_Editor.Converters"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
              TextElement.FontSize="13"
@@ -14,42 +14,14 @@
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}" Padding="5">
+
+    <UserControl.Resources>
+        <converters:EmptyListVisibilityConverter x:Key="EmptyListVisibilityConverter"></converters:EmptyListVisibilityConverter>
+    </UserControl.Resources>
+    
     <Grid>
         <StackPanel>
-            <!-- First form for adding our first case -->
-            <Grid Visibility="{Binding NoCases, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Margin="0 0 0 10" Grid.Row="0" Grid.ColumnSpan="2">
-                You must enter at least one Assertion, i.e. Resolution, Impedance, Connection, etc.<LineBreak />
-                You will be prompted to enter the Ranges after the Assertions have been saved.
-                </TextBlock>
-                <TextBox Grid.Row="1" Width="200" Margin="0 0 15 0" Grid.Column="0" Text="{Binding Assertion1.Name}" materialDesign:HintAssist.HelperText="Required Field"
-                     materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
-
-                <TextBox Grid.Row="1" Width="200" Grid.Column="1"  Text="{Binding Assertion1.Value}" materialDesign:HintAssist.HelperText="Required Field"
-                     materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
-
-                <TextBox Grid.Row="2" Width="200" Margin="0 25 15 0" Grid.Column="0" Text="{Binding Assertion2.Name}"
-                     materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
-
-                <TextBox Grid.Row="2" Width="200" Margin="0 25 0 0" Grid.Column="1"  Text="{Binding Assertion2.Value}"
-                     materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" />
-
-                <Button Grid.Row="3" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="SaveFirstCase" />
-            </Grid>
-
-            <!-- Second form for adding Cases/Ranges -->
-            <Grid Visibility="{Binding NoCases, Converter={StaticResource InverseBoolToVisConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -63,51 +35,57 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Width="400" Margin="0 0 0 15">
-                    Please select or add your desired Assertion value(s).<LineBreak />
-                    Next choose your Influence Quantity, Variable Ranges,<LineBreak />
-                    and Constant values.
+                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding FunctionName}" d:Text="Function Name" Margin="0 0 0 15"/>
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Width="400" Margin="0 0 0 15">
+                    First, select Variable Ranges and Constants values.<LineBreak />
+                    Next, if applicable, enter or select Assertion values.<LineBreak />
+                    Lastly, if applicable, select an Influence Quantity.
                 </TextBlock>
 
-                <TextBlock Grid.Row="1" Width="Auto" Margin="0 0 15 0" Grid.Column="0" Text="{Binding Assertion1.Name}" d:Text="Name:" VerticalAlignment="Center" />
+                <GroupBox Header="Ranges and Constant Values" Margin="0 0 0 15" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" MinWidth="400">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <ComboBox Width="250" ItemsSource="{Binding Vars, Mode=TwoWay}" DisplayMemberPath="name" SelectedItem="{Binding SelectedVar}" materialDesign:HintAssist.Hint="Parameter" />
+                            <TextBlock Text="{Binding ParameterRange}" Margin="10 0 0 0" d:Text="Min To Max" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <DataGrid x:Name="RangeRows" ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="True" CanUserReorderColumns="False" Margin="0 15 0 0"
+                                    SelectionUnit="FullRow" AutoGeneratedColumns="RangeRows_AutoGeneratedColumns" CanUserSortColumns="False" CanUserAddRows="True" CanUserDeleteRows="True">
+                        </DataGrid>
+                    </StackPanel>
+                </GroupBox>
 
-                <ComboBox Grid.Row="1" Width="300" Grid.Column="1" ItemsSource="{Binding AssertionsValues1}" SelectedItem="{Binding Assertion1.Value}" materialDesign:HintAssist.HelperText="Required Field"
-                        materialDesign:HintAssist.Hint="Value" VerticalAlignment="Center" IsEditable="True" IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" />
+                <GroupBox Visibility="{Binding Assertions, Converter={StaticResource EmptyListVisibilityConverter}}" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Header="Assertions" MinWidth="400">
+                    <ItemsControl ItemsSource="{Binding Assertions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 10"/>
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 10" 
+                                              materialDesign:HintAssist.Hint="Value" VerticalAlignment="Center" IsEditable="True" Text="{Binding SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
 
-                <TextBlock Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="Auto" Margin="0 25 15 0" Grid.Column="0"
-                          Text="{Binding Assertion2.Name}" d:Text="Name:" VerticalAlignment="Center" />
-
-                <ComboBox Visibility="{Binding Assertion2, Converter={StaticResource NullableToVisibilityConverter}}" Grid.Row="2" Width="300" Margin="0 25 0 0" Grid.Column="1" IsEditable="True"
-                        IsEnabled="{Binding FirstCase, Converter={StaticResource InvertBooleanConverter}}" materialDesign:HintAssist.HelperText="Required Field"
-                        materialDesign:HintAssist.Hint="Value" VerticalAlignment="Center" ItemsSource="{Binding AssertionsValues2}" SelectedItem="{Binding Assertion2.Value}" />
-
-                <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Margin="0 35 0 0" HorizontalAlignment="Center" Header="Influence Quantity" MinWidth="400">
+                <GroupBox Visibility="{Binding InfQtyRange.InfQtys, Converter={StaticResource EmptyListVisibilityConverter}}" Grid.Row="4" Grid.ColumnSpan="2" Margin="0 15 0 0" HorizontalAlignment="Center" Header="Influence Quantity (Optional)" MinWidth="400">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <ComboBox DisplayMemberPath="name"  Width="250" ItemsSource="{Binding InfQtyRange.InfQtys}" SelectedItem="{Binding InfQtyRange.SelectedQty}" materialDesign:HintAssist.Hint="Influence Quantity" />
                             <TextBlock Text="{Binding InfQtyRange.ParameterRange}" Margin="10 0 0 0" d:Text="Min To Max" VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 15">
                             <TextBox Text="{Binding InfQtyRange.Min}" materialDesign:HintAssist.Hint="Minimum" Width="150" Margin="15 0 0 0" />
                             <TextBox Text="{Binding InfQtyRange.Max}" materialDesign:HintAssist.Hint="Maximum" Width="150" Margin="15 0 0 0" />
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Header="Ranges and Constant Values" Margin="0 15 0 0" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" MinWidth="400">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <ComboBox Width="250" ItemsSource="{Binding Vars, Mode=TwoWay}" DisplayMemberPath="name" SelectedItem="{Binding SelectedVar}" materialDesign:HintAssist.Hint="Parameter" />
-                            <TextBlock Text="{Binding ParameterRange}" Margin="10 0 0 0" d:Text="Min To Max" VerticalAlignment="Center" />                                
-                        </StackPanel>                           
-                        <DataGrid x:Name="RangeRows" ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="True" CanUserReorderColumns="False" Margin="0 15 0 0"
-                                    SelectionUnit="FullRow" AutoGeneratedColumns="RangeRows_AutoGeneratedColumns" CanUserSortColumns="False" CanUserAddRows="True" CanUserDeleteRows="True">
-                        </DataGrid>                           
-                     </StackPanel>
-                </GroupBox>
-               
-
-                <Button Grid.Row="5" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="SaveNewCase" />
+                <Button Grid.Row="5" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="Save" />
             </Grid>
         </StackPanel>
     </Grid>

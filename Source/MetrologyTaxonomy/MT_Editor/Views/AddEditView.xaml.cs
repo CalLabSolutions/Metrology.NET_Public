@@ -24,6 +24,24 @@ namespace MT_Editor.Views
             }
         }
 
+        private void MeasureRatio_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var details = (AddEditViewModel)DataContext;
+            if (details.Types == Types.MeasureRatio)
+            {
+                MeasureRatio.IsChecked = true;
+            }
+        }
+
+        private void SourceRatio_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var details = (AddEditViewModel)DataContext;
+            if (details.Types == Types.SourceRatio)
+            {
+                SourceRatio.IsChecked = true;
+            }
+        }
+
         private void Source_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             var details = (AddEditViewModel)DataContext;

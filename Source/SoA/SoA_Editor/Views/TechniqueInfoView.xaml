@@ -29,7 +29,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}">Add Technique for Taxon:</TextBlock>
+            <TextBlock Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" Style="{DynamicResource MaterialDesignBody1TextBlock}">Add Technique for Taxon:</TextBlock>
+            <TextBlock Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{DynamicResource MaterialDesignBody1TextBlock}">Edit Technique for Taxon:</TextBlock>
             <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" FontWeight="Bold" x:Name="TaxonName" d:Text="TaxonName" Margin="5 0 0 0"/>            
         </StackPanel>
 
@@ -76,6 +77,6 @@
 
         <Button Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" x:Name="Save" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
         <Button Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" x:Name="Edit" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
-        <TextBlock FontSize="12" FontStyle="Italic" Grid.Row="8" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="*Required Parameters and Results from the Taxon will be automatically added to the Technique as needed."/>
+        <TextBlock Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" FontSize="12" FontStyle="Italic" Grid.Row="8" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="*Required Parameters and Results from the Taxon will be automatically added to the Technique as needed."/>
     </Grid>
 </UserControl>

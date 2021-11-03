@@ -42,18 +42,21 @@
         </Grid.ColumnDefinitions>        
 
         <DockPanel Grid.Row="0" Grid.ColumnSpan="5">
-            <Menu IsMainMenu="True" Background="{DynamicResource PrimaryHueMidBrush}">
+            <Menu IsMainMenu="True" Background="{DynamicResource MaterialDesignDarkBackground}" Foreground="White">
                 <MenuItem Header="_File" VerticalAlignment="Center">
                     <MenuItem Header="_New" cal:Message.Attach="NewXML" Icon="{materialDesign:PackIcon Kind=FileCode}" InputGestureText="Ctrl+N"/>
                     <MenuItem Header="_Open" x:Name="OpenXMLFile" Icon="{materialDesign:PackIcon Kind=FolderOpen}" InputGestureText="Ctrl+O"/>
-                    <MenuItem Header="_Save" x:Name="SaveXML" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+S"/>
-                    <MenuItem Header="_Save As" x:Name="SaveAsXML" Icon="{materialDesign:PackIcon Kind=ContentSaveMove}"/>
+                    <MenuItem Header="_Save" x:Name="SaveXML" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+S" IsEnabled="{Binding IsLoaded}"/>
+                    <MenuItem Header="_Save As" x:Name="SaveAsXML" Icon="{materialDesign:PackIcon Kind=ContentSaveMove}" IsEnabled="{Binding IsLoaded}"/>
+                    <MenuItem Header="_Close File" x:Name="CloseXMLFile" Icon="{materialDesign:PackIcon Kind=Close}" InputGestureText="Ctrl+Q" IsEnabled="{Binding IsLoaded}"/>
                     <Separator />
                     <MenuItem Header="_Exit" x:Name="ExitApp" Icon="{materialDesign:PackIcon Kind=ExitToApp}"/>
-                </MenuItem>               
-                <MenuItem Header="_Help" VerticalAlignment="Center">
-                    <MenuItem Header="_About" cal:Message.Attach="LoadWelcomeViewModelObj" />
                 </MenuItem>
+                <!--
+                <MenuItem Header="_Help" VerticalAlignment="Center">
+                    <MenuItem Header="_About" cal:Message.Attach="LoadWelcomeViewModelObj"/>
+                </MenuItem>
+                -->
             </Menu>
         </DockPanel>
         <!-- Needed?
@@ -81,11 +84,10 @@
                             <MenuItem Header="Add Taxon" cal:Message.Attach="AddTaxon()"/>                            
                         </ContextMenu>
                     </Grid.ContextMenu>                    
-                    <TreeView Grid.Column="0" Margin="10" ItemsSource="{Binding RootNode.Children}">
+                    <TreeView Grid.Column="0" Margin="10" ItemsSource="{Binding RootNode.Children}" Name="TaxonomyTreeView" TreeViewItem.Selected="NestedRangeNodeSelected">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-
                             </Style>
                         </TreeView.ItemContainerStyle>
                         <TreeView.Resources>
@@ -112,6 +114,7 @@
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
                             </HierarchicalDataTemplate>
+                            <!--
                             <HierarchicalDataTemplate DataType="{x:Type models:AssertionNode}" ItemsSource="{Binding Children}">
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action AssertionNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
                                     <TextBlock.ContextMenu>
@@ -121,6 +124,7 @@
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
                             </HierarchicalDataTemplate>
+                            -->
                             <HierarchicalDataTemplate DataType="{x:Type models:RangeNode}" ItemsSource="{Binding Children}">
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action RangeNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
                                     <TextBlock.ContextMenu>
@@ -143,7 +147,7 @@
 
         <Label Content="Copyright 2020, Cal Lab Solutions, LLC" 
                FontSize="11" FontFamily="Calibri" Foreground="White"
-               FontWeight="Light" Background="{DynamicResource PrimaryHueMidBrush}"
+               FontWeight="Light" Background="{StaticResource MaterialDesignDarkBackground}"
                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                Grid.Row="4" VerticalContentAlignment="Bottom"
                Grid.ColumnSpan="5" Margin="0 3 0 0"/>

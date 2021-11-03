@@ -23,6 +23,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DialogHost.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Border}" x:Key="HorizontalDividerBorder">
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Height" Value="1"/>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -39,10 +45,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <!-- Technique Information -->
             <StackPanel Orientation="Horizontal">
                 <materialDesign:Card
-                Background="{DynamicResource PrimaryHueLightBrush}"
-                Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                Background="{DynamicResource PrimaryHueMidBrush}"
                 HorizontalAlignment="Left" MinWidth="300"
                 Padding="8" Margin="0,0,0,20">
                     <Grid>
@@ -55,18 +61,17 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="0" Grid.Column="0">Taxon:</Label>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="0" Grid.Column="1" Content="taxonomy" x:Name="TaxonomyName" />
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Technique:</Label>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="1" Grid.Column="1" Content="technique" x:Name="TechniqueName" />
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="2" Grid.Column="0">Uncertainty:</Label>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="2" Grid.Column="1" Content="function" x:Name="FunctionName" />
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="0" Grid.Column="0">Taxon:</Label>
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="0" Grid.Column="1" Content="taxonomy" x:Name="TaxonomyName" />
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Technique:</Label>
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="1" Grid.Column="1" Content="technique" x:Name="TechniqueName" />
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="2" Grid.Column="0">Uncertainty:</Label>
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="2" Grid.Column="1" Content="function" x:Name="FunctionName" />
                     </Grid>
                 </materialDesign:Card>
 
                 <materialDesign:Card
-                Background="{DynamicResource PrimaryHueLightBrush}"
-                Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                Background="{DynamicResource PrimaryHueMidBrush}"
                 HorizontalAlignment="Left" MinWidth="300"
                 Padding="8" Margin="20,0,0,20">
                     <Grid>
@@ -79,143 +84,193 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="0" Grid.Column="0">Category:</Label>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="0" Grid.Column="1" Content="category" x:Name="Category" />
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Source Equipment:</Label>
-                        <Label cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="1">Measure Equipment:</Label>
-                        <ItemsControl Margin="15 0 0 0" ItemsSource="{Binding SourceEquipment}" Grid.Row="2" Grid.Column="0" />
-                        <ItemsControl Margin="20 0 0 0" ItemsSource="{Binding MeasureEquipment}" Grid.Row="2" Grid.Column="1" />
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="0" Grid.Column="0">Category:</Label>
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" Grid.Row="0" Grid.Column="1" Content="category" x:Name="Category" />
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Source Equipment:</Label>
+                        <Label Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]" FontWeight="Bold" Grid.Row="1" Grid.Column="1">Measure Equipment:</Label>
+                        <ItemsControl Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Margin="15 0 0 0" ItemsSource="{Binding SourceEquipment}" Grid.Row="2" Grid.Column="0" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]"/>
+                        <ItemsControl Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Margin="20 0 0 0" ItemsSource="{Binding MeasureEquipment}" Grid.Row="2" Grid.Column="1" cal:Message.Attach="[Event MouseDown] = [Action EditTechnique()]"/>
                     </Grid>
                 </materialDesign:Card>
-            </StackPanel>
-
-            <DataGrid Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Input Parameters" Binding="{Binding Path=InputParam}" IsReadOnly="True" />
-                    <DataGridTextColumn IsReadOnly="True" Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" />
-                    <DataGridTextColumn IsReadOnly="True" Header="Optional" Binding="{Binding Path=Optional}" />
-                    <DataGridCheckBoxColumn Header="Variable" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+            </StackPanel>            
+            
+            <materialDesign:Card>
+                <StackPanel>
+                    <!--Input Parameter Ranges -->
+                    <Expander Header="Input Parameters" IsExpanded="False">
+                        <StackPanel>
+                            <DataGrid Name="InputParameters" ItemsSource="{Binding InputParameters}" AutoGenerateColumns="False" CanUserAddRows="False"
+                                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=InputParam}" IsReadOnly="True" />
+                                    <DataGridTextColumn IsReadOnly="True" Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" />
+                                    <DataGridTextColumn IsReadOnly="True" Header="Required" Binding="{Binding Path=Optional}" />
+                                    <DataGridCheckBoxColumn Header="Variable" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
                                             Binding="{Binding Variable, UpdateSourceTrigger=PropertyChanged}" x:Name="Variable">
-                        <DataGridCheckBoxColumn.HeaderStyle>
-                            <Style TargetType="{x:Type DataGridColumnHeader}"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </DataGridCheckBoxColumn.HeaderStyle>
-                    </DataGridCheckBoxColumn>
-                    <materialDesign:DataGridComboBoxColumn  Header="Variable Type" Width="Auto" IsEditable="False"
+                                        <DataGridCheckBoxColumn.HeaderStyle>
+                                            <Style TargetType="{x:Type DataGridColumnHeader}"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                            </Style>
+                                        </DataGridCheckBoxColumn.HeaderStyle>
+                                    </DataGridCheckBoxColumn>
+                                    <materialDesign:DataGridComboBoxColumn  Header="Variable Type" Width="Auto" IsEditable="False"
                                                             ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.VariableTypes}"
                                                             SelectedValueBinding="{Binding VariableType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    </materialDesign:DataGridComboBoxColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button cal:Message.Attach="EditInputParam($dataContext)">Edit</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteInputParam($dataContext)">Delete</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                                    </materialDesign:DataGridComboBoxColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button cal:Message.Attach="EditInputParam($dataContext)">Edit</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteInputParam($dataContext)">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-            <Button x:Name="AddInputParameter" Content="Add Input Parameter" Width="175" Style="{DynamicResource MaterialDesignOutlinedButton}" HorizontalAlignment="Left" />
+                            <Button x:Name="AddInputParameter" Content="Add Input Parameter" Width="175" Margin="10 0 0 10" Style="{DynamicResource MaterialDesignOutlinedButton}" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Expander>
 
-            <Separator Margin="0 25 0 0" />
+                    <Border Style="{StaticResource HorizontalDividerBorder}" />
 
-            <DataGrid x:Name="InputParameterRanges" ItemsSource="{Binding InputParameterRanges}" AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Input Parameter Ranges" IsReadOnly="True" Binding="{Binding Path=InputParamRange,UpdateSourceTrigger=PropertyChanged}" />
-                    <DataGridTemplateColumn Header="Minimum" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding TestMin}" />
-                                    <TextBlock Margin="5 0 0 0" Text="{Binding Min}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Maximum" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding TestMax}" />
-                                    <TextBlock Margin="5 0 0 0" Text="{Binding Max}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button cal:Message.Attach="EditInputParamRange($dataContext)">Edit</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteInputParamRange($dataContext)">Delete</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                    <!-- Assertions -->
+                    <Expander Header="Assertions" IsExpanded="False">
+                        <StackPanel>
+                            <DataGrid Name="Assertions" ItemsSource="{Binding Assertions, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False"
+                                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,0,0,20">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" />
+                                    <DataGridTextColumn Header="Values" Binding="{Binding Values}" IsReadOnly="True" />
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button cal:Message.Attach="EditAssertion($dataContext)">Edit</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteAssertion($dataContext)">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button x:Name="AddAssertion" Content="Add Assertion" Margin="10 0 0 10" Style="{StaticResource MaterialDesignOutlinedButton}" Width="125" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Expander>
 
-            <Button x:Name="AddInputParameterRange" Content="Add Input Parameter Range" Style="{StaticResource MaterialDesignOutlinedButton}" Width="215" HorizontalAlignment="Left" />
+                    <Border Style="{StaticResource HorizontalDividerBorder}" />
 
-            <Separator Margin="0 25 0 0" />
+                    <!--Input Parameter Ranges -->
+                    <Expander Header="Input Parameter Ranges" IsExpanded="False">
+                        <StackPanel>
+                            <DataGrid x:Name="InputParameterRanges" ItemsSource="{Binding InputParameterRanges}" AutoGenerateColumns="False" CanUserAddRows="False"
+                                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Input Parameter" IsReadOnly="True" Binding="{Binding Path=InputParamRange,UpdateSourceTrigger=PropertyChanged}" />
+                                    <DataGridTemplateColumn Header="Minimum" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding TestMin}" />
+                                                    <TextBlock Margin="5 0 0 0" Text="{Binding Min}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Maximum" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding TestMax}" />
+                                                    <TextBlock Margin="5 0 0 0" Text="{Binding Max}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button cal:Message.Attach="EditInputParamRange($dataContext)">Edit</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteInputParamRange($dataContext)">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-            <DataGrid x:Name="Outputs" ItemsSource="{Binding Outputs}" AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Outputs" Binding="{Binding Path=Output}" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Minimum">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding TestMin}" />
-                                    <TextBlock Margin="5 0 0 0" Text="{Binding Min}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Maximum">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding TestMax}" />
-                                    <TextBlock Margin="5 0 0 0" Text="{Binding Max}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button cal:Message.Attach="EditOutput($dataContext)">Edit</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteOutput($dataContext)">Delete</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                            <Button x:Name="AddInputParameterRange" Content="Add Input Parameter Range" Margin="10 0 0 10" Style="{StaticResource MaterialDesignOutlinedButton}" Width="215" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Expander>
 
-            <Button x:Name="AddOutput" Content="Add Output" Style="{StaticResource MaterialDesignOutlinedButton}" Width="110" HorizontalAlignment="Left" />
+                    <Border Style="{StaticResource HorizontalDividerBorder}" />
+
+                    <!--Results -->
+                    <Expander Header="Output Results" IsExpanded="False">
+                        <StackPanel>
+                            <DataGrid x:Name="Outputs" ItemsSource="{Binding Outputs}" AutoGenerateColumns="False" CanUserAddRows="False"
+                                      CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0,20,0,20">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Output}" IsReadOnly="True"/>
+                                    <DataGridTemplateColumn Header="Minimum">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding TestMin}" />
+                                                    <TextBlock Margin="5 0 0 0" Text="{Binding Min}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Maximum">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding TestMax}" />
+                                                    <TextBlock Margin="5 0 0 0" Text="{Binding Max}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button cal:Message.Attach="EditOutput($dataContext)">Edit</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Background="DarkRed" BorderBrush="Transparent" cal:Message.Attach="DeleteOutput($dataContext)">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="AddOutput" Content="Add Output Results" Margin="10 0 0 10" Style="{StaticResource MaterialDesignOutlinedButton}" Width="155" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Expander>
+
+                </StackPanel>
+            </materialDesign:Card>
 
             <Separator Margin="0 25 0 0"/>
 

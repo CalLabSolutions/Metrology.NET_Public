@@ -1,9 +1,4 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoA_Editor.Models
 {
@@ -26,7 +21,6 @@ namespace SoA_Editor.Models
             get { return _FormulaVariable; }
             set { _FormulaVariable = value; NotifyOfPropertyChange(() => FormulaVariable); }
         }
-
 
         private string _FormulaValue;
 

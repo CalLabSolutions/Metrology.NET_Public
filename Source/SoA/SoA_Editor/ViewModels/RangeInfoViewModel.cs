@@ -3,151 +3,54 @@ using SOA_DataAccessLib;
 using SoA_Editor.Model;
 using SoA_Editor.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 
 namespace SoA_Editor.ViewModels
 {
     internal class RangeInfoViewModel : Screen
     {
-        private List<Mtc_Range> infQtys;
         private List<Mtc_Range> vars;
+        private List<Assertion> assertions;
         private string[] constants;
         private string functionName;
         private Unc_Template template;
+        private Unc_Technique technique;
         private Helper.MessageDialog dialog;
-        private bool firstCase;
 
-        public RangeInfoViewModel(List<Mtc_Range> infQtys, List<Mtc_Range> vars, string[] constants, string functionName, Unc_Template template, bool firstCase = false)
+        public RangeInfoViewModel(List<Mtc_Range> infQtys, List<Mtc_Range> vars, string[] constants, List<Assertion> assertions, string functionName, Unc_Template template)
         {
             dialog = new();
             dialog.Title = "Validation Error";
             dialog.Button = System.Windows.MessageBoxButton.OK;
             dialog.Image = System.Windows.MessageBoxImage.Warning;
 
-            this.infQtys = infQtys;
             this.vars = vars;
             this.constants = constants;
+            this.assertions = assertions;
             this.functionName = functionName;
-            this.firstCase = firstCase;
             this.template = template;
-            var assertionNames = this.template.getCMCFunctionAssertionNames(functionName);
             UncRanges = new();
 
-            // if we do not have any cases to add Ranges to we need to make our assertions first
-            if (this.template.CMCUncertaintyFunctions[0].Cases.Count() == 0)
+            // Get existing cases, vars, constants, and vars
+            InfQtyRange = new Range_Influence_Quantity(infQtys);
+
+            RangeGrid = new();
+            RangeGrid.Columns.Add("Minimum");
+            RangeGrid.Columns.Add("Maximum");
+
+            for (int i = 0; i < constants.Length; i++)
             {
-                Assertion1 = new();
-                Assertion2 = new();
+                RangeGrid.Columns.Add(constants[i]);
             }
-            else // we are adding Unc Range values set up influence and vars
+
+            if (Vars.Count == 0)
             {
-                // see how many assertions the first case has, the rest will follow suit
-                if (this.template.CMCUncertaintyFunctions[0].Cases[0].Assertions.Count() == 2)
-                {
-                    Assertion1 = new();
-                    Assertion2 = new();
-                    AssertionsValues1 = new();
-                    AssertionsValues2 = new();
-                    Assertion1.Name = assertionNames[0];
-                    Assertion2.Name = assertionNames[1];
-                    if (!firstCase)
-                    {
-                        Assertion1.Value = "";
-                        Assertion2.Value = "";
-                    }
-                    else
-                    {
-                        Assertion1.Value = this.template.CMCUncertaintyFunctions[0].Cases[0].Assertions[0].Value;
-                        Assertion2.Value = this.template.CMCUncertaintyFunctions[0].Cases[0].Assertions[1].Value;
-                    }
-                    foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[0]))
-                    {
-                        AssertionsValues1.Add(value);
-                    }
-                    foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[1]))
-                    {
-                        AssertionsValues2.Add(value);
-                    }
-                }
-                else
-                {
-                    Assertion1 = new();
-                    AssertionsValues1 = new();
-                    Assertion1.Name = assertionNames[0];
-                    Assertion2 = null;
-                    AssertionsValues2 = null;
-                    if (!firstCase)
-                    {
-                        Assertion1.Value = "";
-                    }
-                    else
-                    {
-                        Assertion1.Value = this.template.CMCUncertaintyFunctions[0].Cases[0].Assertions[0].Value;
-                    }
-                    foreach (string value in template.getCMCFunctionAssertionValues(functionName, assertionNames[0]))
-                    {
-                        AssertionsValues1.Add(value);
-                    }
-                }
-                // Get existing cases, vars, constants, and vars
-                InfQtyRange = new Range_Influence_Quantity(infQtys);
-
-                Vars = new();
-                Vars = vars;
-
-                RangeGrid = new();
-                RangeGrid.Columns.Add("Minimum");
-                RangeGrid.Columns.Add("Maximum");
-
-                for (int i = 0; i < constants.Length; i++)
-                {
-                    RangeGrid.Columns.Add(constants[i]);
-                }
-
-                if (InfQtyRange.InfQtys.Count == 0 || Vars.Count == 0)
-                {
-                    dialog.Message = "You must configure your Technique's variables before adding Uncertaitny Ranges.";
-                    dialog.Show();
-                }
+                dialog.Message = "You must configure your Technique's variables before adding Uncertaitny Ranges.";
+                dialog.Show();
             }
         }
 
         #region properties;
-
-        public bool NoCases
-        {
-            get { return this.template.CMCUncertaintyFunctions[0].Cases.Count() == 0 ? true : false; }
-        }
-
-        public bool FirstCase
-        {
-            get { return firstCase; }
-        }
-
-        private Unc_Assertion assertion1;
-
-        public Unc_Assertion Assertion1
-        {
-            get { return assertion1; }
-            set
-            {
-                assertion1 = value;
-                NotifyOfPropertyChange(() => Assertion1);
-            }
-        }
-
-        private Unc_Assertion assertion2;
-
-        public Unc_Assertion Assertion2
-        {
-            get { return assertion2; }
-            set
-            {
-                assertion2 = value;
-                NotifyOfPropertyChange(() => Assertion2);
-            }
-        }
 
         private Range_Influence_Quantity infQtyRange;
 
@@ -187,6 +90,12 @@ namespace SoA_Editor.ViewModels
             set { parameterRange = value; NotifyOfPropertyChange(() => ParameterRange); }
         }
 
+        public string FunctionName
+        {
+            get { return functionName; }
+            set { functionName = value; NotifyOfPropertyChange(() => FunctionName); }
+        }
+
         public List<Mtc_Range> Vars
         {
             get { return vars; }
@@ -205,28 +114,10 @@ namespace SoA_Editor.ViewModels
             set { uncRanges = value; }
         }
 
-        private ObservableCollection<string> assertionsValues1;
-
-        public ObservableCollection<string> AssertionsValues1
+        public List<Assertion> Assertions
         {
-            get { return assertionsValues1; }
-            set
-            {
-                assertionsValues1 = value;
-                NotifyOfPropertyChange(() => AssertionsValues1);
-            }
-        }
-
-        private ObservableCollection<string> assertionsValues2;
-
-        public ObservableCollection<string> AssertionsValues2
-        {
-            get { return assertionsValues2; }
-            set
-            {
-                assertionsValues2 = value;
-                NotifyOfPropertyChange(() => AssertionsValues2);
-            }
+            get { return assertions; }
+            set { assertions = value; NotifyOfPropertyChange(() => Assertions); }
         }
 
         private DataTable rangeGrid;
@@ -247,86 +138,58 @@ namespace SoA_Editor.ViewModels
 
         #region Methods
 
-        public void SaveFirstCase()
-        {
-            if (Assertion1.Name == "" || Assertion1.Value == "")
-            {
-                dialog.Message = "You must have at least one Assertion";
-                dialog.Show();
-                return;
-            }
-            if (Assertion1.Name != "" && Assertion1.Value == "")
-            {
-                dialog.Message = "You must enter a value for the first Assertion";
-                dialog.Show();
-                return;
-            }
-            if (Assertion2.Name != "" && Assertion2.Value == "")
-            {
-                dialog.Message = "You must enter a value for the second Assertion";
-                dialog.Show();
-                return;
-            }
-
-            var assertions = new Unc_Assertions();
-            assertions.Add(Assertion1);
-            if (assertion2.Name != "" & assertion2.Value != "")
-                assertions.Add(Assertion2);
-            Helper.TreeViewCase = new Unc_Case(template, assertions);
-            base.TryCloseAsync(null);
-        }
-
-        public void SaveNewCase()
+        public void Save()
         {
             // Make sure we have what we need before trying to save a case
 
             // Check our assertions
-            if (Assertion1.Value == "")
+            if (Assertions.Count > 0)
             {
-                dialog.Message = "Please Select or enter the first Assertion Value";
-                dialog.Show();
-                return;
-            }
-            if (Assertion2 != null && Assertion2.Value == "")
-            {
-                dialog.Message = "Please Select or enter the first Assertion Value";
-                dialog.Show();
-                return;
-            }
-
-            // Check our Infuance quantity
-            if (InfQtyRange.SelectedQty.name == null || InfQtyRange.Min == "" || InfQtyRange.Max == "")
-            {
-                dialog.Message = "You must select and Inflence Quantity, Minimum, and Maximum values";
-                dialog.Show();
-                return;
-            }
-
-            // Check that the min max are numbers
-            double test;
-            if (!double.TryParse(infQtyRange.Min, out test) || !double.TryParse(infQtyRange.Max, out test))
-            {
-                dialog.Message = "Your Influance Quantity min and max must be a number";
-                dialog.Show();
-                return;
-            }
-
-            // that the min and max are with in range if they have a parameter range
-            var min = InfQtyRange.SelectedQty.Start.ValueString;
-            var max = InfQtyRange.SelectedQty.End.ValueString;
-            if (min != "" || min != null)
-            {
-                if (double.Parse(InfQtyRange.Min) < double.Parse(min) || double.Parse(InfQtyRange.Max) > double.Parse(max))
+                foreach (Assertion a in Assertions)
                 {
-                    dialog.Message = "Your Influance Quantity min and max is outside of the assinged range";
+                    if (a.SelectedValue == null || a.SelectedValue == "")
+                    {
+                        dialog.Message = "Please select or enter an Assertion Value for \"" + a.Name + "\"";
+                        dialog.Show();
+                        return;
+                    }
+                }
+            }
+
+            // Check if an Infuance quantity was selected
+            double test;
+            if (InfQtyRange.SelectedQty != null || InfQtyRange.SelectedQty.name != "" || InfQtyRange.Min == "" || InfQtyRange.Max == "")
+            {
+                // Check that the min max are numbers
+
+                if (!double.TryParse(infQtyRange.Min, out test) || !double.TryParse(infQtyRange.Max, out test))
+                {
+                    dialog.Message = "Your Influance Quantity min and max must be a number";
                     dialog.Show();
                     return;
                 }
+
+                // that the min and max are with in range if they have a parameter range
+                var min = InfQtyRange.SelectedQty.Start.ValueString;
+                var max = InfQtyRange.SelectedQty.End.ValueString;
+                if (min != "" || min != null)
+                {
+                    if (double.Parse(InfQtyRange.Min) < double.Parse(min) || double.Parse(InfQtyRange.Max) > double.Parse(max))
+                    {
+                        dialog.Message = "Your Influance Quantity min and max is outside of the assinged range";
+                        dialog.Show();
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                InfQtyRange.SelectedQty = null;
             }
 
             if (SelectedVar.name == null || SelectedVar.name == "")
             {
-                dialog.Message = "You must selected a Parameter";
+                dialog.Message = "You must select a Parameter";
                 dialog.Show();
                 return;
             }
@@ -427,26 +290,35 @@ namespace SoA_Editor.ViewModels
             }
 
             // see if we have a case already
-            int size = 2;
-            if (Assertion2 == null) size = 1;
-            string[] values = new string[size];
-            values[0] = Assertion1.Value;
-            if (size == 2) values[1] = Assertion2.Value;
-            var exsitingCase = template.getCaseByAssertionValues(functionName, values);
-            // if we have an existing case add the unc range to it
-            if (exsitingCase != null)
+            List<string> values = new();
+            foreach (Assertion a in Assertions)
             {
-                if (exsitingCase.Ranges == null) exsitingCase.Ranges = new();
-                AddRanges(exsitingCase);
-                Helper.TreeViewCase = exsitingCase;
+                values.Add(a.SelectedValue);
+            }
+
+            var exsitingCase = template.getCasesByAssertionValues(functionName, values.ToArray());
+            // if we have an existing case add the unc range to it
+            if (exsitingCase.Count > 0)
+            {
+                if (exsitingCase[0].Ranges == null) exsitingCase[0].Ranges = new();
+                AddRanges(exsitingCase[0]);
+                Helper.TreeViewCase = exsitingCase[0];
             }
             else // We need to add a new case and ranges
             {
                 // Get our assertions together
-                Unc_Assertions assertions = new Unc_Assertions();
-                assertions.Add(Assertion1);
-                if (Assertion2 != null) assertions.Add(Assertion2);
-                Unc_Case newCase = new Unc_Case(template, assertions);
+                Unc_Assertions unc_assertions = new Unc_Assertions();
+                foreach (Assertion a in Assertions)
+                {
+                    Unc_Assertion unc_a = new Unc_Assertion()
+                    {
+                        Name = a.Name,
+                        Value = a.SelectedValue,
+                        type = ""
+                    };
+                    unc_assertions.Add(unc_a);
+                }
+                Unc_Case newCase = new Unc_Case(template, unc_assertions);
                 if (newCase.Ranges == null) newCase.Ranges = new();
                 AddRanges(newCase);
                 Helper.TreeViewCase = newCase;
@@ -457,43 +329,86 @@ namespace SoA_Editor.ViewModels
 
         private void AddRanges(Unc_Case Case)
         {
-            // Influence Quantity, we need to check if we already have an influence qty type
-            SOA_DataAccessLib.Unc_Range infQtyRange = null;
+            // We need to see if an existing range is being edited.  The user might just be updating a Constant value.
+            // First check the Influence Quantity
+            SOA_DataAccessLib.Unc_Range startingRange = null;
             bool newRanges = true;
-            foreach (SOA_DataAccessLib.Unc_Range range in Case.Ranges.getRanges())
+            var ranges = Case.Ranges.RangesByVarType("influence_quantity");
+            foreach (SOA_DataAccessLib.Unc_Range range in ranges)
             {
                 if (range.Variable_name == InfQtyRange.SelectedQty.name)
                 {
                     // now see if we are adding a new Qty via the ranges or a new set
                     if (range.Start.Value == decimal.Parse(InfQtyRange.Min) && range.End.Value == decimal.Parse(InfQtyRange.Max))
                     {
-                        infQtyRange = range;
+                        startingRange = range;
                         newRanges = false;
                         break;
                     }
                 }
             }
 
-            if (infQtyRange == null)
+            if (startingRange == null) // See if we have any parameter ranges that exist if they were not nested in an Influence Quantity
             {
-                Case.Ranges.variable_name = InfQtyRange.SelectedQty.name;
-                Case.Ranges.variable_type = "influence_quantity";
+                ranges = Case.Ranges.RangesByVarType("parameter");
+                foreach (SOA_DataAccessLib.Unc_Range range in ranges)
+                {
+                    if (range.Variable_name == SelectedVar.name)
+                    {
+                        // now see if we are adding a new Qty via the ranges or a new set
+                        if (range.Start.Value == decimal.Parse(InfQtyRange.Min) && range.End.Value == decimal.Parse(InfQtyRange.Max))
+                        {
+                            startingRange = range;
+                            newRanges = false;
+                            break;
+                        }
+                    }
+                }
+            }
 
-                // Start and stop ranges for the influence qty
-                infQtyRange = new SOA_DataAccessLib.Unc_Range(template);
-                infQtyRange.Start = SetStart("at", InfQtyRange.Min, InfQtyRange.SelectedQty.Start.Quantity);
-                infQtyRange.End = SetEnd("at", InfQtyRange.Max, InfQtyRange.SelectedQty.Start.Quantity);
-                infQtyRange.Variable_name = InfQtyRange.SelectedQty.name;
-                infQtyRange.Variable_type = "influence_quantity";
+            if (startingRange == null)
+            {
+                if (InfQtyRange.SelectedQty != null)
+                {
+                    // Start and stop ranges for the influence qty
+                    startingRange = new SOA_DataAccessLib.Unc_Range(template);
+                    startingRange.Start = SetStart("at", InfQtyRange.Min, InfQtyRange.SelectedQty.Start.Quantity);
+                    startingRange.End = SetEnd("at", InfQtyRange.Max, InfQtyRange.SelectedQty.End.Quantity);
+                    startingRange.Variable_name = InfQtyRange.SelectedQty.name;
+                    startingRange.Variable_type = "influence_quantity";
+
+                    // See if we need to set the Case Ranges var and type
+                    if (Case.Ranges.variable_name == "")
+                    {
+                        Case.Ranges.variable_name = InfQtyRange.SelectedQty.name;
+                        Case.Ranges.variable_type = "influence_quantity";
+                    }
+                }
+                else
+                {
+                    // Start and stop ranges for the influence qty
+                    startingRange = new SOA_DataAccessLib.Unc_Range(template);
+                    startingRange.Start = SetStart("at", SelectedVar.Start.ValueString, SelectedVar.Start.Quantity);
+                    startingRange.End = SetEnd("at", SelectedVar.End.ValueString, SelectedVar.End.Quantity);
+                    startingRange.Variable_name = SelectedVar.name;
+                    startingRange.Variable_type = "parameter";
+
+                    // See if we need to set the Case Ranges var and type
+                    if (Case.Ranges.variable_name == "")
+                    {
+                        Case.Ranges.variable_name = SelectedVar.name;
+                        Case.Ranges.variable_type = "parameter";
+                    }
+                }
             }
 
             // Add our variable ranges and constants
             int count = 1;
-            infQtyRange.Ranges.variable_name = SelectedVar.name;
-            infQtyRange.Ranges.variable_type = "parameter";
+            startingRange.Ranges.variable_name = SelectedVar.name;
+            startingRange.Ranges.variable_type = "parameter";
             foreach (Models.Unc_Range range in UncRanges)
             {
-                SOA_DataAccessLib.Unc_Range paramRange = new SOA_DataAccessLib.Unc_Range(template);
+                var paramRange = new SOA_DataAccessLib.Unc_Range(template);
                 paramRange.ConstantValues = new();
                 paramRange.Variable_name = SelectedVar.name;
                 paramRange.Variable_type = "parameter";
@@ -513,10 +428,10 @@ namespace SoA_Editor.ViewModels
                     });
                 }
                 count++;
-                infQtyRange.Ranges.Add(paramRange);
+                startingRange.Ranges.Add(paramRange);
             }
 
-            if (newRanges) Case.Ranges.Add(infQtyRange);
+            if (newRanges) Case.Ranges.Add(startingRange);
         }
 
         private Unc_Range_Start SetStart(string test, string min, string quantity)

@@ -12,7 +12,7 @@ namespace SoA_Editor.Model
     class Range_Influence_Quantity : PropertyChangedBase
     {
         private Mtc_Range selectedQty;
-        private List<Mtc_Range>  infQtys;
+        private List<Mtc_Range> infQtys;
         private string min;
         private string max;
         private string parameterRange;

@@ -123,7 +123,7 @@ namespace MT_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml";
             }
 
             set
@@ -575,17 +575,21 @@ namespace MT_DataAccessLib
 
         public static Dictionary<string, Quantity> getQuantities()
         {
-            if (Database != null)
+            if (qtyCache.Count == 0)
             {
-                var qtys = Database.Descendants(ns + "Quantity");
-                if (qtys != null)
+                if (Database != null)
                 {
-                    foreach (XElement el in qtys)
+                    var qtys = Database.Descendants(ns + "Quantity");
+                    if (qtys != null)
                     {
-                        var name = (string)el.Attribute("name");
-                        var els = qtys.Where(x => (string)x.Attribute("name") == name);
-                        qtyCache[name] = (els.Count() > 0) ? new Quantity(els.First()) : null;
-                    }                  
+                        foreach (XElement el in qtys)
+                        {
+                            var name = (string)el.Attribute("name");
+                            var els = qtys.Where(x => (string)x.Attribute("name") == name);
+                            qtyCache[name] = (els.Count() > 0) ? new Quantity(els.First()) : null;
+                        }
+                    }
+                    qtyCache = qtyCache.OrderBy(entry => entry.Key).ToDictionary(x => x.Key, x => x.Value);
                 }
             }
             return qtyCache;
@@ -622,7 +626,7 @@ namespace MT_DataAccessLib
             {"soa", @"https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"},
             {"xsi", @"http://www.w3.org/2001/XMLSchema-instance"},
             {"xi", @"http://www.w3.org/2001/XInclude"},
-            {"uom", @"https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"},
+            {"uom", @"http://schema.metrology.net/UOM_Database"},
             {"unc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"},
             {"mml", @"http://www.w3.org/1998/Math/MathML"},
             {"xhtml", @"http://www.w3.org/1999/xhtml"},
@@ -675,7 +679,7 @@ namespace MT_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml"; }
+            get { return "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
         }
 
         public static string NamespaceKey(string value)

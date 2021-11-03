@@ -103,7 +103,14 @@ namespace SoA_Editor.Models
 
     public class RangeNode : Node
     {
-        public RangeNode(AssertionNode node)
+        public RangeNode(TechniqueNode node)
+        {
+            Parent = node;
+            Type = NodeType.Range;
+            Children = new();
+        }
+
+        public RangeNode(RangeNode node)
         {
             Parent = node;
             Type = NodeType.Range;

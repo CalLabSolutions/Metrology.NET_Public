@@ -29,16 +29,27 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Label Content="{Binding activeHierarchy}" Margin="0,0,0,10" />
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding activeHierarchy}" Margin="0,0,0,10" />                
-            </StackPanel>         
+                <TextBlock>Rows: </TextBlock>
+                <TextBlock Text="{Binding RangeGrid.Rows.Count}" Margin="5 0 0 0"/>
+            </StackPanel>
             <TextBlock TextDecorations="Underline">Please select a row by clicking on any of the values.</TextBlock>
-            <DataGrid CanUserAddRows="True" SelectionMode="Extended" Height="250" ScrollViewer.VerticalScrollBarVisibility="Auto"
+            <DataGrid CanUserAddRows="True" SelectionMode="Extended" Height="450" ScrollViewer.VerticalScrollBarVisibility="Auto"
                         SelectionUnit="FullRow" x:Name="RangeGrid" SelectedItem="{Binding Row}"
                         ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="true" IsReadOnly="True"
                         CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0 0 0 5">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Edit Range">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <cal:ActionMessage MethodName="EditRange">
+                                        <cal:Parameter Value="{Binding Row}" />
+                                    </cal:ActionMessage>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </MenuItem>
                         <MenuItem Header="Delete Range">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">

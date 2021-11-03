@@ -13,7 +13,9 @@ namespace MT_Editor.Converters
     {
         None,
         Measure,
-        Source
+        Source,
+        MeasureRatio,
+        SourceRatio
     }
 
     internal class TypeConverter : IValueConverter

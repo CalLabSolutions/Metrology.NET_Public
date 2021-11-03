@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <soa:SOADataMaster xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile.xsd">
   <soa:AB_ID></soa:AB_ID>
-  <soa:AB_Logo-Signature></soa:AB_Logo-Signature>
+  <soa:AB_Logo-Signature>Need to be an image</soa:AB_Logo-Signature>
   <soa:Scope_ID_Number></soa:Scope_ID_Number>
   <soa:ScopeURLs>
     <soa:ScopeURL ScopeType="" CheckSum="" URL="" />
@@ -11,7 +11,7 @@
   <soa:ExpirationDate></soa:ExpirationDate>
   <soa:Statement></soa:Statement>
   <soa:CapabilityScope>
-    <soa:MeasuringEntity></soa:MeasuringEntity>
+    <soa:MeasuringEntity>DaveTech</soa:MeasuringEntity>
     <soa:Locations>
       <soa:Location id="">
         <soa:OrganizationAddress>
@@ -31,40 +31,6 @@
     <soa:Activities>
       <soa:Activity>
         <unc:CMCs>
-          <unc:Taxon name="TestProcess.Measure.Current.AC">
-            <mtc:Taxon name="TestProcess.Measure.Current.AC">
-              <mtc:Result name="Amps">
-                <uom:Quantity name="current" />
-              </mtc:Result>
-              <mtc:Parameter name="Amps" optional="False">
-                <uom:Quantity name="current" />
-              </mtc:Parameter>
-              <mtc:Parameter name="Frequency" optional="False">
-                <uom:Quantity name="frequency" />
-              </mtc:Parameter>
-              <mtc:Parameter name="UUT.Output" optional="True">
-                <mtc:Enumeration />
-              </mtc:Parameter>
-              <mtc:Definition>The process measures the AC Current sourced by a device without knowing the shape of the signal. Values can only be tested in RMS because the shape to the signal is unknown.</mtc:Definition>
-            </mtc:Taxon>
-          </unc:Taxon>
-          <unc:Taxon name="TestProcess.Measure.Voltage.AC">
-            <mtc:Taxon name="TestProcess.Measure.Voltage.AC">
-              <mtc:Result name="Volts">
-                <uom:Quantity name="voltage" />
-              </mtc:Result>
-              <mtc:Parameter name="Volts" optional="False">
-                <uom:Quantity name="voltage" />
-              </mtc:Parameter>
-              <mtc:Parameter name="Frequency" optional="False">
-                <uom:Quantity name="frequency" />
-              </mtc:Parameter>
-              <mtc:Parameter name="UUT.Input" optional="True">
-                <mtc:Enumeration />
-              </mtc:Parameter>
-              <mtc:Definition>This process measures the AC RMS (Root-Mean-Square) voltage sourced by the UUT. Values can only be expressed in RMS because the shape of the signal is not known.</mtc:Definition>
-            </mtc:Taxon>
-          </unc:Taxon>
           <unc:Taxon name="TestProcess.Measure.Voltage.DC">
             <mtc:Taxon name="TestProcess.Measure.Voltage.DC">
               <mtc:Result name="Volts">

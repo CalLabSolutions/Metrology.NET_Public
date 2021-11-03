@@ -10,10 +10,10 @@ namespace SOA_DataAccessLib
     public class NameSpaces
     {
         private Dictionary<string, string> map = new Dictionary<string, string>(){
-            {"soa", @"https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"},
+            {"soa", @"https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile"},
             {"xsi", @"http://www.w3.org/2001/XMLSchema-instance"},
             {"xi", @"http://www.w3.org/2001/XInclude"},
-            {"uom", @"https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"},
+            {"uom", @"http://schema.metrology.net/UOM_Database"},
             {"unc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"},
             {"mml", @"http://www.w3.org/1998/Math/MathML"},
             {"xhtml", @"http://www.w3.org/1999/xhtml"},
@@ -66,7 +66,7 @@ namespace SOA_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml"; }
+            get { return "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
         }
 
         public static string NamespaceKey(string value)

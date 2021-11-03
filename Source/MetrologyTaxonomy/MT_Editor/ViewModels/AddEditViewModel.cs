@@ -160,11 +160,6 @@ namespace MT_Editor.ViewModels
                 dialog.Message = "Please select a Quantity";
                 return false;
             }
-            if (Process == "" || Process == null)
-            {
-                dialog.Message = "Please enter a Process";
-                return false;
-            }
 
             // make sure it does not already exist
             if (!edit && factory.GetAllTaxons().Where(w => w.Name.ToLower().Equals(TaxonToSave.Name.ToLower())).ToList().Count > 0)
@@ -206,7 +201,7 @@ namespace MT_Editor.ViewModels
 
         #region Deatils Properties
 
-        private string quantityStr;
+        private string quantityStr = "";
 
         public string QuantityStr
         {
@@ -219,7 +214,7 @@ namespace MT_Editor.ViewModels
             }
         }
 
-        private string process;
+        private string process = "";
 
         public string Process
         {
@@ -227,12 +222,26 @@ namespace MT_Editor.ViewModels
             set
             {
                 process = value;
+                if (process.Length > 0)
+                {
+                    if (SelectedQuantity != null)
+                        QuantityStr = SelectedQuantity.QuantitiyName + ".";
+                    else
+                        QuantityStr = ".";
+                }   
+                else
+                {
+                    if (SelectedQuantity != null)
+                        QuantityStr = SelectedQuantity.QuantitiyName;
+                    else
+                        QuantityStr = "";
+                }
                 BuildTaxonName();
                 NotifyOfPropertyChange(() => Process);
             }
         }
 
-        private string definition;
+        private string definition = "";
 
         public string Definition
         {
@@ -253,12 +262,24 @@ namespace MT_Editor.ViewModels
             set
             {
                 types = value;
-                TypeStr = value.ToString() + ".";
+                if (types == Types.MeasureRatio)
+                {
+                    TypeStr = "Measure.Ratio.";
+                }
+                else if (types == Types.SourceRatio)
+                {
+                    TypeStr = "Source.Ratio.";
+                }
+                else
+                {
+                    TypeStr = value.ToString() + ".";
+                }
+                
                 NotifyOfPropertyChange(() => Types);
             }
         }
 
-        private string typeStr;
+        private string typeStr = "";
 
         public string TypeStr
         {
@@ -301,7 +322,10 @@ namespace MT_Editor.ViewModels
             {
                 if (value == null) return;
                 selectedQuantity = value;
-                QuantityStr = value.QuantitiyName + ".";
+                if (Process.Length > 0)
+                    QuantityStr = value.QuantitiyName + ".";
+                else
+                    QuantityStr = value.QuantitiyName;
                 NotifyOfPropertyChange(() => SelectedQuantity);
             }
         }
@@ -328,15 +352,29 @@ namespace MT_Editor.ViewModels
             {
                 int firstDot = taxon.Name.IndexOf(".", 1) + 1;
                 int secondDot = taxon.Name.IndexOf(".", firstDot) + 1;
+                if (Types == Types.SourceRatio || Types == Types.MeasureRatio) // We have another dot to worry about now
+                {
+                    secondDot = taxon.Name.IndexOf(".", secondDot) + 1;
+                }
                 int thirdDot = taxon.Name.IndexOf(".", secondDot) + 1;
+                string qname = "";
+                if (thirdDot > 0)
+                {
+                    qname = taxon.Name.Substring(secondDot, (thirdDot - secondDot) - 1);
+                }
+                else
+                {
+                    qname = taxon.Name.Substring(secondDot);
+                }
 
-                var qname = taxon.Name.Substring(secondDot, (thirdDot - secondDot) - 1);
+                
 
                 qname = qname.Replace(" ", "-").ToLower();
                 var UomQuantity = UomDataSource.getQuantity(qname);
                 if (UomQuantity != null) SelectedQuantity = Quantity.FormatUomQuantity(UomQuantity);
 
-                Process = taxon.Name.Substring(thirdDot);
+                if (thirdDot > 0)
+                    Process = taxon.Name.Substring(thirdDot);
             }
             catch { }
         }
@@ -853,7 +891,7 @@ namespace MT_Editor.ViewModels
             {
                 BaseName = bname,
                 QuantitiyName = qname,
-                FormatedName = string.Format("Quantity: {0}  |  Base: {1}", qname, bname)
+                FormatedName = string.Format("{0}  |  Base: {1}", qname, bname)
             };
         }
     }

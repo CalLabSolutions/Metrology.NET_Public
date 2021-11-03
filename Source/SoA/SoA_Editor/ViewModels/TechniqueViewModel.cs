@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using SOA_DataAccessLib;
 using SoA_Editor.Models;
 using SoA_Editor.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace SoA_Editor.ViewModels
             Outputs = new ObservableCollection<Technique_Output>();
             Variables = new ObservableCollection<Technique_Variable>();
             VariableTypes = new ObservableCollection<string>();
+            Assertions = new ObservableCollection<RangeAssertion>();
             VariableTypes.Add("Variable");
             VariableTypes.Add("Constant");
         }
@@ -27,6 +29,7 @@ namespace SoA_Editor.ViewModels
         private InputParameterDialogView inputParamView;
         private InputParameterRangeDialogView inputParamRangeView;
         private OutputDialogView outputDialogView;
+        private AssertionDialogView assertionDialogView;
 
         public static TechniqueViewModel Instance { get; set; }
         public Unc_Technique Technique = null;
@@ -171,6 +174,7 @@ namespace SoA_Editor.ViewModels
         }
 
         private Technique_Variable variable;
+
         public Technique_Variable Variable
         {
             get { return variable; }
@@ -180,6 +184,14 @@ namespace SoA_Editor.ViewModels
                 Formula = Formula += " " + variable.Value;
                 NotifyOfPropertyChange(() => Variable);
             }
+        }
+
+        private ObservableCollection<RangeAssertion> assertions;
+
+        public ObservableCollection<RangeAssertion> Assertions
+        {
+            get { return assertions; }
+            set { assertions = value; NotifyOfPropertyChange(() => Assertions); }
         }
 
         #endregion Properties
@@ -289,7 +301,7 @@ namespace SoA_Editor.ViewModels
                 // Add the param to our soa object
                 Technique.Technique.Parameters.Add(new Mtc_Parameter(viewModel.ParamName, viewModel.Quantity.QuantitiyName, viewModel.Optional));
                 var tParam = Technique.Technique.Taxon.Parameters[viewModel.ParamName];
-                if (tParam == null) // TODO: Reapprouch this when in next meeting
+                if (tParam == null) // TODO: Fix this so that technique params stay seperate from taxon params
                     Technique.Technique.Taxon.Parameters.Add(new Mtc_Parameter(viewModel.ParamName, viewModel.Quantity.QuantitiyName, viewModel.Optional));
 
                 // Add the parameter to our view
@@ -663,6 +675,132 @@ namespace SoA_Editor.ViewModels
                     Technique.Technique.CMCUncertainties[0].EditSymbol(oldName, newName);
                     break;
                 }
+            }
+        }
+
+        // Assetions
+        public async void AddAssertion()
+        {
+            // dont bother if the dialog is already open
+            if (DialogHost.IsDialogOpen("RootDialog")) return;
+
+            // set up our dialog view
+            assertionDialogView = new AssertionDialogView()
+            {
+                DataContext = new AssertionDialogViewModel()
+            };
+
+            // Reset the error
+            var viewModel = (AssertionDialogViewModel)assertionDialogView.DataContext;
+            viewModel.Error = "";
+
+            // get our result
+            object result = await DialogHost.Show(assertionDialogView, "RootDialog", ClosingEventHandlerAssertion);
+
+            if ((bool)result)
+            {
+                Technique.Technique.RangeAssertions.Add(viewModel.AssertionName);
+                var ra = new RangeAssertion();
+                ra.Name = viewModel.AssertionName;
+                ra.Values = string.Join(", ", template.CMCUncertaintyFunctions[0].getAssertionValuesByAssertionName(viewModel.AssertionName));
+                Assertions.Add(ra);
+            }
+        }
+
+        public void EditAssertion(RangeAssertion assertion)
+        {
+            UpdateAssertion(assertion);
+        }
+
+        private async void UpdateAssertion(RangeAssertion assertion)
+        {
+            // dont bother if the dialog is already open
+            if (DialogHost.IsDialogOpen("RootDialog")) return;
+
+            // set up our dialog view
+            assertionDialogView = new AssertionDialogView()
+            {
+                DataContext = new AssertionDialogViewModel(assertion.Name)
+            };
+
+            // Reset the error
+            var viewModel = (AssertionDialogViewModel)assertionDialogView.DataContext;
+            viewModel.Error = "";
+
+            // get our result
+            object result = await DialogHost.Show(assertionDialogView, "RootDialog", ClosingEventHandlerAssertion);
+
+            if ((bool)result)
+            {
+                string oldName = assertion.Name;
+                string newName = viewModel.AssertionName;
+                Technique.Technique.RangeAssertions.Replace(oldName, newName);
+                assertion.Name = newName;
+                assertion.Values = string.Join(", ", template.CMCUncertaintyFunctions[0].getAssertionValuesByAssertionName(newName));
+                // UpdateUncRangeAssertions(newName, "update", oldName);
+            }
+        }
+
+        public void DeleteAssertion(RangeAssertion assertion)
+        {
+            Assertions.Remove(assertion);
+            Technique.Technique.RangeAssertions.Remove(assertion.Name);
+            // UpdateUncRangeAssertions(assertion.Name, "delete");
+        }
+
+        private void ClosingEventHandlerAssertion(object sender, DialogClosingEventArgs eventArgs)
+        {
+            var viewModel = (AssertionDialogViewModel)assertionDialogView.DataContext;
+
+            // validate
+            bool error = false;
+            if (viewModel.AssertionName == null || viewModel.AssertionName == "")
+            {
+                viewModel.Error = "Please enter an Assertion Name";
+                error = true;
+            }
+
+            if (error) eventArgs.Cancel();
+        }
+
+        // This could potentally cause havoc on the ranges. Lets not use this right now
+        public void UpdateUncRangeAssertions(string name, string action, string oldName = "")
+        {
+            var cases = template.CMCUncertaintyFunctions[0].Cases;
+            if (cases == null) return;
+            if (cases.Count() == 0) return;
+ 
+            switch (action)
+            {
+                case "delete":
+                    foreach (var _case in cases)
+                    {
+                        foreach (var assertion in _case.Assertions)
+                        {
+                            if (assertion.Name == name)
+                            {
+                                _case.Assertions.Remove(assertion);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case "add":
+                    // for now we will not add new assertions to existing cases.
+                    break;
+                case "update":
+                    foreach (var _case in cases)
+                    {
+                        foreach (var assertion in _case.Assertions)
+                        {
+                            if (assertion.Name == oldName)
+                            {
+                                assertion.Name = name;
+                                break;
+                            }
+                        }
+                    }
+                    break;   
             }
         }
 

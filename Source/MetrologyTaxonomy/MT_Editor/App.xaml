@@ -17,7 +17,7 @@
             </Style>
 
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Lime" ColorAdjustment="{materialDesign:ColorAdjustment}" />                
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Amber" ColorAdjustment="{materialDesign:ColorAdjustment}" />                
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />                
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="bootstrapper" />

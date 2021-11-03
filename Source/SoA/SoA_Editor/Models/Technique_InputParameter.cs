@@ -22,7 +22,7 @@ namespace SoA_Editor.Models
             Variable = variable;
             VariableType = vType;
             allowUpdate = true;
-            Optional = optional ? "Yes" : "No";
+            Optional = !optional ? "Yes" : "No";
         }
 
         private bool allowUpdate = false;

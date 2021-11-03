@@ -6,7 +6,9 @@ using SoA_Editor.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
+using System.Windows;
 
 namespace SoA_Editor.ViewModels
 {
@@ -14,7 +16,7 @@ namespace SoA_Editor.ViewModels
     {
         // public vars needed for the calculation
         public Unc_Template template;
-
+        public Unc_Technique technique;
         public string functionName;
         public Mtc_CMCUncertainty uncertainty;
         public List<string> assertionNodeValues;
@@ -23,6 +25,7 @@ namespace SoA_Editor.ViewModels
         private SOA_DataAccessLib.Unc_Range range = null;
         private Unc_Case Case = null;
         private Helper.MessageDialog dialog;
+        private EditSingleRangeDialog editSingleRangeDialog;
 
         private string orginalFormula;
         private string calculatedResult;
@@ -118,12 +121,126 @@ namespace SoA_Editor.ViewModels
         public void calcButton()
         {
             updateValues();
-            CalculatedValue =  calculatedResult;
+            CalculatedValue = calculatedResult;
         }
 
-        // Delete Range
-        public async void DeleteRange(DataRowView row)
+        // Edit Range
+        public async void EditRange(DataRowView row)
         {
+            // No range selected, don't bother evaluating
+            if (range == null) return;
+
+            if (!DialogHost.IsDialogOpen("RootDialog"))
+            {
+                SOA_DataAccessLib.Unc_Range r = new();
+                r.ConstantValues = new();
+                r.Start = new();
+                r.End = new();
+                foreach (var constant in range.ConstantValues)
+                {
+                    r.ConstantValues.Add(new Unc_ConstantValue()
+                    {
+                        const_parameter_name = constant.const_parameter_name,
+                        ValueString = constant.ValueString
+                    });
+                }
+                r.Variable_name = range.Variable_name;
+                r.Start.ValueString = range.Start.ValueString;
+                r.End.ValueString = range.End.ValueString;
+                var pr = technique.Technique.ParameterRanges[range.Variable_name];
+                string minMax = "";
+                if (pr != null) minMax = string.Format("Overall Paramter Range: {0} to {1}", pr.Start.ValueString, pr.End.ValueString);
+                editSingleRangeDialog = new EditSingleRangeDialog()
+                {
+                    DataContext = new EditSingleRangeDialogViewModel(r, minMax, pr.Start.Value, pr.End.Value)
+                };
+                var viewModel = (EditSingleRangeDialogViewModel)editSingleRangeDialog.DataContext;
+                
+                object result = await DialogHost.Show(editSingleRangeDialog, "RootDialog", ClosingEventHandlerRange);
+
+                if ((bool)result)
+                {
+                    
+                    // update range object
+                    for (int i = 0; i < range.ConstantValues.Count(); i++)
+                    {
+                        range.ConstantValues[i].const_parameter_name = r.ConstantValues[i].const_parameter_name;
+                        range.ConstantValues[i].ValueString = r.ConstantValues[i].ValueString;
+                        range.ConstantValues[i].Value = decimal.Parse(r.ConstantValues[i].ValueString);
+                    }
+                    range.Variable_name = r.Variable_name;
+                    range.Start.ValueString = r.Start.ValueString;
+                    range.Start.Value = decimal.Parse(r.Start.ValueString);
+                    range.End.ValueString = r.End.ValueString;
+                    range.End.Value = decimal.Parse(r.End.ValueString);
+                }
+                // update row data
+                row.Row[range.Variable_name] = range.Start.ValueString + " to " + range.End.ValueString;
+                List<string> constantsCol = new();
+                foreach (var constant in range.ConstantValues)
+                {
+                    constantsCol.Add(string.Format("{0} = {1}", constant.const_parameter_name, constant.ValueString));
+                }
+                row.Row["Constants"] = string.Join("\n", constantsCol);
+            }
+            range = null;
+        }
+
+        // Edit Range Validation
+        private void ClosingEventHandlerRange(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter)
+            {
+                var viewModel = (EditSingleRangeDialogViewModel)editSingleRangeDialog.DataContext;
+                // validate min and max fields
+                var rangeMin = viewModel.Range.Start.ValueString;
+                var rangeMax = viewModel.Range.End.ValueString;
+                decimal test;
+                if (!decimal.TryParse(rangeMin, out test))
+                {
+                    viewModel.Error = "The Minimum Value is not a number";
+                    eventArgs.Cancel();
+                    return;
+                }
+                if (!decimal.TryParse(rangeMax, out test))
+                {
+                    viewModel.Error = "The Maximum Value is not a number";
+                    eventArgs.Cancel();
+                    return;
+                }
+                var min = decimal.Parse(rangeMin);
+                var max = decimal.Parse(rangeMax);
+                if (min >= max)
+                {
+                    viewModel.Error = "Your Minimum Range Value must be below the Maximum Value";
+                    eventArgs.Cancel();
+                    return;
+                }
+                if (viewModel.ParameterRange != "" && min < viewModel.Min)
+                {
+                    viewModel.Error = "The Minimum Value can not below the Parameter's Overall Range";
+                    eventArgs.Cancel();
+                    return;
+                }
+                if (viewModel.ParameterRange != "" && max > viewModel.Max)
+                {
+                    viewModel.Error = "The Maximum Value can not above the Parameter's Overall Range";
+                    eventArgs.Cancel();
+                    return;
+                }
+
+                // Constant values are checked in the SoA Lib and only accepted if they are valid numbers.
+                // If not it will maintain the orginal value
+                
+            }
+        }
+
+            // Delete Range
+            public async void DeleteRange(DataRowView row)
+        {
+            // No range selected, don't bother evaluating
+            if (range == null) return;
+
             if (!DialogHost.IsDialogOpen("RootDialog"))
             {
                 DeleteDialogView view = new DeleteDialogView()
@@ -142,6 +259,8 @@ namespace SoA_Editor.ViewModels
                     RangeGrid.Rows.RemoveAt(index);
                 }
             }
+
+            range = null;
         }
 
         // Update values for the formula
@@ -231,8 +350,8 @@ namespace SoA_Editor.ViewModels
             {
                 values.Add(rowData[name]);
             }
-            Case = template.getCaseByAssertionValues(functionName, values.ToArray());
-
+            var _case = template.getCasesByAssertionValues(functionName, values.ToArray());
+            if (_case.Count > 0) Case = _case[0];
             // find our influence quantity it will not be apart of our variables or constats
             List<string> rangeVars = template.getCMCFunctionRangeVariables(functionName).ToList();
             var symbols = template.getCMCUncertaintyFunctionSymbols(functionName);

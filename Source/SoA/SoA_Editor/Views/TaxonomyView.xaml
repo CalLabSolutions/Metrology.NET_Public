@@ -34,9 +34,9 @@
             <DataGrid Grid.Row="1" Grid.Column="1" CanUserAddRows="True" x:Name="InputParams" ItemsSource="{Binding InputParams}" AutoGenerateColumns="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Parameter" Binding="{Binding Path=Param,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Optional" Binding="{Binding Path=Optional,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Parameter" Binding="{Binding Path=Param,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Required" Binding="{Binding Path=Optional,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -45,8 +45,8 @@
             <DataGrid Grid.Row="1" Grid.Column="1" CanUserAddRows="True" x:Name="ResultQuant" ItemsSource="{Binding ResultQuant}" AutoGenerateColumns="False"
                       CanUserDeleteRows="True" CanUserReorderColumns="True" CanUserSortColumns="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

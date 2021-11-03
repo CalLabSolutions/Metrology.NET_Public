@@ -91,4 +91,17 @@
     </mtc:Parameter>
     <mtc:Definition>This process measures the AC RMS (Root-Mean-Square) voltage sourced by the UUT. Values can only be expressed in RMS because the shape of the signal is not known.</mtc:Definition>
   </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Capacitance" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Cap">
+      <uom:Quantity name="Capacitance" />
+    </mtc:Result>
+    <mtc:Parameter name="Cap" optional="false">
+      <uom:Quantity name="Capacitance" />
+    </mtc:Parameter>
+    <mtc:Discipline name="" />
+    <mtc:Definition />
+  </mtc:Taxon>
 </mtc:Taxonomy>

@@ -120,7 +120,7 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml";
             }
 
             set
@@ -573,8 +573,12 @@ namespace SOA_DataAccessLib
 
         public static Dictionary<string, Quantity> getQuantities()
         {
+            //if (qtyCache.Count == 0)
+            //{
+            var qtysList = new Dictionary<string, Quantity>();
             if (Database != null)
             {
+                
                 var qtys = Database.Descendants(ns + "Quantity");
                 if (qtys != null)
                 {
@@ -582,11 +586,13 @@ namespace SOA_DataAccessLib
                     {
                         var name = (string)el.Attribute("name");
                         var els = qtys.Where(x => (string)x.Attribute("name") == name);
-                        qtyCache[name] = (els.Count() > 0) ? new Quantity(els.First()) : null;
+                        qtysList[name] = (els.Count() > 0) ? new Quantity(els.First()) : null;
                     }
                 }
+                qtysList = qtysList.OrderBy(entry => entry.Key).ToDictionary(x => x.Key, x => x.Value);
             }
-            return qtyCache;
+            //}
+            return qtysList;
         }
 
         public static Quantity getQuantity(string QuantityName)

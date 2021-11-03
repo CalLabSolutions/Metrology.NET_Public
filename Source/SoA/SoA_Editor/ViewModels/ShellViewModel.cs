@@ -38,6 +38,7 @@ namespace SoA_Editor.ViewModels
         private XDocument doc;
         private Soa soa;
         private SOA_DataAccess dao;
+        private bool isLoaded = false;
 
         //the global var to keep row elements as they're added in the recursive function
         private List<string> row;
@@ -96,7 +97,7 @@ namespace SoA_Editor.ViewModels
             {
                 string param = taxon.Parameters[i].name;
                 string quantity = taxon.Parameters[i].Quantity == null ? "" : taxon.Parameters[i].Quantity.name;
-                string optional = taxon.Parameters[i].optional.ToString();
+                string optional = !taxon.Parameters[i].optional ? "Yes" : "No";
 
                 inputParam = new TaxonomyInputParam(param, quantity, optional);
 
@@ -197,6 +198,14 @@ namespace SoA_Editor.ViewModels
             // We will need to update data
             TechniqueVM.Technique = technique;
             TechniqueVM.template = template;
+            TechniqueVM.Assertions = new();
+            foreach (string name in technique.Technique.RangeAssertions)
+            {
+                var ra = new RangeAssertion();
+                ra.Name = name;
+                ra.Values = string.Join(", ", template.CMCUncertaintyFunctions[0].getAssertionValuesByAssertionName(name));
+                TechniqueVM.Assertions.Add(ra);
+            }
             TechniqueVM.cmc = soa.CapabilityScope.Activities[0].Unc_CMCs.GetCMCByFunctionName(function[0].function_name);
             TechniqueVM.node = node;
             TechniqueViewModel.Instance = TechniqueVM;
@@ -213,18 +222,18 @@ namespace SoA_Editor.ViewModels
             Unc_Technique technique;
             Mtc_CMCUncertainty uncertainty;
             Unc_CMCFunction function;
-            if (node.Parent.Type == NodeType.Technique)
+            // Lets get our Technique Name
+            var tmpNode = node;
+            while (tmpNode.Parent != null)
             {
-                techniqueName = node.Parent.Name;
+                if (tmpNode.Type == NodeType.Technique)
+                {
+                    techniqueName = tmpNode.Name;
+                    break;
+                }
+                tmpNode = tmpNode.Parent;
             }
-            else if (node.Parent.Type == NodeType.Assertion)
-            {
-                techniqueName = node.Parent.Parent.Name;
-            }
-            else
-            {
-                return;
-            }
+            if (techniqueName == "") return;
             technique = soa.CapabilityScope.Activities[0].Techniques[techniqueName];
             template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
             uncertainty = technique.Technique.CMCUncertainties[0];
@@ -277,8 +286,13 @@ namespace SoA_Editor.ViewModels
 
             //adding rows:
 
-            //for each case repeat this
-            int caseCount = function.Cases.Count();
+            //get the cases we want to work with
+            var cases = function.Cases.ToList();
+            if (nodeName.ToLower() != "all")
+            {
+                cases = template.getCasesByAssertionValues(uncertainty.function_name, RangeVM.assertionNodeValues.ToArray());
+            }
+            int caseCount = cases.Count();
             for (int caseIndex = 0; caseIndex < caseCount; caseIndex++)
             {
                 //fist create an appendable empty string array for row
@@ -286,29 +300,30 @@ namespace SoA_Editor.ViewModels
 
                 //here do the filtering based on the item selected from the left-side menu
                 //if the value does not match continue with the next item in the case list
-                if (!nodeName.ToUpper().Equals("ALL"))
+                /*if (!nodeName.ToUpper().Equals("ALL"))
                 {
                     if (function.Cases[caseIndex].Assertions[foundAssertIndex].Value != nodeName)
                         continue;
-                }
+                }*/
 
                 //for each Assertion add a new cell to the row
-                assertCount = function.Cases[caseIndex].Assertions.Count();
+                assertCount = cases[caseIndex].Assertions.Count();
                 for (int assertIndex = foundAssertIndex + 1; assertIndex < assertCount; assertIndex++)
                 {
-                    row.Add(function.Cases[caseIndex].Assertions[assertIndex].Value);
+                    row.Add(cases[caseIndex].Assertions[assertIndex].Value);
                 }
 
                 //if there is Ranges -> call addRowsToDataTable function with Ranges
-                if (function.Cases[caseIndex].Ranges != null)
+                if (cases[caseIndex].Ranges != null)
                 {
-                    addRowsToDataTable(function.Cases[caseIndex].Ranges);
+                    addRowsToDataTable(cases[caseIndex].Ranges);
                 }
             }
 
             RangeVM.Formula = uncertainty.Expression;
             RangeVM.functionName = function.name;
             RangeVM.template = template;
+            RangeVM.technique = technique;
 
             _ = ActivateItemAsync(RangeVM);
         }
@@ -408,7 +423,7 @@ namespace SoA_Editor.ViewModels
                 TaxonNode newNode = new TaxonNode() { Name = Helper.TreeViewSelectedTaxon.Name };
                 //add the new node to the soa object
                 soa.CapabilityScope.Activities[0].Taxons.Add(new Unc_Taxon(Helper.TreeViewSelectedTaxon));
-                ReloadTree(newNode);
+                ReloadTree();
                 Helper.TreeViewSelectedTaxon = null;
             }
         }
@@ -464,7 +479,7 @@ namespace SoA_Editor.ViewModels
                 var technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
                 // Remove technique
                 soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
-                ReloadTree();
+                ReloadTree(node);
             }
         }
 
@@ -474,43 +489,24 @@ namespace SoA_Editor.ViewModels
             settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             settings.ResizeMode = ResizeMode.NoResize;
             settings.MinWidth = 450;
+            settings.Title = "Add new Range";
 
             IWindowManager manager = new WindowManager();
 
             Unc_Template template;
             Unc_Technique technique;
             string functionName;
-            bool firstCase = false;
 
             // get the template and cases
             template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(node.Name);
             technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
             functionName = technique.Technique.CMCUncertainties[0].function_name;
+           
 
-            //Dictionary<string, Unc_Range_Min_Max> _vars = new();
-            //Dictionary<string, Unc_Range_Min_Max> infQty = new();
-            List<Mtc_Range> _vars = new();
+            // We need to seperate our range var and our influence qtys
+            List<Mtc_Range> vars = new();
             List<Mtc_Range> infQty = new();
-
-            // see if we have added any cases yet because the same assertions must be used moving fwd
-            if (template.CMCUncertaintyFunctions[0].Cases.Count() == 0)
-            {
-                node.Children.Add(new AssertionNode(node) { Name = "All" });
-                settings.Title = "Add Assertion Names for new Ranges";
-                manager.ShowDialogAsync(new RangeInfoViewModel(infQty, _vars, Array.Empty<string>(), functionName, template), null, settings);
-                if (Helper.TreeViewCase != null)
-                {
-                    AssertionNode newNode = new AssertionNode(node) { Name = Helper.TreeViewCase.Assertions[0].Value };
-                    node.Children.Add(newNode);
-
-                    template.CMCUncertaintyFunctions[0].Cases.Add(Helper.TreeViewCase);
-                    Helper.TreeViewCase = null;
-                    firstCase = true; // we want to prefill and disable our assertion values if its the first case
-                }
-            }
-
-            // Now let the user add a range because we should have assertions at this point
-            settings.Title = "Add new Range";
+            List<Assertion> assertions = new();
 
             // We need our influence quantity and available expression symbols (variables)
             var expSymbols = technique.Technique.CMCUncertainties[0].ExpressionSymbols;
@@ -527,10 +523,18 @@ namespace SoA_Editor.ViewModels
             for (int i = 0; i < symbols.Length; i++)
             {
                 var range = ranges[symbols[i]];
-                if (range != null) _vars.Add(range);
+                if (range != null) vars.Add(range);
+            }
+            // Get the assertions if any
+            foreach (string name in technique.Technique.RangeAssertions)
+            {
+                Assertion a = new();
+                a.Name = name;
+                a.Values = new ObservableCollection<string>(template.CMCUncertaintyFunctions[0].getAssertionValuesByAssertionName(name));
+                assertions.Add(a);
             }
             string[] constants = technique.Technique.CMCUncertainties[0].Constants.ToArray();
-            manager.ShowDialogAsync(new RangeInfoViewModel(infQty, _vars, constants, functionName, template, firstCase), null, settings);
+            manager.ShowDialogAsync(new RangeInfoViewModel(infQty, vars, constants, assertions, functionName, template), null, settings);
             // At this point it would be simplier to just reload the whole tree
             if (Helper.TreeViewCase != null)
             {
@@ -539,15 +543,38 @@ namespace SoA_Editor.ViewModels
             }
         }
 
+        // TODO: Improve for multiple assertions
         public async void DeleteRanges(Node node)
         {
-            if (node.Name.ToLower() == "all") return;
-
             bool delete = false;
 
-            if (node.Parent.Type == NodeType.Technique)
+            if (node.Name.ToLower() == "all")
             {
-                delete = await DeleteNode("Are you sure you want to delete the Ranges for Assertion \"" + node.Name + "\"");
+                // first lets get the technique
+                var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Name];
+
+                // get the template so we can remove the proper cases
+                var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
+                var cases = template.CMCUncertaintyFunctions[0].Cases;
+                if (cases == null) return;
+                if (cases.Count() == 0) return;
+                delete = await DeleteNode("Are you sure you want to delete all the Ranges?");
+                if (delete)
+                {
+                    template.CMCUncertaintyFunctions[0].Cases.Clear();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            // We are at the top level case, delete any range with that assertion
+            else if (node.Parent.Type == NodeType.Technique)
+            {
+                // get the node names on down
+                Dictionary<string, List<string>> names = new();
+                
+                delete = await DeleteNode("Are you sure you want to delete all the Ranges that fall under the Assertion: \"" + node.Name + "\"");
 
                 if (delete)
                 {
@@ -557,52 +584,44 @@ namespace SoA_Editor.ViewModels
                     // get the template so we can remove the proper cases
                     var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
 
-                    // see which cases have the selected assertion and remove them
-                    List<Unc_Case> casesToRemove = new();
-                    foreach (Unc_Case _case in template.CMCUncertaintyFunctions[0].Cases)
+                    List<Unc_Case> casesToRemove = template.getCasesByAssertionValue(technique.Technique.CMCUncertainties[0].function_name, node.Name);
+                    foreach (Unc_Case _case in casesToRemove)
                     {
-                        var assertions = _case.Assertions;
-
-                        if (assertions.Where(a => a.Value == node.Name).Count() > 0)
-                        {
-                            casesToRemove.Add(_case);
-                        }
-                    }
-                    if (casesToRemove.Count > 0)
-                    {
-                        foreach (Unc_Case _case in casesToRemove)
-                        {
-                            template.CMCUncertaintyFunctions[0].Cases.Remove(_case);
-                        }
+                        template.CMCUncertaintyFunctions[0].Cases.Remove(_case);
                     }
                 }
             }
-            else
+            else if (node.Type == NodeType.Range) // we have drilled down deeper in a case's unc range assertions and need to target what was selected
             {
                 // we need the parent node so that we are getting the exact case to remove
-                string[] assertions = new string[2];
-                assertions[0] = node.Parent.Name;
-                assertions[1] = node.Name;
+                List<string> names = new();
+                var tmpNode = node;
+                while (tmpNode.Type != NodeType.Technique)
+                {
+                    names.Add(tmpNode.Name);
+                    tmpNode = tmpNode.Parent;
+                }
+                names.Reverse();
 
-                delete = await DeleteNode("Are you sure you want to delete the Ranges for Assertions \"" + assertions[0] + "\" and \"" + assertions[1] + "\"");
+                delete = await DeleteNode("Are you sure you want to delete the Ranges under the selected Assertion: " + string.Join(" -> ", names));
 
                 if (delete)
                 {
                     // lets get the technique
-                    var technique = soa.CapabilityScope.Activities[0].Techniques[node.Parent.Parent.Name];
+                    var technique = soa.CapabilityScope.Activities[0].Techniques[tmpNode.Name];
 
                     // get the template so we can remove the proper cases
-                    var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
+                    var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(tmpNode.Name);
 
-                    var Case = template.getCaseByAssertionValues(technique.Technique.CMCUncertainties[0].function_name, assertions);
-                    if (Case != null)
+                    var cases = template.getCasesByAssertionValues(technique.Technique.CMCUncertainties[0].function_name, names.ToArray());
+                    foreach (Unc_Case _case in cases)
                     {
-                        template.CMCUncertaintyFunctions[0].Cases.Remove(Case);
+                        template.CMCUncertaintyFunctions[0].Cases.Remove(_case);
                     }
                 }
             }
 
-            if (delete) ReloadTree();
+            if (delete) ReloadTree(node);
         }
 
         public void TaxonNodeClick(TaxonNode node)
@@ -666,9 +685,12 @@ namespace SoA_Editor.ViewModels
             IsSaveAs = true;
             lblCompanyInfoName = "";
             SaveXML(true);
-            dao.load(FullPath);
-            soa = dao.SOADataMaster;
-            Helper.LoadCompanyInfoFromSoaObjectToOpen(soa, CompanyM);
+            if (FullPath != "")
+            {
+                dao.load(FullPath);
+                soa = dao.SOADataMaster;
+                Helper.LoadCompanyInfoFromSoaObjectToOpen(soa, CompanyM);
+            }
         }
 
         public void OpenXMLFile()
@@ -699,13 +721,13 @@ namespace SoA_Editor.ViewModels
 
                     //set name label
                     lblCompanyInfoName = CompanyInfoVM.CompanyName;
+                    LoadTree();
+                    IsLoaded = true;
                 }
                 else
                 {
                     return;
                 }
-
-                LoadTree();
             }
             catch (Exception e)
             {
@@ -713,6 +735,16 @@ namespace SoA_Editor.ViewModels
                 MessageBox.Show("The data file is invalid!");
                 return;
             }
+        }
+
+        public void CloseXMLFile()
+        {
+            soa = null;
+            FullPath = "";
+            IsLoaded = false;
+            RootNode = null;
+            lblCompanyInfoName = "";
+            LoadWelcomeViewModelObj();
         }
 
         private void Reload()
@@ -732,7 +764,7 @@ namespace SoA_Editor.ViewModels
         private /*async*/ void LoadTree()
         {
             //var bar = await ShowProgressBar();
-            
+
             //fill in treeview
             RootNode = new();
             RootNode.Name = "soa";
@@ -800,7 +832,7 @@ namespace SoA_Editor.ViewModels
                         //------------------------------------
 
                         //add a single node as "All" to show the whole assetion grid
-                        AssertionNode assertAllNode = new AssertionNode(techNode) { Name = "All" };
+                        RangeNode assertAllNode = new RangeNode(techNode) { Name = "All" };
                         techNode.Children.Add(assertAllNode);
 
                         //build the assertion subtree from the assertionMatrix
@@ -814,16 +846,16 @@ namespace SoA_Editor.ViewModels
                                 string name = Convert.ToString(dr[c]);
                                 if (parent == null)
                                 {
-                                    parent = new AssertionNode(techNode) { Name = name, Children = new ObservableCollection<Node>() };
+                                    parent = new RangeNode(techNode) { Name = name, Children = new ObservableCollection<Node>() };
                                     current = techNode.Children.Where(x => x.Name == parent.Name).SingleOrDefault();
                                     if (current == null)
-                                        techNode.Children.Add((AssertionNode)parent);
+                                        techNode.Children.Add((RangeNode)parent);
                                     else
                                         parent = current;
                                 }
                                 else
                                 {
-                                    current = new RangeNode((AssertionNode)parent) { Name = name, Children = new ObservableCollection<Node>() };
+                                    current = new RangeNode((RangeNode)parent) { Name = name, Children = new ObservableCollection<Node>() };
                                     if (parent.Children.Where(x => x.Name == current.Name).SingleOrDefault() == null)
                                         parent.Children.Add((RangeNode)current);
                                     else
@@ -850,9 +882,9 @@ namespace SoA_Editor.ViewModels
             // Load the tree view
             LoadTree();
             // Expand out to the node we found
-            if (node != null)
+            if (node != null && node.Parent != null)
             {
-                findNode(node, node.Name).IsExpanded = true;
+                findNode(node.Parent.Name).IsExpanded = true;
             }
         }
 
@@ -889,6 +921,30 @@ namespace SoA_Editor.ViewModels
             }
 
             return null;
+        }
+
+        public Node findNode(string findStr)
+        {
+            foreach (Node n in RootNode.Children)
+            {
+                Node result = findNode(n, findStr);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+
+        public void getChildNames(Node node, ref List<string> names)
+        {
+            if (node == null) return;
+            if (node.Children == null) return;
+            if (node.Children.Count == 0) return;
+
+            foreach (Node c_node in node.Children)
+            {
+                names.Add(c_node.Name);
+                getChildNames(c_node, ref names);
+            }
         }
 
         public void SaveXML(bool newFile = false)
@@ -1047,6 +1103,16 @@ namespace SoA_Editor.ViewModels
             {
                 _isSaveAs = value;
                 NotifyOfPropertyChange(() => IsSaveAs);
+            }
+        }
+
+        public bool IsLoaded
+        {
+            get { return isLoaded; }
+            set
+            {
+                isLoaded = value;
+                NotifyOfPropertyChange(() => IsLoaded);
             }
         }
 

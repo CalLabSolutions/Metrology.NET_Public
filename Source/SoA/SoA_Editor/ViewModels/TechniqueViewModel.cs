@@ -64,6 +64,7 @@ namespace SoA_Editor.ViewModels
                 if (Technique != null)
                 {
                     Technique.Technique.CMCUncertainties[0].Expression = _Formula;
+                    Technique.Technique.CMCUncertainties[0].ResetExpression();
                 }
                 NotifyOfPropertyChange(() => Formula);
             }
@@ -247,8 +248,15 @@ namespace SoA_Editor.ViewModels
             // dont bother if the dialog is already open
             if (DialogHost.IsDialogOpen("RootDialog")) return;
 
+            // We can not edit Taxon added Technique Parameters
+            if (Technique.Technique.Taxon.Parameters[inputParameter.InputParam] != null)
+            {
+                Helper.MessageDialog message = new();
+                message.Warning("This can not be edited, it was added by the Technique's Taxon");
+                return;
+            }
+
             var param = Technique.Technique.Parameters[inputParameter.InputParam];
-            var tParam = Technique.Technique.Parameters[inputParameter.InputParam];
             inputParamView = new InputParameterDialogView()
             {
                 DataContext = new InputParameterDialogViewModel(Technique.Technique.Parameters, param.name, param.Quantity.name, param.optional)
@@ -259,7 +267,6 @@ namespace SoA_Editor.ViewModels
             viewModel.Error = "";
 
             // get our result
-
             object result = await DialogHost.Show(inputParamView, "RootDialog", ClosingEventHandlerInputParam);
 
             if ((bool)result)
@@ -268,11 +275,8 @@ namespace SoA_Editor.ViewModels
                 param.name = viewModel.ParamName;
                 param.optional = viewModel.Optional;
                 param.Quantity = UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName);
-                tParam.name = viewModel.ParamName;
-                tParam.optional = viewModel.Optional;
-                tParam.Quantity = UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName);
                 inputParameter.InputParam = param.name;
-                inputParameter.Optional = param.optional ? "Yes" : "No";
+                inputParameter.Optional = !param.optional ? "Yes" : "No";
                 inputParameter.Quantity = Quantity.FormatUomQuantity(param.Quantity).FormatedName;
             }
         }
@@ -281,6 +285,8 @@ namespace SoA_Editor.ViewModels
         {
             // dont bother if the dialog is already open
             if (DialogHost.IsDialogOpen("RootDialog")) return;
+
+           
 
             // set up our dialog view
             inputParamView = new InputParameterDialogView()
@@ -300,9 +306,6 @@ namespace SoA_Editor.ViewModels
             {
                 // Add the param to our soa object
                 Technique.Technique.Parameters.Add(new Mtc_Parameter(viewModel.ParamName, viewModel.Quantity.QuantitiyName, viewModel.Optional));
-                var tParam = Technique.Technique.Taxon.Parameters[viewModel.ParamName];
-                if (tParam == null) // TODO: Fix this so that technique params stay seperate from taxon params
-                    Technique.Technique.Taxon.Parameters.Add(new Mtc_Parameter(viewModel.ParamName, viewModel.Quantity.QuantitiyName, viewModel.Optional));
 
                 // Add the parameter to our view
                 var param = Technique.Technique.Parameters[viewModel.ParamName];
@@ -317,6 +320,12 @@ namespace SoA_Editor.ViewModels
 
         public void DeleteInputParam(Technique_InputParameter inputParameter)
         {
+            if (Technique.Technique.Taxon.Parameters[inputParameter.InputParam] != null)
+            {
+                Helper.MessageDialog message = new();
+                message.Warning("This can not be deleted, it was added by the Technique's Taxon");
+                return;
+            }
             InputParameters.Remove(inputParameter);
             Technique.Technique.Parameters.Remove(Technique.Technique.Parameters[inputParameter.InputParam]);
             Technique.Technique.Taxon.Parameters.Remove(Technique.Technique.Taxon.Parameters[inputParameter.InputParam]);
@@ -337,6 +346,7 @@ namespace SoA_Editor.ViewModels
                 if (_var.Value == inputParameter.InputParam)
                 {
                     Technique.Technique.CMCUncertainties[0].RemvoeSymbol(_var.Value);
+                    Variables.Remove(_var);
                     break;
                 }
             }
@@ -361,7 +371,11 @@ namespace SoA_Editor.ViewModels
                 }
                 else if (viewModel.Quantity != null && UomDataSource.getQuantity(viewModel.Quantity.QuantitiyName) == null)
                 {
-                    viewModel.Error = "Please select a valid Quantity from the list.";
+                   
+                }
+                else if (Technique.Technique.Parameters[viewModel.ParamName] != null)
+                {
+                    viewModel.Error = "That Parameter already exists";
                     error = true;
                 }
 

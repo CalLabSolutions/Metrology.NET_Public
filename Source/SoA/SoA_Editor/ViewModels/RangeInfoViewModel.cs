@@ -158,33 +158,35 @@ namespace SoA_Editor.ViewModels
 
             // Check if an Infuance quantity was selected
             double test;
-            if (InfQtyRange.SelectedQty != null || InfQtyRange.SelectedQty.name != "" || InfQtyRange.Min == "" || InfQtyRange.Max == "")
+            if (InfQtyRange.SelectedQty != null)
             {
-                // Check that the min max are numbers
-
-                if (!double.TryParse(infQtyRange.Min, out test) || !double.TryParse(infQtyRange.Max, out test))
+                if (InfQtyRange.SelectedQty.name != "" || InfQtyRange.Min == "" || InfQtyRange.Max == "")
                 {
-                    dialog.Message = "Your Influance Quantity min and max must be a number";
-                    dialog.Show();
-                    return;
-                }
+                    // Check that the min max are numbers
 
-                // that the min and max are with in range if they have a parameter range
-                var min = InfQtyRange.SelectedQty.Start.ValueString;
-                var max = InfQtyRange.SelectedQty.End.ValueString;
-                if (min != "" || min != null)
-                {
-                    if (double.Parse(InfQtyRange.Min) < double.Parse(min) || double.Parse(InfQtyRange.Max) > double.Parse(max))
+                    if (!double.TryParse(infQtyRange.Min, out test) || !double.TryParse(infQtyRange.Max, out test))
                     {
-                        dialog.Message = "Your Influance Quantity min and max is outside of the assinged range";
+                        dialog.Message = "Your Influance Quantity min and max must be a number";
                         dialog.Show();
                         return;
                     }
+
+                    // that the min and max are with in range if they have a parameter range
+                    var min = InfQtyRange.SelectedQty.Start.ValueString;
+                    var max = InfQtyRange.SelectedQty.End.ValueString;
+                    if (min != "" || min != null)
+                    {
+                        if (double.Parse(InfQtyRange.Min) < double.Parse(min) || double.Parse(InfQtyRange.Max) > double.Parse(max))
+                        {
+                            dialog.Message = "Your Influance Quantity min and max is outside of the assinged range";
+                            dialog.Show();
+                            return;
+                        }
+                    }
+                } else
+                {
+                    InfQtyRange.SelectedQty = null;
                 }
-            }
-            else
-            {
-                InfQtyRange.SelectedQty = null;
             }
 
             if (SelectedVar.name == null || SelectedVar.name == "")
@@ -386,13 +388,6 @@ namespace SoA_Editor.ViewModels
                 }
                 else
                 {
-                    // Start and stop ranges for the influence qty
-                    startingRange = new SOA_DataAccessLib.Unc_Range(template);
-                    startingRange.Start = SetStart("at", SelectedVar.Start.ValueString, SelectedVar.Start.Quantity);
-                    startingRange.End = SetEnd("at", SelectedVar.End.ValueString, SelectedVar.End.Quantity);
-                    startingRange.Variable_name = SelectedVar.name;
-                    startingRange.Variable_type = "parameter";
-
                     // See if we need to set the Case Ranges var and type
                     if (Case.Ranges.variable_name == "")
                     {
@@ -404,8 +399,12 @@ namespace SoA_Editor.ViewModels
 
             // Add our variable ranges and constants
             int count = 1;
-            startingRange.Ranges.variable_name = SelectedVar.name;
-            startingRange.Ranges.variable_type = "parameter";
+            if (infQtyRange.SelectedQty != null)
+            {
+                startingRange.Ranges.variable_name = SelectedVar.name;
+                startingRange.Ranges.variable_type = "parameter";
+            }
+            
             foreach (Models.Unc_Range range in UncRanges)
             {
                 var paramRange = new SOA_DataAccessLib.Unc_Range(template);
@@ -428,10 +427,17 @@ namespace SoA_Editor.ViewModels
                     });
                 }
                 count++;
-                startingRange.Ranges.Add(paramRange);
+                if (infQtyRange.SelectedQty != null)
+                {
+                    startingRange.Ranges.Add(paramRange);
+                }
+                else
+                {
+                    Case.Ranges.Add(paramRange);   
+                }
             }
 
-            if (newRanges) Case.Ranges.Add(startingRange);
+            if (newRanges && infQtyRange.SelectedQty != null) Case.Ranges.Add(startingRange);
         }
 
         private Unc_Range_Start SetStart(string test, string min, string quantity)

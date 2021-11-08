@@ -858,6 +858,12 @@ namespace SOA_DataAccessLib
             evaluator.Parse(expression);
         }
 
+        public void ResetExpression()
+        {
+            evaluator.Reset();
+            evaluator.Parse(Expression);
+        }
+
         public IList<string> ExpressionSymbols
         {
             get { return evaluator.GetVariables().Keys.ToList(); }
@@ -1271,7 +1277,7 @@ namespace SOA_DataAccessLib
         {
         }
 
-        public Mtc_Range_Boundary(XElement datasource, Mtc_Taxon taxon, string rangeName, RangeType rType)
+        public Mtc_Range_Boundary(XElement datasource, Mtc_Taxon taxon, Mtc_Technique technique, string rangeName, RangeType rType)
         {
             try
             {
@@ -1287,6 +1293,8 @@ namespace SOA_DataAccessLib
 
                     case RangeType.Parameter:
                         quantity = taxon.getQuantity(rangeName);
+                        if (quantity == null)
+                            quantity = technique.getQuantity(rangeName);
                         break;
 
                     default:
@@ -1319,8 +1327,8 @@ namespace SOA_DataAccessLib
         {
         }
 
-        public Mtc_Range_End(XElement datasource, Mtc_Taxon taxon, string rangeName, RangeType rType)
-            : base(datasource, taxon, rangeName, rType) { }
+        public Mtc_Range_End(XElement datasource, Mtc_Taxon taxon, Mtc_Technique technique, string rangeName, RangeType rType)
+            : base(datasource, taxon, technique, rangeName, rType) { }
     }
 
     public class Mtc_Range_Start : Mtc_Range_Boundary
@@ -1336,8 +1344,8 @@ namespace SOA_DataAccessLib
         {
         }
 
-        public Mtc_Range_Start(XElement datasource, Mtc_Taxon taxon, string rangeName, RangeType rType)
-            : base(datasource, taxon, rangeName, rType) { }
+        public Mtc_Range_Start(XElement datasource, Mtc_Taxon taxon, Mtc_Technique technique, string rangeName, RangeType rType)
+            : base(datasource, taxon, technique, rangeName, rType) { }
     }
 
     public class Mtc_Range
@@ -1396,7 +1404,7 @@ namespace SOA_DataAccessLib
         {
         }
 
-        public Mtc_Range(XElement datasource, Mtc_Taxon taxon, Mtc_Range_Boundary.RangeType rType)
+        public Mtc_Range(XElement datasource, Mtc_Taxon taxon, Mtc_Technique technique, Mtc_Range_Boundary.RangeType rType)
         {
             try
             {
@@ -1404,8 +1412,8 @@ namespace SOA_DataAccessLib
                 name = mtcSpaceHelper.getAttribute("name");
                 var el1 = mtcSpaceHelper.getElement("Start");
                 var el2 = mtcSpaceHelper.getElement("End");
-                if (el1 != null) start = new Mtc_Range_Start(el1, taxon, name, rType);
-                if (el2 != null) end = new Mtc_Range_End(el2, taxon, name, rType);
+                if (el1 != null) start = new Mtc_Range_Start(el1, taxon, technique, name, rType);
+                if (el2 != null) end = new Mtc_Range_End(el2, taxon, technique, name, rType);
             }
             catch (Exception e)
             {
@@ -1454,12 +1462,12 @@ namespace SOA_DataAccessLib
             return ranges.Count();
         }
 
-        private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_Taxon taxon)
+        private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_Taxon taxon, Mtc_Technique technique)
         {
             var els = mtcSpaceHelper.getElements("ResultRange");
             foreach (XElement el in els)
             {
-                Mtc_Range range = new Mtc_Range(el, taxon, Mtc_Range_Boundary.RangeType.Result);
+                Mtc_Range range = new Mtc_Range(el, taxon, technique, Mtc_Range_Boundary.RangeType.Result);
                 ranges.Add(range);
             }
         }
@@ -1476,10 +1484,10 @@ namespace SOA_DataAccessLib
         {
         }
 
-        public Mtc_ResultRanges(XElement datasource, Mtc_Taxon taxon)
+        public Mtc_ResultRanges(XElement datasource, Mtc_Taxon taxon, Mtc_Technique technique)
         {
             this.taxon = taxon;
-            loadRanges(new MtcSpaceHelper(datasource), taxon);
+            loadRanges(new MtcSpaceHelper(datasource), taxon, technique);
         }
 
         public IEnumerator<Mtc_Range> GetEnumerator()
@@ -1538,12 +1546,12 @@ namespace SOA_DataAccessLib
             return ranges;
         }
 
-        private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_Taxon taxon)
+        private void loadRanges(MtcSpaceHelper mtcSpaceHelper, Mtc_Taxon taxon, Mtc_Technique technique)
         {
             var els = mtcSpaceHelper.getElements("ParameterRange");
             foreach (XElement el in els)
             {
-                Mtc_Range range = new Mtc_Range(el, taxon, Mtc_Range_Boundary.RangeType.Parameter);
+                Mtc_Range range = new Mtc_Range(el, taxon, technique, Mtc_Range_Boundary.RangeType.Parameter);
                 ranges.Add(range);
             }
         }
@@ -1560,10 +1568,10 @@ namespace SOA_DataAccessLib
         {
         }
 
-        public Mtc_ParameterRanges(XElement datasource, Mtc_Taxon taxon)
+        public Mtc_ParameterRanges(XElement datasource, Mtc_Taxon taxon, Mtc_Technique technique)
         {
             this.taxon = taxon;
-            loadRanges(new MtcSpaceHelper(datasource), taxon);
+            loadRanges(new MtcSpaceHelper(datasource), taxon, technique);
         }
 
         public IEnumerator<Mtc_Range> GetEnumerator()
@@ -1800,8 +1808,8 @@ namespace SOA_DataAccessLib
                 taxonName = mtcSpaceHelper.getAttribute("taxon");
                 setTaxon(cMCs, taxonName);
                 loadParameters(this.taxon.Parameters, new Mtc_Parameters(datasource));
-                resultRanges = new Mtc_ResultRanges(datasource, taxon);
-                parameterRanges = new Mtc_ParameterRanges(datasource, taxon);
+                resultRanges = new Mtc_ResultRanges(datasource, taxon, this);
+                parameterRanges = new Mtc_ParameterRanges(datasource, taxon, this);
                 var el1 = mtcSpaceHelper.getElement("RequiredEquipment");
                 var el2 = mtcSpaceHelper.getElement("Documentation");
                 var el3 = mtcSpaceHelper.getElement("RangeAssertions");

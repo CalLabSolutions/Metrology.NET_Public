@@ -86,18 +86,32 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        private string _Formula;
+        private string _Formula1;
 
-        public string Formula
+        public string Formula1
         {
             get
             {
-                return _Formula;
+                return _Formula1;
+            }
+            set
+            {
+                Set(ref _Formula1, value);
+            }
+        }
+
+        private string _Formula2;
+
+        public string Formula2
+        {
+            get
+            {
+                return _Formula2;
             }
             set
             {
                 if (orginalFormula == null) orginalFormula = value;
-                Set(ref _Formula, value);
+                Set(ref _Formula2, value);
             }
         }
 
@@ -235,8 +249,8 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-            // Delete Range
-            public async void DeleteRange(DataRowView row)
+        // Delete Range
+        public async void DeleteRange(DataRowView row)
         {
             // No range selected, don't bother evaluating
             if (range == null) return;
@@ -286,13 +300,13 @@ namespace SoA_Editor.ViewModels
                     return;
                 }
 
-                Formula = Formula.Replace(variable.Name, variable.Value);
+                Formula2 = Formula2.Replace(variable.Name, variable.Value);
             }
 
             // Check that ExprVars are within range
             if (!CheckWithinRange())
             {
-                dialog.Message = "The values you entered are not within the select Range";
+                dialog.Message = "The values you entered are not within the selected Range";
                 dialog.Show();
                 return;
             }
@@ -303,12 +317,21 @@ namespace SoA_Editor.ViewModels
                 template.setCMCFunctionSymbol(functionName, constant.const_parameter_name, (double)constant.BaseValue);
             }
             double result = (double)template.evaluateCMCFunction(functionName);
-            calculatedResult = ToEngineeringFormat.Convert(result);
+            // see if we need to set a notation
+            if (result < 1)
+                calculatedResult = result.ToString("E2");
+            else
+                calculatedResult = result.ToString("0.##");
         }
 
         private void UpdateFormula(DataRow row)
         {
-            Formula = orginalFormula;
+            Formula2 = orginalFormula;
+            foreach (var exprVar in ExprVars)
+            {
+                exprVar.Value = "";
+            }
+            CalculatedValue = "";
             var data = row.ItemArray;
             var table = row.Table;
 
@@ -355,49 +378,93 @@ namespace SoA_Editor.ViewModels
             // find our influence quantity it will not be apart of our variables or constats
             List<string> rangeVars = template.getCMCFunctionRangeVariables(functionName).ToList();
             var symbols = template.getCMCUncertaintyFunctionSymbols(functionName);
-            string influenc_qty = rangeVars.Where(r => !symbols.Contains(r)).ToList()[0];
-            string param = rangeVars.Where(r => symbols.Contains(r)).ToList()[0];
+            var influence_qtys = rangeVars.Where(r => !symbols.Contains(r)).ToList();
+            var _params = rangeVars.Where(r => symbols.Contains(r)).ToList();
 
-            // get our possible ranges
-            var ranges = Case.Ranges[influenc_qty];
-
-            // get our infuence_quantity value and param
-            string[] qtys = rowData[influenc_qty].Split(" to ");
-            string[] _params = rowData[param].Split(" to ");
-
-            // The ranges are not in the correct format back out and let the user know
-            if (qtys.Length != 2 || _params.Length != 2)
+            string influence_qty = null;
+            string selected_param = null;
+            string[] qtys = { };
+            string[] _param = { };
+            if (influence_qtys.Count > 0)
             {
-                dialog.Message = "The Selected Range is not in the correct format, the calculation will not work.";
-                dialog.Show();
+                influence_qty = influence_qtys[0];
+                qtys = rowData[influence_qty].Split(" to ");
+                // The ranges are not in the correct format back out and let the user know
+                if (qtys.Length != 2)
+                {
+                    dialog.Message = "The Selected Range is not in the correct format, the calculation will not work.";
+                    dialog.Show();
+                }
             }
 
-            // search for the right range
-            bool foundRange = false;
-            foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
+            if (_params.Count > 0)
             {
-                if (foundRange) break;
-                if (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[1])
+                selected_param = _params[0];
+                _param = rowData[selected_param].Split(" to ");
+                // The ranges are not in the correct format back out and let the user know
+                if (_param.Length != 2)
                 {
-                    foreach (SOA_DataAccessLib.Unc_Range _range in range.Ranges.getRanges())
+                    dialog.Message = "The Selected Range is not in the correct format, the calculation will not work.";
+                    dialog.Show();
+                }
+            }
+
+            // get our possible ranges
+            Unc_Ranges ranges = new();
+            if (influence_qty != null)
+            {
+                ranges = Case.Ranges[influence_qty];
+            }
+            else if (selected_param != null)
+            {
+                ranges = Case.Ranges[selected_param];
+            }
+
+            // search for the right range within the influence qty
+            if (influence_qty != null)
+            {
+                bool foundRange = false;
+                foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
+                {
+                    if (foundRange) break;
+                    if (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[1])
                     {
-                        if (_range.Start.ValueString == _params[0] && _range.End.ValueString == _params[1])
+                        foreach (SOA_DataAccessLib.Unc_Range _range in range.Ranges.getRanges())
                         {
-                            this.range = _range;
-                            foundRange = true;
-                            break;
+                            if (_range.Start.ValueString == _param[0] && _range.End.ValueString == _param[1])
+                            {
+                                this.range = _range;
+                                foundRange = true;
+                                break;
+                            }
                         }
                     }
                 }
             }
 
+            // Just loop through the current ranges and find the correct range
+            if (influence_qty == null && selected_param != null)
+            {
+                
+                foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
+                {
+                    if (range.Start.ValueString == _param[0] && range.End.ValueString == _param[1])
+                    {
+                        this.range = range;
+                        break;
+                    }
+                }
+            }
+
+            if (this.range == null) return;
+
             // lets update the fomula with the constant values
-            string expression = Formula;
+            string expression = Formula1;
             foreach (Unc_ConstantValue constant in this.range.ConstantValues)
             {
                 expression = expression.Replace(constant.const_parameter_name, constant.Value.ToString());
             }
-            Formula = expression;
+            Formula2 = expression;
         }
 
         // Check that it is with the range Start and Stop

@@ -3,9 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:vm="clr-namespace:SoA_Editor.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:cal="http://caliburnmicro.com"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:RangeViewModel}"
              d:DesignHeight="500" d:DesignWidth="800"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -17,28 +15,53 @@
              FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="10" />
+            <RowDefinition Height="85" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="*" />           
-            <ColumnDefinition Width="10" />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <Label Content="{Binding activeHierarchy}" Margin="0,0,0,10" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>        
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Label Grid.Row="0" Grid.Column="0" Content="{Binding activeHierarchy}" />
             <StackPanel Orientation="Horizontal">
-                <TextBlock>Rows: </TextBlock>
+                <TextBlock>Ranges:</TextBlock>
                 <TextBlock Text="{Binding RangeGrid.Rows.Count}" Margin="5 0 0 0"/>
             </StackPanel>
-            <TextBlock TextDecorations="Underline">Please select a row by clicking on any of the values.</TextBlock>
-            <DataGrid CanUserAddRows="True" SelectionMode="Extended" Height="450" ScrollViewer.VerticalScrollBarVisibility="Auto"
+            <TextBlock>Please select a row by clicking on any of the values.</TextBlock>
+        </StackPanel>
+        <GroupBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Width="250" HorizontalAlignment="Right" Header="Formula" Margin="0 0 5 0">
+            <StackPanel>
+                <TextBlock Text="{Binding Formula1}" Margin="0,10,0,0" FontWeight="Bold" />
+                <TextBlock Text="{Binding Formula2, Mode=TwoWay}" FontWeight="Bold" Visibility="{Binding Formula2, Converter={StaticResource StringIsEmptyVisibilityConverter}}" />
+                <ItemsControl ItemsSource="{Binding ExprVars}" Margin="0 10 0 0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Path=Name}" Grid.Column="0" VerticalAlignment="Center" />
+                                <TextBox Margin="10 0 0 0" Grid.Column="1" Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                    <Button x:Name="calcButton" Content="Calculate" Margin="0,0,40,0" />
+                    <TextBlock FontWeight="Bold" Text="{Binding CalculatedValue}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" >
+            <DataGrid CanUserAddRows="True" SelectionMode="Extended" ScrollViewer.VerticalScrollBarVisibility="Auto"
                         SelectionUnit="FullRow" x:Name="RangeGrid" SelectedItem="{Binding Row}"
                         ItemsSource="{Binding RangeGrid}" AutoGenerateColumns="true" IsReadOnly="True"
-                        CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0 0 0 5">
+                        CanUserReorderColumns="True" CanUserSortColumns="True" Margin="0 0 0 5"
+                        Height="370">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Edit Range">
@@ -61,27 +84,7 @@
                         </MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-            </DataGrid>            
+            </DataGrid>
         </StackPanel>
-        <GroupBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Width="250" HorizontalAlignment="Left" Header="Formula">
-            <StackPanel>
-                <TextBlock Text="{Binding Formula}" Margin="0,10,0,10" FontWeight="Bold"/>
-                <ItemsControl ItemsSource="{Binding ExprVars}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">                                
-                                    <TextBlock Text="{Binding Path=Name}" />
-                                    <TextBox Margin="10 0 0 0" Width="100" Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
-                    <Button x:Name="calcButton" Content="Calculate" Margin="0,0,40,0" />
-                    <TextBlock FontWeight="Bold" Text="{Binding CalculatedValue}" />
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
     </Grid>
 </UserControl>

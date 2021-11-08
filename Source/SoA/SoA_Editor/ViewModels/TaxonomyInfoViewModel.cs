@@ -109,6 +109,14 @@ namespace SoA_Editor.ViewModels
                 {
                     if (taxon.Name.ToLower().Contains(SelectedOptionForTaxonomy.ToLower()) && taxon.Name.Equals(SelectedTaxon.Name))
                     {
+                        foreach (var param in taxon.Parameters)
+                        {
+                            if (param.Quantity == null)
+                            {
+                                taxon.Parameters.Remove(param);
+                                break;
+                            }
+                        }
                         CurrentTaxon = taxon;
                         break;
                     }

@@ -87,11 +87,11 @@ namespace SoA_Editor.Models
                 _Variable = value;
                 if (value)
                 {
-                    _VariableType = "Variable";
+                    VariableType = "Variable";
                 }
                 else
                 {
-                    _VariableType = "";
+                    VariableType = "";
                 }
                 UpdateVarList();
                 NotifyOfPropertyChange(() => Variable);
@@ -184,7 +184,7 @@ namespace SoA_Editor.Models
             }
 
             technique.CMCUncertainties[0].SymbolDefinitions.Add(symbol);
-            technique.CMCUncertainties[0].ExpressionSymbols.Add(symbol.parameter);
+            technique.CMCUncertainties[0].setSymbol(symbol.parameter, 0);
             TechniqueVM.Variables.Add(new Technique_Variable(symbol.parameter, VariableType));
         }
 
@@ -198,7 +198,7 @@ namespace SoA_Editor.Models
             {
                 if (expSymbol == InputParam)
                 {
-                    technique.CMCUncertainties[0].ExpressionSymbols.Remove(expSymbol);
+                    technique.CMCUncertainties[0].RemvoeSymbol(symbol.parameter);
                     break;
                 }
             }

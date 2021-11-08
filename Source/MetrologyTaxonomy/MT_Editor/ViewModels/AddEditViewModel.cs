@@ -338,12 +338,19 @@ namespace MT_Editor.ViewModels
         private void ParseTaxon(Taxon taxon)
         {
             // set types
-            if (taxon.Name.ToLower().Contains("measure"))
+            if (taxon.Name.ToLower().Contains("measure.ratio"))
+            {
+                Types = Types.MeasureRatio;
+            }
+            else if (taxon.Name.ToLower().Contains("source.ratio"))
+            {
+                Types = Types.SourceRatio;
+            }
+            else if (taxon.Name.ToLower().Contains("measure"))
             {
                 Types = Types.Measure;
             }
-
-            if (taxon.Name.ToLower().Contains("source"))
+            else if (taxon.Name.ToLower().Contains("source"))
             {
                 Types = Types.Source;
             }

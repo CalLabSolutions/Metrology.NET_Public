@@ -85,7 +85,7 @@
                     </StackPanel>
                 </GroupBox>
 
-                <Button Grid.Row="5" Margin="25 25 0 10" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="Save" />
+                <Button Grid.Row="5" Margin="25 25 0 15" Content="Save" Width="75" HorizontalAlignment="Left" x:Name="Save" />
             </Grid>
         </StackPanel>
     </Grid>

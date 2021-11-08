@@ -240,7 +240,7 @@ namespace SoA_Editor.ViewModels
             function = template.CMCUncertaintyFunctions[uncertainty.function_name];
             RangeVM = new RangeViewModel();
 
-            IList<String> formulaExpression = soa.CapabilityScope.Activities[0].Techniques[0].Technique.CMCUncertainties[0].Variables;
+            IList<string> formulaExpression = technique.Technique.CMCUncertainties[0].Variables;
 
             RangeVM.ExprVars = new ObservableCollection<ExpressionVariable>();
 
@@ -298,14 +298,6 @@ namespace SoA_Editor.ViewModels
                 //fist create an appendable empty string array for row
                 row = new List<string>();
 
-                //here do the filtering based on the item selected from the left-side menu
-                //if the value does not match continue with the next item in the case list
-                /*if (!nodeName.ToUpper().Equals("ALL"))
-                {
-                    if (function.Cases[caseIndex].Assertions[foundAssertIndex].Value != nodeName)
-                        continue;
-                }*/
-
                 //for each Assertion add a new cell to the row
                 assertCount = cases[caseIndex].Assertions.Count();
                 for (int assertIndex = foundAssertIndex + 1; assertIndex < assertCount; assertIndex++)
@@ -320,7 +312,8 @@ namespace SoA_Editor.ViewModels
                 }
             }
 
-            RangeVM.Formula = uncertainty.Expression;
+            RangeVM.Formula1 = uncertainty.Expression;
+            RangeVM.Formula2 = "";
             RangeVM.functionName = function.name;
             RangeVM.template = template;
             RangeVM.technique = technique;
@@ -543,7 +536,6 @@ namespace SoA_Editor.ViewModels
             }
         }
 
-        // TODO: Improve for multiple assertions
         public async void DeleteRanges(Node node)
         {
             bool delete = false;

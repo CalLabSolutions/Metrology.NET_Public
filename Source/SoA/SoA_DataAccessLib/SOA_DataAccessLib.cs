@@ -3862,7 +3862,7 @@ namespace SOA_DataAccessLib
 
         public string Uri
         {
-            get { return uri.AbsoluteUri; }
+            get { return uri == null ? "" : uri.AbsoluteUri; }
             set { uri = new Uri(value); }
         }
 

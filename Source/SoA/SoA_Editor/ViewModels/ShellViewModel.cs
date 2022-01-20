@@ -682,6 +682,7 @@ namespace SoA_Editor.ViewModels
                 dao.load(FullPath);
                 soa = dao.SOADataMaster;
                 Helper.LoadCompanyInfoFromSoaObjectToOpen(soa, CompanyM);
+                IsLoaded = true;
             }
         }
 

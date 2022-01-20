@@ -34,7 +34,7 @@
     <mtc:Discipline name="" />
     <mtc:Definition>The process measures the Direct Current sourced by a device.</mtc:Definition>
   </mtc:Taxon>
-  <mtc:Taxon name="TestProcess.Measure.Voltage.AC" deprecated="false" replacement="">
+  <mtc:Taxon name="TestProcess.Measure.Ratio.Voltage.AC" deprecated="false" replacement="">
     <mtc:ExternalReference name="MII">
       <mtc:CategoryTag>
         <mtc:name />
@@ -100,6 +100,7 @@
     </mtc:Result>
     <mtc:Parameter name="Cap" optional="false">
       <uom:Quantity name="Capacitance" />
+      <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="" />
     <mtc:Definition />

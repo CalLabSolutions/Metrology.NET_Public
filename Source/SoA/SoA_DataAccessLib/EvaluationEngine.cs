@@ -880,6 +880,7 @@ internal class PostfixEvaluator
         else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 / (decimal)o1;
         else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 / (long)o1;
         else if ((o1 is decimal) && (o2 is int)) o = (long)o2 / (decimal)o1;
+        else if ((o1 is int) && (o2 is decimal)) o = (decimal)o2 / (int)o1;
         else if ((o1 is double) && (o2 is double)) o = (double)o2 / (double)o1;
         else if ((o1 is long) && (o2 is double)) o = (double)o2 / (long)o1;
         else if ((o1 is double) && (o2 is int)) o = (long)o2 / (double)o1;

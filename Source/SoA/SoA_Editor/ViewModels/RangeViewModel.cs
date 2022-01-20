@@ -316,7 +316,17 @@ namespace SoA_Editor.ViewModels
             {
                 template.setCMCFunctionSymbol(functionName, constant.const_parameter_name, (double)constant.BaseValue);
             }
-            double result = (double)template.evaluateCMCFunction(functionName);
+            double result = 39e39;
+            try
+            {
+                result = (double)template.evaluateCMCFunction(functionName);
+            }
+            catch
+            {
+                calculatedResult = "Error";
+                return;
+            }
+            
             // see if we need to set a notation
             if (result < 1)
                 calculatedResult = result.ToString("E2");

@@ -3241,6 +3241,12 @@ namespace SOA_DataAccessLib
             return (unc != null) ? unc.ExpressionSymbols : new List<string>();
         }
 
+        public void resetCMCFunction(string functionName)
+        {
+            var unc = getCMCUncertaintyByFunctionName(functionName);
+            unc.ResetExpression();
+        }
+
         public IList<string> getCMCFunctionVariables(string functionName)
         {
             var unc = getCMCUncertaintyByFunctionName(functionName);

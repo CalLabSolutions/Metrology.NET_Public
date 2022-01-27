@@ -736,27 +736,27 @@ internal class PostfixEvaluator
                         break;
                     case OperatorID.Negation:
                         ValueStack.Push(new Entity(E, Negate(PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "Operand of Improper Type");
+                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "Operand of Improper Type for Negation");
                         break;
                     case OperatorID.Addition:
                         ValueStack.Push(new Entity(E, Add(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type");
+                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Addition");
                         break;
                     case OperatorID.Subtraction:
                         ValueStack.Push(new Entity(E, Subtract(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type");
+                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Subtraction");
                         break;
                     case OperatorID.Multiplication:
                         ValueStack.Push(new Entity(E, Multiply(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type");
+                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Multiplication");
                         break;
                     case OperatorID.Division:
                         ValueStack.Push(new Entity(E, Divide(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type");
+                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Division");
                         break;
                     case OperatorID.Exponentiation:
                         ValueStack.Push(new Entity(E, Raise(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type");
+                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Exponentiation");
                         break; ;
                     case OperatorID.Assignment:
                         if (ValueStack.Count == 2) // example "A = 1"; assigns 1 to A
@@ -880,7 +880,9 @@ internal class PostfixEvaluator
         else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 / (decimal)o1;
         else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 / (long)o1;
         else if ((o1 is decimal) && (o2 is int)) o = (long)o2 / (decimal)o1;
+        else if ((o1 is decimal) && (o2 is long)) o = (long)o2 / (decimal)o1;
         else if ((o1 is int) && (o2 is decimal)) o = (decimal)o2 / (int)o1;
+        else if ((o1 is int) && (o2 is int)) o = (int)o2 / (int)o1;
         else if ((o1 is double) && (o2 is double)) o = (double)o2 / (double)o1;
         else if ((o1 is long) && (o2 is double)) o = (double)o2 / (long)o1;
         else if ((o1 is double) && (o2 is int)) o = (long)o2 / (double)o1;

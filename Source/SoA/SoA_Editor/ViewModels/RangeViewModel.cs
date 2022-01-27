@@ -3,9 +3,11 @@ using MaterialDesignThemes.Wpf;
 using SOA_DataAccessLib;
 using SoA_Editor.Models;
 using SoA_Editor.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Windows;
@@ -49,6 +51,14 @@ namespace SoA_Editor.ViewModels
             set { Set(ref _CalculatedValue, value); }
         }
 
+        private bool calcEnabled = false;
+
+        public bool CalcEnabled
+        {
+            get { return calcEnabled; }
+            set { Set(ref calcEnabled, value); }
+        }
+
         private DataTable _RangeGrid;
 
         public DataTable RangeGrid
@@ -83,6 +93,7 @@ namespace SoA_Editor.ViewModels
                 row = value;
                 UpdateFormula(row.Row);
                 NotifyOfPropertyChange(() => Row);
+                CalcEnabled = true;
             }
         }
 
@@ -131,6 +142,8 @@ namespace SoA_Editor.ViewModels
 
         #endregion Properties
 
+
+        #region Methods
         // Calculate selected row
         public void calcButton()
         {
@@ -283,6 +296,9 @@ namespace SoA_Editor.ViewModels
             // No range selected, don't bother evaluating
             if (range == null) return;
 
+            // reset eval engine
+            template.resetCMCFunction(functionName);
+
             // set the evaluation variables
             foreach (ExpressionVariable variable in ExprVars)
             {
@@ -321,9 +337,10 @@ namespace SoA_Editor.ViewModels
             {
                 result = (double)template.evaluateCMCFunction(functionName);
             }
-            catch
+            catch (Exception e)
             {
-                calculatedResult = "Error";
+                Debug.WriteLine(e.Message);
+                calculatedResult = e.Message;
                 return;
             }
             
@@ -536,5 +553,6 @@ namespace SoA_Editor.ViewModels
 
             return withinRange;
         }
+        #endregion
     }
 }

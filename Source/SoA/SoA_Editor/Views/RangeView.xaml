@@ -35,7 +35,7 @@
             <StackPanel>
                 <TextBlock Text="{Binding Formula1}" Margin="0,10,0,0" FontWeight="Bold" />
                 <TextBlock Text="{Binding Formula2, Mode=TwoWay}" FontWeight="Bold" Visibility="{Binding Formula2, Converter={StaticResource StringIsEmptyVisibilityConverter}}" />
-                <ItemsControl ItemsSource="{Binding ExprVars}" Margin="0 10 0 0">
+                <ItemsControl ItemsSource="{Binding ExprVars}" Margin="0 10 0 0" x:Name="VarList">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -44,7 +44,8 @@
                                     <ColumnDefinition Width="200" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Path=Name}" Grid.Column="0" VerticalAlignment="Center" />
-                                <TextBox Margin="10 0 0 0" Grid.Column="1" Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Margin="10 0 0 0" Grid.Column="1" Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         IsEnabled="{Binding ElementName=VarList, Path=DataContext.CalcEnabled}"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -52,7 +53,7 @@
 
                 <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
                     <Button x:Name="calcButton" Content="Calculate" Margin="0,0,40,0" />
-                    <TextBlock FontWeight="Bold" Text="{Binding CalculatedValue}" />
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap" Width="250" Text="{Binding CalculatedValue}" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>

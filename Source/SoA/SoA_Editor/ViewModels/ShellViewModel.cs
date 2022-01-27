@@ -877,7 +877,8 @@ namespace SoA_Editor.ViewModels
             // Expand out to the node we found
             if (node != null && node.Parent != null)
             {
-                findNode(node.Parent.Name).IsExpanded = true;
+                var foundNode = findNode(node.Parent.Name);
+                if (foundNode != null) foundNode.IsExpanded = true;
             }
         }
 

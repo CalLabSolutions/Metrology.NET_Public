@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SoA_Editor.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
              Background="White" BorderThickness="1" BorderBrush="#102E5B">
@@ -55,12 +56,12 @@
 
         <StackPanel Grid.Row="2" Grid.Column="3" Margin="10 0 10 0">
             <Label Content="Effective Date:" FontWeight="Bold"/>
-            <TextBox Height="25" x:Name="EffectiveDate"></TextBox>
+            <DatePicker x:Name="EffectiveDate" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0 -12 0 0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="4" Margin="10 0 10 0">
             <Label Content="Expiration Date" FontWeight="Bold"/>
-            <TextBox Height="25" x:Name="ExpirDate"></TextBox>
+            <DatePicker x:Name="ExpirDate" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0 -12 0 0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="5" Margin="10 0 10 0">

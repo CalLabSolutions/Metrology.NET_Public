@@ -1037,8 +1037,12 @@ internal class Abs : Function
             value = GetValue(Arg);
             if (value is int)
                 result = Math.Abs((int)value);
+            else if (value is long)
+                result = Math.Abs((long)value);
             else if (value is decimal)
                 result = Math.Abs((decimal)value);
+            else if (value is double)
+                result = Math.Abs((double)value);
             else
                 throw new ScriptError(Arg, "Argument must be a numeric type");
         }

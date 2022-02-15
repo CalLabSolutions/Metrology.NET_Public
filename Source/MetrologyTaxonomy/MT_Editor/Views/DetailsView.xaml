@@ -23,147 +23,150 @@
         <converters:IsBlankConverter x:Key="IsBlankConverter"></converters:IsBlankConverter>
         <converters:EmptyListVisibilityConverter x:Key="EmptyListVisibilityConverter"></converters:EmptyListVisibilityConverter>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <TextBlock Text="{Binding Taxon.Name}" d:Text="Title" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Margin="0 0 0 4"/>
-            <Button x:Name="GoBack" HorizontalAlignment="Right"> 
-                <materialDesign:PackIcon Kind="ArrowBack"></materialDesign:PackIcon>                
-            </Button> 
-        </Grid>
-        
-        <StackPanel Orientation="Horizontal" Visibility="{Binding Deprecated, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1">
-            <TextBlock FontSize="14" FontStyle="Italic" Foreground="Red"  Text="Deprecated, Replaced By:"/>
-            <TextBlock FontSize="14" FontStyle="Italic" Foreground="Red" Text="{Binding Taxon.Replacement}" Margin="5,0,0,0" />
-            <Button Content="Restore" x:Name="Restore"  Margin="5,-6,0,0"/>
-        </StackPanel>
-        <TextBlock Text="{Binding Taxon.Definition}" d:Text="Definition" Grid.Row="2" FontSize="16" TextWrapping="Wrap" Margin="0,10,0,10"/>
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <materialDesign:Card UniformCornerRadius="3" Grid.Column="0" Margin="0 0 5 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="16 16 16 4">Parameters</TextBlock>
-                    <Border Grid.Row="1" Height="1" Background="Silver"  Margin="16 0 16 8" />
-                    <ListView Grid.Row="3" ItemsSource="{Binding Taxon.Parameters}" Margin="16 0 16 8">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Transparent" BorderThickness="4">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}" />
-                                            <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="{Binding Taxon.Name}" d:Text="Title" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Margin="0 0 0 4"/>
+                <Button x:Name="GoBack" HorizontalAlignment="Right">
+                    <materialDesign:PackIcon Kind="ArrowBack"></materialDesign:PackIcon>
+                </Button>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Deprecated, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1">
+                <TextBlock FontSize="14" FontStyle="Italic" Foreground="Red"  Text="Deprecated, Replaced By:"/>
+                <TextBlock FontSize="14" FontStyle="Italic" Foreground="Red" Text="{Binding Taxon.Replacement}" Margin="5,0,0,0" />
+                <Button Content="Restore" x:Name="Restore"  Margin="5,-6,0,0"/>
+            </StackPanel>
+            <TextBlock Text="{Binding Taxon.Definition}" d:Text="Definition" Grid.Row="2" FontSize="16" TextWrapping="Wrap" Margin="0,10,0,10"/>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <materialDesign:Card UniformCornerRadius="3" Grid.Column="0" Margin="0 0 5 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="8 16 16 4">Parameters</TextBlock>
+                        <Border Grid.Row="1" Height="1" Background="Silver"  Margin="8 0 16 8" />
+                        <ListView Grid.Row="3" ItemsSource="{Binding Taxon.Parameters}" Margin="0 0 16 8">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Transparent" BorderThickness="4">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}" />
+                                                <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"
                                        Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Visibility="{Binding Definition, Converter={StaticResource IsBlankConverter}}">
+                                                <TextBlock Text="Definition:" />
+                                                <TextBlock Text="{Binding Definition}" Margin="15,0,0,0"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
+                                                <TextBlock Text="Quantity:"/>
+                                                <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0"/>
+                                            </StackPanel>
                                         </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Visibility="{Binding Definition, Converter={StaticResource IsBlankConverter}}">
-                                            <TextBlock Text="Definition:" />
-                                            <TextBlock Text="{Binding Definition}" Margin="15,0,0,0"/>
-                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card UniformCornerRadius="3" Grid.Column="1" Margin="5 0 0 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="16 16 16 4">Results</TextBlock>
+                        <Border Grid.Row="1" Height="1" Background="Silver"  Margin="16 0 16 8" />
+                        <ListView ItemsSource="{Binding Taxon.Results}" Grid.Row="6" Margin="0,10,0,0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" />
                                         <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
                                             <TextBlock Text="Quantity:"/>
                                             <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </materialDesign:Card>
-            <materialDesign:Card UniformCornerRadius="3" Grid.Column="1" Margin="5 0 0 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="16 16 16 4">Results</TextBlock>
-                    <Border Grid.Row="1" Height="1" Background="Silver"  Margin="16 0 16 8" />
-                    <ListView ItemsSource="{Binding Taxon.Results}" Grid.Row="6" Margin="0,10,0,0">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" />
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
-                                        <TextBlock Text="Quantity:"/>
-                                        <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </materialDesign:Card>
-        </Grid>
-        <materialDesign:Card UniformCornerRadius="3"  Margin="0 20 0 0" Grid.Row="4" Padding="12 5 12 5"
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </materialDesign:Card>
+            </Grid>
+            <materialDesign:Card UniformCornerRadius="3"  Margin="0 20 0 0" Grid.Row="4" Padding="12 5 12 5"
                              Visibility="{Binding Taxon.Discipline, Converter={StaticResource NullableToVisibilityConverter}}">
-            <StackPanel Margin="0,10,0,0" >
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="16" >Discipline -&#160;</TextBlock>
-                    <TextBlock FontSize="16" Text="{Binding Taxon.Discipline.Name}" />
+                <StackPanel Margin="0,10,0,0" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="16" >Discipline -&#160;</TextBlock>
+                        <TextBlock FontSize="16" Text="{Binding Taxon.Discipline.Name}" />
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding Taxon.Discipline.SubDisciplines, Converter={StaticResource EmptyListVisibilityConverter}}">
+                        <Border Height="1" Background="Silver" Margin="0,10,0,5"/>
+                        <TextBlock FontSize="16" >Sub Disciplines:</TextBlock>
+                        <ItemsControl ItemsSource="{Binding Taxon.Discipline.SubDisciplines}" />
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Visibility="{Binding Taxon.Discipline.SubDisciplines, Converter={StaticResource EmptyListVisibilityConverter}}">
-                    <Border Height="1" Background="Silver" Margin="0,10,0,5"/>
-                    <TextBlock FontSize="16" >Sub Disciplines:</TextBlock>
-                    <ItemsControl ItemsSource="{Binding Taxon.Discipline.SubDisciplines}" />
-                </StackPanel>
-            </StackPanel>
-        </materialDesign:Card>
-        <materialDesign:Card UniformCornerRadius="3"  Margin="0 20 0 50" Grid.Row="5" Padding="12 5 12 5"
+            </materialDesign:Card>
+            <materialDesign:Card UniformCornerRadius="3"  Margin="0 20 0 50" Grid.Row="5" Padding="12 5 12 5"
                              Visibility="{Binding Taxon.ExternalReference, Converter={StaticResource NullableToVisibilityConverter}}">
-            <StackPanel Margin="0,10,0,0" >
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="16" >Extenal Reference -&#160;</TextBlock>
-                    <Button Style="{StaticResource HyperlinkButton}" Focusable="False" cal:Message.Attach="[Action Link()]">
-                        <TextBlock>
+                <StackPanel Margin="0,10,0,0" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="16" >Extenal Reference -&#160;</TextBlock>
+                        <Button Style="{StaticResource HyperlinkButton}" Focusable="False" cal:Message.Attach="[Action Link()]">
+                            <TextBlock>
                             <Hyperlink Focusable="False">
                                 <TextBlock Text="{Binding Taxon.ExternalReference.Name}"></TextBlock>
                             </Hyperlink>
                         </TextBlock>
-                    </Button>
-                </StackPanel>
-                <StackPanel Visibility="{Binding Taxon.ExternalReference.CategoryTags, Converter={StaticResource EmptyListVisibilityConverter}}">
-                    <Border Height="1" Background="Silver" Margin="0,10,0,5"/>
-                    <TextBlock FontSize="16" Text="Category Tags" />
-                    <ItemsControl ItemsSource="{Binding Taxon.ExternalReference.CategoryTags}" Margin="0,5,0,0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Grid Visibility="{Binding Name, Converter={StaticResource IsBlankConverter}}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" MaxWidth="200" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="0" Text="{Binding Name}"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Value}" />
-                                    </Grid >
-                                    <StackPanel Visibility="{Binding Name, Converter={StaticResource IsNotBlankConverter}}">
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Value}" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding Taxon.ExternalReference.CategoryTags, Converter={StaticResource EmptyListVisibilityConverter}}">
+                        <Border Height="1" Background="Silver" Margin="0,10,0,5"/>
+                        <TextBlock FontSize="16" Text="Category Tags" />
+                        <ItemsControl ItemsSource="{Binding Taxon.ExternalReference.CategoryTags}" Margin="0,5,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid Visibility="{Binding Name, Converter={StaticResource IsBlankConverter}}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" MaxWidth="200" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="0" Text="{Binding Name}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Value}" />
+                                        </Grid >
+                                        <StackPanel Visibility="{Binding Name, Converter={StaticResource IsNotBlankConverter}}">
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Value}" />
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </materialDesign:Card>
-        <Button Content="Export HTML" Grid.Row="6" Margin="10,10,0,0" x:Name="ExportHTML" Width="116" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-    </Grid>
+            </materialDesign:Card>
+            <Button Content="Export HTML" Grid.Row="6" Margin="10,10,0,0" x:Name="ExportHTML" Width="116" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        </Grid>
+    </ScrollViewer>
+    
 </UserControl>

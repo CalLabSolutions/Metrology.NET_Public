@@ -79,7 +79,7 @@
                         <TextBlock FontSize="12" FontStyle="Italic">Dot sepereated generic description of how the quantity is sourced or measured.</TextBlock>
                         <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
                         <ScrollViewer>
-                            <TextBox Text="{Binding Definition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                            <TextBox Text="{Binding Definition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Hidden"></TextBox>
                         </ScrollViewer>
                     </StackPanel>
                 </Grid>
@@ -96,64 +96,66 @@
                 <Grid Margin="0 10 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="500"/>
                     </Grid.RowDefinitions>
                     <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0">Parameteres</TextBlock>
-                    <StackPanel Grid.Row="1" Margin="0,24,0,0">
-                        <ListView x:Name="ParamList" ItemsSource="{Binding Parameters, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="Transparent" BorderThickness="4">
-                                        <Grid Width="448">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="75" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" />
-                                                    <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"  Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel  Margin="0,24,0,0" ScrollViewer.CanContentScroll="True">
+                            <ListView x:Name="ParamList" ItemsSource="{Binding Parameters, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Transparent" BorderThickness="4">
+                                            <Grid Width="448">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="75" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Name}" />
+                                                        <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"  Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Definition, Converter={StaticResource StringIsEmptyVisibilityConverter}}">
+                                                        <TextBlock Text="Definition:" />
+                                                        <TextBlock Text="{Binding Definition}" Margin="15,0,0,0" TextWrapping="Wrap" Width="300" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
+                                                        <TextBlock Text="Quantity:" />
+                                                        <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0" />
+                                                    </StackPanel>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Visibility="{Binding Definition, Converter={StaticResource StringIsEmptyVisibilityConverter}}">
-                                                    <TextBlock Text="Definition:" />
-                                                    <TextBlock Text="{Binding Definition}" Margin="15,0,0,0" TextWrapping="Wrap" Width="300" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
-                                                    <TextBlock Text="Quantity:" />
-                                                    <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                            <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
-                                                <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <cal:ActionMessage MethodName="DeleteParam">
-                                                            <cal:Parameter Value="{Binding Name}" />
-                                                        </cal:ActionMessage>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                                <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                                    <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <cal:ActionMessage MethodName="DeleteParam">
+                                                                <cal:Parameter Value="{Binding Name}" />
+                                                            </cal:ActionMessage>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
 
-                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Name</TextBlock>
-                        <TextBox Text="{Binding ParamName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
-                        <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
-                        <ComboBox ItemsSource="{Binding ParamQuantities}" Width="480" IsEditable="True" SelectedItem="{Binding SelectedParamQuantity, Mode=TwoWay}" HorizontalAlignment="Left" DisplayMemberPath="FormatedName" materialDesign:HintAssist.Hint="Search"
+                            <TextBlock FontWeight="Bold" Margin="0,24,0,0">Name</TextBlock>
+                            <TextBox Text="{Binding ParamName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
+                            <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
+                            <ComboBox ItemsSource="{Binding ParamQuantities}" Width="480" IsEditable="True" SelectedItem="{Binding SelectedParamQuantity, Mode=TwoWay}" HorizontalAlignment="Left" DisplayMemberPath="FormatedName" materialDesign:HintAssist.Hint="Search"
                             materialDesign:HintAssist.HintOpacity=".26"/>
 
 
-                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
-                        <ScrollViewer>
-                            <TextBox Text="{Binding ParamDefinition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
-                        </ScrollViewer>
-                        <CheckBox Margin="0,24,0,0" Content="Optional" IsChecked="{Binding Optional, Mode=TwoWay}" />
-                        <Button Width="75" Content="Add" x:Name="AddParam" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
-                        <Border BorderThickness="1" BorderBrush="Gray" Width="480" HorizontalAlignment="Left" />
-                    </StackPanel>
+                            <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
+                            <ScrollViewer>
+                                <TextBox Text="{Binding ParamDefinition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                            </ScrollViewer>
+                            <CheckBox Margin="0,24,0,0" Content="Optional" IsChecked="{Binding Optional, Mode=TwoWay}" />
+                            <Button Width="75" Content="Add" x:Name="AddParam" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
+                            <Border BorderThickness="1" BorderBrush="Gray" Width="480" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
 

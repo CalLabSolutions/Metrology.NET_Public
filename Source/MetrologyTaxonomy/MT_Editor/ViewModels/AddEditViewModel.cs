@@ -508,12 +508,6 @@ namespace MT_Editor.ViewModels
                 return false;
             }
 
-            if (SelectedParamQuantity == null)
-            {
-                dialog.Message = "A Parameter must have a Quantity";
-                return false;
-            }
-
             // make sure the name is not already in use
             if (Parameters.Where(p => p.Name.ToLower().Equals(ParamName)).ToList().Count > 0)
             {
@@ -528,10 +522,15 @@ namespace MT_Editor.ViewModels
         {
             if (ValidateParam())
             {
-                var q = new MT_DataAccessLib.Quantity()
+                MT_DataAccessLib.Quantity q = null;
+                if (SelectedParamQuantity != null)
                 {
-                    Name = SelectedParamQuantity.QuantitiyName
-                };
+                    q = new MT_DataAccessLib.Quantity()
+                    {
+                        Name = SelectedParamQuantity.QuantitiyName
+                    };
+                }
+                
                 Parameter param = new Parameter()
                 {
                     Name = ParamName,

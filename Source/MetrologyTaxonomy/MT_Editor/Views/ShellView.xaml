@@ -56,7 +56,7 @@
     </Window.Triggers>
 
     <Grid>
-        <Grid x:Name="GridBackground" Margin="0 0 0 0" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="GridBackground" Margin="0 0 0 0">
             <ContentControl  x:Name="ActiveItem" />
         </Grid>
 

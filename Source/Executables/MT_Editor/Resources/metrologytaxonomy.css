@@ -1,0 +1,25 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.taxon-list {
+    list-style-type: none;
+}
+li {
+    padding: 0.75rem;
+}
+.show-details {
+    margin-top: 10px;
+    border-radius: 15px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+}
+.hide-details {
+    display: none;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0.25rem
+}

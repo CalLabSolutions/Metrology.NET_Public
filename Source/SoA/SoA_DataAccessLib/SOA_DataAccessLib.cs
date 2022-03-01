@@ -633,13 +633,13 @@ namespace SOA_DataAccessLib
             parameters = new();
             foreach (MT_DataAccessLib.Parameter param in Taxon.Parameters)
             {
-                qty = (param.Quantity == null) ? "" : param.Quantity.Name;
+                qty = (param.Quantity == null) ? "" : param.Quantity.Name.ToLower();
                 parameters.Add(param.Name, qty, param.Optional);
             }
             results = new();
             foreach (MT_DataAccessLib.Result result in Taxon.Results)
             {
-                results.Add(result.Name, result.Quantity.Name);
+                results.Add(result.Name, result.Quantity.Name.ToLower());
             }
         }
 

@@ -1868,20 +1868,6 @@
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>The process of sourcing Electrical Conductivity either from a fixed device or simulated.</mtc:Definition>
   </mtc:Taxon>
-  <mtc:Taxon name="TestProcess.Source.Current" deprecated="false" replacement="">
-    <mtc:ExternalReference name="">
-      <mtc:url />
-    </mtc:ExternalReference>
-    <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
-    </mtc:Result>
-    <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
-      <mtc:Definition />
-    </mtc:Parameter>
-    <mtc:Discipline name="Electrical" />
-    <mtc:Definition>The process of sourcing a Direct Current) voltage from a device and measuring the value on the UUT.</mtc:Definition>
-  </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Source.Current.AC.Sinewave" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
@@ -1935,6 +1921,20 @@
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>The process of sourcing a Triangle Alternating Current signal. Knowing the shape of the waveform allows the system to make conversions from RMS to PeakToPeak.</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Current.DC" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Amps">
+      <uom:Quantity name="Current" />
+    </mtc:Result>
+    <mtc:Parameter name="Amps" optional="false">
+      <uom:Quantity name="Current" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Discipline name="Electrical" />
+    <mtc:Definition>The process of sourcing a Direct Current) voltage from a device and measuring the value on the UUT.</mtc:Definition>
   </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Source.Density-Mass.Gas" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
@@ -3088,6 +3088,7 @@
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
       <uom:Quantity name="Voltage" />
+      <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>This process connects a Short to the input of a measurement device and measures the no signal applied Voltage.  This is The test process is typically used to measure the UUT’s Zero Volts DC  floor values.</mtc:Definition>

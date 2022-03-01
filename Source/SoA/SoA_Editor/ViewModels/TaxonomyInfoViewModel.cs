@@ -14,11 +14,11 @@ namespace SoA_Editor.ViewModels
         private Taxon _selectedTaxon;
         private bool _canSelectATaxonomy = false;
         private TaxonomyFactory taxonFactory = null;
+        private List<Taxon> taxonsFromServer = new(); 
         //Soa SampleSOA;
 
         private BindableCollection<string> _taxonomyOptions = new BindableCollection<string>();
         private BindableCollection<string> _taxonomyContent = new BindableCollection<string>();
-        private BindableCollection<string> _selectedTaxonomy = new BindableCollection<string>();
         private BindableCollection<Taxon> _taxons = new BindableCollection<Taxon>(); // ProcessType is defined in the Models
 
         private Taxon _currentTaxon; // to be saved for a company
@@ -36,12 +36,12 @@ namespace SoA_Editor.ViewModels
 
             _currentTaxon = new Taxon();
 
-            taxonFactory = new();
+            taxonFactory = new(true, true, true);
             // only add to the list if it has not already been added
             foreach (Taxon taxon in taxonFactory.GetAllTaxons())
             {
                 if (!names.Contains(taxon.Name))
-                    Taxons.Add(taxon);
+                    taxonsFromServer.Add(taxon);
             }
 
             //select a default value
@@ -56,24 +56,24 @@ namespace SoA_Editor.ViewModels
                 _selectedOptionForTaxonomy = value;
                 if (string.Equals(value, "Source"))
                 {
-                    SelectedTaxonomy.Clear();
-                    foreach (Taxon taxon in Taxons)
+                    Taxons.Clear();
+                    foreach (Taxon taxon in taxonsFromServer)
                     {
                         if (taxon.Name.ToLower().Contains("source"))
                         {
-                            SelectedTaxonomy.Add(taxon.Name);
+                            Taxons.Add(taxon);
                         }
                     }
                     CanSelectATaxonomy = IsSelectedTaxonomyEmpty();
                 }
                 else if (string.Equals(value, "Measure"))
                 {
-                    SelectedTaxonomy.Clear();
-                    foreach (Taxon taxon in Taxons)
+                    Taxons.Clear();
+                    foreach (Taxon taxon in taxonsFromServer)
                     {
                         if (taxon.Name.ToLower().Contains("measure"))
                         {
-                            SelectedTaxonomy.Add(taxon.Name);
+                            Taxons.Add(taxon);
                         }
                     }
                     CanSelectATaxonomy = IsSelectedTaxonomyEmpty();
@@ -84,11 +84,11 @@ namespace SoA_Editor.ViewModels
 
         public bool IsSelectedTaxonomyEmpty()
         {
-            if (SelectedTaxonomy.Any())
+            if (Taxons.Any())
             {
                 return true;
             }
-            else if (!SelectedTaxonomy.Any())
+            else if (!Taxons.Any())
             {
                 return false;
             }
@@ -101,9 +101,8 @@ namespace SoA_Editor.ViewModels
             get { return _selectedTaxon; }
             set
             {
+                if (value == null) return;
                 _selectedTaxon = value;
-
-                // SelectedOptionForTaxonomy + SelectedProcessType; // Source + Volts.AC
 
                 foreach (Taxon taxon in Taxons)
                 {
@@ -121,8 +120,6 @@ namespace SoA_Editor.ViewModels
                         break;
                     }
                 }
-
-                //Console.WriteLine("--- " + CurrentProcessType.Action + "." + CurrentProcessType.Taxonomy + " ---");
 
                 RequiredParameters.Clear();
                 foreach (Parameter param in CurrentTaxon.Parameters)
@@ -181,12 +178,6 @@ namespace SoA_Editor.ViewModels
         {
             get { return _taxonomyOptions; }
             set { _taxonomyOptions = value; }
-        }
-
-        public BindableCollection<string> SelectedTaxonomy
-        {
-            get { return _selectedTaxonomy; }
-            set { _selectedTaxonomy = value; }
         }
 
         public BindableCollection<string> TaxonomyContent

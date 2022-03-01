@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SoA_Editor.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance vm:TaxonomyInfoViewModel}"
@@ -39,7 +40,10 @@
 
         <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" >
             <Label Content="Taxonomy"></Label>
-            <ComboBox Margin="10 0 10 10" x:Name="SelectedTaxonomy" Height="40"
+            <ComboBox Margin="10 0 10 10" Height="40"
+                      materialDesign:HintAssist.Hint="Search"
+                      materialDesign:HintAssist.HintOpacity=".26"
+                      IsEditable="True"
                       ItemsSource="{Binding Taxons}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding Path=SelectedTaxon, Mode=TwoWay}"

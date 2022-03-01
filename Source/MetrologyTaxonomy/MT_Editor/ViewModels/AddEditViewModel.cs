@@ -527,7 +527,7 @@ namespace MT_Editor.ViewModels
                 {
                     q = new MT_DataAccessLib.Quantity()
                     {
-                        Name = SelectedParamQuantity.QuantitiyName
+                        Name = SelectedParamQuantity.BaseName
                     };
                 }
                 
@@ -653,7 +653,7 @@ namespace MT_Editor.ViewModels
             {
                 var q = new MT_DataAccessLib.Quantity()
                 {
-                    Name = SelectedResultQuantity.QuantitiyName
+                    Name = SelectedResultQuantity.BaseName
                 };
                 Result result = new Result()
                 {

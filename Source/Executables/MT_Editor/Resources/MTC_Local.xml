@@ -1,22 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <mtc:Taxonomy xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog">
   <mtc:Taxon name="TestProcess.Measure.Capacitance" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Capacitance">
-      <uom:Quantity name="Capacitance" />
+      <uom:Quantity name="capacitance" />
     </mtc:Result>
     <mtc:Parameter name="Capacitance" optional="false">
-      <uom:Quantity name="Capacitance" />
+      <uom:Quantity name="capacitance" />
       <mtc:Definition>Capacitance Value measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Measurement Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -27,10 +27,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Conductance">
-      <uom:Quantity name="Conductance" />
+      <uom:Quantity name="conductance" />
     </mtc:Result>
     <mtc:Parameter name="Conductance" optional="false">
-      <uom:Quantity name="Conductance" />
+      <uom:Quantity name="conductance" />
       <mtc:Definition>Conductance measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -41,26 +41,26 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Conductivity">
-      <uom:Quantity name="Conductivity" />
+      <uom:Quantity name="conductivity" />
     </mtc:Result>
     <mtc:Parameter name="Conductivity" optional="false">
-      <uom:Quantity name="Conductivity" />
+      <uom:Quantity name="conductivity" />
       <mtc:Definition>Conductivity to be measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Distance" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Length between nodes</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Voltage between the probes</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="true">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition>Electrical Current Expected</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Temperature " optional="true">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition>usually 20 °C</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Chemical" />
@@ -71,10 +71,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
     </mtc:Result>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition>Current Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -106,14 +106,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
     </mtc:Result>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition>Current measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Current Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -124,14 +124,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
     </mtc:Result>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition>Measured Current</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Current Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -159,22 +159,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Density">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
     </mtc:Result>
     <mtc:Parameter name="Density " optional="false">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition>Density of the Gas</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition>Pressure of the Gas</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition>Temperature of the Gas</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition>Volume of the Gas</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -185,18 +185,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Density">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
     </mtc:Result>
     <mtc:Parameter name="Density " optional="false">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition>Density measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Temperature " optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition>Temperature of the Liquid</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Pressure" optional="true">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition>Pressure of the Liquid</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -207,34 +207,34 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Density">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
     </mtc:Result>
     <mtc:Parameter name="Density " optional="false">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition>Density measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition>Temperature of the solid</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Height</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Length" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Length</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Width" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Width</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Volume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition>Volume</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Mass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition>Mass</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -245,10 +245,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Force">
-      <uom:Quantity name="Force" />
+      <uom:Quantity name="force" />
     </mtc:Result>
     <mtc:Parameter name="Force" optional="false">
-      <uom:Quantity name="Force" />
+      <uom:Quantity name="force" />
       <mtc:Definition>Force Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Mode" optional="false">
@@ -274,22 +274,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Frequency">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Frequency Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Signal Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Signal Power</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition>Expected Input Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -300,37 +300,37 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Rate">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Carrier Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Rate" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>FM Modulation Rate</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Carrier Power </mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Deviation" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Deviation Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Detector" optional="true">
       <mtc:Definition> {+Peak, -Peak, Average, PeakToPeak, RMS}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>HighPassFilter</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="LowPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Low Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="BandPassFilter" optional="true">
@@ -344,33 +344,33 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Rate">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Carrier Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Rate" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Modulation Rate Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Power of the Carrier Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Modulation" optional="true">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition>Percent of Amplitude Modulation</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Detector" optional="true">
       <mtc:Definition> {+Peak, -Peak, Average, PeakToPeak, RMS}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Frequency of High Pass Filter</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="LowPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Low of High Pass Filter</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="BandPassFilter " optional="true">
@@ -384,14 +384,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Frequency">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Time &amp; Frequency" />
@@ -402,33 +402,33 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Deviation">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency " optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Carrier of the Carries</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Deviation" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Frequency Deviation</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Power of the Carrier Signal</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Rate " optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Modulation Rate Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Detector " optional="true">
       <mtc:Definition>{+Peak, -Peak, Average, PeakToPeak, RMS}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter " optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass Freqyency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="LowPassFilter " optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Low Pass Freqyency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="BandPassFilter" optional="true">
@@ -442,29 +442,29 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Rate">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Carrier Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Rate" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Phase Modulation Rate</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Carrier Power Level</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Detector" optional="true">
       <mtc:Definition>{+Peak, -Peak, Average, PeakToPeak, RMS}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="LowPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Low Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="BandPassFilter" optional="true">
@@ -478,18 +478,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Impedance">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
     </mtc:Result>
     <mtc:Parameter name="Impedance" optional="false">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Impedance Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -500,18 +500,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Inductance">
-      <uom:Quantity name="Inductance" />
+      <uom:Quantity name="inductance" />
     </mtc:Result>
     <mtc:Parameter name="Inductance" optional="false">
-      <uom:Quantity name="Inductance" />
+      <uom:Quantity name="inductance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -522,34 +522,34 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Length">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointZ" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Z-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointZ" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Z-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Dimensional" />
@@ -560,7 +560,7 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Lenght">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Type" optional="true">
       <mtc:Definition>{Inside, Outside}</mtc:Definition>
@@ -572,7 +572,7 @@
       <mtc:Definition>DIN, ISO, ASTM, ASME, or Federal G-Series Measurement Specifications  [plain text]</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Measured Circumference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Dimensional" />
@@ -583,10 +583,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Length">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Diameter Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -606,30 +606,30 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Lenght">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Longest dimension in the surface of interest</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Resolution" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>x-y distance between points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="MeasurementDescription" optional="true">
@@ -646,10 +646,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Parallelism">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Distance – Nominal distance between parallel planes</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -659,31 +659,31 @@
       <mtc:Definition>Largest dimension of the plane being measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointZ" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Z-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointZ" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Z-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Resolution" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition> Distance between points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -697,33 +697,33 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Length">
-      <uom:Quantity name="Force" />
+      <uom:Quantity name="force" />
     </mtc:Result>
     <mtc:Parameter name="Lenght" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Distance – Maximum dimension of surface or axis</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Axis" optional="true">
       <mtc:Definition>The Surface</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Resolution" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Distance between Points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -737,32 +737,32 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Roughness">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Roughness" optional="false">
       <mtc:Definition>{Ra, Rq (RMS), Rv, Rp, Rz}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Evaluation Method" optional="true">
       <mtc:Definition>({Ra, Rq (RMS), Rv, Rp, Rz})</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Resolution" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition> x-y distance between points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -776,25 +776,25 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Roundness">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Diameter" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Diameter measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Above turnable</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
       <mtc:Definition>Measurement Points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StopAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -808,25 +808,25 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Sphericity">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Sphericity" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>above turntable</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
       <mtc:Definition>Number of Measurment Points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StopAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -840,26 +840,26 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Straightness">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="LineLength" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
@@ -876,26 +876,26 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Straightness">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Line Lenght" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition> Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition> Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition> End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
@@ -912,10 +912,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Length ">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -935,14 +935,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Mass">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
     </mtc:Result>
     <mtc:Parameter name="Mass" optional="false">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Density" optional="true">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -953,48 +953,74 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Mass">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
     </mtc:Result>
     <mtc:Parameter name="Mass" optional="false">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Density" optional="true">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
     <mtc:Definition>Test Process that measures the quantity of matter which a body contains, as measured by its acceleration under a given force or by the force exerted on it by a gravitational field. The term “mass” is always used in the strict Newtonian sense as a property intrinsic to matter. Mass is the proportionality constant between a force on a material object and its resulting acceleration. This property is sometimes referred to as “true mass”, “vacuum mass”, or “mass in a vacuum” to distinguish it from conventional [apparent] mass. The true quantity of matter represented in a vacuum with no gravitational force.</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Measure.Phase-Noise.Sideband" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="PhaseNoise">
+      <uom:Quantity name="phase-noise" />
+    </mtc:Result>
+    <mtc:Parameter name="Frequency" optional="false">
+      <uom:Quantity name="frequency" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Parameter name="OffsetFrequency" optional="false">
+      <uom:Quantity name="frequency" />
+      <mtc:Definition>Offset Frequency measured</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Power" optional="true">
+      <uom:Quantity name="power" />
+      <mtc:Definition>Power of CW Signal</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Impedance" optional="true">
+      <uom:Quantity name="impedance" />
+      <mtc:Definition>Expected </mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Discipline name="Electrical" />
+    <mtc:Definition>A test process of measuring power spectral density offset from the carrier as compared to the carried power.</mtc:Definition>
   </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Measure.Phase.PhaseModulation" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Phase">
-      <uom:Quantity name="Phase" />
+      <uom:Quantity name="phase" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Carrier Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Phase" optional="false">
-      <uom:Quantity name="Phase" />
+      <uom:Quantity name="phase" />
       <mtc:Definition>Phase Modulation Phase</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Power of Carrier Signal</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Rate" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Freqeuency Rate of phase modulated signal</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="LowPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Low Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="BandPassFilter" optional="true">
@@ -1008,21 +1034,21 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Phase">
-      <uom:Quantity name="Phase" />
+      <uom:Quantity name="phase" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Port" optional="true">
       <mtc:Definition>Port Name</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Bandwidth" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Bandwidth Measurement</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1033,69 +1059,43 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Phase">
-      <uom:Quantity name="Phase" />
+      <uom:Quantity name="phase" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Port" optional="true">
       <mtc:Definition>Measurement Port</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Bandwidth" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Bandwidth</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>The process of measuring the Transmission Coefficient Phase of an RF signal that transmitted through the device under test.</mtc:Definition>
-  </mtc:Taxon>
-  <mtc:Taxon name="TestProcess.Measure.Phase-Noise.Sideband" deprecated="false" replacement="">
-    <mtc:ExternalReference name="">
-      <mtc:url />
-    </mtc:ExternalReference>
-    <mtc:Result name="PhaseNoise">
-      <uom:Quantity name="Phase-Noise" />
-    </mtc:Result>
-    <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
-      <mtc:Definition />
-    </mtc:Parameter>
-    <mtc:Parameter name="OffsetFrequency" optional="false">
-      <uom:Quantity name="Frequency" />
-      <mtc:Definition>Offset Frequency measured</mtc:Definition>
-    </mtc:Parameter>
-    <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
-      <mtc:Definition>Power of CW Signal</mtc:Definition>
-    </mtc:Parameter>
-    <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
-      <mtc:Definition>Expected </mtc:Definition>
-    </mtc:Parameter>
-    <mtc:Discipline name="Electrical" />
-    <mtc:Definition>A test process of measuring power spectral density offset from the carrier as compared to the carried power.</mtc:Definition>
   </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Measure.Power.RF.Sinewave" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Power">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Expected measurement Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1106,14 +1106,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="PresureRef" optional="true">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition>Reference Pressure</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="O2_Safe" optional="true">
@@ -1127,10 +1127,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Fluid" optional="true">
@@ -1144,10 +1144,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="O2_Safe" optional="true">
@@ -1161,10 +1161,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="O2_Safe" optional="true">
@@ -1178,33 +1178,33 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Depth">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Frequency " optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Carrier Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Depth" optional="false">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition>Amplitude Modulation Depth</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="true">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Carrier Power Level</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Rate" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Modulation Rate Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Detector " optional="true">
       <mtc:Definition> {+Peak, -Peak, Average, PeakToPeak, RMS}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="HighPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="LowPassFilter" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Low Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="BandPassFilter" optional="true">
@@ -1218,25 +1218,25 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Ratio">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="DensityRatio" optional="false">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition>{kg·m3/kg·m3 g·cm3/g·cm3, lb·ft3/lb·ft3}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference material" optional="false">
       <mtc:Definition>{Water , Air}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Pressure" optional="true">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Volume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -1247,18 +1247,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Relative Humidity">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Relative Humidity" optional="false">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Temperature" optional="true">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Pressure" optional="true">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1269,18 +1269,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Humidity">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Humidity" optional="false">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="DryAirMass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="WaterVaporMass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1291,21 +1291,21 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Magnitude">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Port" optional="true">
       <mtc:Definition>Measurement Port</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Bandwidth" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Bandwidth</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1316,18 +1316,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaPower">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="FrequencyRef" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Reference Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Measurement Power</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1338,22 +1338,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaPower">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Measurement Power</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="PowerRef" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Reference Power</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Expected Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1364,21 +1364,21 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Magnitude">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Port" optional="true">
       <mtc:Definition>Measurement Port</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Bandwidth" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Bandwidth</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1389,18 +1389,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Ratio">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
     </mtc:Result>
     <mtc:Parameter name="Input" optional="false">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Output" optional="false">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Ratio" optional="false">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Direction" optional="true">
@@ -1420,18 +1420,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Ratio">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>DC Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Input impedance of the measuring device. Expected output impedance of a source.</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Bandwidth" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass Filter Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1460,7 +1460,7 @@
       <mtc:Definition>Input Name of the UUT Connecting Point</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="FrequencyRef" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>The Frequency of the Referece Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical">
@@ -1473,22 +1473,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Ratio">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Measurement Voltage (RMS)</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="VoltsRef" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Reference Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Measurement Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="false">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Expected Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1499,18 +1499,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Humidity">
-      <uom:Quantity name="Relative-Humidity" />
+      <uom:Quantity name="relative-humidity" />
     </mtc:Result>
     <mtc:Parameter name="Humidity" optional="false">
-      <uom:Quantity name="Relative-Humidity" />
+      <uom:Quantity name="relative-humidity" />
       <mtc:Definition>Humidity Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="DryAirVolume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition>Dry Air Volume</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="WaterVaporMass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition>Water Vapor Mass</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="" />
@@ -1521,21 +1521,21 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Ohms">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
     </mtc:Result>
     <mtc:Parameter name="Ohms" optional="false">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition>Resistance Measured</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Wire" optional="false">
       <mtc:Definition>{2, 3, 4, 2Wire, 3Wire,4Wire}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Recomended Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="true">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition>Recomended Current</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1546,10 +1546,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperture" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1560,17 +1560,17 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Emissivity" optional="true">
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Distance" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1581,14 +1581,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Ohms" optional="true">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1599,14 +1599,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Ohms" optional="true">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1617,17 +1617,17 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="ThermocoupleType" optional="false">
       <mtc:Definition>{B, C, D, E, G, J, K, M, N, P, R, S, T}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -1638,10 +1638,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Time">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
     </mtc:Result>
     <mtc:Parameter name="Time" optional="false">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Time and Frequency" />
@@ -1652,13 +1652,13 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Time">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
     </mtc:Result>
     <mtc:Parameter name="Transition" optional="false">
       <mtc:Definition>{Rise, Fall}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Time" optional="false">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -1668,7 +1668,7 @@
       <mtc:Definition>Volts Peak-to-Peak</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Expected Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1679,10 +1679,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Torque">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
     </mtc:Result>
     <mtc:Parameter name="Torque" optional="false">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Direction" optional="true">
@@ -1699,14 +1699,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Torque">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
     </mtc:Result>
     <mtc:Parameter name="Torque" optional="false">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
       <mtc:Definition>The expected torque output</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition>The applied hydraulic pressure</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Direction" optional="true">
@@ -1723,14 +1723,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1741,18 +1741,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>DC Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Expected Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Bandwidth" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>High Pass filter</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1763,14 +1763,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1781,14 +1781,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1816,18 +1816,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Cap">
-      <uom:Quantity name="Capacitance" />
+      <uom:Quantity name="capacitance" />
     </mtc:Result>
     <mtc:Parameter name="Capacitance" optional="false">
-      <uom:Quantity name="Capacitance" />
+      <uom:Quantity name="capacitance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Voltage" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="true">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1838,10 +1838,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Conductance">
-      <uom:Quantity name="Conductance" />
+      <uom:Quantity name="conductance" />
     </mtc:Result>
     <mtc:Parameter name="Conductance" optional="false">
-      <uom:Quantity name="Conductance" />
+      <uom:Quantity name="conductance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1852,35 +1852,49 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Conductivity">
-      <uom:Quantity name="Conductivity" />
+      <uom:Quantity name="conductivity" />
     </mtc:Result>
     <mtc:Parameter name="Conductivity" optional="false">
-      <uom:Quantity name="Conductivity" />
+      <uom:Quantity name="conductivity" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Solution" optional="true">
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Ohms" optional="true">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>The process of sourcing Electrical Conductivity either from a fixed device or simulated.</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Current" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Amps">
+      <uom:Quantity name="current" />
+    </mtc:Result>
+    <mtc:Parameter name="Amps" optional="false">
+      <uom:Quantity name="current" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Discipline name="Electrical" />
+    <mtc:Definition>The process of sourcing a Direct Current) voltage from a device and measuring the value on the UUT.</mtc:Definition>
   </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Source.Current.AC.Sinewave" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
     </mtc:Result>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1891,14 +1905,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
     </mtc:Result>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -1909,62 +1923,48 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
     </mtc:Result>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>The process of sourcing a Triangle Alternating Current signal. Knowing the shape of the waveform allows the system to make conversions from RMS to PeakToPeak.</mtc:Definition>
-  </mtc:Taxon>
-  <mtc:Taxon name="TestProcess.Source.Current.DC" deprecated="false" replacement="">
-    <mtc:ExternalReference name="">
-      <mtc:url />
-    </mtc:ExternalReference>
-    <mtc:Result name="Amps">
-      <uom:Quantity name="Current" />
-    </mtc:Result>
-    <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
-      <mtc:Definition />
-    </mtc:Parameter>
-    <mtc:Discipline name="Electrical" />
-    <mtc:Definition>The process of sourcing a Direct Current) voltage from a device and measuring the value on the UUT.</mtc:Definition>
   </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Source.Density-Mass.Gas" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Densisty">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
     </mtc:Result>
     <mtc:Parameter name="Density" optional="false">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Lenght" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Width" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Volume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Mass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -1975,30 +1975,30 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Density">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
     </mtc:Result>
     <mtc:Parameter name="Density" optional="false">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Lenght" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Width" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Volume" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Mass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -2009,30 +2009,30 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Density">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
     </mtc:Result>
     <mtc:Parameter name="Density" optional="false">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Length" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Width" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Nominal Volume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Mass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -2043,10 +2043,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Force">
-      <uom:Quantity name="Force" />
+      <uom:Quantity name="force" />
     </mtc:Result>
     <mtc:Parameter name="Force" optional="false">
-      <uom:Quantity name="Force" />
+      <uom:Quantity name="force" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Mode" optional="false">
@@ -2059,11 +2059,11 @@
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="ExcitationVoltage" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Current" optional="true">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="OutputSensitivity" optional="true">
@@ -2080,18 +2080,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Frequency">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2102,22 +2102,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Frequency">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Offset" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>DC Offset</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2128,18 +2128,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Frequency">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Expected impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2150,10 +2150,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Impedance">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
     </mtc:Result>
     <mtc:Parameter name="Impedance" optional="false">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2164,10 +2164,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Inductance">
-      <uom:Quantity name="Inductance" />
+      <uom:Quantity name="inductance" />
     </mtc:Result>
     <mtc:Parameter name="Inductance" optional="false">
-      <uom:Quantity name="Inductance" />
+      <uom:Quantity name="inductance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2178,34 +2178,34 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Lenght">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointZ" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Z-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointZ" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Z-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -2219,10 +2219,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Lenght">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -2242,10 +2242,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Length">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -2265,33 +2265,33 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Perpendicularity">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Distance " optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Surface" optional="true">
       <mtc:Definition>Name [Text]</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Resolution" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Distance between points</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -2305,25 +2305,25 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Roundness">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Diameter" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StopAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
@@ -2337,29 +2337,29 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Sphericity">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Sphericity" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Height" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StopAngle" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition>Rotational Angle from reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Reference" optional="true">
-      <uom:Quantity name="Plane-Angle" />
+      <uom:Quantity name="plane-angle" />
       <mtc:Definition> DIN, ISO, ASTM, ASME, or Federal G-Series Measurement Specifications  [plain text]</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Dimensional" />
@@ -2370,26 +2370,26 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Straightness">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="StartPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="StartPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>Start Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointX" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the X-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="EndPointY" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition>End Point on the Y-Axis distance from the reference</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="NumberOfPoints" optional="true">
@@ -2406,10 +2406,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Length">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
     </mtc:Result>
     <mtc:Parameter name="Length" optional="false">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Type" optional="true">
@@ -2429,10 +2429,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="mass">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
     </mtc:Result>
     <mtc:Parameter name="Mass" optional="false">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="" />
@@ -2443,14 +2443,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Mass">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
     </mtc:Result>
     <mtc:Parameter name="Mass" optional="false">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Density" optional="true">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -2461,14 +2461,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Mass">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
     </mtc:Result>
     <mtc:Parameter name="Mass" optional="false">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Density" optional="true">
-      <uom:Quantity name="Density-Mass" />
+      <uom:Quantity name="density-mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Mass" />
@@ -2479,18 +2479,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Watts">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2501,26 +2501,26 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Watts">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Phase" optional="true">
-      <uom:Quantity name="Phase" />
+      <uom:Quantity name="phase" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="PowerFactor" optional="true">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2531,14 +2531,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Watts">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electical" />
@@ -2549,14 +2549,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Watts">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="false">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2567,14 +2567,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Noise">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2585,18 +2585,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Power">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
     </mtc:Result>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Ouptut Impedacne</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2607,10 +2607,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Presure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Fluid" optional="true">
@@ -2624,10 +2624,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="O2_Safe" optional="true">
@@ -2641,10 +2641,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="O2_Safe" optional="true">
@@ -2658,10 +2658,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Pressure">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
     </mtc:Result>
     <mtc:Parameter name="Pressure" optional="false">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="O2_Safe" optional="true">
@@ -2675,18 +2675,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Humidity">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Humidity" optional="false">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="DryAirVolume" optional="true">
-      <uom:Quantity name="Volume" />
+      <uom:Quantity name="volume" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="WaterVaporMass" optional="true">
-      <uom:Quantity name="Mass" />
+      <uom:Quantity name="mass" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="" />
@@ -2697,22 +2697,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaPower">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="FrequencyRef" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>Reference Frequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2723,22 +2723,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaPower">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Power" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="PowerRef" optional="false">
-      <uom:Quantity name="Power" />
+      <uom:Quantity name="power" />
       <mtc:Definition>Reference Power</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impecance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2749,22 +2749,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaVolts">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="FrequencyRef" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition>RefFrequency</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2775,22 +2775,22 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaVolts">
-      <uom:Quantity name="Ratio" />
+      <uom:Quantity name="ratio" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="VoltsRef" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Reference Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Ouptut Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2801,21 +2801,21 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Ohms">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
     </mtc:Result>
     <mtc:Parameter name="Ohms" optional="false">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Wire" optional="false">
       <mtc:Definition>{2, 3, 4, 2Wire, 3Wire, 4Wire} – The UUT connection can be a 2-Wire, 3-Wire, of 4-Wire Connection</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Volts Setting</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Amps" optional="true">
-      <uom:Quantity name="Current" />
+      <uom:Quantity name="current" />
       <mtc:Definition>Current Setting</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -2826,10 +2826,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -2840,17 +2840,17 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Substance " optional="false">
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Temperature" optional="true">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Pressure" optional="true">
-      <uom:Quantity name="Pressure" />
+      <uom:Quantity name="pressure" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -2861,18 +2861,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Distance" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Diameter" optional="true">
-      <uom:Quantity name="Length" />
+      <uom:Quantity name="length" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -2883,14 +2883,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Ohms" optional="true">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Theromdynamics" />
@@ -2901,14 +2901,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Ohms" optional="true">
-      <uom:Quantity name="Resistance" />
+      <uom:Quantity name="resistance" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Thermodynamics" />
@@ -2919,17 +2919,17 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Temperature">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
     </mtc:Result>
     <mtc:Parameter name="Temperature" optional="false">
-      <uom:Quantity name="Temperature" />
+      <uom:Quantity name="temperature" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="ThermocoupleType " optional="false">
       <mtc:Definition> {B, C, D, E, G, J, K, M, N, P, R, S, T}</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Theromdynamics" />
@@ -2940,18 +2940,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Period">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
     </mtc:Result>
     <mtc:Parameter name="Period" optional="false">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
       <mtc:Definition>Time / Period Marker</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Time &amp; Frequenc" />
@@ -2962,18 +2962,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Period">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
     </mtc:Result>
     <mtc:Parameter name="Period" optional="false">
-      <uom:Quantity name="Time" />
+      <uom:Quantity name="time" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Volts" optional="true">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Time &amp; Frequency" />
@@ -2984,10 +2984,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Torque">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
     </mtc:Result>
     <mtc:Parameter name="Torque" optional="false">
-      <uom:Quantity name="Torque" />
+      <uom:Quantity name="torque" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Direction" optional="true">
@@ -3004,18 +3004,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Frequency" optional="false">
-      <uom:Quantity name="Frequency" />
+      <uom:Quantity name="frequency" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -3026,14 +3026,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -3044,18 +3044,18 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="DeltaVolts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="VoltsRef" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition>Reference Voltage</mtc:Definition>
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -3066,14 +3066,14 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Volts">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Parameter name="Impedance" optional="true">
-      <uom:Quantity name="Impedance" />
+      <uom:Quantity name="impedance" />
       <mtc:Definition>Output Impedance</mtc:Definition>
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />
@@ -3084,10 +3084,10 @@
       <mtc:url />
     </mtc:ExternalReference>
     <mtc:Result name="Voltage">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
     </mtc:Result>
     <mtc:Parameter name="Volts" optional="false">
-      <uom:Quantity name="Voltage" />
+      <uom:Quantity name="voltage" />
       <mtc:Definition />
     </mtc:Parameter>
     <mtc:Discipline name="Electrical" />

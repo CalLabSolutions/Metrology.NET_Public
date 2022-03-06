@@ -1,5 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <mtc:Taxonomy xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog">
+  <mtc:Taxon name="TestProcess.Measure.Acceleration" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Acceleration">
+      <uom:Quantity name="Acceleration" />
+    </mtc:Result>
+    <mtc:Parameter name="Acceleration" optional="false">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Parameter name="Time" optional="false">
+      <uom:Quantity name="Time" />
+      <mtc:Definition>Measurement time</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Distance" optional="false">
+      <uom:Quantity name="Length" />
+      <mtc:Definition>Measurement Distance</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="TimeInterval" optional="true">
+      <uom:Quantity name="Time" />
+      <mtc:Definition>Time between Measurements</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="DistanceInterval" optional="true">
+      <uom:Quantity name="Length" />
+      <mtc:Definition>Distaince between Measurements</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Discipline name="Vibration" />
+    <mtc:Definition>To measure the acceleration or deceleration / the change in velocity of a body. (m/s²)</mtc:Definition>
+  </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Measure.Capacitance" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
@@ -1811,6 +1841,92 @@
     <mtc:Discipline name="Electrical" />
     <mtc:Definition>This test process measures the DC (Direct Current) voltage sourced from the UUT.</mtc:Definition>
   </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Acceleration" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Acceleration">
+      <uom:Quantity name="Acceleration" />
+    </mtc:Result>
+    <mtc:Parameter name="Acceleration" optional="false">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Parameter name="Time" optional="true">
+      <uom:Quantity name="Time" />
+      <mtc:Definition>Measurement time</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Distance" optional="true">
+      <uom:Quantity name="Length" />
+      <mtc:Definition>Measurement Distance</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Discipline name="Vibration" />
+    <mtc:Definition>UUT is placed in a device then the device accelerates to a known Acceleration (m/s²) Often this is tested by measuring the DC output of an accelerometer on a centrifuge.</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Acceleration.Shock" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Acceleration">
+      <uom:Quantity name="Acceleration" />
+    </mtc:Result>
+    <mtc:Parameter name="OutputType" optional="false">
+      <mtc:Definition>RMS {Voltage, IEPE, Current, Charge}</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Sensitivity" optional="false">
+      <mtc:Definition>(Output per m/s²)</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Acceleration" optional="false">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition>(m/s²) The Test Acceleration</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Axis" optional="true">
+      <mtc:Definition>{X,Y, Z}</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="ExcitationVoltage" optional="true">
+      <uom:Quantity name="Voltage" />
+      <mtc:Definition>Excitation Voltage</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Position" optional="true">
+      <mtc:Definition>Relative to Gravity</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Discipline name="Vibration" />
+    <mtc:Definition>UUT is placed in a device, normally a shaker, which then moves in a single axis direction at a known acceleration at the reference frequency. Then the amplitude is changed and the difference in sensitivity is expressed as the slope of the best fit straight line between the data plotted as output (Voltage, IEPE, Current or Charge) vs Test amplitude. Ratio output of linearity expressed as the worst-case voltage difference between the measured value and the best fit straight line divided by the full-scale output (Voltage, IEPE, Current or Charge)*100 (expressed as a percentage).</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Acceleration.Vibration" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Acceleration">
+      <uom:Quantity name="Acceleration" />
+    </mtc:Result>
+    <mtc:Parameter name="Acceleration" optional="false">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition>(m/s² - RMS)</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Frequency" optional="false">
+      <uom:Quantity name="Frequency" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Parameter name="OutputType" optional="false">
+      <mtc:Definition> {Voltage, IEPE, Current, Charge}</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Sensitivity" optional="false">
+      <mtc:Definition>(Output per m/s²)   </mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Axis" optional="true">
+      <mtc:Definition>{X,Y, Z} </mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Position" optional="true">
+      <mtc:Definition>Relative to Gravity</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="ExcitationVoltage" optional="true">
+      <uom:Quantity name="Voltage" />
+      <mtc:Definition />
+    </mtc:Parameter>
+    <mtc:Discipline name="Vibration" />
+    <mtc:Definition>UUT is placed in a device, normally a shaker, then the shaker moves in a single access direction at a known acceleration and frequency.</mtc:Definition>
+  </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Source.Capacitance" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />
@@ -2669,6 +2785,88 @@
     </mtc:Parameter>
     <mtc:Discipline name="Pressure" />
     <mtc:Definition>This test process generates the pneumatic gage pressure (or relative pressure) to be measured by the unit under test. The resulting measured will be unit of measure as defined in the test point’s data. Note: Although the unit of measure can be read from the test point’s unit of measure it is good practice to pass the Unit of Measure to the test process as a parameter to avoid confusion when synchronizing data between systems. https://en.wikipedia.org/wiki/Pressure_measurement https://www.nxp.com/docs/en/application-note/AN1573.pdf?&amp;srch=1</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Ratio.Acceleration.Delta.Amplitude" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Ratio">
+      <uom:Quantity name="Ratio" />
+    </mtc:Result>
+    <mtc:Parameter name="OutputType" optional="false">
+      <mtc:Definition>RMS {Voltage, IEPE, Current, Charge}</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Sensitivity" optional="false">
+      <mtc:Definition>(Output per m/s²)</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Frequency" optional="false">
+      <uom:Quantity name="Frequency" />
+      <mtc:Definition>Test Frequency</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Acceleration" optional="false">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition>Test Acceleration</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="AccelerationRef" optional="false">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition>Reference Acceleration</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Axis" optional="true">
+      <mtc:Definition>{X,Y,Z}</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Displacement" optional="true">
+      <uom:Quantity name="Length" />
+      <mtc:Definition>Test Displacement</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="ExcitationVoltage" optional="true">
+      <uom:Quantity name="Voltage" />
+      <mtc:Definition>Excitation Voltage</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Position" optional="true">
+      <mtc:Definition>Position Relative to Gravity</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Discipline name="Vibration" />
+    <mtc:Definition>UUT is placed in a device, normally a shaker, which then moves in a single axis direction at a known acceleration at the set frequency. Then the amplitude is changed and the difference in sensitivity is expressed as the slope of the best fit straight line between the data plotted as output (Voltage, IEPE, Current or Charge) vs Test amplitude. Ratio output of linearity expressed as the worst case voltage difference between the measured value and the best fit straight line divided by the full scale output (Voltage, IEPE, Current or Charge)*100 (expressed as a percentage).</mtc:Definition>
+  </mtc:Taxon>
+  <mtc:Taxon name="TestProcess.Source.Ratio.Acceleration.Delta.Frequency" deprecated="false" replacement="">
+    <mtc:ExternalReference name="">
+      <mtc:url />
+    </mtc:ExternalReference>
+    <mtc:Result name="Ratio">
+      <uom:Quantity name="Ratio" />
+    </mtc:Result>
+    <mtc:Parameter name="OutputQuantity" optional="false">
+      <mtc:Definition>{charge, resistance, capacitance, voltage}</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Sensitivity" optional="false">
+      <mtc:Definition>Output quantity divided by the input acceleration
+</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="FrequencyRef" optional="false">
+      <uom:Quantity name="Frequency" />
+      <mtc:Definition>Reference Frequency
+</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Frequency" optional="false">
+      <uom:Quantity name="Frequency" />
+      <mtc:Definition>Test Frequency</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Axis" optional="true">
+      <mtc:Definition>{X,Y, Z} 
+</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="Acceleration" optional="true">
+      <uom:Quantity name="Acceleration" />
+      <mtc:Definition>Acceleration (m/s²)
+</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Parameter name="ExcitationVoltage" optional="true">
+      <uom:Quantity name="Voltage" />
+      <mtc:Definition>Excitation Voltage
+</mtc:Definition>
+    </mtc:Parameter>
+    <mtc:Discipline name="Vibration" />
+    <mtc:Definition>UUT is placed in a device, normally a shaker, which then moves in a single axis direction at a known acceleration at the reference frequency. Then the frequency is changed to the Test Frequency and difference in sensitivity is expressed as a ratio (Test Frequency / Ref Frequency).</mtc:Definition>
   </mtc:Taxon>
   <mtc:Taxon name="TestProcess.Source.Ratio.Humidity" deprecated="false" replacement="">
     <mtc:ExternalReference name="">

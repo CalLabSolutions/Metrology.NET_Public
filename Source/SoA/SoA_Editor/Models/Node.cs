@@ -7,6 +7,7 @@ namespace SoA_Editor.Models
     {
         string Name { get; set; }
         bool IsExpanded { get; set; }
+        bool IsSelected { get; set; }
         NodeType Type { get; set; }
         ObservableCollection<Node> Children { get; set; }
         Node Parent { get; set; }
@@ -53,8 +54,24 @@ namespace SoA_Editor.Models
                 }
             }
         }
-
         private bool _isExpanded;
+
+        
+
+        public bool IsSelected
+        {
+            get { return _IsSelected; }
+            set
+            {
+                if (_IsSelected != value)
+                {
+                    _IsSelected = value;
+                    NotifyOfPropertyChange(() => IsSelected);
+                }
+            }
+        }
+
+        private bool _IsSelected;
 
         // Children are required to use this in a TreeView
         //public IList<Node> Children { get { return mChildren; } set { } }
@@ -91,16 +108,6 @@ namespace SoA_Editor.Models
         }
     }
 
-    public class AssertionNode : Node
-    {
-        public AssertionNode(TechniqueNode node)
-        {
-            Parent = node;
-            Type = NodeType.Assertion;
-            Children = new();
-        }
-    }
-
     public class RangeNode : Node
     {
         public RangeNode(TechniqueNode node)
@@ -120,6 +127,6 @@ namespace SoA_Editor.Models
 
     public enum NodeType
     {
-        Base, Taxon, Technique, Assertion, Range
+        Base, Taxon, Technique, Range
     }
 }

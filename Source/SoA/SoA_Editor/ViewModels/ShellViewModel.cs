@@ -12,6 +12,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Xml.Linq;
 using MessageBox = System.Windows.MessageBox;
 
@@ -416,7 +417,7 @@ namespace SoA_Editor.ViewModels
                 TaxonNode newNode = new TaxonNode() { Name = Helper.TreeViewSelectedTaxon.Name };
                 //add the new node to the soa object
                 soa.CapabilityScope.Activities[0].Taxons.Add(new Unc_Taxon(Helper.TreeViewSelectedTaxon));
-                ReloadTree();
+                ReloadTree(newNode);
                 Helper.TreeViewSelectedTaxon = null;
             }
         }
@@ -436,7 +437,7 @@ namespace SoA_Editor.ViewModels
                 // Remove the taxon
                 var taxon = soa.CapabilityScope.Activities[0].Taxons[node.Name];
                 soa.CapabilityScope.Activities[0].Taxons.Remove(taxon);
-                ReloadTree();
+                ReloadTree(node, true);
             }
         }
 
@@ -472,7 +473,7 @@ namespace SoA_Editor.ViewModels
                 var technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
                 // Remove technique
                 soa.CapabilityScope.Activities[0].Techniques.Remove(technique);
-                ReloadTree(node);
+                ReloadTree(node, true);
             }
         }
 
@@ -532,6 +533,69 @@ namespace SoA_Editor.ViewModels
             if (Helper.TreeViewCase != null)
             {
                 ReloadTree(node);
+                Helper.TreeViewCase = null;
+            }
+        }
+
+        public void Add_Ranges(RangeNode rangeNode)
+        {
+            dynamic settings = new ExpandoObject();
+            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
+            settings.MinWidth = 450;
+            settings.Title = "Add new Range";
+
+            IWindowManager manager = new WindowManager();
+
+            Unc_Template template;
+            Unc_Technique technique;
+            string functionName;
+
+            // we 
+            var node = (TechniqueNode)rangeNode.Parent;
+            
+            // get the template and cases
+            template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(node.Name);
+            technique = soa.CapabilityScope.Activities[0].Techniques[node.Name];
+            functionName = technique.Technique.CMCUncertainties[0].function_name;
+
+
+            // We need to seperate our range var and our influence qtys
+            List<Mtc_Range> vars = new();
+            List<Mtc_Range> infQty = new();
+            List<Assertion> assertions = new();
+
+            // We need our influence quantity and available expression symbols (variables)
+            var expSymbols = technique.Technique.CMCUncertainties[0].ExpressionSymbols;
+            var _params = technique.Technique.Parameters.Where(p => !expSymbols.Contains(p.name)).ToArray();
+            string[] symbols = technique.Technique.CMCUncertainties[0].Variables.ToArray();
+            var ranges = technique.Technique.ParameterRanges;
+
+            for (int i = 0; i < _params.Length; i++)
+            {
+                var range = ranges[_params[i].name];
+                if (range != null) infQty.Add(range);
+            }
+
+            for (int i = 0; i < symbols.Length; i++)
+            {
+                var range = ranges[symbols[i]];
+                if (range != null) vars.Add(range);
+            }
+            // Get the assertions if any
+            foreach (string name in technique.Technique.RangeAssertions)
+            {
+                Assertion a = new();
+                a.Name = name;
+                a.Values = new ObservableCollection<string>(template.CMCUncertaintyFunctions[0].getAssertionValuesByAssertionName(name));
+                assertions.Add(a);
+            }
+            string[] constants = technique.Technique.CMCUncertainties[0].Constants.ToArray();
+            manager.ShowDialogAsync(new RangeInfoViewModel(infQty, vars, constants, assertions, functionName, template), null, settings);
+            // At this point it would be simplier to just reload the whole tree
+            if (Helper.TreeViewCase != null)
+            {
+                ReloadTree(rangeNode);
                 Helper.TreeViewCase = null;
             }
         }
@@ -613,7 +677,7 @@ namespace SoA_Editor.ViewModels
                 }
             }
 
-            if (delete) ReloadTree(node);
+            if (delete) ReloadTree(node, true);
         }
 
         public void TaxonNodeClick(TaxonNode node)
@@ -624,11 +688,6 @@ namespace SoA_Editor.ViewModels
         public void TechniqueNodeClick(TechniqueNode node)
         {
             LoadTechniqueViewModelObj(node);
-        }
-
-        public void AssertionNodeClick(AssertionNode node)
-        {
-            LoadRangeViewModelObj(node);
         }
 
         public void RangeNodeClick(RangeNode node)
@@ -761,6 +820,7 @@ namespace SoA_Editor.ViewModels
             //fill in treeview
             RootNode = new();
             RootNode.Name = "soa";
+            RootNode.Type = NodeType.Base;
 
             for (int taxonIndex = 0; taxonIndex < soa.CapabilityScope.Activities[0].Taxons.Count(); taxonIndex++)
             {
@@ -866,7 +926,7 @@ namespace SoA_Editor.ViewModels
             //if (bar != null) HideProgressBar();
         }
 
-        private void ReloadTree(Node node = null)
+        private void ReloadTree(Node node = null, bool deleted = false)
         {
             // Auto Save
             SaveXML();
@@ -874,11 +934,37 @@ namespace SoA_Editor.ViewModels
             Reload();
             // Load the tree view
             LoadTree();
-            // Expand out to the node we found
-            if (node != null && node.Parent != null)
+
+            if (node != null)
             {
-                var foundNode = findNode(node.Parent.Name);
-                if (foundNode != null) foundNode.IsExpanded = true;
+                // get the right node depending if we deleted or added
+                // we need to restablish our node since the tree was updated
+                if (deleted && node.Type == NodeType.Taxon)
+                {
+                    return;
+                }
+                else if (deleted && node.Parent != null)
+                {
+                    node = findNode(node.Parent.Name);
+                }
+                else if (!deleted) 
+                {
+                    // we need to restablish our node since the tree was updated
+                    node = findNode(node.Name);
+                }
+                // open and select the node that was last worked with
+                if (node == null) return;
+                ClickNode(node);
+                if (node.Children.Count > 0) node.IsExpanded = true;
+                node.IsSelected = true;
+                while (node != null)
+                {
+                    node.IsExpanded = true;
+                    if (node.Parent != null)
+                        node = findNode(node.Parent.Name);
+                    else
+                        node = null;
+                }
             }
         }
 
@@ -926,6 +1012,24 @@ namespace SoA_Editor.ViewModels
                     return result;
             }
             return null;
+        }
+
+        private void ClickNode(Node node)
+        {
+            if (node == null) return;
+
+            switch (node.Type)
+            {
+                case NodeType.Taxon:
+                    TaxonNodeClick((TaxonNode)node);
+                    break;
+                case NodeType.Technique:
+                    TechniqueNodeClick((TechniqueNode)node);
+                    break;
+                case NodeType.Range:
+                    RangeNodeClick((RangeNode)node);
+                    break;
+            }
         }
 
         public void getChildNames(Node node, ref List<string> names)

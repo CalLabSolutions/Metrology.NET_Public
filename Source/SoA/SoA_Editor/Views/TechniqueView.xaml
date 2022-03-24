@@ -105,7 +105,8 @@
                                     <DataGridTextColumn Header="Name" Binding="{Binding Path=InputParam}" IsReadOnly="True" />
                                     <DataGridTextColumn IsReadOnly="True" Header="Quantity" Binding="{Binding Path=Quantity, UpdateSourceTrigger=PropertyChanged}" />
                                     <DataGridTextColumn IsReadOnly="True" Header="Required" Binding="{Binding Path=Optional}" />
-                                    <DataGridCheckBoxColumn Header="Variable" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                    <!--
+                                    <DataGridCheckBoxColumn Header="Type" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
                                             Binding="{Binding Variable, UpdateSourceTrigger=PropertyChanged}" x:Name="Variable">
                                         <DataGridCheckBoxColumn.HeaderStyle>
@@ -114,8 +115,9 @@
                                             </Style>
                                         </DataGridCheckBoxColumn.HeaderStyle>
                                     </DataGridCheckBoxColumn>
-                                    <materialDesign:DataGridComboBoxColumn  Header="Variable Type" Width="Auto" IsEditable="False"
-                                                            ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.VariableTypes}"
+                                    -->
+                                    <materialDesign:DataGridComboBoxColumn  Header="Symbol Type" Width="Auto" IsEditable="False"
+                                                            ItemsSourceBinding="{Binding VariableTypes}"
                                                             SelectedValueBinding="{Binding VariableType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     </materialDesign:DataGridComboBoxColumn>
                                     <DataGridTemplateColumn>

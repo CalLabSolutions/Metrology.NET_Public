@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using SOA_DataAccessLib;
 using SoA_Editor.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace SoA_Editor.Models
 {
@@ -19,15 +20,27 @@ namespace SoA_Editor.Models
             }
             InputParam = inputParam;
             Quantity = qty;
-            Variable = variable;
+            _Variable = variable;
             VariableType = vType;
             allowUpdate = true;
             Optional = !optional ? "Yes" : "No";
+            VariableTypes = new();
+            VariableTypes.Add("Influence Quantity");
+            VariableTypes.Add("Variable");
+            VariableTypes.Add("Constant");
         }
 
         private bool allowUpdate = false;
         public static TechniqueViewModel TechniqueVM = null;
         private Mtc_Symbol.SymbolType SymbolType;
+
+        private ObservableCollection<string> _VariableTypes;
+
+        public  ObservableCollection<string> VariableTypes
+        {
+            get { return _VariableTypes; }
+            set { _VariableTypes = value; NotifyOfPropertyChange(() => VariableTypes); }
+        }
 
         private string _InputParam;
 
@@ -67,37 +80,26 @@ namespace SoA_Editor.Models
                 if (value == "") return;
                 _VariableType = value;
                 if (VariableType.ToLower() == "variable")
-                    SymbolType = Mtc_Symbol.SymbolType.Variable;
-                else
-                    SymbolType = Mtc_Symbol.SymbolType.Constant;
-                _Variable = true;
-                UpdateVarType();
-                NotifyOfPropertyChange(() => VariableType);
-                NotifyOfPropertyChange(() => Variable);
-            }
-        }
-
-        private bool _Variable;
-
-        public bool Variable
-        {
-            get { return _Variable; }
-            set
-            {
-                _Variable = value;
-                if (value)
                 {
-                    VariableType = "Variable";
+                    SymbolType = Mtc_Symbol.SymbolType.Variable;
+                    _Variable = true;
+                }
+                else if (VariableType.ToLower() == "constant")
+                {
+                    SymbolType = Mtc_Symbol.SymbolType.Constant;
+                    _Variable = true;
                 }
                 else
                 {
-                    VariableType = "";
+                    _Variable = false;
                 }
                 UpdateVarList();
-                NotifyOfPropertyChange(() => Variable);
+                UpdateVarType();
                 NotifyOfPropertyChange(() => VariableType);
             }
         }
+
+        private bool _Variable { get; set; }
 
         // Add or remove a Variable from the list
         public void UpdateVarList()
@@ -108,7 +110,7 @@ namespace SoA_Editor.Models
             {
                 Mtc_Technique technique = TechniqueVM.Technique.Technique;
 
-                if (Variable)
+                if (_Variable)
                 {
                     AddSymbol(technique);
                 }
@@ -134,7 +136,7 @@ namespace SoA_Editor.Models
             if (TechniqueVM != null && allowUpdate)
             {
                 Mtc_Technique technique = TechniqueVM.Technique.Technique;
-                if (Variable)
+                if (_Variable)
                 {
                     foreach (Technique_Variable variable in TechniqueVM.Variables)
                     {
@@ -203,26 +205,20 @@ namespace SoA_Editor.Models
                 }
             }
             // Remove from Variables or Constants
-            if (VariableType.ToLower() == "variable")
+            foreach (string vari in technique.CMCUncertainties[0].Variables)
             {
-                foreach (string vari in technique.CMCUncertainties[0].Variables)
+                if (vari == InputParam)
                 {
-                    if (vari == InputParam)
-                    {
-                        technique.CMCUncertainties[0].Variables.Remove(vari);
-                        break;
-                    }
+                    technique.CMCUncertainties[0].Variables.Remove(vari);
+                    break;
                 }
             }
-            else
+            foreach (string constant in technique.CMCUncertainties[0].Constants)
             {
-                foreach (string constant in technique.CMCUncertainties[0].Constants)
+                if (constant == InputParam)
                 {
-                    if (constant == InputParam)
-                    {
-                        technique.CMCUncertainties[0].Constants.Remove(constant);
-                        break;
-                    }
+                    technique.CMCUncertainties[0].Constants.Remove(constant);
+                    break;
                 }
             }
         }

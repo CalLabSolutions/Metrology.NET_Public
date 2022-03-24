@@ -18,10 +18,7 @@ namespace SoA_Editor.ViewModels
             InputParameters = new ObservableCollection<Technique_InputParameter>();
             Outputs = new ObservableCollection<Technique_Output>();
             Variables = new ObservableCollection<Technique_Variable>();
-            VariableTypes = new ObservableCollection<string>();
             Assertions = new ObservableCollection<RangeAssertion>();
-            VariableTypes.Add("Variable");
-            VariableTypes.Add("Constant");
         }
 
         #region Properties
@@ -309,7 +306,7 @@ namespace SoA_Editor.ViewModels
 
                 // Add the parameter to our view
                 var param = Technique.Technique.Parameters[viewModel.ParamName];
-                InputParameters.Add(new Technique_InputParameter(param.name, param.Quantity.name, param.optional, false, ""));
+                InputParameters.Add(new Technique_InputParameter(param.name, param.Quantity.name, param.optional, false, "Influence Quantity"));
             }
         }
 

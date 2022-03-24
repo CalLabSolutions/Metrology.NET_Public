@@ -162,7 +162,7 @@ namespace SoA_Editor.ViewModels
                 else inputParamQty = "";
 
                 bool variable = false;
-                string type = "";
+                string type = "Influence Quantity";
                 for (int j = 0; j < technique.Technique.CMCUncertainties[0].SymbolDefinitions.Count(); j++)
                 {
                     if (technique.Technique.CMCUncertainties[0].SymbolDefinitions[j].parameter == inputParamName)

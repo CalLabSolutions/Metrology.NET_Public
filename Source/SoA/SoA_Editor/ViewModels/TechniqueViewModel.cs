@@ -6,6 +6,7 @@ using SoA_Editor.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Dynamic;
+using System.Globalization;
 using System.Windows;
 
 namespace SoA_Editor.ViewModels
@@ -27,6 +28,8 @@ namespace SoA_Editor.ViewModels
         private InputParameterRangeDialogView inputParamRangeView;
         private OutputDialogView outputDialogView;
         private AssertionDialogView assertionDialogView;
+        private NumberStyles styles = NumberStyles.Number | NumberStyles.AllowExponent;
+        private CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
 
         public static TechniqueViewModel Instance { get; set; }
         public Unc_Technique Technique = null;
@@ -407,7 +410,7 @@ namespace SoA_Editor.ViewModels
                 Mtc_Range_Start start = new();
                 start.Quantity = param.Quantity.name;
                 start.symbol = param.Quantity.UoM.symbol;
-                start.Value = new decimal(double.Parse(viewModel.Min));
+                start.Value = new decimal(double.Parse(viewModel.Min, styles));
                 start.ValueString = viewModel.Min.ToString();
                 start.format = start.ValueString;
                 start.test = viewModel.TestMin;
@@ -415,7 +418,7 @@ namespace SoA_Editor.ViewModels
                 Mtc_Range_End end = new();
                 end.Quantity = param.Quantity.name;
                 end.symbol = param.Quantity.UoM.symbol;
-                end.Value = new decimal(double.Parse(viewModel.Max));
+                end.Value = new decimal(double.Parse(viewModel.Max, styles));
                 end.ValueString = viewModel.Max.ToString();
                 end.format = start.ValueString;
                 end.test = viewModel.TestMax;
@@ -457,10 +460,10 @@ namespace SoA_Editor.ViewModels
             {
                 // update soa object
                 param.name = viewModel.ParamRangeName;
-                param.Start.Value = new decimal(double.Parse(viewModel.Min));
+                param.Start.Value = new decimal(double.Parse(viewModel.Min, styles));
                 param.Start.ValueString = viewModel.Min;
                 param.Start.test = viewModel.TestMin;
-                param.End.Value = new decimal(double.Parse(viewModel.Max));
+                param.End.Value = new decimal(double.Parse(viewModel.Max, styles));
                 param.End.ValueString = viewModel.Max;
                 param.End.test = viewModel.TestMax;
 
@@ -507,17 +510,17 @@ namespace SoA_Editor.ViewModels
                     error = true;
                 }
                 double test;
-                if (!double.TryParse(viewModel.Min, out test))
+                if (!double.TryParse(viewModel.Min, styles, culture, out test))
                 {
                     viewModel.Error = "Please enter a valid Minimum number";
                     error = true;
                 }
-                if (!double.TryParse(viewModel.Max, out test))
+                if (!double.TryParse(viewModel.Max, styles, culture, out test))
                 {
                     viewModel.Error = "Please enter a valid Maximum number";
                     error = true;
                 }
-                if (double.Parse(viewModel.Max) < double.Parse(viewModel.Min))
+                if (double.Parse(viewModel.Max) < double.Parse(viewModel.Min, styles))
                 {
                     viewModel.Error = "Please make sure your Maximum value is greater than the Minimum value.";
                     error = true;
@@ -550,13 +553,13 @@ namespace SoA_Editor.ViewModels
             if ((bool)result)
             {
                 Mtc_Range_Start start = new();
-                start.Value = new decimal(double.Parse(viewModel.Min));
+                start.Value = new decimal(double.Parse(viewModel.Min, styles));
                 start.ValueString = viewModel.Min.ToString();
                 start.format = start.ValueString;
                 start.test = viewModel.TestMin;
 
                 Mtc_Range_End end = new();
-                end.Value = new decimal(double.Parse(viewModel.Max));
+                end.Value = new decimal(double.Parse(viewModel.Max, styles));
                 end.ValueString = viewModel.Max.ToString();
                 end.format = start.ValueString;
                 end.test = viewModel.TestMax;
@@ -597,10 +600,10 @@ namespace SoA_Editor.ViewModels
             {
                 // update soa object
                 outputR.name = viewModel.OutputName;
-                outputR.Start.Value = new decimal(double.Parse(viewModel.Min));
+                outputR.Start.Value = new decimal(double.Parse(viewModel.Min, styles));
                 outputR.Start.ValueString = viewModel.Min;
                 outputR.Start.test = viewModel.TestMin;
-                outputR.End.Value = new decimal(double.Parse(viewModel.Max));
+                outputR.End.Value = new decimal(double.Parse(viewModel.Max, styles));
                 outputR.End.ValueString = viewModel.Max;
                 outputR.End.test = viewModel.TestMax;
 
@@ -627,42 +630,45 @@ namespace SoA_Editor.ViewModels
 
         private void ClosingEventHandlerOutput(object sender, DialogClosingEventArgs eventArgs)
         {
-            var viewModel = (OutputDialogViewModel)outputDialogView.DataContext;
-            // validate
-            bool error = false;
-            if (viewModel.OutputName == null || viewModel.OutputName == "")
+            if ((bool)eventArgs.Parameter)
             {
-                viewModel.Error = "Please select a Parameter Name";
-                error = true;
-            }
-            else if (viewModel.TestMax == null || viewModel.TestMax == "")
-            {
-                viewModel.Error = "Please select a Maximum (at, before, or after)";
-                error = true;
-            }
-            else if (viewModel.TestsMin == null || viewModel.TestMin == "")
-            {
-                viewModel.Error = "Please select a Minimum (at, before, or after)";
-                error = true;
-            }
-            double test;
-            if (!double.TryParse(viewModel.Min, out test))
-            {
-                viewModel.Error = "Please enter a valid Minimum number";
-                error = true;
-            }
-            if (!double.TryParse(viewModel.Max, out test))
-            {
-                viewModel.Error = "Please enter a valid Maximum number";
-                error = true;
-            }
-            if (double.Parse(viewModel.Max) < double.Parse(viewModel.Min))
-            {
-                viewModel.Error = "Please make sure your Maximum value is greater than the Minimum value.";
-                error = true;
-            }
+                var viewModel = (OutputDialogViewModel)outputDialogView.DataContext;
+                // validate
+                bool error = false;
+                if (viewModel.OutputName == null || viewModel.OutputName == "")
+                {
+                    viewModel.Error = "Please select a Parameter Name";
+                    error = true;
+                }
+                else if (viewModel.TestMax == null || viewModel.TestMax == "")
+                {
+                    viewModel.Error = "Please select a Maximum (at, before, or after)";
+                    error = true;
+                }
+                else if (viewModel.TestsMin == null || viewModel.TestMin == "")
+                {
+                    viewModel.Error = "Please select a Minimum (at, before, or after)";
+                    error = true;
+                }
+                double test;
+                if (!double.TryParse(viewModel.Min, styles, culture, out test))
+                {
+                    viewModel.Error = "Please enter a valid Minimum number";
+                    error = true;
+                }
+                if (!double.TryParse(viewModel.Max, styles, culture, out test))
+                {
+                    viewModel.Error = "Please enter a valid Maximum number";
+                    error = true;
+                }
+                if (double.Parse(viewModel.Max) < double.Parse(viewModel.Min, styles))
+                {
+                    viewModel.Error = "Please make sure your Maximum value is greater than the Minimum value.";
+                    error = true;
+                }
 
-            if (error) eventArgs.Cancel();
+                if (error) eventArgs.Cancel();
+            }
         }
 
         private void UpdateParamRangeAndVars(string oldName, string newName)
@@ -761,17 +767,20 @@ namespace SoA_Editor.ViewModels
 
         private void ClosingEventHandlerAssertion(object sender, DialogClosingEventArgs eventArgs)
         {
-            var viewModel = (AssertionDialogViewModel)assertionDialogView.DataContext;
-
-            // validate
-            bool error = false;
-            if (viewModel.AssertionName == null || viewModel.AssertionName == "")
+            if ((bool)eventArgs.Parameter)
             {
-                viewModel.Error = "Please enter an Assertion Name";
-                error = true;
-            }
+                var viewModel = (AssertionDialogViewModel)assertionDialogView.DataContext;
 
-            if (error) eventArgs.Cancel();
+                // validate
+                bool error = false;
+                if (viewModel.AssertionName == null || viewModel.AssertionName == "")
+                {
+                    viewModel.Error = "Please enter an Assertion Name";
+                    error = true;
+                }
+
+                if (error) eventArgs.Cancel();
+            }
         }
 
         // This could potentally cause havoc on the ranges. Lets not use this right now

@@ -94,7 +94,7 @@ namespace SoA_Editor.Models
                     _Variable = false;
                 }
                 UpdateVarList();
-                UpdateVarType();
+                //UpdateVarType();
                 NotifyOfPropertyChange(() => VariableType);
             }
         }
@@ -112,6 +112,8 @@ namespace SoA_Editor.Models
 
                 if (_Variable)
                 {
+                    // remove if exists as another type first
+                    RemoveSymbol(technique);
                     AddSymbol(technique);
                 }
                 else
@@ -193,14 +195,27 @@ namespace SoA_Editor.Models
         private void RemoveSymbol(Mtc_Technique technique)
         {
             Mtc_Symbol symbol = TechniqueVM.Technique.Technique.CMCUncertainties[0].SymbolDefinitions[InputParam];
-            technique.CMCUncertainties[0].SymbolDefinitions.Remove(symbol);
-
-            // remove from expression symbol
-            foreach (string expSymbol in technique.CMCUncertainties[0].ExpressionSymbols)
+            if (symbol != null)
             {
-                if (expSymbol == InputParam)
+                technique.CMCUncertainties[0].SymbolDefinitions.Remove(symbol);
+
+                // remove from expression symbol
+                foreach (string expSymbol in technique.CMCUncertainties[0].ExpressionSymbols)
                 {
-                    technique.CMCUncertainties[0].RemvoeSymbol(symbol.parameter);
+                    if (expSymbol == InputParam)
+                    {
+                        technique.CMCUncertainties[0].RemvoeSymbol(symbol.parameter);
+                        break;
+                    }
+                }
+            }
+            
+            // Remove form list
+            foreach (var varListItem in TechniqueVM.Variables)
+            {
+                if (varListItem.Value == InputParam)
+                {
+                    TechniqueVM.Variables.Remove(varListItem);
                     break;
                 }
             }

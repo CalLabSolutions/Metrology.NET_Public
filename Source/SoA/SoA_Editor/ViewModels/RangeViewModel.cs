@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 
@@ -31,6 +32,8 @@ namespace SoA_Editor.ViewModels
 
         private string orginalFormula;
         private string calculatedResult;
+        private NumberStyles styles = NumberStyles.Number | NumberStyles.AllowExponent;
+        private CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
 
         public RangeViewModel()
         {
@@ -193,13 +196,13 @@ namespace SoA_Editor.ViewModels
                     {
                         range.ConstantValues[i].const_parameter_name = r.ConstantValues[i].const_parameter_name;
                         range.ConstantValues[i].ValueString = r.ConstantValues[i].ValueString;
-                        range.ConstantValues[i].Value = decimal.Parse(r.ConstantValues[i].ValueString);
+                        range.ConstantValues[i].Value = decimal.Parse(r.ConstantValues[i].ValueString, styles);
                     }
                     range.Variable_name = r.Variable_name;
                     range.Start.ValueString = r.Start.ValueString;
-                    range.Start.Value = decimal.Parse(r.Start.ValueString);
+                    range.Start.Value = decimal.Parse(r.Start.ValueString, styles);
                     range.End.ValueString = r.End.ValueString;
-                    range.End.Value = decimal.Parse(r.End.ValueString);
+                    range.End.Value = decimal.Parse(r.End.ValueString, styles);
                 }
                 // update row data
                 row.Row[range.Variable_name] = range.Start.ValueString + " to " + range.End.ValueString;
@@ -223,20 +226,20 @@ namespace SoA_Editor.ViewModels
                 var rangeMin = viewModel.Range.Start.ValueString;
                 var rangeMax = viewModel.Range.End.ValueString;
                 decimal test;
-                if (!decimal.TryParse(rangeMin, out test))
+                if (!decimal.TryParse(rangeMin, styles, culture, out test))
                 {
                     viewModel.Error = "The Minimum Value is not a number";
                     eventArgs.Cancel();
                     return;
                 }
-                if (!decimal.TryParse(rangeMax, out test))
+                if (!decimal.TryParse(rangeMax, styles, culture, out test))
                 {
                     viewModel.Error = "The Maximum Value is not a number";
                     eventArgs.Cancel();
                     return;
                 }
-                var min = decimal.Parse(rangeMin);
-                var max = decimal.Parse(rangeMax);
+                var min = decimal.Parse(rangeMin, styles);
+                var max = decimal.Parse(rangeMax, styles);
                 if (min >= max)
                 {
                     viewModel.Error = "Your Minimum Range Value must be below the Maximum Value";
@@ -305,9 +308,9 @@ namespace SoA_Editor.ViewModels
                 // See if we have a value and that it is numeric
                 double test;
                 if (variable.Value == "" || variable.Value == null) return;
-                if (double.TryParse(variable.Value, out test))
+                if (double.TryParse(variable.Value, styles, culture, out test))
                 {
-                    template.setCMCFunctionSymbol(functionName, variable.Name, double.Parse(variable.Value));
+                    template.setCMCFunctionSymbol(functionName, variable.Name, double.Parse(variable.Value, styles));
                 }
                 else
                 {
@@ -408,19 +411,20 @@ namespace SoA_Editor.ViewModels
             var influence_qtys = rangeVars.Where(r => !symbols.Contains(r)).ToList();
             var _params = rangeVars.Where(r => symbols.Contains(r)).ToList();
 
+            bool fixed_qty = false;
+            bool fixed_param = false;
             string influence_qty = null;
             string selected_param = null;
             string[] qtys = { };
             string[] _param = { };
+            // See if we are dealing with a fixed value or a range
             if (influence_qtys.Count > 0)
             {
                 influence_qty = influence_qtys[0];
                 qtys = rowData[influence_qty].Split(" to ");
-                // The ranges are not in the correct format back out and let the user know
-                if (qtys.Length != 2)
+                if (qtys.Length == 1)
                 {
-                    dialog.Message = "The Selected Range is not in the correct format, the calculation will not work.";
-                    dialog.Show();
+                    fixed_qty = true;
                 }
             }
 
@@ -428,11 +432,9 @@ namespace SoA_Editor.ViewModels
             {
                 selected_param = _params[0];
                 _param = rowData[selected_param].Split(" to ");
-                // The ranges are not in the correct format back out and let the user know
-                if (_param.Length != 2)
+                if (_param.Length == 1)
                 {
-                    dialog.Message = "The Selected Range is not in the correct format, the calculation will not work.";
-                    dialog.Show();
+                    fixed_param = true;
                 }
             }
 
@@ -454,11 +456,35 @@ namespace SoA_Editor.ViewModels
                 foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
                 {
                     if (foundRange) break;
-                    if (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[1])
+                    if (!fixed_qty && (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[1]))
                     {
                         foreach (SOA_DataAccessLib.Unc_Range _range in range.Ranges.getRanges())
                         {
-                            if (_range.Start.ValueString == _param[0] && _range.End.ValueString == _param[1])
+                            if (!fixed_param && (_range.Start.ValueString == _param[0] && _range.End.ValueString == _param[1]))
+                            {
+                                this.range = _range;
+                                foundRange = true;
+                                break;
+                            }
+                            else if (fixed_param && (_range.Start.ValueString == _param[0] && _range.End.ValueString == _param[0]))
+                            {
+                                this.range = _range;
+                                foundRange = true;
+                                break;
+                            }
+                        }
+                    }
+                    else if (fixed_qty && (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[0]))
+                    {
+                        foreach (SOA_DataAccessLib.Unc_Range _range in range.Ranges.getRanges())
+                        {
+                            if (!fixed_param && (_range.Start.ValueString == _param[0] && _range.End.ValueString == _param[1]))
+                            {
+                                this.range = _range;
+                                foundRange = true;
+                                break;
+                            }
+                            else if (fixed_param && (_range.Start.ValueString == _param[0] && _range.End.ValueString == _param[0]))
                             {
                                 this.range = _range;
                                 foundRange = true;
@@ -475,7 +501,12 @@ namespace SoA_Editor.ViewModels
                 
                 foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
                 {
-                    if (range.Start.ValueString == _param[0] && range.End.ValueString == _param[1])
+                    if (!fixed_param && (range.Start.ValueString == _param[0] && range.End.ValueString == _param[1]))
+                    {
+                        this.range = range;
+                        break;
+                    }
+                    else if (fixed_param && (range.Start.ValueString == _param[0] && range.End.ValueString == _param[0]))
                     {
                         this.range = range;
                         break;
@@ -523,7 +554,7 @@ namespace SoA_Editor.ViewModels
 
             foreach (ExpressionVariable exp in ExprVars)
             {
-                decimal value = decimal.Parse(exp.Value);
+                decimal value = decimal.Parse(exp.Value, styles);
 
                 if (checkStartAt && checkEndAt)
                 {

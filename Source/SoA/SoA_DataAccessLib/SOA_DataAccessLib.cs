@@ -905,7 +905,28 @@ namespace SOA_DataAccessLib
 
         public decimal? evaluate()
         {
-            var x = Math.Round((decimal)evaluator.Execute(), 28);
+            var obj = evaluator.Execute();
+            decimal x = 0;
+            if (obj is int)
+            {
+                int i = (int)obj;
+                x = decimal.Parse(i.ToString());
+            }
+            else if (obj is long)
+            {
+                long l = (long)obj;
+                x = decimal.Parse(l.ToString());
+            }
+            else if (obj is double)
+            {
+                double d = (double)obj;
+                x = decimal.Parse(d.ToString());
+            }
+            else if (obj is decimal)
+            {
+                x = (decimal)obj;
+            }
+            x = Math.Round(x, 28);
             evaluator.Reset();
             evaluator.Parse(expression);
             return x;

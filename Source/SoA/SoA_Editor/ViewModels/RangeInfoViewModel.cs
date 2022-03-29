@@ -4,6 +4,7 @@ using SoA_Editor.Model;
 using SoA_Editor.Models;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 
 namespace SoA_Editor.ViewModels
 {
@@ -16,6 +17,8 @@ namespace SoA_Editor.ViewModels
         private Unc_Template template;
         private Unc_Technique technique;
         private Helper.MessageDialog dialog;
+        private NumberStyles styles = NumberStyles.Number | NumberStyles.AllowExponent;
+        private CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
 
         public RangeInfoViewModel(List<Mtc_Range> infQtys, List<Mtc_Range> vars, string[] constants, List<Assertion> assertions, string functionName, Unc_Template template)
         {
@@ -157,14 +160,14 @@ namespace SoA_Editor.ViewModels
             }
 
             // Check if an Infuance quantity was selected
-            double test;
+            double test;            
             if (InfQtyRange.SelectedQty != null)
             {
                 if (InfQtyRange.SelectedQty.name != "" || InfQtyRange.Min == "" || InfQtyRange.Max == "")
                 {
                     // Check that the min max are numbers
 
-                    if (!double.TryParse(infQtyRange.Min, out test) || !double.TryParse(infQtyRange.Max, out test))
+                    if (!double.TryParse(infQtyRange.Min, styles, culture, out test) || !double.TryParse(infQtyRange.Max, styles, culture, out test))
                     {
                         dialog.Message = "Your Influance Quantity min and max must be a number";
                         dialog.Show();
@@ -176,7 +179,7 @@ namespace SoA_Editor.ViewModels
                     var max = InfQtyRange.SelectedQty.End.ValueString;
                     if (min != "" || min != null)
                     {
-                        if (double.Parse(InfQtyRange.Min) < double.Parse(min) || double.Parse(InfQtyRange.Max) > double.Parse(max))
+                        if (double.Parse(InfQtyRange.Min, styles) < double.Parse(min, styles) || double.Parse(InfQtyRange.Max, styles) > double.Parse(max, styles))
                         {
                             dialog.Message = "Your Influance Quantity min and max is outside of the assinged range";
                             dialog.Show();
@@ -189,7 +192,7 @@ namespace SoA_Editor.ViewModels
                 }
             }
 
-            if (SelectedVar.name == null || SelectedVar.name == "")
+            if (SelectedVar == null || SelectedVar.name == "")
             {
                 dialog.Message = "You must select a Parameter";
                 dialog.Show();
@@ -256,7 +259,7 @@ namespace SoA_Editor.ViewModels
 
                 foreach (Range_Constant constant in range.Constants)
                 {
-                    if (!double.TryParse(constant.Value, out test))
+                    if (!double.TryParse(constant.Value, styles, culture, out test))
                     {
                         dialog.Message = "One of your Constant's values must be a number";
                         dialog.Show();
@@ -273,7 +276,7 @@ namespace SoA_Editor.ViewModels
                     dialog.Show();
                     return;
                 }
-                if (!double.TryParse(range.Min, out test) || !double.TryParse(range.Max, out test))
+                if (!double.TryParse(range.Min, styles, culture, out test) || !double.TryParse(range.Max, styles, culture, out test))
                 {
                     dialog.Message = "You have an Uncertianty Range's min and max that are not numbers";
                     dialog.Show();
@@ -282,8 +285,8 @@ namespace SoA_Editor.ViewModels
                 // Make sure the range they chose a value that falls withing the parameter range
                 if (SelectedVar.Start.ValueString != "")
                 {
-                    if (double.Parse(range.Min) < double.Parse(SelectedVar.Start.ValueString) ||
-                        double.Parse(range.Max) > double.Parse(SelectedVar.End.ValueString))
+                    if (double.Parse(range.Min, styles, culture) < double.Parse(SelectedVar.Start.ValueString, styles, culture) ||
+                        double.Parse(range.Max, styles, culture) > double.Parse(SelectedVar.End.ValueString, styles, culture))
                     {
                         dialog.Message = "One of your Uncertainty Ranges is outside the Parameter's assigned Range";
                         dialog.Show();
@@ -337,12 +340,13 @@ namespace SoA_Editor.ViewModels
             SOA_DataAccessLib.Unc_Range startingRange = null;
             bool newRanges = true;
             var ranges = Case.Ranges.RangesByVarType("influence_quantity");
+            NumberStyles styles = NumberStyles.Number | NumberStyles.AllowExponent;
             foreach (SOA_DataAccessLib.Unc_Range range in ranges)
             {
                 if (range.Variable_name == InfQtyRange.SelectedQty.name)
                 {
                     // now see if we are adding a new Qty via the ranges or a new set
-                    if (range.Start.Value == decimal.Parse(InfQtyRange.Min) && range.End.Value == decimal.Parse(InfQtyRange.Max))
+                    if (range.Start.Value == decimal.Parse(InfQtyRange.Min, styles) && range.End.Value == decimal.Parse(InfQtyRange.Max, styles))
                     {
                         startingRange = range;
                         newRanges = false;
@@ -422,7 +426,7 @@ namespace SoA_Editor.ViewModels
                     paramRange.ConstantValues.Add(new Unc_ConstantValue()
                     {
                         const_parameter_name = constant.ConstName,
-                        Value = decimal.Parse(constant.Value),
+                        Value = decimal.Parse(constant.Value, styles),
                         Quantity = SelectedVar.Start.Quantity,
                         symbol = UomDataSource.getQuantity(SelectedVar.Start.Quantity).UoM.symbol
                     });
@@ -446,7 +450,7 @@ namespace SoA_Editor.ViewModels
             Unc_Range_Start start = new Unc_Range_Start();
             var qty = UomDataSource.getQuantity(quantity);
             start.test = test;
-            start.Value = decimal.Parse(min);
+            start.Value = decimal.Parse(min, styles);
             start.ValueString = min;
             if (qty != null)
             {
@@ -461,7 +465,7 @@ namespace SoA_Editor.ViewModels
             Unc_Range_End end = new Unc_Range_End();
             var qty = UomDataSource.getQuantity(quantity);
             end.test = test;
-            end.Value = decimal.Parse(max);
+            end.Value = decimal.Parse(max, styles);
             end.ValueString = max;
             if (qty != null)
             {

@@ -351,8 +351,11 @@ namespace SoA_Editor.ViewModels
             int rangeCount = ranges.getRanges().Count;
             for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
             {
-                //add a new cell with "start/end" values
-                row.Add(ranges.getRanges()[rangeIndex].Start.Value + " to " + ranges.getRanges()[rangeIndex].End.Value);
+                //add a new cell with "start/end" values also we need to account for fixed range values
+                if (ranges.getRanges()[rangeIndex].Start.ValueString == ranges.getRanges()[rangeIndex].End.ValueString)
+                    row.Add(ranges.getRanges()[rangeIndex].Start.ValueString);
+                else
+                    row.Add(ranges.getRanges()[rangeIndex].Start.ValueString + " to " + ranges.getRanges()[rangeIndex].End.ValueString);
 
                 //if there is Ranges -> call recursive function with Ranges
                 if (ranges.getRanges()[rangeIndex].Ranges != null && ranges.getRanges()[0].Ranges.variable_name != "")

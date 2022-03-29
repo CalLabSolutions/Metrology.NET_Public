@@ -217,6 +217,7 @@ namespace SoA_Editor.ViewModels
             }
 
             // lets populate our min max for our variable parameter and our constant values
+            UncRanges.Clear();
             for (int i = 0; i < rowData.Count; i++)
             {
                 var row = rowData[i];
@@ -358,7 +359,7 @@ namespace SoA_Editor.ViewModels
                     if (range.Variable_name == SelectedVar.name)
                     {
                         // now see if we are adding a new Qty via the ranges or a new set
-                        if (range.Start.Value == decimal.Parse(InfQtyRange.Min) && range.End.Value == decimal.Parse(InfQtyRange.Max))
+                        if (range.Start.Value == SelectedVar.Start.Value && range.End.Value == SelectedVar.End.Value)
                         {
                             startingRange = range;
                             newRanges = false;

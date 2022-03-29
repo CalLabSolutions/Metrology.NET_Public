@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SoA_Editor.Views"
              xmlns:vm="clr-namespace:SoA_Editor.ViewModels"
+             xmlns:Components="clr-namespace:SoA_Editor.Components"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:InputParameterDialogViewModel}"
@@ -20,7 +21,10 @@
     <Grid>
         <StackPanel>
             <TextBlock Visibility="{Binding Error, Converter={StaticResource StringIsEmptyVisibilityConverter}}" Text="{Binding Error, Mode=TwoWay}" Foreground="red" Style="{DynamicResource MaterialDesignBody2TextBlock}"  d:Text="Error" HorizontalAlignment="Center" TextWrapping="Wrap" Width="350" Margin="0 8 0 0"/>
-            <TextBox Margin="0 15 0 0" Text="{Binding ParamName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Parameter Name" Width="350"/>
+            <Components:AlphabetTextBox Margin="0 15 0 0"
+                Text="{Binding ParamName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{DynamicResource MaterialDesignFloatingHintTextBox}" 
+                materialDesign:HintAssist.Hint="Parameter Name" Width="350"/>
             <ComboBox Margin="0 24 0 0" Width="350" materialDesign:HintAssist.Hint="Quantity" ItemsSource="{Binding Quantities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" DisplayMemberPath="FormatedName" SelectedItem="{Binding Path=Quantity, Mode=TwoWay}" Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
             <CheckBox IsChecked="{Binding Optional}"  Content="Optional" Margin="25 25 0 0"/>
             <StackPanel Orientation="Horizontal" Margin="0 35 0 0" HorizontalAlignment="Center">

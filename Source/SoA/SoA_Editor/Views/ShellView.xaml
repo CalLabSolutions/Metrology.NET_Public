@@ -87,7 +87,8 @@
                     <TreeView Grid.Column="0" Margin="10" ItemsSource="{Binding RootNode.Children}" Name="TaxonomyTreeView" TreeViewItem.Selected="NestedRangeNodeSelected">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                             </Style>
                         </TreeView.ItemContainerStyle>
                         <TreeView.Resources>
@@ -114,22 +115,12 @@
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
                             </HierarchicalDataTemplate>
-                            <!--
-                            <HierarchicalDataTemplate DataType="{x:Type models:AssertionNode}" ItemsSource="{Binding Children}">
-                                <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action AssertionNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
-                                    <TextBlock.ContextMenu>
-                                        <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                            <MenuItem Header="Delete Ranges" cal:Message.Attach="DeleteRanges($dataContext)"/>                                            
-                                        </ContextMenu>
-                                    </TextBlock.ContextMenu>
-                                </TextBlock>
-                            </HierarchicalDataTemplate>
-                            -->
                             <HierarchicalDataTemplate DataType="{x:Type models:RangeNode}" ItemsSource="{Binding Children}">
                                 <TextBlock Text="{Binding Name}" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action RangeNodeClick($dataContext)]" Tag="{Binding DataContext, ElementName=myShellWindow}">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
-                                            <MenuItem Header="Delete Ranges" cal:Message.Attach="DeleteRanges($dataContext)"/>                                            
+                                            <MenuItem Header="Add Ranges" cal:Message.Attach="Add_Ranges($dataContext)"/>
+                                            <MenuItem Header="Delete Ranges" cal:Message.Attach="DeleteRanges($dataContext)"/>
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>
                                 </TextBlock>

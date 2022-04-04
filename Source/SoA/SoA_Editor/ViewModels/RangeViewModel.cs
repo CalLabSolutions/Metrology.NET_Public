@@ -534,6 +534,9 @@ namespace SoA_Editor.ViewModels
             bool checkEndBefore = false;
             bool withinRange = false;
 
+            // see if we have a fixed range
+            if (range.Start.Value == range.End.Value) return true;
+
             if (range.Start.test == "at")
             {
                 checkStartAt = true;

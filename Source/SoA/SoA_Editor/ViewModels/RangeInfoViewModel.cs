@@ -417,7 +417,7 @@ namespace SoA_Editor.ViewModels
                 paramRange.Variable_name = SelectedVar.name;
                 paramRange.Variable_type = "parameter";
                 if (count > 1)
-                    paramRange.Start = SetStart("after", range.Min, SelectedVar.Start.Quantity);
+                    paramRange.Start = SetStart("at", range.Min, SelectedVar.Start.Quantity);
                 else
                     paramRange.Start = SetStart("at", range.Min, SelectedVar.Start.Quantity);
                 paramRange.End = SetEnd("at", range.Max, SelectedVar.Start.Quantity);

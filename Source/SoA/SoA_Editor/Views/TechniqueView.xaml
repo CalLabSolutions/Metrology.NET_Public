@@ -290,8 +290,12 @@
                     <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="1" Grid.Column="1" Content="Formulas" />
-                <Label Grid.Row="1" Grid.Column="2" Content="Variables - Select a value to add it to the Fomula" />
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                    <Label Content="Formula:" Margin="10 0 0 0"/>
+                    <Label Content="{Binding FunctionName}"/>
+                </StackPanel>
+                
+                <Label Grid.Row="1" Grid.Column="2" Content="Symbols - Select a value to add it to the Fomula" />
 
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Formula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"

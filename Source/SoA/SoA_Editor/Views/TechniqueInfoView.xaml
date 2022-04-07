@@ -34,36 +34,27 @@
             <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" FontWeight="Bold" x:Name="TaxonName" d:Text="TaxonName" Margin="5 0 0 0"/>            
         </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 24 0 0">
-                <materialDesign:PackIcon Kind="FormTextbox" VerticalAlignment="Center"/>
-                <TextBox Text="{Binding Name, Mode=TwoWay}" Width="250"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                materialDesign:HintAssist.Hint="Technique Name" VerticalAlignment="Center"/>
-            </StackPanel>
-
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 24 0 0">
+            <materialDesign:PackIcon Kind="FormTextbox" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Name, Mode=TwoWay}" Width="250"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            materialDesign:HintAssist.Hint="Technique Name" VerticalAlignment="Center"/>
+        </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 24 0 0">
-            <materialDesign:PackIcon Kind="Shape" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding Category, Mode=TwoWay}" Width="250"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                materialDesign:HintAssist.Hint="Category" VerticalAlignment="Center"/>
-        </StackPanel>
-        <!-- If the user enters this field none of the parameter or result data gets saved
-             I guess it is purely for outside reference and not for the editor
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 24 0 0">
-            <materialDesign:PackIcon Kind="Web" VerticalAlignment="Center" />
-            <TextBox Text="{Binding Url, Mode=TwoWay}" Width="250"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                materialDesign:HintAssist.Hint="URL" VerticalAlignment="Center"/>
-        </StackPanel>
-        -->
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 24 0 0">
             <materialDesign:PackIcon Kind="FunctionVariant" />
             <TextBox Text="{Binding FunctionName, Mode=TwoWay}" Width="250"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                 materialDesign:HintAssist.Hint="Uncertainty Name" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0 24 0 0">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 24 0 0">
+            <materialDesign:PackIcon Kind="Shape" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Category, Mode=TwoWay}" Width="250"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                materialDesign:HintAssist.Hint="Category" VerticalAlignment="Center"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 24 0 0">
             <materialDesign:PackIcon Kind="Server" VerticalAlignment="Center" Margin="0 0 0 35"/>
             <TextBox TextWrapping="Wrap" VerticalAlignment="Stretch" Width="250"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -73,10 +64,10 @@
             materialDesign:HintAssist.HelperText="One Device per line."
             Height="80" />
         </StackPanel>
-        <TextBlock Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="17 14 0 0" FontSize="10" Grid.Row="6">Seperate each device with a comma and Equipment type.<LineBreak/> S for Source or M for Measure for example, Meter Calibrator,S</TextBlock>
+        <TextBlock Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="17 14 0 0" FontSize="10" Grid.Row="5">Seperate each device with a comma and Equipment type.<LineBreak/> S for Source or M for Measure for example, Meter Calibrator,S</TextBlock>
 
-        <Button Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" x:Name="Save" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
+        <Button Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" x:Name="Save" Content="Save" Grid.Row="6" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
         <Button Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" x:Name="Edit" Content="Save" Grid.Row="7" Width="75" HorizontalAlignment="Left" Margin="25 45 0 15"/>
-        <TextBlock Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" FontSize="12" FontStyle="Italic" Grid.Row="8" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="*Required Parameters and Results from the Taxon will be automatically added to the Technique as needed."/>
+        <TextBlock Visibility="{Binding EditMode, Converter={StaticResource InverseBoolToVisConverter}}" FontSize="12" FontStyle="Italic" Grid.Row="8" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Required Parameters and Results from the Taxon will be automatically added to the Technique as needed."/>
     </Grid>
 </UserControl>

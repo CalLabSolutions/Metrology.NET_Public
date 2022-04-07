@@ -561,25 +561,25 @@ namespace SoA_Editor.ViewModels
 
                 if (checkStartAt && checkEndAt)
                 {
-                    if (value == range.Start.Value && value == range.End.Value)
+                    if (value >= range.Start.Value && value <= range.End.Value)
                         withinRange = true;
                 }
 
                 if (checkStartAfter && checkEndAt)
                 {
-                    if (value >= range.Start.Value && value == range.End.Value)
+                    if (value > range.Start.Value && value <= range.End.Value)
                         withinRange = true;
                 }
 
                 if (checkStartAt && checkEndBefore)
                 {
-                    if (value >= range.Start.Value && value <= range.End.Value)
+                    if (value >= range.Start.Value && value < range.End.Value)
                         withinRange = true;
                 }
 
                 if (checkStartAfter && checkEndBefore)
                 {
-                    if (value >= range.Start.Value && value <= range.End.Value)
+                    if (value > range.Start.Value && value < range.End.Value)
                         withinRange = true;
                 }
                 if (!withinRange) break;

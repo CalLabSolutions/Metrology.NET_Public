@@ -23,7 +23,6 @@ namespace SoA_Editor.ViewModels
         private string dut = "";
         private string name = "";
         private string taxonName = "";
-        // private string url = "";
         private string functionName = "";
 
         
@@ -97,7 +96,7 @@ namespace SoA_Editor.ViewModels
                 uncTechnique.Technique.Name = Name;                
                 
                 // cmc category
-                cmc.Category.Name = Category;
+                cmc.Category.Name = Category == null ? "" : Category;
 
                 // Clear and update device types
                 cmc.DUT.DeviceTypes.Clear();
@@ -116,7 +115,7 @@ namespace SoA_Editor.ViewModels
                 {
                     // Add new CMC object
                     cmc = uncCMCs.CMCs.Add(uncCMCs);
-                    cmc.Category.Name = Category;
+                    cmc.Category.Name = Category == null ? "" : Category;
 
                     // we need to get the newest template
                     Unc_Template template = cmc.Templates[cmc.Templates.Count() - 1];
@@ -218,36 +217,12 @@ namespace SoA_Editor.ViewModels
                 dialog.Message = "Please enter a Name for the Technique.";
             }
 
-            if (Category == null || Category == "")
-            {
-                validated = false;
-                dialog.Message = "Please enter a Category for the Technique";
-            }
-
             if (FunctionName == null || functionName == "")
             {
                 validated = false;
                 dialog.Message = "Please enter an Uncertainty Name for the Technique";
             }
-
-            if (Dut == null || Dut == "")
-            {
-                validated = false;
-                dialog.Message = "Please enter the Required Equipment as instructed in the help text below the field entry.";
-            }
-
-            /* if the Url is present, make sure it passes a vaild http url
-            if (Url != null && Url != "")
-            {
-                Uri uriResult;
-                bool validUrl = Uri.TryCreate(Url, UriKind.Absolute, out uriResult)
-                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-                if (!validUrl)
-                {
-                    validated = false;
-                    dialog.Message = "The URL entered is not a valid HTTP URL";
-                }
-            }*/
+           
             return validated;
         }
 
@@ -290,18 +265,6 @@ namespace SoA_Editor.ViewModels
                 NotifyOfPropertyChange(() => TaxonName);
             }
         }
-
-        /*
-        public string Url
-        {
-            get { return url; }
-            set
-            {
-                url = value.Trim();
-                NotifyOfPropertyChange(() => Url);
-            }
-        }
-        */
 
         public string FunctionName
         {
@@ -352,6 +315,7 @@ namespace SoA_Editor.ViewModels
         // Add/Update device types
         public void UpdateDeviceTypes()
         {
+            if (Dut == null || Dut == "") return;
             string deviceName;
             char type = 's';
             string[] duts;

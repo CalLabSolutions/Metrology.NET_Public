@@ -61,7 +61,7 @@
                     <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">Details</TextBlock>
                     <StackPanel Grid.Row="1" Margin="0,24,0,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Taxonomy: " />
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Taxon: " />
                             <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding TypeStr, Mode=TwoWay}" />
                             <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding QuantityStr, Mode=TwoWay}" />
                             <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

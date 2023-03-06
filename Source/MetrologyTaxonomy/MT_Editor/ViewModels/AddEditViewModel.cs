@@ -47,9 +47,15 @@ namespace MT_Editor.ViewModels
             // parse out taxon name
             parsing = true;
             if (TaxonToSave.Name.Length > 0)
+            {
+                if (TaxonToSave.Name.Contains("TestProcess", System.StringComparison.CurrentCulture))
+                {
+                    TaxonToSave.Name.Replace("TestProcess.", "");
+                }
                 ParseTaxon(TaxonToSave);
+            }
             else
-                TaxonToSave.Name = "TestProcess.";
+                TaxonToSave.Name = "";
 
             // Set up Parameter Tab
             if (TaxonToSave.Parameters == null)
@@ -357,21 +363,20 @@ namespace MT_Editor.ViewModels
 
             try
             {
+                if (taxon.Name.IndexOf("TestProcess.") > -1)
+                {
+                    taxon.Name = taxon.Name.Replace("TestProcess.", "");
+                }
                 int firstDot = taxon.Name.IndexOf(".", 1) + 1;
                 int secondDot = taxon.Name.IndexOf(".", firstDot) + 1;
-                if (Types == Types.SourceRatio || Types == Types.MeasureRatio) // We have another dot to worry about now
-                {
-                    secondDot = taxon.Name.IndexOf(".", secondDot) + 1;
-                }
-                int thirdDot = taxon.Name.IndexOf(".", secondDot) + 1;
                 string qname = "";
-                if (thirdDot > 0)
+                if (secondDot > 0)
                 {
-                    qname = taxon.Name.Substring(secondDot, (thirdDot - secondDot) - 1);
+                    qname = taxon.Name.Substring(firstDot, (secondDot - secondDot) - 1);
                 }
                 else
                 {
-                    qname = taxon.Name.Substring(secondDot);
+                    qname = taxon.Name.Substring(firstDot);
                 }
 
                 
@@ -380,8 +385,8 @@ namespace MT_Editor.ViewModels
                 var UomQuantity = UomDataSource.getQuantity(qname);
                 if (UomQuantity != null) SelectedQuantity = Quantity.FormatUomQuantity(UomQuantity);
 
-                if (thirdDot > 0)
-                    Process = taxon.Name.Substring(thirdDot);
+                if (secondDot > 0)
+                    Process = taxon.Name.Substring(secondDot);
             }
             catch { }
         }
@@ -390,7 +395,7 @@ namespace MT_Editor.ViewModels
         {
             if (!parsing)
             {
-                string name = "TestProcess.";
+                string name = "";
                 if (TypeStr != "" && TypeStr != null)
                 {
                     name += TypeStr;

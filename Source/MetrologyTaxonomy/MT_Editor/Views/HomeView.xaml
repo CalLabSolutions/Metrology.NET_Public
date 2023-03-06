@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
              xmlns:local="clr-namespace:MT_Editor.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
+             d:DesignHeight="500" d:DesignWidth="800" d:Background="White"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
@@ -78,7 +78,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0">&#8226;</TextBlock>
                         <TextBlock Grid.Column="1" TextWrapping="Wrap">                        
-                            Deprecation, for situations where you want to track the progression of a Taxon due knowledge growth or collaboration
+                            Deprecate a Taxon, for situations where you want to track the progression of a Taxon due to knowledge growth or collaboration
                         </TextBlock>
                     </Grid>
                 </ListViewItem>

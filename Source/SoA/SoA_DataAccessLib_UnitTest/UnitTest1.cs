@@ -39,7 +39,7 @@ namespace SoA_DataAccessLib_UnitTest
             // A Taxon specifies the measurement quantity sourced or measured as a result of performing the Taxon, 
             //   as well as a minimal list of input parameters required. 
             var process_name1 = SampleSOA.CapabilityScope.Activities[0].Taxons[0].Taxon.Name;
-            Assert.AreEqual("TestProcess.Measure.Voltage.AC", process_name1, "Failed MtcTechnique MtcTaxon");
+            Assert.AreEqual("Measure.Voltage.AC", process_name1, "Failed MtcTechnique MtcTaxon");
 
             // Looping through a SOA's Technique Names will also be very common search refinement
             // A Technique is a specific implementation of a Taxon.

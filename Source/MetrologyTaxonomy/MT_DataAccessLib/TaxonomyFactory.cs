@@ -296,7 +296,7 @@ namespace MT_DataAccessLib
 
             //Name and Slug
             string name = taxon.Name;
-            string slug = name.Replace("TestProcess.", "");
+            string slug = name;
             slug = slug.Replace(".", "-").ToLower();
             string header = "<!--\nName: {name}\n\nSlug: {slug}\n\n";
             header = header.Replace("{name}", name);

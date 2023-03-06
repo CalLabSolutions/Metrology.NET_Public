@@ -17,7 +17,16 @@ namespace MT_Editor.ViewModels
 
         public IEnumerable<Taxon> Taxonomy
         {
-            get { return taxonomy; }
+            get {
+                foreach (Taxon taxon in taxonomy)
+                {
+                    string name = taxon.Name;
+                    if (name.Contains("TestProcess."))
+                    {
+                        taxon.Name = name.Replace("TestProcess.", "");
+                    }
+                }
+                return taxonomy; }
             set
             {
                 taxonomy = value;

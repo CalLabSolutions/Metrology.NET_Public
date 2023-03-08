@@ -32,7 +32,7 @@ namespace MT_DataAccessLib
             OpResult opResult = new OpResult();
             try
             {
-                if ((source.Length < URI_MAX_LENGTH) && (Uri.IsWellFormedUriString(Uri.EscapeUriString(source), UriKind.Absolute)))
+                if (source.Length < URI_MAX_LENGTH && Uri.IsWellFormedUriString(Uri.EscapeUriString(source), UriKind.Absolute))
                 {
                     string uri_string = Uri.EscapeUriString(source);
                     WebRequest request = WebRequest.Create(uri_string);
@@ -53,14 +53,19 @@ namespace MT_DataAccessLib
                     }
                 }
                 else
+                {
                     doc = XDocument.Parse(source, LoadOptions.PreserveWhitespace);
+                }
             }
             catch (Exception e)
             {
                 opResult.Success = false;
                 opResult.Error = e.Message;
             }
-            if (!opResult.Success) doc = null;
+            if (!opResult.Success)
+            {
+                doc = null;
+            }
             return opResult;
         }
 
@@ -91,7 +96,10 @@ namespace MT_DataAccessLib
                 opResult.Success = false;
                 opResult.Error = e.Message;
             }
-            if (!opResult.Success) doc = null;
+            if (!opResult.Success)
+            {
+                doc = null;
+            }
             return opResult;
         }
 
@@ -155,7 +163,9 @@ namespace MT_DataAccessLib
                             presentation = reader.ReadInnerXml();
                         }
                         else
+                        {
                             presentation = "";
+                        }
                     }
                     return presentation;
                 }
@@ -221,7 +231,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (_symbol == null) _symbol = altElement.Attribute("symbol").Value;
+                    if (_symbol == null)
+                    {
+                        _symbol = altElement.Attribute("symbol").Value;
+                    }
                     return _symbol;
                 }
             }
@@ -240,7 +253,9 @@ namespace MT_DataAccessLib
                             presentation = reader.ReadInnerXml();
                         }
                         else
+                        {
                             presentation = "";
+                        }
                     }
                     return presentation;
                 }
@@ -253,19 +268,28 @@ namespace MT_DataAccessLib
             /// <returns></returns>
             private Boolean hasAlias(String symbol)
             {
-                if (aliasCache.Count() == 0) loadAliases();
+                if (aliasCache.Count() == 0)
+                {
+                    loadAliases();
+                }
                 return aliasCache.Keys.Contains(symbol);
             }
 
             public decimal ConvertToBase(decimal value)
             {
-                if (tobase == null) getConverters();
+                if (tobase == null)
+                {
+                    getConverters();
+                }
                 return Math.Round(tobase(value), 28);
             }
 
             public decimal ConvertFromBase(decimal value)
             {
-                if (frombase == null) getConverters();
+                if (frombase == null)
+                {
+                    getConverters();
+                }
                 return Math.Round(frombase(value), 28);
             }
             /// <summary>
@@ -275,8 +299,14 @@ namespace MT_DataAccessLib
             /// <returns></returns>
             public string getPresentation(String symbol)
             {
-                if (this.symbol == symbol) return Presentation;
-                if (hasAlias(symbol)) return aliasCache[symbol].Presentation;
+                if (this.symbol == symbol)
+                {
+                    return Presentation;
+                }
+                if (hasAlias(symbol))
+                {
+                    return aliasCache[symbol].Presentation;
+                }
                 throw new Exception("invalid symbol");
             }
 
@@ -288,8 +318,13 @@ namespace MT_DataAccessLib
             public Boolean hasSymbol(String symbol)
             {
                 if (this.symbol == symbol)
+                {
                     return true;
-                else return hasAlias(symbol);
+                }
+                else
+                {
+                    return hasAlias(symbol);
+                }
             }
 
 
@@ -300,7 +335,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (aliasCache.Count() == 0) loadAliases();
+                    if (aliasCache.Count() == 0)
+                    {
+                        loadAliases();
+                    }
                     List<String> list = new List<String>();
                     list.Add(symbol);
                     list.AddRange(aliasCache.Keys);
@@ -349,7 +387,10 @@ namespace MT_DataAccessLib
             /// <returns></returns>
             private Boolean hasAlias(String symbol)
             {
-                if (aliasCache.Count() == 0) loadAliases();
+                if (aliasCache.Count() == 0)
+                {
+                    loadAliases();
+                }
                 return aliasCache.Keys.Contains(symbol);
             }
 
@@ -367,7 +408,9 @@ namespace MT_DataAccessLib
                             presentation = reader.ReadInnerXml();
                         }
                         else
+                        {
                             presentation = "";
+                        }
                     }
                     return presentation;
                 }
@@ -377,7 +420,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (_name == null) _name = UomElement.Attribute("base_name").Value;
+                    if (_name == null)
+                    {
+                        _name = UomElement.Attribute("base_name").Value;
+                    }
                     return _name;
                 }
             }
@@ -386,7 +432,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (_symbol == null) _symbol = UomElement.Attribute("symbol").Value;
+                    if (_symbol == null)
+                    {
+                        _symbol = UomElement.Attribute("symbol").Value;
+                    }
                     return _symbol;
                 }
             }
@@ -399,8 +448,13 @@ namespace MT_DataAccessLib
             public Boolean hasSymbol(String symbol)
             {
                 if (this.symbol == symbol)
+                {
                     return true;
-                else return hasAlias(symbol);
+                }
+                else
+                {
+                    return hasAlias(symbol);
+                }
             }
 
             /// <summary>
@@ -410,8 +464,14 @@ namespace MT_DataAccessLib
             /// <returns></returns>
             public string getPresentation(String symbol)
             {
-                if (this.symbol == symbol) return Presentation;
-                if (hasAlias(symbol)) return aliasCache[symbol].Presentation;
+                if (this.symbol == symbol)
+                {
+                    return Presentation;
+                }
+                if (hasAlias(symbol))
+                {
+                    return aliasCache[symbol].Presentation;
+                }
                 throw new Exception("invalid symbol");
             }
 
@@ -422,7 +482,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (aliasCache.Count() == 0) loadAliases();
+                    if (aliasCache.Count() == 0)
+                    {
+                        loadAliases();
+                    }
                     List<String> list = new List<String>();
                     list.Add(symbol);
                     list.AddRange(aliasCache.Keys);
@@ -454,7 +517,10 @@ namespace MT_DataAccessLib
                     if (_name == "")
                     {
                         var atrName = QtyElement.Attribute("name");
-                        if (atrName != null) _name = atrName.Value;
+                        if (atrName != null)
+                        {
+                            _name = atrName.Value;
+                        }
                     }
                     return _name;
                 }
@@ -482,14 +548,20 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (_UoM == null) _UoM = new UofM(UomElement);
+                    if (_UoM == null)
+                    {
+                        _UoM = new UofM(UomElement);
+                    }
                     return _UoM;
                 }
             }
 
             public Alternative getAlternative(string alternativeName)
             {
-                if (altCache.Count() == 0) loadAlternatives();
+                if (altCache.Count() == 0)
+                {
+                    loadAlternatives();
+                }
                 if (!altCache.Keys.Contains(alternativeName))
                 {
                     throw new Exception("invalid alternative");
@@ -499,7 +571,10 @@ namespace MT_DataAccessLib
 
             public Boolean hasAlternative(string alternativeName)
             {
-                if (altCache.Count() == 0) loadAlternatives();
+                if (altCache.Count() == 0)
+                {
+                    loadAlternatives();
+                }
                 return altCache.Keys.Contains(alternativeName);
             }
 
@@ -507,7 +582,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (altCache.Count() == 0) loadAlternatives();
+                    if (altCache.Count() == 0)
+                    {
+                        loadAlternatives();
+                    }
                     return altCache.Values;
                 }
             }
@@ -516,7 +594,10 @@ namespace MT_DataAccessLib
             {
                 get
                 {
-                    if (altCache.Count() == 0) loadAlternatives();
+                    if (altCache.Count() == 0)
+                    {
+                        loadAlternatives();
+                    }
                     return altCache.Keys.ToList();
                 }
             }
@@ -562,7 +643,10 @@ namespace MT_DataAccessLib
                 {
                     XMLDataSource datasource = new XMLDataSource();
                     OpResult op = datasource.load(UomDataSource.DatabasePath);
-                    if (op.Success) doc = datasource.Doc;
+                    if (op.Success)
+                    {
+                        doc = datasource.Doc;
+                    }
                 }
                 return doc;
             }
@@ -943,7 +1027,10 @@ namespace MT_DataAccessLib
         // logarithm base 10
         public static decimal Log10(decimal number)
         {
-            if (log10 == 0.0m) log10 = LogN(10.0m);
+            if (log10 == 0.0m)
+            {
+                log10 = LogN(10.0m);
+            }
             return LogN(number) / log10;
         }
 

@@ -246,7 +246,9 @@ namespace MT_DataAccessLib
                     using (var xw = XmlWriter.Create(ms, xmlWriterSettings))
                     {
                         if (xslt)
+                        {
                             xw.WriteProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"metrologytaxonomy.xsl\"");
+                        }
                         serializer.Serialize(xw, toXml, ns);
                     }
 
@@ -393,7 +395,11 @@ namespace MT_DataAccessLib
             if (taxon.Results != null)
             {
                 string type = "Output";
-                if (taxon.Name.ToLower().Contains("measure")) type = "Measured";
+                if (taxon.Name.ToLower().Contains("measure"))
+                {
+                    type = "Measured";
+                }
+
                 text += "<strong>" + type + " Value &amp; Uncertainty</strong>\n<ul>\n{results}\n</ul>";
                 li = "\t<li>{name}{quantity}</li>\n";
                 nextli = "";
@@ -525,7 +531,9 @@ namespace MT_DataAccessLib
                 {
                     lines[i] = lines[i].Trim();
                     if (lines[i].Length > 0)
+                    {
                         newValue.Add(lines[i]);
+                    }
                 }
                 return newValue.Count > 0 ? string.Join(" ", newValue) : value;
             }
@@ -537,7 +545,9 @@ namespace MT_DataAccessLib
                 if (reader != null)
                 {
                     while (reader.Read())
+                    {
                         sb.AppendLine(reader.ReadOuterXml());
+                    }
 
                     return sb.ToString();
                 }

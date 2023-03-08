@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     mc:Ignorable="d"
-    d:DesignHeight="500"
+    d:DesignHeight="600"
     d:DesignWidth="500" d:Background="White"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:vm="clr-namespace:MT_Editor.ViewModels"
@@ -30,14 +30,15 @@
         <converters:Types x:Key="SourceRatio">SourceRatio</converters:Types>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" x:Name="AddEdit" Margin="0 0 0 10"/>
-        <TabControl Grid.Row="1"
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" x:Name="AddEdit" Margin="0 0 0 10"/>
+            <TabControl Grid.Row="1"
             Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
             BorderThickness="0"
             BorderBrush="Transparent"
@@ -45,63 +46,136 @@
             materialDesign:ShadowAssist.ShadowDepth="Depth0"
             materialDesign:ColorZoneAssist.Mode="Standard"
             SnapsToDevicePixels="True">
-            <!-- Details -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Height="Auto" Width="Auto">
-                        <materialDesign:PackIcon Kind="Details" Width="24" Height="24" HorizontalAlignment="Center" />
-                        <TextBlock Text="Details" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </TabItem.Header>
-                <Grid Margin="0 10 0 0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">Details</TextBlock>
-                    <StackPanel Grid.Row="1" Margin="0,24,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Taxon: " />
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding TypeStr, Mode=TwoWay}" />
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding QuantityStr, Mode=TwoWay}" />
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <!-- Details -->
+                <TabItem Name="DetailsTab">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto">
+                            <materialDesign:PackIcon Kind="Details" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Details" HorizontalAlignment="Center" />
                         </StackPanel>
-                        <TextBlock Text="Type" FontWeight="Bold" Margin="0,24,0,0" />
-                        <RadioButton x:Name="Measure" Loaded="Measure_Loaded" GroupName="Types" Content="Measure" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter}, ConverterParameter={StaticResource Measure}}" />
-                        <RadioButton  x:Name="Source" Loaded="Source_Loaded" GroupName="Types" Content="Source"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource Source}}" />
-                        <RadioButton  x:Name="MeasureRatio" Loaded="MeasureRatio_Loaded" GroupName="Types" Content="Measure.Ratio" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource MeasureRatio}}" />
-                        <RadioButton  x:Name="SourceRatio" Loaded="SourceRatio_Loaded" GroupName="Types" Content="Source.Ratio"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource SourceRatio}}" />
-                        <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
-                        <ComboBox x:Name="Quantities" IsEditable="True" Loaded="Quantities_Loaded" HorizontalAlignment="Left" ItemsSource="{Binding Quantities}" DisplayMemberPath="FormatedName" Width="480" SelectedItem="{Binding SelectedQuantity, Mode=TwoWay}" materialDesign:HintAssist.Hint="Search"
+                    </TabItem.Header>
+                    <Grid Margin="0 10 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">Details</TextBlock>
+                        <StackPanel Grid.Row="1" Margin="0,24,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Taxon: " />
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding TypeStr, Mode=TwoWay}" />
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding QuantityStr, Mode=TwoWay}" />
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <TextBlock Text="Type" FontWeight="Bold" Margin="0,24,0,0" />
+                            <RadioButton x:Name="Measure" Loaded="Measure_Loaded" GroupName="Types" Content="Measure" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter}, ConverterParameter={StaticResource Measure}}" />
+                            <RadioButton  x:Name="Source" Loaded="Source_Loaded" GroupName="Types" Content="Source"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource Source}}" />
+                            <RadioButton  x:Name="MeasureRatio" Loaded="MeasureRatio_Loaded" GroupName="Types" Content="Measure.Ratio" IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource MeasureRatio}}" />
+                            <RadioButton  x:Name="SourceRatio" Loaded="SourceRatio_Loaded" GroupName="Types" Content="Source.Ratio"  IsChecked="{Binding Types, Mode=TwoWay, Converter={StaticResource TypeConverter},ConverterParameter={StaticResource SourceRatio}}" />
+                            <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
+                            <ComboBox x:Name="Quantities" IsEditable="True" Loaded="Quantities_Loaded" HorizontalAlignment="Left" ItemsSource="{Binding Quantities}" DisplayMemberPath="FormatedName" Width="480" SelectedItem="{Binding SelectedQuantity, Mode=TwoWay}" materialDesign:HintAssist.Hint="Search"
                             materialDesign:HintAssist.HintOpacity=".26" />
-                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Process</TextBlock>
-                        <TextBox Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" Width="480" HorizontalAlignment="Left" />
-                        <TextBlock FontSize="12" FontStyle="Italic">Dot sepereated generic description of how the quantity is sourced or measured.</TextBlock>
-                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
-                        <ScrollViewer>
-                            <TextBox Text="{Binding Definition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Hidden"></TextBox>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
+                            <TextBlock FontWeight="Bold" Margin="0,24,0,0">Process</TextBlock>
+                            <TextBox Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" Width="480" HorizontalAlignment="Left" />
+                            <TextBlock FontSize="12" FontStyle="Italic">Dot sepereated generic description of how the quantity is sourced or measured.</TextBlock>
+                            <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
+                            <ScrollViewer>
+                                <TextBox Text="{Binding Definition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Hidden"></TextBox>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
 
-            <!-- Parameters -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Height="Auto" Width="Auto">
-                        <materialDesign:PackIcon Kind="FormatListBulletedSquare" Width="24" Height="24" HorizontalAlignment="Center" />
-                        <TextBlock Text="Parameters" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </TabItem.Header>
-                <Grid Margin="0 10 0 0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="500"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0">Parameters</TextBlock>
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                        <StackPanel  Margin="0,24,0,0" ScrollViewer.CanContentScroll="True">
-                            <ListView x:Name="ParamList" ItemsSource="{Binding Parameters, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
+                <!-- Parameters -->
+                <TabItem Name="ParametersTab">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto">
+                            <materialDesign:PackIcon Kind="FormatListBulletedSquare" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Parameters" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Margin="0 10 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="500"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0">Parameters</TextBlock>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel  Margin="0,24,0,0" ScrollViewer.CanContentScroll="True">
+                                <ListView x:Name="ParamList" ItemsSource="{Binding Parameters, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Transparent" BorderThickness="4">
+                                                <Grid Width="448">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="75" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Name}" />
+                                                            <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"  Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Visibility="{Binding Definition, Converter={StaticResource StringIsEmptyVisibilityConverter}}">
+                                                            <TextBlock Text="Definition:" />
+                                                            <TextBlock Text="{Binding Definition}" Margin="15,0,0,0" TextWrapping="Wrap" Width="300" />
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
+                                                            <TextBlock Text="Quantity:" />
+                                                            <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                                        <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <cal:ActionMessage MethodName="DeleteParam">
+                                                                    <cal:Parameter Value="{Binding Name}" />
+                                                                </cal:ActionMessage>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                <TextBlock FontWeight="Bold" Margin="0,24,0,0">Name</TextBlock>
+                                <TextBox Text="{Binding ParamName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
+                                <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
+                                <ComboBox ItemsSource="{Binding ParamQuantities}" Width="480" IsEditable="True" SelectedItem="{Binding SelectedParamQuantity, Mode=TwoWay}" HorizontalAlignment="Left" DisplayMemberPath="FormatedName" materialDesign:HintAssist.Hint="Search"
+                            materialDesign:HintAssist.HintOpacity=".26"/>
+
+
+                                <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
+                                <ScrollViewer>
+                                    <TextBox Text="{Binding ParamDefinition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                                </ScrollViewer>
+                                <CheckBox Margin="0,24,0,0" Content="Optional" IsChecked="{Binding Optional, Mode=TwoWay}" />
+                                <Button Width="75" Content="Add" x:Name="AddParam" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
+                                <Border BorderThickness="1" BorderBrush="Gray" Width="480" HorizontalAlignment="Left" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <!-- Results -->
+                <TabItem Name="ResultsTab">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto">
+                            <materialDesign:PackIcon Kind="Export" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Results" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Margin="0 10 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0">Results</TextBlock>
+                        <StackPanel Grid.Row="1" Margin="0,24,0,0">
+                            <ListView x:Name="ResultList" ItemsSource="{Binding Results, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Border BorderBrush="Transparent" BorderThickness="4">
@@ -113,11 +187,6 @@
                                                 <StackPanel Grid.Column="0">
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding Name}" />
-                                                        <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"  Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Definition, Converter={StaticResource StringIsEmptyVisibilityConverter}}">
-                                                        <TextBlock Text="Definition:" />
-                                                        <TextBlock Text="{Binding Definition}" Margin="15,0,0,0" TextWrapping="Wrap" Width="300" />
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
                                                         <TextBlock Text="Quantity:" />
@@ -128,7 +197,7 @@
                                                     <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Click">
-                                                            <cal:ActionMessage MethodName="DeleteParam">
+                                                            <cal:ActionMessage MethodName="DeleteResult">
                                                                 <cal:Parameter Value="{Binding Name}" />
                                                             </cal:ActionMessage>
                                                         </i:EventTrigger>
@@ -141,212 +210,378 @@
                             </ListView>
 
                             <TextBlock FontWeight="Bold" Margin="0,24,0,0">Name</TextBlock>
-                            <TextBox Text="{Binding ParamName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
+                            <TextBox Text="{Binding ResultName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
                             <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
-                            <ComboBox ItemsSource="{Binding ParamQuantities}" Width="480" IsEditable="True" SelectedItem="{Binding SelectedParamQuantity, Mode=TwoWay}" HorizontalAlignment="Left" DisplayMemberPath="FormatedName" materialDesign:HintAssist.Hint="Search"
+                            <ComboBox ItemsSource="{Binding ResultQuantities}" Width="480" IsEditable="True" SelectedItem="{Binding SelectedResultQuantity, Mode=TwoWay}" HorizontalAlignment="Left" DisplayMemberPath="FormatedName" materialDesign:HintAssist.Hint="Search"
                             materialDesign:HintAssist.HintOpacity=".26"/>
-
-
-                            <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
-                            <ScrollViewer>
-                                <TextBox Text="{Binding ParamDefinition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
-                            </ScrollViewer>
-                            <CheckBox Margin="0,24,0,0" Content="Optional" IsChecked="{Binding Optional, Mode=TwoWay}" />
-                            <Button Width="75" Content="Add" x:Name="AddParam" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
+                            <Button Width="75" Content="Add" x:Name="AddResult" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
                             <Border BorderThickness="1" BorderBrush="Gray" Width="480" HorizontalAlignment="Left" />
                         </StackPanel>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
+                    </Grid>
+                </TabItem>
 
-            <!-- Results -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Height="Auto" Width="Auto">
-                        <materialDesign:PackIcon Kind="Export" Width="24" Height="24" HorizontalAlignment="Center" />
-                        <TextBlock Text="Results" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </TabItem.Header>
-                <Grid Margin="0 10 0 0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0">Results</TextBlock>
-                    <StackPanel Grid.Row="1" Margin="0,24,0,0">
-                        <ListView x:Name="ResultList" ItemsSource="{Binding Results, Mode=TwoWay}" Width="480" HorizontalAlignment="Left">
+                <!-- Disciplines -->
+                <TabItem Name="DisciplinesTab">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto">
+                            <materialDesign:PackIcon Kind="AtomVariant" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Disciplines" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel>
+                        <TextBlock FontSize="25" FontWeight="Bold">Discipline</TextBlock>
+                        <TextBlock Margin="0,24,0,0">Name</TextBlock>
+                        <TextBox Width="480" Text="{Binding DisciplineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+                        <TextBlock Margin="0,24,0,0">Sub Disciplines</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="395" Text="{Binding SubDisciplineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Content="Add" Width="75"  Margin="10,0,0,0" Style="{StaticResource MaterialDesignOutlinedButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <cal:ActionMessage MethodName="AddSub">
+                                            <cal:Parameter Value="{Binding SubDisciplineName}" />
+                                        </cal:ActionMessage>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                        <ListView x:Name="SubDisciplinesList" ItemsSource="{Binding SubDisciplines}" Margin="0,24,0,0" Width="480" HorizontalAlignment="Left">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="Transparent" BorderThickness="4">
-                                        <Grid Width="448">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="75" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
-                                                    <TextBlock Text="Quantity:" />
-                                                    <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                            <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
-                                                <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <cal:ActionMessage MethodName="DeleteResult">
-                                                            <cal:Parameter Value="{Binding Name}" />
-                                                        </cal:ActionMessage>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-
-                        <TextBlock FontWeight="Bold" Margin="0,24,0,0">Name</TextBlock>
-                        <TextBox Text="{Binding ResultName, Mode=TwoWay}" Width="480" HorizontalAlignment="Left" />
-                        <TextBlock Text="Quantity" FontWeight="Bold" Margin="0,24,0,0" />
-                        <ComboBox ItemsSource="{Binding ResultQuantities}" Width="480" IsEditable="True" SelectedItem="{Binding SelectedResultQuantity, Mode=TwoWay}" HorizontalAlignment="Left" DisplayMemberPath="FormatedName" materialDesign:HintAssist.Hint="Search"
-                            materialDesign:HintAssist.HintOpacity=".26"/>                        
-                        <Button Width="75" Content="Add" x:Name="AddResult" Margin="0,24,0,5" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignOutlinedButton}" />
-                        <Border BorderThickness="1" BorderBrush="Gray" Width="480" HorizontalAlignment="Left" />
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-
-            <!-- Disciplines -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Height="Auto" Width="Auto">
-                        <materialDesign:PackIcon Kind="AtomVariant" Width="24" Height="24" HorizontalAlignment="Center" />
-                        <TextBlock Text="Disciplines" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </TabItem.Header>
-                <StackPanel>
-                    <TextBlock FontSize="25" FontWeight="Bold">Discipline</TextBlock>
-                    <TextBlock Margin="0,24,0,0">Name</TextBlock>
-                    <TextBox Width="480" Text="{Binding DisciplineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
-                    <TextBlock Margin="0,24,0,0">Sub Disciplines</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Width="395" Text="{Binding SubDisciplineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Content="Add" Width="75"  Margin="10,0,0,0" Style="{StaticResource MaterialDesignOutlinedButton}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <cal:ActionMessage MethodName="AddSub">
-                                        <cal:Parameter Value="{Binding SubDisciplineName}" />
-                                    </cal:ActionMessage>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                    </StackPanel>
-                    <ListView x:Name="SubDisciplinesList" ItemsSource="{Binding SubDisciplines}" Margin="0,24,0,0" Width="480" HorizontalAlignment="Left">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Width="448">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="75"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding}"/>
-                                    <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
-                                        <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <cal:ActionMessage MethodName="DeleteSub">
-                                                    <cal:Parameter Value="{Binding}" />
-                                                </cal:ActionMessage>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-            </TabItem>
-
-            <!-- Ext. Ref. -->
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Height="Auto" Width="Auto">
-                        <materialDesign:PackIcon Kind="Bookshelf" Width="24" Height="24" HorizontalAlignment="Center" />
-                        <TextBlock Text="Ext. Rreference" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </TabItem.Header>
-                <StackPanel>
-                    <TextBlock FontSize="25" FontWeight="Bold">External Reference</TextBlock>
-                    <TextBlock Margin="0,24,0,0">Name</TextBlock>
-                    <TextBox Text="{Binding RefName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="480" HorizontalAlignment="Left"/>
-                    <TextBlock Margin="0,24,0,0">URL</TextBlock>
-                    <TextBox Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="480" HorizontalAlignment="Left"/>
-                    <TextBlock Margin="0,24,0,0">Category Tags</TextBlock>
-                    <TextBlock FontSize="12" Foreground="Gray" FontStyle="Italic">If name/value pairs are not needed, enter only the value</TextBlock>
-                    <ListView x:Name="CatTagList" ItemsSource="{Binding CategoryTags}" Margin="0,24,0,0" Width="480" HorizontalAlignment="Left">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
                                     <Grid Width="448">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="75" />
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="75"/>
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                            <TextBlock FontWeight="Bold" Margin="0,0,3,0">Name:</TextBlock>
-                                            <TextBlock Text="{Binding Name}"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                            <TextBlock FontWeight="Bold" Margin="0,0,3,0">Value:</TextBlock>
-                                            <TextBlock Text="{Binding Value}" />
-                                        </StackPanel>
-
-                                        <Button Grid.Column="2" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                        <TextBlock Grid.Column="0" Text="{Binding}"/>
+                                        <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
                                             <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <cal:ActionMessage MethodName="DeleteCat">
+                                                    <cal:ActionMessage MethodName="DeleteSub">
                                                         <cal:Parameter Value="{Binding}" />
                                                     </cal:ActionMessage>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>
-                                    </Grid >
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock>Name</TextBlock>
-                        <TextBlock Margin="175,0,0,0">Value</TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding CategoryTag.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
-                        <TextBox Text="{Binding CategoryTag.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,0,0" Width="200" />
-                        <Button Content="Add" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5,0,0,0" Width="70">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <cal:ActionMessage MethodName="AddCat">
-                                        <cal:Parameter Value="{Binding CategoryTag}" />
-                                    </cal:ActionMessage>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-            </TabItem>            
-        </TabControl>
+                </TabItem>
 
-        <!-- Save Taxon -->
-        <Button Grid.Row="2" x:Name="SaveTaxon" Width="85" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal">
-                <materialDesign:PackIcon Kind="ContentSave" />
-                <TextBlock>Save</TextBlock>
+                <!-- Ext. Ref. -->
+                <TabItem Name="ExtRefTab" Visibility="{Binding ShowRef, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto">
+                            <materialDesign:PackIcon Kind="Bookshelf" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Ext. Reference" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel>
+                        <TextBlock FontSize="25" FontWeight="Bold">External Reference</TextBlock>
+                        <TextBlock Margin="0,24,0,0">Name</TextBlock>
+                        <TextBox Text="{Binding RefName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="480" HorizontalAlignment="Left"/>
+                        <TextBlock Margin="0,24,0,0">URL</TextBlock>
+                        <TextBox Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="480" HorizontalAlignment="Left"/>
+                        <TextBlock Margin="0,24,0,0">Category Tags</TextBlock>
+                        <TextBlock FontSize="12" Foreground="Gray" FontStyle="Italic">If name/value pairs are not needed, enter only the value</TextBlock>
+                        <ListView x:Name="CatTagList" ItemsSource="{Binding CategoryTags}" Margin="0,24,0,0" Width="480" HorizontalAlignment="Left">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid Width="448">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="75" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                                <TextBlock FontWeight="Bold" Margin="0,0,3,0">Name:</TextBlock>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                <TextBlock FontWeight="Bold" Margin="0,0,3,0">Value:</TextBlock>
+                                                <TextBlock Text="{Binding Value}" />
+                                            </StackPanel>
+
+                                            <Button Grid.Column="2" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                                <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <cal:ActionMessage MethodName="DeleteCat">
+                                                            <cal:Parameter Value="{Binding}" />
+                                                        </cal:ActionMessage>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+                                        </Grid >
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>Name</TextBlock>
+                            <TextBlock Margin="175,0,0,0">Value</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Text="{Binding CategoryTag.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                            <TextBox Text="{Binding CategoryTag.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,0,0" Width="200" />
+                            <Button Content="Add" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5,0,0,0" Width="70">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <cal:ActionMessage MethodName="AddCat">
+                                            <cal:Parameter Value="{Binding CategoryTag}" />
+                                        </cal:ActionMessage>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+
+                <!-- Ext References -->
+                <TabItem x:Name="ExtRefsTab" Visibility="{Binding ShowRefs, Converter={StaticResource BooleanToVisibilityConverter}}" IsSelected="{Binding ShowExtRefTab}">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto">
+                            <materialDesign:PackIcon Kind="Bookshelf" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Ext. References" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel>
+                        <StackPanel Visibility="{Binding ShowAddReference, Converter={StaticResource InverseBoolToVisConverter}}">
+                            <TextBlock FontSize="25" FontWeight="Bold">External References</TextBlock>
+                            <StackPanel HorizontalAlignment="Left" Visibility="{Binding References.Count, Converter={StaticResource NotZeroToVisibilityConverter}}">
+                                <ListView x:Name="ReferenceList" SelectedIndex="{Binding SelectedIndex}" ItemsSource="{Binding References, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,12,0,0" Width="480" HorizontalAlignment="Left">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Width="448">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="75" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Vertical" Grid.Column="0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Margin="0,8,0,0">Name:</TextBlock>
+                                                        <TextBlock Margin="6,8,0,0" Text="{Binding ReferenceUrl.UrlName}" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Margin="0,8,0,0">URL:</TextBlock>
+                                                        <TextBlock Margin="6,8,0,0" Text="{Binding ReferenceUrl.UrlValue}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                                    <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <cal:ActionMessage MethodName="DeleteReference">
+                                                                <cal:Parameter Value="{Binding}" />
+                                                            </cal:ActionMessage>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <TextBlock Margin="0,10,0,0">Click to see more information about the selected reference</TextBlock>
+                                <Button x:Name="SeeMore" Content="{Binding ShowHideContentText}" Width="Auto" HorizontalAlignment="Left" Margin="0,12,0,8" Style="{StaticResource MaterialDesignOutlinedButton}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cal:ActionMessage MethodName="ShowMore">
+                                                <cal:Parameter Value="{Binding SelectedIndex}" />
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding ShowReferences, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock FontSize="25" FontWeight="Bold">Reference</TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,12,10,0">Name:</TextBlock>
+                                    <TextBlock Margin="0,12,10,0" Text="{Binding SelectedName}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,12,10,0">URL:</TextBlock>
+                                    <TextBlock Margin="0,12,10,0" Text="{Binding SelectedUrl}" />
+                                </StackPanel>
+                                <TextBlock Margin="0,24,0,0">Category Tags</TextBlock>
+                                <ListView x:Name="CatTagListRef" ItemsSource="{Binding SelectedCategoryTags, Mode=TwoWay}" Margin="0,4,0,0" Width="480" HorizontalAlignment="Left">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Grid Width="448">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="75" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                                        <TextBlock FontWeight="Bold" Margin="0,8,3,0">Name:</TextBlock>
+                                                        <TextBlock Margin="0,8,0,0" Text="{Binding Name}"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                        <TextBlock FontWeight="Bold" Margin="0,8,3,0">Value:</TextBlock>
+                                                        <TextBlock Margin="0,8,0,0" Text="{Binding Value}" />
+                                                    </StackPanel>
+                                                    <Button Grid.Column="2" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                                        <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <cal:ActionMessage MethodName="DeleteSelectCat">
+                                                                    <cal:Parameter Value="{Binding}" />
+                                                                </cal:ActionMessage>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid >
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <TextBlock FontSize="12" Foreground="Gray" FontStyle="Italic">Add additional category tags</TextBlock>
+                                <TextBlock FontSize="12" Foreground="Gray" FontStyle="Italic">If name/value pairs are not needed, enter only the value</TextBlock>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock>Name</TextBlock>
+                                    <TextBlock Margin="175,0,0,0">Value</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding CategoryTag.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                                    <TextBox Text="{Binding CategoryTag.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,0,0" Width="200" />
+                                    <Button Content="Add" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5,0,0,0" Width="70">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <cal:ActionMessage MethodName="AddNewCat">
+                                                    <cal:Parameter Value="{Binding CategoryTag}" />
+                                                </cal:ActionMessage>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <Button x:Name="AddNewRef" Margin="0,16,0,16" Content="Add Reference" Width="Auto" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignOutlinedButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <cal:ActionMessage MethodName="EnableAddTab">
+                                        </cal:ActionMessage>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+
+                <!-- Add References -->
+                <TabItem Name="AddRefTab" Visibility="{Binding ShowAddReference, Converter={StaticResource BooleanToVisibilityConverter}}" IsSelected="{Binding SelectAdd}">
+                    <TabItem.Header>
+                        <StackPanel Height="Auto" Width="Auto" >
+                            <materialDesign:PackIcon Kind="Bookshelf" Width="24" Height="24" HorizontalAlignment="Center" />
+                            <TextBlock Text="Add Reference" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel Visibility="{Binding ShowAddReference, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock FontSize="25" FontWeight="Bold">Add External Reference</TextBlock>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="1" Margin="10">
+                                <TextBlock Margin="0,12,0,0">Name:</TextBlock>
+                                <TextBox Text="{Binding AddRefName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="480" HorizontalAlignment="Left"/>
+                                <TextBlock Margin="0,16,0,0">URL:</TextBlock>
+                                <TextBox Text="{Binding AddRefUrl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="480" HorizontalAlignment="Left"/>
+                                <TextBlock Margin="0,16,0,0">Category Tags</TextBlock>
+                                <TextBlock FontSize="12" Margin="0,4,0,0" Foreground="Gray" FontStyle="Italic">If name/value pairs are not needed, enter only the value</TextBlock>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock>Name</TextBlock>
+                                    <TextBlock Margin="175,0,0,0">Value</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding CategoryTag.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                                    <TextBox Text="{Binding CategoryTag.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,0,0" Width="200" />
+                                    <Button Content="Add" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="5,0,0,0" Width="70">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <cal:ActionMessage MethodName="AddRefCat">
+                                                    <cal:Parameter Value="{Binding CategoryTag}" />
+                                                </cal:ActionMessage>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                            <ListView x:Name="AddCatTagList" ItemsSource="{Binding CategoryList, Mode=TwoWay}" Margin="0,16,0,0" Width="480" HorizontalAlignment="Left" Grid.Row="2">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid Width="452">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="75" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Horizontal" Grid.Column="0" Height="24">
+                                                    <TextBlock FontWeight="Bold" Margin="0,4,3,0">Name:</TextBlock>
+                                                    <TextBlock Margin="0,4,0,0" Text="{Binding Name}"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Grid.Column="1" Height="24">
+                                                    <TextBlock FontWeight="Bold" Margin="0,4,3,0">Value:</TextBlock>
+                                                    <TextBlock Margin="0,4,0,0" Text="{Binding Value}" />
+                                                </StackPanel>
+
+                                                <Button Grid.Column="2" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
+                                                    <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <cal:ActionMessage MethodName="DeleteRefCat">
+                                                                <cal:Parameter Value="{Binding}" />
+                                                            </cal:ActionMessage>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
+                                            </Grid >
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <StackPanel Orientation="Horizontal" Grid.Row="3">
+                                <Button Content="Save" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Style="{StaticResource MaterialDesignOutlinedButton}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cal:ActionMessage MethodName="AddNewReference">
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                                <Button Content="Cancel" Margin="20,30,0,0" Style="{StaticResource MaterialDesignOutlinedButton}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <cal:ActionMessage MethodName="CancelAddRef">
+                                            </cal:ActionMessage>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+            <!-- Save Taxon -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button x:Name="SaveTaxon" Width="85" HorizontalAlignment="Left" Visibility="{Binding ShowAddReference, Converter={StaticResource InverseBoolToVisConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ContentSave" />
+                        <TextBlock>Save</TextBlock>
+                    </StackPanel>
+                </Button>
             </StackPanel>
-        </Button>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

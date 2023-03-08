@@ -36,6 +36,11 @@ namespace MT_Editor.ViewModels
                 AddEdit = "Add Taxon";
             }
 
+            ShowAddReference = !edit;
+            ShowRefs = edit;
+            // Remove this and associated single reference code
+            ShowRef = false;
+
             // Factory and Dialog
             factory = new();
             dialog = new();
@@ -108,6 +113,20 @@ namespace MT_Editor.ViewModels
             dialog.Title = "Validation Error";
             dialog.Button = MessageBoxButton.OK;
             dialog.Image = MessageBoxImage.Error;
+
+            // Setup External References - Test Code
+            if (TaxonToSave.ExternalReferences == null)
+            {
+                TaxonToSave.ExternalReferences = new ExternalReferences()
+                {
+                    References = new List<Reference>()
+                };
+            }
+            else if (TaxonToSave.ExternalReferences != null && TaxonToSave.ExternalReferences.References == null)
+            {
+                TaxonToSave.ExternalReferences.References = new List<Reference>();
+            }
+            References = new ObservableCollection<Reference>(TaxonToSave.ExternalReferences.References);
         }
 
         private string addEdit;
@@ -231,16 +250,24 @@ namespace MT_Editor.ViewModels
                 if (process.Length > 0)
                 {
                     if (SelectedQuantity != null)
+                    {
                         QuantityStr = SelectedQuantity.QuantitiyName + ".";
+                    }
                     else
+                    {
                         QuantityStr = ".";
+                    }
                 }   
                 else
                 {
                     if (SelectedQuantity != null)
+                    {
                         QuantityStr = SelectedQuantity.QuantitiyName;
+                    }
                     else
+                    {
                         QuantityStr = "";
+                    }
                 }
                 BuildTaxonName();
                 NotifyOfPropertyChange(() => Process);
@@ -312,7 +339,9 @@ namespace MT_Editor.ViewModels
                     {
                         // Helperat for Display
                         if (entry.Value != null)
+                        {
                             quantities.Add(Quantity.FormatUomQuantity(entry.Value));
+                        }
                     }
                 }
                 return quantities;
@@ -329,9 +358,13 @@ namespace MT_Editor.ViewModels
                 if (value == null) return;
                 selectedQuantity = value;
                 if (Process.Length > 0)
+                {
                     QuantityStr = value.QuantitiyName + ".";
+                }
                 else
+                {
                     QuantityStr = value.QuantitiyName;
+                }
                 NotifyOfPropertyChange(() => SelectedQuantity);
             }
         }
@@ -383,10 +416,15 @@ namespace MT_Editor.ViewModels
 
                 qname = qname.Replace(" ", "-").ToLower();
                 var UomQuantity = UomDataSource.getQuantity(qname);
-                if (UomQuantity != null) SelectedQuantity = Quantity.FormatUomQuantity(UomQuantity);
+                if (UomQuantity != null)
+                {
+                    SelectedQuantity = Quantity.FormatUomQuantity(UomQuantity);
+                }
 
                 if (secondDot > 0)
+                {
                     Process = taxon.Name.Substring(secondDot);
+                }
             }
             catch { }
         }
@@ -475,7 +513,10 @@ namespace MT_Editor.ViewModels
             get { return parameters; }
             set
             {
-                if (value == null) return;
+                if (value == null)
+                {
+                    return;
+                }
                 parameters = value;
                 NotifyOfPropertyChange(() => Parameters);
             }
@@ -493,7 +534,9 @@ namespace MT_Editor.ViewModels
                     {
                         // Format for Display
                         if (entry.Value != null)
+                        {
                             paramQuantities.Add(Quantity.FormatUomQuantity(entry.Value));
+                        }
                     }
                 }
                 return paramQuantities;
@@ -554,6 +597,10 @@ namespace MT_Editor.ViewModels
 
         public void DeleteParam(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
             Parameters.RemoveAll(p => p.Name.ToLower().Equals(name.ToLower()));
             TaxonToSave.Parameters = new List<Parameter>(Parameters);
         }
@@ -585,7 +632,10 @@ namespace MT_Editor.ViewModels
             get { return results; }
             set
             {
-                if (value == null) return;
+                if (value == null)
+                {
+                    return;
+                }
                 results = value;
                 NotifyOfPropertyChange(() => Results);
             }
@@ -598,7 +648,10 @@ namespace MT_Editor.ViewModels
             get { return selectedResultQuantity; }
             set
             {
-                if (value == null) return;
+                if (value == null)
+                {
+                    return;
+                }
                 selectedResultQuantity = value;
                 NotifyOfPropertyChange(() => SelectedResultQuantity);
             }
@@ -616,7 +669,9 @@ namespace MT_Editor.ViewModels
                     {
                         // Format for Display
                         if (entry.Value != null)
+                        {
                             resultQuantities.Add(Quantity.FormatUomQuantity(entry.Value));
+                        }
                     }
                 }
                 return resultQuantities;
@@ -676,6 +731,10 @@ namespace MT_Editor.ViewModels
 
         public void DeleteResult(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
             Results.RemoveAll(p => p.Name.ToLower().Equals(name.ToLower()));
             TaxonToSave.Results = new List<Result>(Results);
         }
@@ -731,6 +790,10 @@ namespace MT_Editor.ViewModels
 
         public void AddSub(string subName)
         {
+            if (string.IsNullOrWhiteSpace(subName))
+            {
+                return;
+            }
             // make sure the name is not already in use
             if (SubDisciplines.Where(s => s.ToLower().Equals(subName)).ToList().Count > 0)
             {
@@ -744,6 +807,10 @@ namespace MT_Editor.ViewModels
 
         public void DeleteSub(string subName)
         {
+            if (string.IsNullOrWhiteSpace(subName))
+            {
+                return;
+            }
             SubDisciplines.RemoveAll(s => s.ToLower().Equals(subName.ToLower()));
             TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
         }
@@ -812,7 +879,10 @@ namespace MT_Editor.ViewModels
 
         public void AddCat(CategoryTag catTag)
         {
-            if (catTag.Name == null) catTag.Name = "";
+            if (catTag.Name == null)
+            {
+                catTag.Name = "";
+            }
             if (catTag.Name != "" && CategoryTags.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
             {
                 dialog.Message = "That Category Name already exists";
@@ -832,11 +902,501 @@ namespace MT_Editor.ViewModels
 
         public void DeleteCat(CategoryTag catTag)
         {
+            if (catTag == null || catTag.Value == null)
+            {
+                return;
+            }
             CategoryTags.RemoveAll(c => c.Value.ToLower().Equals(catTag.Value.ToLower()));
             TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>(CategoryTags);
         }
 
         #endregion Ext. Reference Methods
+
+        #region Ext. References Properties
+
+        #region code to turn on or off reference styles 
+        private bool showRef = true;
+
+        // Disables existing External Reference
+        public bool ShowRef
+        {
+            get { return showRef; }
+            set
+            {
+                showRef = value;
+                NotifyOfPropertyChange(() => ShowRef);
+            }
+        }
+
+        private bool showRefs = true;
+
+        // Enable new multiple reference tab
+        public bool ShowRefs
+        {
+            get { return showRefs; }
+            set
+            {
+                showRefs = value;
+                NotifyOfPropertyChange(() => ShowRefs);
+            }
+        }
+        #endregion code to turn on or off reference styles
+
+        private bool showReferences = false;
+
+        /// <summary>
+        /// True to show expand details of selected external reference
+        /// </summary>
+        public bool ShowReferences
+        {
+            get { return showReferences; }
+            set
+            {
+                showReferences = value;
+                NotifyOfPropertyChange(() => ShowReferences);
+            }
+        }
+
+        private string showHideContentText = "Show Details";
+
+        /// <summary>
+        /// Text to apply to button to show or hide details content
+        /// </summary>
+        public string ShowHideContentText
+        {
+            get { return showHideContentText; }
+            set
+            {
+                showHideContentText = value;
+                NotifyOfPropertyChange(() => ShowHideContentText);
+            }
+        }
+
+        /// <summary>
+        /// Index of selected reference to show details for
+        /// </summary>
+        private int selectedIndex = -1;
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set
+            {
+                selectedIndex = value;
+                NotifyOfPropertyChange(() => SelectedIndex);
+            }
+        }
+
+        private string selectedName = string.Empty;
+
+        /// <summary>
+        /// Name of selected reference shown in details
+        /// </summary>
+        public string SelectedName
+        {
+            get { return selectedName; }
+            set
+            {
+                selectedName = value;
+                NotifyOfPropertyChange(() => SelectedName);
+            }
+        }
+
+        private string selectedUrlValue = string.Empty;
+
+        /// <summary>
+        /// Url for selected reference in details
+        /// </summary>
+        public string SelectedUrl
+        {
+            get { return selectedUrlValue; }
+            set
+            {
+                selectedUrlValue = value;
+                NotifyOfPropertyChange(() => SelectedUrl);
+            }
+        }
+
+        private ObservableCollection<CategoryTag> selectCategoryTags = new ObservableCollection<CategoryTag>();
+
+        /// <summary>
+        /// Category tags for selected reference in details
+        /// </summary>
+        public ObservableCollection<CategoryTag> SelectedCategoryTags
+        {
+            get { return selectCategoryTags; }
+            set
+            {
+                selectCategoryTags = value;
+                NotifyOfPropertyChange(() => SelectedCategoryTags);
+            }
+        }
+
+        private ObservableCollection<Reference> references;
+
+        /// <summary>
+        /// Collection of references for a taxon
+        /// </summary>
+        public ObservableCollection<Reference> References
+        {
+            get { return references; }
+            set
+            {
+                references = value;
+                List<Reference> updateList = new List<Reference>();
+                foreach (Reference item in references)
+                {
+                    updateList.Add(item);
+                }
+                TaxonToSave.ExternalReferences.References = updateList;
+                NotifyOfPropertyChange(() => References);
+            }
+        }
+
+        private Reference reference;
+
+        /// <summary>
+        /// Single reference for a taxon to add to external references
+        /// </summary>
+        public Reference Reference
+        {
+            get { return reference; }
+            set
+            {
+                reference = value;
+                NotifyOfPropertyChange(() => Reference);
+            }
+        }
+
+        private ReferenceUrl referenceUrl;
+
+        /// <summary>
+        /// This contains the reference URL and name if added
+        /// </summary>
+        public ReferenceUrl ReferenceUrl
+        {
+            get { return referenceUrl; }
+            set { referenceUrl = value; }
+        }
+
+
+        #endregion Ext. References Properties
+
+        #region Ext. References Methods
+
+        /// <summary>
+        /// Shows the add reference tab
+        /// </summary>
+        public void EnableAddTab()
+        {
+            ShowExtRefTab = false;
+            ShowAddReference = true;
+            SelectAdd = true;
+            AddRefName = string.Empty;
+            AddRefUrl = string.Empty;
+            CategoryList = new ObservableCollection<CategoryTag>();
+        }
+
+        public void DeleteReference(Reference reference)
+        {
+            if (reference != null &&
+                References != null &&
+                References.Where(c => c.ReferenceUrl.UrlValue.ToLower().Equals(reference.ReferenceUrl.UrlValue)).ToList().Count > 0)
+            {
+                var referenceToRemove = References.Where(c => c.ReferenceUrl.UrlValue.ToLower().Equals(reference.ReferenceUrl.UrlValue)).ToList();
+                if (referenceToRemove != null)
+                {
+                    int index = References.IndexOf(referenceToRemove.FirstOrDefault<Reference>());
+                    References.Remove(referenceToRemove.FirstOrDefault<Reference>());
+                }
+                if (References.Count == 0)
+                {
+                    References = new ObservableCollection<Reference>();
+                    ShowRefs = false;
+                    ShowReferences = false;
+                    ShowAddReference = true;
+                    SelectAdd = true;
+                }
+                TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            }
+        }
+
+        /// <summary>
+        /// Show more information about an existing resource
+        /// </summary>
+        /// <param name="index"></param>
+        public void ShowMore(int index)
+        {
+            if (index == -1)
+            {
+                return;
+            }
+            if (ShowHideContentText.IndexOf("Show Details") > -1)
+            {
+                // if only 1 reference and user does not click on it set it as active
+                if (index == -1 && References.Count > 0)
+                {
+                    SelectedIndex = 0;
+                    index = 0;
+                }
+                ShowHideContentText = "Hide Details";
+                var reference = References[index];
+                SelectedName = reference.ReferenceUrl.UrlName;
+                SelectedUrl = reference.ReferenceUrl.UrlValue;
+                SelectedCategoryTags = new ObservableCollection<CategoryTag>(reference.CategoryTagList);
+                ShowReferences = true;
+            }
+            else
+            {
+                ShowReferences = false;
+                ShowHideContentText = "Show Details";
+            }
+        }
+
+        /// <summary>
+        /// This will add a new category to an existing reference
+        /// </summary>
+        /// <param name="catTag"></param>
+        public void AddNewCat(CategoryTag catTag)
+        {
+            if (SelectedCategoryTags == null)
+            {
+                SelectedCategoryTags = new ObservableCollection<CategoryTag>();
+            }
+            if (catTag.Name == null)
+            {
+                catTag.Name = "";
+            }
+            if (catTag.Name != "" && SelectedCategoryTags.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
+            {
+                dialog.Message = "That Category Name already exists";
+                dialog.Show();
+                return;
+            }
+            if (catTag.Value == null)
+            {
+                dialog.Message = "Category Tag must at least have a Value";
+                dialog.Show();
+                return;
+            }
+            SelectedCategoryTags.Add(catTag);
+            References[SelectedIndex].CategoryTagList = new List<CategoryTag>(SelectedCategoryTags);
+            TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            CategoryTag = new CategoryTag();
+
+        }
+
+        /// <summary>
+        /// Delete a category tag external references tab 
+        /// </summary>
+        /// <param name="catTag"></param>
+        public void DeleteSelectCat(CategoryTag catTag)
+        {
+            if (catTag == null || string.IsNullOrWhiteSpace(catTag.Value))
+            {
+                return;
+            }
+            SelectedCategoryTags.RemoveAll(c => c.Value.ToLower().Equals(catTag.Value.ToLower()));
+            References[SelectedIndex].CategoryTagList = new List<CategoryTag>(SelectedCategoryTags);
+            TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            CategoryTag = new CategoryTag();
+        }
+
+        #endregion Ext.References Methods
+
+        #region Add Reference Properties
+        private bool showExtRefsTab = false;
+
+        /// <summary>
+        /// This allows the external references tab to show after closing add reference
+        /// </summary>
+        public bool ShowExtRefTab
+        {
+            get { return showExtRefsTab; }
+            set
+            {
+                showExtRefsTab = value;
+                NotifyOfPropertyChange(() => ShowExtRefTab);
+            }
+        }
+        /// <summary>
+        /// True to switch to the add reference tab
+        /// </summary>
+        private bool showAddReference = false;
+
+        public bool ShowAddReference
+        {
+            get { return showAddReference; }
+            set
+            {
+                showAddReference = value;
+                NotifyOfPropertyChange(() => ShowAddReference);
+            }
+        }
+        /// <summary>
+        /// Set add tab focus
+        /// </summary>
+        private bool selectAdd = false;
+        public bool SelectAdd
+        {
+            get { return selectAdd; }
+            set 
+            { 
+                selectAdd = value;
+                NotifyOfPropertyChange(() => SelectAdd);
+            }
+        }
+
+        private string refUrlName;
+
+        /// <summary>
+        /// This is the reference URL title if wanted
+        /// </summary>
+        public string AddRefName
+        {
+            get { return refUrlName; }
+            set
+            {
+                refUrlName = value;
+                NotifyOfPropertyChange(() => AddRefName);
+            }
+        }
+
+        private string urlValue;
+
+        /// <summary>
+        /// This is a specific reference URL for a taxon
+        /// </summary>
+        public string AddRefUrl
+        {
+            get { return urlValue; }
+            set
+            {
+                urlValue = value;
+                NotifyOfPropertyChange(() => AddRefUrl);
+            }
+        }
+
+        private ObservableCollection<CategoryTag> categoryList;
+
+        /// <summary>
+        /// Collection of category tags for a single reference
+        /// </summary>
+        public ObservableCollection<CategoryTag> CategoryList
+        {
+            get { return categoryList; }
+            set
+            {
+                categoryList = value;
+                NotifyOfPropertyChange(() => CategoryList);
+            }
+        }
+
+        #endregion Add Reference Properties
+
+        #region Add Reference methods
+
+        /// <summary>
+        /// This will cancel adding a reference and reload the external references tab
+        /// </summary>
+        public void CancelAddRef()
+        {
+            if (edit || References.Count  > 0)
+            {
+                ShowAddReference = false;
+                SelectAdd = false;
+                ShowExtRefTab = true;
+            }
+            AddRefName = string.Empty;
+            AddRefUrl = string.Empty;
+            CategoryList = new ObservableCollection<CategoryTag>();
+        }
+
+        /// <summary>
+        /// Add a new category tag to an existing reference
+        /// </summary>
+        /// <param name="catTag"></param>
+        public void AddRefCat(CategoryTag catTag)
+        {
+            if (catTag.Name == null)
+            {
+                catTag.Name = "";
+            }
+            if (!string.IsNullOrWhiteSpace(catTag.Value))
+            {
+                if (CategoryList == null)
+                {
+                    CategoryList = new ObservableCollection<CategoryTag>();
+                }
+                if (catTag.Name != "" && CategoryList.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
+                {
+                    dialog.Message = "That Category Name already exists";
+                    dialog.Show();
+                    return;
+                }
+                if (catTag.Value == null)
+                {
+                    dialog.Message = "Category Tag must at least have a Value";
+                    dialog.Show();
+                    return;
+                }
+                CategoryList.Add(catTag);
+                CategoryTag = new CategoryTag();
+            }
+        }
+
+        /// <summary>
+        /// Delete a category on the add reference tab
+        /// </summary>
+        /// <param name="catTag"></param>
+        /// <param name="referenceIndex"></param>
+        public void DeleteRefCat(CategoryTag catTag)
+        {
+            if (catTag == null || string.IsNullOrWhiteSpace(catTag.Value))
+            {
+                return;
+            }
+            CategoryList.RemoveAll(c => c.Value.ToLower().Equals(catTag.Value.ToLower()));
+            CategoryTag = new CategoryTag();
+        }
+
+        /// <summary>
+        /// Save a new reference to the editing taxon
+        /// </summary>
+        public void AddNewReference()
+        {
+            if (AddRefUrl == null || AddRefUrl.Length == 0)
+            {
+                dialog.Message = "New reference must contain a URL";
+                dialog.Show();
+                return;
+            }
+            Reference reference = new Reference();
+            ReferenceUrl referenceUrl = new ReferenceUrl();
+            referenceUrl.UrlName = AddRefName;
+            referenceUrl.UrlValue = AddRefUrl;
+            reference.ReferenceUrl = referenceUrl;
+            if (CategoryList != null)
+            {
+                reference.CategoryTagList = new List<CategoryTag>(CategoryList);
+            }
+            References.Add(reference);
+            TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            // Hide add reference tab
+            ShowAddReference = false;
+            SelectAdd = false;
+            // show Extern ref tab
+            ShowExtRefTab = true;
+            // close expanded section on Ext Reference
+            ShowReferences = false;
+            ShowHideContentText = "Show Details";
+            if (!ShowRefs && !edit)
+            {
+                ShowRefs = true;
+            }
+        }
+
+        #endregion Add Reference Methods
+
     }
 
     // Quantity Object for the view

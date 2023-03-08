@@ -40,6 +40,7 @@ namespace MT_DataAccessLib
             Deprecated = taxon.Deprecated;
             Replacement = taxon.Replacement;
             ExternalReference = taxon.ExternalReference;
+            ExternalReferences = taxon.ExternalReferences;
             Parameters = taxon.Parameters;
             Results = taxon.Results;
             Discipline = taxon.Discipline;
@@ -80,6 +81,15 @@ namespace MT_DataAccessLib
         {
             get { return externalReference; }
             set { externalReference = value; }
+        }
+
+        private ExternalReferences externalReferences;
+
+        [XmlElement("ExternalReferences", IsNullable = false)]
+        public ExternalReferences ExternalReferences
+        {
+            get { return externalReferences; }
+            set { externalReferences = value; }
         }
 
         private List<Result> results;
@@ -230,6 +240,66 @@ namespace MT_DataAccessLib
         {
             get { return subDisciplines; }
             set { subDisciplines = value; }
+        }
+    }
+
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    public class ExternalReferences
+    {
+        private List<Reference> references;
+
+        [XmlElement("Reference", IsNullable=false)]
+        public List<Reference> References
+        {
+            get { return references; }
+            set { references = value; }
+        }
+    }
+
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    public class Reference
+    {
+        private ReferenceUrl referenceUrl;
+
+        [XmlElement("ReferenceUrl", IsNullable=false)]
+        public ReferenceUrl ReferenceUrl
+        {
+            get { return referenceUrl; }
+            set { referenceUrl = value; }
+        }
+
+        private List<CategoryTag> categoryTagList;
+
+        [XmlElement("CategoryTag", IsNullable = false)]
+        public List<CategoryTag> CategoryTagList
+        {
+            get { return categoryTagList; }
+            set { categoryTagList = value; }
+        }
+    }
+
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    public class ReferenceUrl
+    {
+        private string name = string.Empty;
+
+        [XmlElement("name")]
+        public string UrlName
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private string value = string.Empty;
+
+        [XmlElement("url")]
+        public string UrlValue
+        {
+            get { return value; }
+            set { this.value = value; }
         }
     }
 

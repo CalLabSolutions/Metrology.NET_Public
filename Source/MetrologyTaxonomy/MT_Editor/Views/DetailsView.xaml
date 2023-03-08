@@ -16,7 +16,8 @@
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
-             FontFamily="{DynamicResource MaterialDesignFont}" Margin="10 30 10 0">
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             Margin="10 30 10 0">
 
     <UserControl.Resources>
         <converters:IsNotBlankConverter x:Key="IsNotBlankConverter"></converters:IsNotBlankConverter>
@@ -125,7 +126,7 @@
                 </StackPanel>
             </materialDesign:Card>
             <materialDesign:Card UniformCornerRadius="3"  Margin="0 20 0 50" Grid.Row="5" Padding="12 5 12 5"
-                             Visibility="{Binding Taxon.ExternalReference, Converter={StaticResource NullableToVisibilityConverter}}">
+                             Visibility="{Binding Taxon.ExternalReference, Converter={StaticResource EmptyListVisibilityConverter}}">
                 <StackPanel Margin="0,10,0,0" >
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="16" >Extenal Reference -&#160;</TextBlock>
@@ -165,8 +166,73 @@
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
-            <Button Content="Export HTML" Grid.Row="6" Margin="10,10,0,0" x:Name="ExportHTML" Width="116" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            <materialDesign:Card UniformCornerRadius="3"  Margin="0 20 0 50" Grid.Row="5" Padding="12 5 12 5"
+                             Visibility="{Binding Taxon.ExternalReferences, Converter={StaticResource NullableToVisibilityConverter}}">
+                <StackPanel Margin="0,10,0,0" >
+                    <StackPanel Margin="0,10,0,5">
+                        <TextBlock FontSize="16" FontWeight="Bold" >External References</TextBlock>
+                        <Border Height="1" Background="Silver" Margin="0,10,0,5"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ItemsControl ItemsSource="{Binding Taxon.ExternalReferences.References}" Visibility="{Binding Taxon.ExternalReferences.References, Converter={StaticResource NullableToVisibilityConverter}}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="4 0 0 0">
+                                                    <TextBlock FontSize="16" >External Reference -&#160;</TextBlock>
+                                                    <!-- This is so we can pass the URL to the click method. It must stay in Collapsed state -->
+                                                    <TextBlock Text="{Binding ReferenceUrl.UrlValue}" Visibility="Collapsed" x:Name="RefUrl"/>
+                                                    <Button Style="{StaticResource HyperlinkButton}" Focusable="False" cal:Message.Attach="[Action RefLink(RefUrl)]">
+                                                        <TextBlock>
+                                                    <Hyperlink Focusable="False">
+                                                        <TextBlock FontSize="16" Text="{Binding ReferenceUrl.UrlName}"></TextBlock>
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                                    </Button>
+                                                </StackPanel>
+                                                <Border Height="1" Background="Silver" Margin="0,10,0,5" Width="750"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical" Margin="4,8,0,0">
+                                                <TextBlock FontSize="16" Text="Category Tags" />
+                                                <ItemsControl ItemsSource="{Binding CategoryTagList}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <StackPanel>
+                                                                    <Grid Visibility="{Binding Name, Converter={StaticResource IsBlankConverter}}">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" MaxWidth="200" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto" />
+                                                                        </Grid.RowDefinitions>
+                                                                        <TextBlock FontWeight="Bold" Grid.Row="0" Grid.Column="0" Text="{Binding Name}" Margin="4,4,0,0"/>
+                                                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Value}" Margin="0,2,0,0"/>
+                                                                    </Grid >
+                                                                    <StackPanel Visibility="{Binding Name, Converter={StaticResource IsNotBlankConverter}}">
+                                                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Value}" />
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </StackPanel>
+
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                            <Border Height="1" Background="Silver" Margin="0,10,0,10"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+            <Button Content="Export HTML" Grid.Row="6" Margin="10,10,0,10" x:Name="ExportHTML" Width="116" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         </Grid>
     </ScrollViewer>
-    
+
 </UserControl>

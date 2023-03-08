@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using MT_DataAccessLib;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 
@@ -60,9 +61,24 @@ namespace MT_Editor.ViewModels
             }
         }
 
+        public void RefLink(string url)
+        {
+            try
+            {
+                Helper.OpenBrowser(url);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error", "Browser Error " + e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public void Restore()
         {
-            if (!Taxon.Deprecated) return;
+            if (!Taxon.Deprecated)
+            {
+                return;
+            }
             Taxon.Replacement = "";
             Taxon.Deprecated = false;
             var taxonomy = factory.Edit(Taxon, Taxon.Name);

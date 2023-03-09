@@ -129,6 +129,54 @@ xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatal
                                     </table>
 
                                 </xsl:if>
+                              <xsl:if test="mtc:ExternalReferences">
+                                <br/>
+                                <span style="font-weight: bold; text-decoration: underline">External References</span>&#160;&#8208;&#160;
+                                <xsl:if test="mtc:ExternalRefernces/mtc:Reference">
+                                  <xsl:for-each select="mtc:ExternalRefernces/mtc:Reference">
+                                    <xsl:choose>
+                                      <xsl:when test="mtc:ExternalReferences/mtc:Reference/mtc:ReferenceUrl">
+                                        <xsl:element name="a">
+                                          <xsl:attribute name="href">
+                                            <xsl:value-of select="mtc:ExternalReference/mtc:Reference/mtc:ReferenceUrl/mtc:url"/>
+                                          </xsl:attribute>
+                                          <xsl:attribute name="target">_blank</xsl:attribute>
+                                          <xsl:value-of select="mtc:ExternalReference/mtc:Reference/mtc:ReferenceUrl/mtc:name"/>
+                                        </xsl:element>
+                                      </xsl:when>
+                                      <xsl:otherwise>
+                                        <p>
+                                          <xsl:value-of select="mtc:ExternalReferences/mtc:Reference/mtc:ReferenceUrl/mtc:name"/>
+                                        </p>
+                                      </xsl:otherwise>
+                                    </xsl:choose>
+                                    <xsl:if test="mtc:ExternalReferences/mtc:Reference/mtc:CategoryTag">
+                                      <br/>
+                                      <p style="font-weight: bold; text-decoration: underline">Category Tags</p>
+                                      <table>
+                                        <thead>
+                                          <tr>
+                                            <th>Name</th>
+                                            <th>Value</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <xsl:for-each select="mtc:ExternalReferences/mtc:Reference/mtc:CategoryTag">
+                                            <tr>
+                                              <td>
+                                                <xsl:value-of select="mtc:name"/>
+                                              </td>
+                                              <td>
+                                                <xsl:value-of select="mtc:value"/>
+                                              </td>
+                                            </tr>
+                                          </xsl:for-each>
+                                        </tbody>
+                                      </table>
+                                    </xsl:if>
+                                  </xsl:for-each>
+                                </xsl:if>
+                              </xsl:if>
                             </div>
                         </li>
                     </xsl:for-each>

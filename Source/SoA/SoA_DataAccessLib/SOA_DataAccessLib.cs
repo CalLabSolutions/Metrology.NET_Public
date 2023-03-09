@@ -657,7 +657,7 @@ namespace SOA_DataAccessLib
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
     }
@@ -3921,8 +3921,6 @@ namespace SOA_DataAccessLib
         public Unc_Taxon(MT_DataAccessLib.Taxon taxon)
         {
             name = taxon.Name;
-            // string url = taxon.ExternalReference == null ? null : taxon.ExternalReference.Url;
-            // Uri = url;
             Taxon = new Mtc_Taxon(this, taxon);
         }
 

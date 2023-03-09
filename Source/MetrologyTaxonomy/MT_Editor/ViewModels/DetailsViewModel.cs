@@ -49,18 +49,6 @@ namespace MT_Editor.ViewModels
 
         #region Commands
 
-        public void Link()
-        {
-            try
-            {
-                Helper.OpenBrowser(Taxon.ExternalReference.Url);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error", "Error occured while opening the browser.", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         public void RefLink(string url)
         {
             try

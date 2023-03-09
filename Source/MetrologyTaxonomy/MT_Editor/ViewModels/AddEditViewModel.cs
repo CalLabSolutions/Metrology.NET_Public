@@ -91,22 +91,7 @@ namespace MT_Editor.ViewModels
             DisciplineName = TaxonToSave.Discipline.Name;
             SubDisciplines = new ObservableCollection<string>(TaxonToSave.Discipline.SubDisciplines);
 
-            // Set up Ext. Reference Tab
-            if (TaxonToSave.ExternalReference == null)
-            {
-                TaxonToSave.ExternalReference = new ExternalReference()
-                {
-                    CategoryTags = new List<CategoryTag>()
-                };
-            }
-            else if (TaxonToSave.ExternalReference != null && TaxonToSave.ExternalReference.CategoryTags == null)
-            {
-                TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>();
-            }
-
-            RefName = TaxonToSave.ExternalReference.Name;
-            Url = TaxonToSave.ExternalReference.Url;
-            CategoryTags = new ObservableCollection<CategoryTag>(TaxonToSave.ExternalReference.CategoryTags);
+            CategoryTags = new ObservableCollection<CategoryTag>();
 
             // Set up validation message
             parsing = false;
@@ -818,99 +803,8 @@ namespace MT_Editor.ViewModels
         #endregion Discipline Methods
 
         //========================================================================
-        // Ext. reference Tab Properties and Methods                             |
+        // Ext. references Tab Properties and Methods                             |
         //========================================================================
-
-        #region Ext. Reference Properties
-
-        private string refName;
-
-        public string RefName
-        {
-            get { return refName; }
-            set
-            {
-                refName = value;
-                TaxonToSave.ExternalReference.Name = value;
-                NotifyOfPropertyChange(() => RefName);
-            }
-        }
-
-        private string url;
-
-        public string Url
-        {
-            get { return url; }
-            set
-            {
-                url = value;
-                TaxonToSave.ExternalReference.Url = value;
-                NotifyOfPropertyChange(() => Url);
-            }
-        }
-
-        private CategoryTag categoryTag = new CategoryTag();
-
-        public CategoryTag CategoryTag
-        {
-            get { return categoryTag; }
-            set
-            {
-                categoryTag = value;
-                NotifyOfPropertyChange(() => CategoryTag);
-            }
-        }
-
-        private ObservableCollection<CategoryTag> categoryTags;
-
-        public ObservableCollection<CategoryTag> CategoryTags
-        {
-            get { return categoryTags; }
-            set
-            {
-                categoryTags = value;
-                NotifyOfPropertyChange(() => CategoryTags);
-            }
-        }
-
-        #endregion Ext. Reference Properties
-
-        #region Ext. Reference Methods
-
-        public void AddCat(CategoryTag catTag)
-        {
-            if (catTag.Name == null)
-            {
-                catTag.Name = "";
-            }
-            if (catTag.Name != "" && CategoryTags.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
-            {
-                dialog.Message = "That Category Name already exists";
-                dialog.Show();
-                return;
-            }
-            if (catTag.Value == null)
-            {
-                dialog.Message = "Category Tag must at least have a Value";
-                dialog.Show();
-                return;
-            }
-            CategoryTags.Add(catTag);
-            TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>(CategoryTags);
-            CategoryTag = new CategoryTag();
-        }
-
-        public void DeleteCat(CategoryTag catTag)
-        {
-            if (catTag == null || catTag.Value == null)
-            {
-                return;
-            }
-            CategoryTags.RemoveAll(c => c.Value.ToLower().Equals(catTag.Value.ToLower()));
-            TaxonToSave.ExternalReference.CategoryTags = new List<CategoryTag>(CategoryTags);
-        }
-
-        #endregion Ext. Reference Methods
 
         #region Ext. References Properties
 
@@ -1051,6 +945,31 @@ namespace MT_Editor.ViewModels
                 NotifyOfPropertyChange(() => References);
             }
         }
+
+        private CategoryTag categoryTag = new CategoryTag();
+
+        public CategoryTag CategoryTag
+        {
+            get { return categoryTag; }
+            set
+            {
+                categoryTag = value;
+                NotifyOfPropertyChange(() => CategoryTag);
+            }
+        }
+
+        private ObservableCollection<CategoryTag> categoryTags;
+
+        public ObservableCollection<CategoryTag> CategoryTags
+        {
+            get { return categoryTags; }
+            set
+            {
+                categoryTags = value;
+                NotifyOfPropertyChange(() => CategoryTags);
+            }
+        }
+
 
         private Reference reference;
 

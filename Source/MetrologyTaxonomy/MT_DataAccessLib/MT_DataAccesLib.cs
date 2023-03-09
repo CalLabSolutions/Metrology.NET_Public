@@ -39,7 +39,6 @@ namespace MT_DataAccessLib
             Name = taxon.Name;
             Deprecated = taxon.Deprecated;
             Replacement = taxon.Replacement;
-            ExternalReference = taxon.ExternalReference;
             ExternalReferences = taxon.ExternalReferences;
             Parameters = taxon.Parameters;
             Results = taxon.Results;
@@ -72,15 +71,6 @@ namespace MT_DataAccessLib
         {
             get { return replacement; }
             set { replacement = value; }
-        }
-
-        private ExternalReference externalReference;
-
-        [XmlElement("ExternalReference", IsNullable = false)]
-        public ExternalReference ExternalReference
-        {
-            get { return externalReference; }
-            set { externalReference = value; }
         }
 
         private ExternalReferences externalReferences;
@@ -300,38 +290,6 @@ namespace MT_DataAccessLib
         {
             get { return value; }
             set { this.value = value; }
-        }
-    }
-
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
-    public class ExternalReference
-    {
-        private string name = "";
-
-        [XmlAttribute("name")]
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        private List<CategoryTag> categoryTags;
-
-        [XmlElement("CategoryTag", IsNullable = false)]
-        public List<CategoryTag> CategoryTags
-        {
-            get { return categoryTags; }
-            set { categoryTags = value; }
-        }
-
-        private string url = "";
-
-        [XmlElement("url")]
-        public string Url
-        {
-            get { return url; }
-            set { url = value; }
         }
     }
 

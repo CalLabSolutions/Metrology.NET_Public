@@ -38,9 +38,7 @@ namespace MT_Editor.ViewModels
 
             ShowAddReference = !edit;
             ShowRefs = edit;
-            // Remove this and associated single reference code
-            ShowRef = false;
-
+ 
             // Factory and Dialog
             factory = new();
             dialog = new();
@@ -179,22 +177,12 @@ namespace MT_Editor.ViewModels
             }
 
             // Make sure we have at least 1 Parameter and 1 Result
-            if (TaxonToSave.Parameters == null)
+            if (TaxonToSave.Parameters == null || TaxonToSave.Parameters.Count == 0)
             {
                 dialog.Message = "You must have at least 1 Parameter";
                 return false;
             }
-            if (TaxonToSave.Parameters.Count == 0)
-            {
-                dialog.Message = "You must have at least 1 Parameter";
-                return false;
-            }
-            if (TaxonToSave.Results == null)
-            {
-                dialog.Message = "You must have at least 1 Result";
-                return false;
-            }
-            if (TaxonToSave.Results.Count == 0)
+            if (TaxonToSave.Results == null || TaxonToSave.Results.Count == 0)
             {
                 dialog.Message = "You must have at least 1 Result";
                 return false;
@@ -809,18 +797,6 @@ namespace MT_Editor.ViewModels
         #region Ext. References Properties
 
         #region code to turn on or off reference styles 
-        private bool showRef = true;
-
-        // Disables existing External Reference
-        public bool ShowRef
-        {
-            get { return showRef; }
-            set
-            {
-                showRef = value;
-                NotifyOfPropertyChange(() => ShowRef);
-            }
-        }
 
         private bool showRefs = true;
 
@@ -1045,14 +1021,10 @@ namespace MT_Editor.ViewModels
         /// <param name="index"></param>
         public void ShowMore(int index)
         {
-            if (index == -1)
-            {
-                return;
-            }
             if (ShowHideContentText.IndexOf("Show Details") > -1)
             {
                 // if only 1 reference and user does not click on it set it as active
-                if (index == -1 && References.Count > 0)
+                if (index == -1 && References.Count == 1)
                 {
                     SelectedIndex = 0;
                     index = 0;
@@ -1081,20 +1053,12 @@ namespace MT_Editor.ViewModels
             {
                 SelectedCategoryTags = new ObservableCollection<CategoryTag>();
             }
-            if (catTag.Name == null)
+            if (string.IsNullOrWhiteSpace(catTag.Name))
             {
-                catTag.Name = "";
+                catTag.Name = string.Empty;
             }
-            if (catTag.Name != "" && SelectedCategoryTags.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
+            if (!CheckCatTagError(catTag, SelectedCategoryTags))
             {
-                dialog.Message = "That Category Name already exists";
-                dialog.Show();
-                return;
-            }
-            if (catTag.Value == null)
-            {
-                dialog.Message = "Category Tag must at least have a Value";
-                dialog.Show();
                 return;
             }
             SelectedCategoryTags.Add(catTag);
@@ -1118,6 +1082,23 @@ namespace MT_Editor.ViewModels
             References[SelectedIndex].CategoryTagList = new List<CategoryTag>(SelectedCategoryTags);
             TaxonToSave.ExternalReferences.References = new List<Reference>(References);
             CategoryTag = new CategoryTag();
+        }
+
+        private bool CheckCatTagError(CategoryTag catTag, ObservableCollection<CategoryTag> categoryList)
+        {
+            if (!string.IsNullOrWhiteSpace(catTag.Name) && categoryList.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
+            {
+                dialog.Message = "That Category Name already exists";
+                dialog.Show();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(catTag.Value))
+            {
+                dialog.Message = "Category Tag must at least have a Value";
+                dialog.Show();
+                return false;
+            }
+            return true;
         }
 
         #endregion Ext.References Methods
@@ -1240,27 +1221,16 @@ namespace MT_Editor.ViewModels
             {
                 catTag.Name = "";
             }
-            if (!string.IsNullOrWhiteSpace(catTag.Value))
+            if (CategoryList == null)
             {
-                if (CategoryList == null)
-                {
-                    CategoryList = new ObservableCollection<CategoryTag>();
-                }
-                if (catTag.Name != "" && CategoryList.Where(c => c.Name.ToLower().Equals(catTag.Name)).ToList().Count > 0)
-                {
-                    dialog.Message = "That Category Name already exists";
-                    dialog.Show();
-                    return;
-                }
-                if (catTag.Value == null)
-                {
-                    dialog.Message = "Category Tag must at least have a Value";
-                    dialog.Show();
-                    return;
-                }
-                CategoryList.Add(catTag);
-                CategoryTag = new CategoryTag();
+                CategoryList = new ObservableCollection<CategoryTag>();
             }
+            if (!CheckCatTagError(catTag, CategoryList))
+            {
+                return;
+            }
+            CategoryList.Add(catTag);
+            CategoryTag = new CategoryTag();
         }
 
         /// <summary>

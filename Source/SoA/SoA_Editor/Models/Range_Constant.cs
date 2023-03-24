@@ -24,7 +24,11 @@ namespace SoA_Editor.Models
         public string ConstName
         {
             get { return _ConstName; }
-            set { _ConstName = value; NotifyOfPropertyChange(() => ConstName); }
+            set
+            {
+                _ConstName = value;
+                NotifyOfPropertyChange(() => ConstName);
+            }
         }
 
 
@@ -33,7 +37,11 @@ namespace SoA_Editor.Models
         public string Value
         {
             get { return _Value; }
-            set { _Value = value; NotifyOfPropertyChange(() => Value); }
+            set
+            {
+                _Value = value;
+                NotifyOfPropertyChange(() => Value);
+            }
         }
 
     }

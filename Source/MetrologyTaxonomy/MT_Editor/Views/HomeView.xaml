@@ -19,7 +19,7 @@
             <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Text="Metrology Taxonomy" Margin="0,0,0,24" />
 
             <TextBlock Margin="0,0,0,15" FontSize="15" TextWrapping="Wrap">
-                Welcome to the MII's Group Metrology Taxonomy Editor.
+                Welcome to the MII Group's Metrology Taxonomy Editor.
             </TextBlock>
 
             <TextBlock FontSize="15" TextWrapping="Wrap" Margin="0,0,0,15">

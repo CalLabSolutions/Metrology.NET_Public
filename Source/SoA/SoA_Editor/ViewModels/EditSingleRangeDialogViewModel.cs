@@ -18,7 +18,11 @@ namespace SoA_Editor.ViewModels
         public Unc_Range Range
         {
             get { return range; }
-            set { range = value; NotifyOfPropertyChange(() => Range); }
+            set
+            {
+                range = value;
+                NotifyOfPropertyChange(() => Range);
+            }
         }
 
         private string error = "";
@@ -26,7 +30,11 @@ namespace SoA_Editor.ViewModels
         public string Error
         {
             get { return error; }
-            set { error = value; NotifyOfPropertyChange(() => Error); }
+            set
+            {
+                error = value;
+                NotifyOfPropertyChange(() => Error);
+            }
         }
 
 
@@ -34,7 +42,11 @@ namespace SoA_Editor.ViewModels
         public string ParameterRange
         {
             get { return parameterRange; }
-            set { parameterRange = value; NotifyOfPropertyChange(() => ParameterRange); }
+            set
+            {
+                parameterRange = value;
+                NotifyOfPropertyChange(() => ParameterRange);
+            }
         }
 
         private decimal min;
@@ -42,7 +54,11 @@ namespace SoA_Editor.ViewModels
         public decimal Min
         {
             get { return min; }
-            set { min = value; NotifyOfPropertyChange(() => min); }
+            set
+            {
+                min = value;
+                NotifyOfPropertyChange(() => min);
+            }
         }
 
         private decimal max;
@@ -50,7 +66,11 @@ namespace SoA_Editor.ViewModels
         public decimal Max
         {
             get { return max; }
-            set { max = value; NotifyOfPropertyChange(() => max); }
+            set
+            {
+                max = value;
+                NotifyOfPropertyChange(() => max);
+            }
         }
     }
 }

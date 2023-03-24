@@ -13,7 +13,11 @@ namespace SoA_Editor.ViewModels
         public string Message
         {
             get { return message; }
-            set { message = value; NotifyOfPropertyChange(() => Message); }
+            set
+            {
+                message = value;
+                NotifyOfPropertyChange(() => Message);
+            }
         }
     }
 }

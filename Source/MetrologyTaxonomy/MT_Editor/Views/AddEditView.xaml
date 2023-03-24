@@ -77,7 +77,7 @@
                             materialDesign:HintAssist.HintOpacity=".26" />
                             <TextBlock FontWeight="Bold" Margin="0,24,0,0">Process</TextBlock>
                             <TextBox Text="{Binding Process, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" Width="480" HorizontalAlignment="Left" />
-                            <TextBlock FontSize="12" FontStyle="Italic">Dot sepereated generic description of how the quantity is sourced or measured.</TextBlock>
+                            <TextBlock FontSize="12" FontStyle="Italic">Dot seperated generic description of how the quantity is sourced or measured.</TextBlock>
                             <TextBlock FontWeight="Bold" Margin="0,24,0,0">Definition</TextBlock>
                             <ScrollViewer>
                                 <TextBox Text="{Binding Definition, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" Width="480" HorizontalAlignment="Left" MaxHeight="172" ScrollViewer.VerticalScrollBarVisibility="Hidden"></TextBox>

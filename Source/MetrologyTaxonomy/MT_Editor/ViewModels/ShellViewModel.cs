@@ -95,7 +95,7 @@ namespace MT_Editor.ViewModels
             if ((name == "edit" || name == "deprecate" || name == "delete") && Helper.SelectedTaxon == null)
             {
                 Helper.Navigate(Helper.MenuItem.ALL);             
-                MessageBox.Show("You must Select a Taxon from the \"View All\" Page Before can " + name + ".", "Notice",
+                MessageBox.Show("You must select a Taxon from the \"View All\" Page Before can " + name + ".", "Notice",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }

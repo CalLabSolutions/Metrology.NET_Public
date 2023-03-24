@@ -40,6 +40,7 @@ namespace SoA_Editor.ViewModels
         private Soa soa;
         private SOA_DataAccess dao;
         private bool isLoaded = false;
+        private string copyright = string.Empty;
 
         //the global var to keep row elements as they're added in the recursive function
         private List<string> row;
@@ -69,6 +70,14 @@ namespace SoA_Editor.ViewModels
         public void LoadWelcomeViewModelObj()
         {
             _ = ActivateItemAsync(new WelcomeViewModel());
+        }
+
+        public string Copyright()
+        {
+            DateTime dateTime = new DateTime();
+            string year = dateTime.Year.ToString();
+            copyright = "Copyright " + year + ", Cal Lab Solutions, LLC";
+            return copyright;
         }
 
         //show the corresponding taxonomy pane on the right-hand side based on the selected item from the menu
@@ -159,7 +168,10 @@ namespace SoA_Editor.ViewModels
                 {
                     inputParamQty = technique.Technique.Parameters[i].Quantity.name;
                 }
-                else inputParamQty = "";
+                else
+                {
+                    inputParamQty = "";
+                }
 
                 bool variable = false;
                 string type = "Influence Quantity";
@@ -234,7 +246,11 @@ namespace SoA_Editor.ViewModels
                 }
                 tmpNode = tmpNode.Parent;
             }
-            if (techniqueName == "") return;
+            if (techniqueName == "")
+            {
+                return;
+            }
+
             technique = soa.CapabilityScope.Activities[0].Techniques[techniqueName];
             template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
             uncertainty = technique.Technique.CMCUncertainties[0];
@@ -353,9 +369,13 @@ namespace SoA_Editor.ViewModels
             {
                 //add a new cell with "start/end" values also we need to account for fixed range values
                 if (ranges.getRanges()[rangeIndex].Start.ValueString == ranges.getRanges()[rangeIndex].End.ValueString)
+                {
                     row.Add(ranges.getRanges()[rangeIndex].Start.ValueString);
+                }
                 else
+                {
                     row.Add(ranges.getRanges()[rangeIndex].Start.ValueString + " to " + ranges.getRanges()[rangeIndex].End.ValueString);
+                }
 
                 //if there is Ranges -> call recursive function with Ranges
                 if (ranges.getRanges()[rangeIndex].Ranges != null && ranges.getRanges()[0].Ranges.variable_name != "")
@@ -514,13 +534,19 @@ namespace SoA_Editor.ViewModels
             for (int i = 0; i < _params.Length; i++)
             {
                 var range = ranges[_params[i].name];
-                if (range != null) infQty.Add(range);
+                if (range != null)
+                {
+                    infQty.Add(range);
+                }
             }
 
             for (int i = 0; i < symbols.Length; i++)
             {
                 var range = ranges[symbols[i]];
-                if (range != null) vars.Add(range);
+                if (range != null)
+                {
+                    vars.Add(range);
+                }
             }
             // Get the assertions if any
             foreach (string name in technique.Technique.RangeAssertions)
@@ -577,13 +603,19 @@ namespace SoA_Editor.ViewModels
             for (int i = 0; i < _params.Length; i++)
             {
                 var range = ranges[_params[i].name];
-                if (range != null) infQty.Add(range);
+                if (range != null)
+                {
+                    infQty.Add(range);
+                }
             }
 
             for (int i = 0; i < symbols.Length; i++)
             {
                 var range = ranges[symbols[i]];
-                if (range != null) vars.Add(range);
+                if (range != null)
+                {
+                    vars.Add(range);
+                }
             }
             // Get the assertions if any
             foreach (string name in technique.Technique.RangeAssertions)
@@ -615,8 +647,11 @@ namespace SoA_Editor.ViewModels
                 // get the template so we can remove the proper cases
                 var template = soa.CapabilityScope.Activities[0].GetTemplateByTemplateTechnique(technique.Name);
                 var cases = template.CMCUncertaintyFunctions[0].Cases;
-                if (cases == null) return;
-                if (cases.Count() == 0) return;
+                if (cases == null || cases.Count() == 0)
+                {
+                    return;
+                }
+
                 delete = await DeleteNode("Are you sure you want to delete all the Ranges?");
                 if (delete)
                 {
@@ -680,7 +715,10 @@ namespace SoA_Editor.ViewModels
                 }
             }
 
-            if (delete) ReloadTree(node, true);
+            if (delete)
+            {
+                ReloadTree(node, true);
+            }
         }
 
         public void TaxonNodeClick(TaxonNode node)
@@ -858,7 +896,10 @@ namespace SoA_Editor.ViewModels
                         //number of cases in the switch
                         int caseCount = function.Cases.Count();
 
-                        if (caseCount == 0) continue;
+                        if (caseCount == 0)
+                        {
+                            continue;
+                        }
 
                         //number of assertions in a case. assuming it's the same for all cases, we look at the first case
                         int assertionCount = function.Cases[0].Assertions.Count();
@@ -905,17 +946,26 @@ namespace SoA_Editor.ViewModels
                                     parent = new RangeNode(techNode) { Name = name, Children = new ObservableCollection<Node>() };
                                     current = techNode.Children.Where(x => x.Name == parent.Name).SingleOrDefault();
                                     if (current == null)
+                                    {
                                         techNode.Children.Add((RangeNode)parent);
+                                    }
                                     else
+                                    {
                                         parent = current;
+                                    }
                                 }
                                 else
                                 {
                                     current = new RangeNode((RangeNode)parent) { Name = name, Children = new ObservableCollection<Node>() };
                                     if (parent.Children.Where(x => x.Name == current.Name).SingleOrDefault() == null)
+                                    {
                                         parent.Children.Add((RangeNode)current);
+                                    }
                                     else
+                                    {
                                         current = parent.Children.Where(x => x.Name == current.Name).SingleOrDefault();
+                                    }
+
                                     parent = current;
                                 }
                             }
@@ -958,15 +1008,23 @@ namespace SoA_Editor.ViewModels
                 // open and select the node that was last worked with
                 if (node == null) return;
                 ClickNode(node);
-                if (node.Children.Count > 0) node.IsExpanded = true;
+                if (node.Children.Count > 0)
+                {
+                    node.IsExpanded = true;
+                }
+
                 node.IsSelected = true;
                 while (node != null)
                 {
                     node.IsExpanded = true;
                     if (node.Parent != null)
+                    {
                         node = findNode(node.Parent.Name);
+                    }
                     else
+                    {
                         node = null;
+                    }
                 }
             }
         }
@@ -994,13 +1052,17 @@ namespace SoA_Editor.ViewModels
         public Node findNode(Node root, string findStr)
         {
             if (root.Name.Equals(findStr))
+            {
                 return root;
+            }
 
             foreach (Node n in root.Children)
             {
                 Node result = findNode(n, findStr);
                 if (result != null)
+                {
                     return result;
+                }
             }
 
             return null;
@@ -1012,7 +1074,9 @@ namespace SoA_Editor.ViewModels
             {
                 Node result = findNode(n, findStr);
                 if (result != null)
+                {
                     return result;
+                }
             }
             return null;
         }
@@ -1037,9 +1101,10 @@ namespace SoA_Editor.ViewModels
 
         public void getChildNames(Node node, ref List<string> names)
         {
-            if (node == null) return;
-            if (node.Children == null) return;
-            if (node.Children.Count == 0) return;
+            if (node == null || node.Children == null || node.Children.Count == 0)
+            {
+                return;
+            }
 
             foreach (Node c_node in node.Children)
             {

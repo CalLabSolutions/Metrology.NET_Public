@@ -12,7 +12,11 @@ namespace SoA_Editor.ViewModels
         public string TaxonName
         {
             get { return _name; }
-            set { _name = value; NotifyOfPropertyChange(() => TaxonName); }
+            set
+            {
+                _name = value;
+                NotifyOfPropertyChange(() => TaxonName);
+            }
         }
         
         private ObservableCollection<TaxonomyResult> _resultQuant;
@@ -31,7 +35,11 @@ namespace SoA_Editor.ViewModels
         public string Definition
         {
             get { return _definition; }
-            set { _definition = value; NotifyOfPropertyChange(() => Definition); }
+            set
+            {
+                _definition = value;
+                NotifyOfPropertyChange(() => Definition);
+            }
         }
 
         private ObservableCollection<TaxonomyInputParam> _inputParams;

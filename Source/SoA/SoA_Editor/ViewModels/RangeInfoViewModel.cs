@@ -90,13 +90,21 @@ namespace SoA_Editor.ViewModels
         public string ParameterRange
         {
             get { return parameterRange; }
-            set { parameterRange = value; NotifyOfPropertyChange(() => ParameterRange); }
+            set
+            {
+                parameterRange = value;
+                NotifyOfPropertyChange(() => ParameterRange);
+            }
         }
 
         public string FunctionName
         {
             get { return functionName; }
-            set { functionName = value; NotifyOfPropertyChange(() => FunctionName); }
+            set
+            {
+                functionName = value;
+                NotifyOfPropertyChange(() => FunctionName);
+            }
         }
 
         public List<Mtc_Range> Vars
@@ -120,7 +128,11 @@ namespace SoA_Editor.ViewModels
         public List<Assertion> Assertions
         {
             get { return assertions; }
-            set { assertions = value; NotifyOfPropertyChange(() => Assertions); }
+            set
+            {
+                assertions = value;
+                NotifyOfPropertyChange(() => Assertions);
+            }
         }
 
         private DataTable rangeGrid;
@@ -306,7 +318,11 @@ namespace SoA_Editor.ViewModels
             // if we have an existing case add the unc range to it
             if (exsitingCase.Count > 0)
             {
-                if (exsitingCase[0].Ranges == null) exsitingCase[0].Ranges = new();
+                if (exsitingCase[0].Ranges == null)
+                {
+                    exsitingCase[0].Ranges = new();
+                }
+
                 AddRanges(exsitingCase[0]);
                 Helper.TreeViewCase = exsitingCase[0];
             }
@@ -325,7 +341,11 @@ namespace SoA_Editor.ViewModels
                     unc_assertions.Add(unc_a);
                 }
                 Unc_Case newCase = new Unc_Case(template, unc_assertions);
-                if (newCase.Ranges == null) newCase.Ranges = new();
+                if (newCase.Ranges == null)
+                {
+                    newCase.Ranges = new();
+                }
+
                 AddRanges(newCase);
                 Helper.TreeViewCase = newCase;
                 template.CMCUncertaintyFunctions[0].Cases.Add(newCase);
@@ -416,10 +436,7 @@ namespace SoA_Editor.ViewModels
                 paramRange.ConstantValues = new();
                 paramRange.Variable_name = SelectedVar.name;
                 paramRange.Variable_type = "parameter";
-                if (count > 1)
-                    paramRange.Start = SetStart("at", range.Min, SelectedVar.Start.Quantity);
-                else
-                    paramRange.Start = SetStart("at", range.Min, SelectedVar.Start.Quantity);
+                paramRange.Start = SetStart("at", range.Min, SelectedVar.Start.Quantity);
                 paramRange.End = SetEnd("at", range.Max, SelectedVar.Start.Quantity);
                 foreach (Range_Constant constant in range.Constants)
                 {
@@ -438,11 +455,14 @@ namespace SoA_Editor.ViewModels
                 }
                 else
                 {
-                    Case.Ranges.Add(paramRange);   
+                    Case.Ranges.Add(paramRange);
                 }
             }
 
-            if (newRanges && infQtyRange.SelectedQty != null) Case.Ranges.Add(startingRange);
+            if (newRanges && infQtyRange.SelectedQty != null)
+            {
+                Case.Ranges.Add(startingRange);
+            }
         }
 
         private Unc_Range_Start SetStart(string test, string min, string quantity)

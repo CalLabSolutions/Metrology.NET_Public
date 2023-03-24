@@ -42,7 +42,11 @@ namespace SoA_Editor.ViewModels
         public string TaxonomyName
         {
             get { return _TaxonomyName; }
-            set { _TaxonomyName = value; NotifyOfPropertyChange(() => TaxonomyName); }
+            set
+            {
+                _TaxonomyName = value;
+                NotifyOfPropertyChange(() => TaxonomyName);
+            }
         }
 
         private string _TechniqueName;
@@ -50,7 +54,11 @@ namespace SoA_Editor.ViewModels
         public string TechniqueName
         {
             get { return _TechniqueName; }
-            set { _TechniqueName = value; NotifyOfPropertyChange(() => TechniqueName); }
+            set
+            {
+                _TechniqueName = value;
+                NotifyOfPropertyChange(() => TechniqueName);
+            }
         }
 
         private string _Formula;
@@ -75,7 +83,11 @@ namespace SoA_Editor.ViewModels
         public string Documentation
         {
             get { return _Documentation; }
-            set { _Documentation = value; NotifyOfPropertyChange(() => Documentation); }
+            set
+            {
+                _Documentation = value;
+                NotifyOfPropertyChange(() => Documentation);
+            }
         }
 
         private string functionName;
@@ -83,7 +95,11 @@ namespace SoA_Editor.ViewModels
         public string FunctionName
         {
             get { return functionName; }
-            set { functionName = value; NotifyOfPropertyChange(() => FunctionName); }
+            set
+            {
+                functionName = value;
+                NotifyOfPropertyChange(() => FunctionName);
+            }
         }
 
         private string category;
@@ -91,7 +107,11 @@ namespace SoA_Editor.ViewModels
         public string Category
         {
             get { return category; }
-            set { category = value; NotifyOfPropertyChange(() => Category); }
+            set
+            {
+                category = value;
+                NotifyOfPropertyChange(() => Category);
+            }
         }
 
         private BindableCollection<string> sourceEquipment = new BindableCollection<string>();
@@ -99,7 +119,11 @@ namespace SoA_Editor.ViewModels
         public BindableCollection<string> SourceEquipment
         {
             get { return sourceEquipment; }
-            set { sourceEquipment = value; NotifyOfPropertyChange(() => SourceEquipment); }
+            set
+            {
+                sourceEquipment = value;
+                NotifyOfPropertyChange(() => SourceEquipment);
+            }
         }
 
         private BindableCollection<string> measureEquipment = new BindableCollection<string>();
@@ -107,7 +131,11 @@ namespace SoA_Editor.ViewModels
         public BindableCollection<string> MeasureEquipment
         {
             get { return measureEquipment; }
-            set { measureEquipment = value; NotifyOfPropertyChange(() => MeasureEquipment); }
+            set
+            {
+                measureEquipment = value;
+                NotifyOfPropertyChange(() => MeasureEquipment);
+            }
         }
 
         private ObservableCollection<Technique_InputParameterRange> _InputParameterRanges;
@@ -171,7 +199,11 @@ namespace SoA_Editor.ViewModels
         public ObservableCollection<string> VariableTypes
         {
             get { return variableTypes; }
-            set { variableTypes = value; NotifyOfPropertyChange(() => VariableTypes); }
+            set
+            {
+                variableTypes = value;
+                NotifyOfPropertyChange(() => VariableTypes);
+            }
         }
 
         private Technique_Variable variable;
@@ -192,7 +224,11 @@ namespace SoA_Editor.ViewModels
         public ObservableCollection<RangeAssertion> Assertions
         {
             get { return assertions; }
-            set { assertions = value; NotifyOfPropertyChange(() => Assertions); }
+            set
+            {
+                assertions = value;
+                NotifyOfPropertyChange(() => Assertions);
+            }
         }
 
         #endregion Properties
@@ -246,7 +282,10 @@ namespace SoA_Editor.ViewModels
         private async void UpdateInputParameter(Technique_InputParameter inputParameter)
         {
             // dont bother if the dialog is already open
-            if (DialogHost.IsDialogOpen("RootDialog")) return;
+            if (DialogHost.IsDialogOpen("RootDialog"))
+            {
+                return;
+            }
 
             // We can not edit Taxon added Technique Parameters
             if (Technique.Technique.Taxon.Parameters[inputParameter.InputParam] != null)
@@ -284,9 +323,10 @@ namespace SoA_Editor.ViewModels
         public async void AddInputParameter()
         {
             // dont bother if the dialog is already open
-            if (DialogHost.IsDialogOpen("RootDialog")) return;
-
-           
+            if (DialogHost.IsDialogOpen("RootDialog"))
+            {
+                return;
+            }
 
             // set up our dialog view
             inputParamView = new InputParameterDialogView()
@@ -379,7 +419,10 @@ namespace SoA_Editor.ViewModels
                     error = true;
                 }
 
-                if (error) eventArgs.Cancel();
+                if (error)
+                {
+                    eventArgs.Cancel();
+                }
             }
         }
 
@@ -439,7 +482,10 @@ namespace SoA_Editor.ViewModels
         private async void UpdateInputParameterRange(Technique_InputParameterRange inputParamRange)
         {
             // dont bother if the dialog is already open
-            if (DialogHost.IsDialogOpen("RootDialog")) return;
+            if (DialogHost.IsDialogOpen("RootDialog"))
+            {
+                return;
+            }
 
             var param = Technique.Technique.ParameterRanges[inputParamRange.InputParamRange];
             inputParamRangeView = new InputParameterRangeDialogView()
@@ -526,7 +572,10 @@ namespace SoA_Editor.ViewModels
                     error = true;
                 }
 
-                if (error) eventArgs.Cancel();
+                if (error)
+                {
+                    eventArgs.Cancel();
+                }
             }
         }
 
@@ -580,7 +629,10 @@ namespace SoA_Editor.ViewModels
         private async void UpdateOutput(Technique_Output output)
         {
             // dont bother if the dialog is already open
-            if (DialogHost.IsDialogOpen("RootDialog")) return;
+            if (DialogHost.IsDialogOpen("RootDialog"))
+            {
+                return;
+            }
 
             var outputR = Technique.Technique.ResultRanges[output.Output];
             outputDialogView = new OutputDialogView()
@@ -624,7 +676,11 @@ namespace SoA_Editor.ViewModels
         public void DeleteOutput(Technique_Output output)
         {
             Outputs.Remove(output);
-            if (output.Output == "result") output.Output = "";
+            if (output.Output == "result")
+            {
+                output.Output = "";
+            }
+
             Technique.Technique.ResultRanges.Remove(Technique.Technique.ResultRanges[output.Output]);
         }
 
@@ -667,7 +723,10 @@ namespace SoA_Editor.ViewModels
                     error = true;
                 }
 
-                if (error) eventArgs.Cancel();
+                if (error)
+                {
+                    eventArgs.Cancel();
+                }
             }
         }
 
@@ -779,7 +838,10 @@ namespace SoA_Editor.ViewModels
                     error = true;
                 }
 
-                if (error) eventArgs.Cancel();
+                if (error)
+                {
+                    eventArgs.Cancel();
+                }
             }
         }
 
@@ -820,7 +882,7 @@ namespace SoA_Editor.ViewModels
                             }
                         }
                     }
-                    break;   
+                    break;
             }
         }
 

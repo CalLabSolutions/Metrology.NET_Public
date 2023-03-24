@@ -159,7 +159,10 @@ namespace SOA_DataAccessLib
         {
             MtcSpaceHelper TaxonHelper = new MtcSpaceHelper(Taxon);
             var Result = TaxonHelper.addChild("Result");
-            if (name != "") Result.setAttribute("name", Name);
+            if (name != "")
+            {
+                Result.setAttribute("name", Name);
+            }
             quantity.writeTo(Result.Element);
         }
 
@@ -653,7 +656,10 @@ namespace SOA_DataAccessLib
                 results = new Mtc_Results(datasource);
                 parameters = new Mtc_Parameters(datasource);
                 var el = mtcSpaceHelper.getElement("Definition");
-                if (el != null) definition = new Mtc_Definition(datasource);
+                if (el != null)
+                {
+                    definition = new Mtc_Definition(datasource);
+                }
             }
             catch (Exception e)
             {
@@ -690,7 +696,10 @@ namespace SOA_DataAccessLib
         private void setQuantity(IParameterSource parameterSource)
         {
             var param = parameterSource.Parameters[_parameter];
-            if (param != null) quantity = param.Quantity;
+            if (param != null)
+            {
+                quantity = param.Quantity;
+            }
         }
 
         public void writeTo(XElement Function)
@@ -854,7 +863,10 @@ namespace SOA_DataAccessLib
         protected void loadExpression(MtcSpaceHelper mtcSpaceHelper)
         {
             var expressionElement = mtcSpaceHelper.getElement("Expression");
-            if (expressionElement != null) expression = fixWhiteSpace(expressionElement.Value);
+            if (expressionElement != null)
+            {
+                expression = fixWhiteSpace(expressionElement.Value);
+            }
             evaluator.Parse(expression);
         }
 
@@ -892,7 +904,10 @@ namespace SOA_DataAccessLib
         public void EditSymbol(string oldName, string newName)
         {
             var variable = evaluator.GetVariable(oldName);
-            if (variable == null) variable = "0";
+            if (variable == null)
+            {
+                variable = "0";
+            }
             evaluator.RemoveVariable(oldName);
             evaluator.SetVariable(newName, variable);
         }
@@ -963,7 +978,10 @@ namespace SOA_DataAccessLib
         {
             var Function = new MtcSpaceHelper(Parent).addChild("CMCUncertainty").setAttribute("function_name", function_name);
             Function.addChild("Expression").Value = expression;
-            if (quantity != null) quantity.writeTo(Function.addChild("Result").Element);
+            if (quantity != null)
+            {
+                quantity.writeTo(Function.addChild("Result").Element);
+            }
             symbolDefinitions.writeTo(Function.Element);
         }
 
@@ -1151,7 +1169,10 @@ namespace SOA_DataAccessLib
             else
             {
                 var el2 = mtcSpaceHelper.getElement("DeviceType");
-                if (el2 != null) deviceTypes.Add(el2.Value);
+                if (el2 != null)
+                {
+                    deviceTypes.Add(el2.Value);
+                }
             }
         }
 
@@ -1307,15 +1328,21 @@ namespace SOA_DataAccessLib
                     case RangeType.Result:
                         int rngCnt = taxon.Results.Count();
                         if (rngCnt == 1)
+                        {
                             quantity = taxon.getQuantity();
+                        }
                         else
+                        {
                             quantity = taxon.getQuantity(rangeName);
+                        }
                         break;
 
                     case RangeType.Parameter:
                         quantity = taxon.getQuantity(rangeName);
                         if (quantity == null)
+                        {
                             quantity = technique.getQuantity(rangeName);
+                        }
                         break;
 
                     default:
@@ -1326,7 +1353,10 @@ namespace SOA_DataAccessLib
                 uom_alternative = mtcSpaceHelper.getAttribute("uom_alternative");
                 symbol = mtcSpaceHelper.getAttribute("uom_alias_symbol");
                 format = mtcSpaceHelper.getAttribute("format");
-                if (datasource != null) valueString = datasource.Value;
+                if (datasource != null)
+                {
+                    valueString = datasource.Value;
+                }
             }
             catch (Exception e)
             {
@@ -1411,7 +1441,10 @@ namespace SOA_DataAccessLib
                     default:
                         throw new Exception();
                 }
-                if (name != "") Range.setAttribute("name", name);
+                if (name != "")
+                {
+                    Range.setAttribute("name", name);
+                }
                 start.writeTo(Range.Element);
                 end.writeTo(Range.Element);
             }
@@ -1433,8 +1466,14 @@ namespace SOA_DataAccessLib
                 name = mtcSpaceHelper.getAttribute("name");
                 var el1 = mtcSpaceHelper.getElement("Start");
                 var el2 = mtcSpaceHelper.getElement("End");
-                if (el1 != null) start = new Mtc_Range_Start(el1, taxon, technique, name, rType);
-                if (el2 != null) end = new Mtc_Range_End(el2, taxon, technique, name, rType);
+                if (el1 != null)
+                {
+                    start = new Mtc_Range_Start(el1, taxon, technique, name, rType);
+                }
+                if (el2 != null)
+                {
+                    end = new Mtc_Range_End(el2, taxon, technique, name, rType);
+                }
             }
             catch (Exception e)
             {
@@ -1662,10 +1701,7 @@ namespace SOA_DataAccessLib
 
         public bool Contains(string value)
         {
-            if (rangeAssertions.Contains(value))
-                return true;
-            else
-                return false;
+            return rangeAssertions.Contains(value) ? true : false;
         }
 
         public void Add(string rangeAssertion)
@@ -1770,7 +1806,10 @@ namespace SOA_DataAccessLib
             parameters.writeTo(Technique.Element);
             parameterRanges.writeTo(Technique.Element);
             requiredEquipment.writeTo(Technique.Element);
-            if (functions != null) functions.writeTo(Technique.Element);
+            if (functions != null)
+            {
+                functions.writeTo(Technique.Element);
+            }
             cmcUncertainties.writeTo(Technique.Element);
             rangeAssertions.writeTo(Technique.Element);
             documentation.writeTo(Technique.Element);
@@ -1834,9 +1873,18 @@ namespace SOA_DataAccessLib
                 var el1 = mtcSpaceHelper.getElement("RequiredEquipment");
                 var el2 = mtcSpaceHelper.getElement("Documentation");
                 var el3 = mtcSpaceHelper.getElement("RangeAssertions");
-                if (el1 != null) requiredEquipment = new Mtc_RequiredEquipment(el1);
-                if (el2 != null) cmcUncertainties = new Mtc_CMCUncertainties(datasource, this);
-                if (el3 != null) rangeAssertions = new Mtc_RangeAssertions(el3);
+                if (el1 != null)
+                {
+                    requiredEquipment = new Mtc_RequiredEquipment(el1);
+                }
+                if (el2 != null)
+                {
+                    cmcUncertainties = new Mtc_CMCUncertainties(datasource, this);
+                }
+                if (el3 != null)
+                {
+                    rangeAssertions = new Mtc_RangeAssertions(el3);
+                }
                 documentation = new Mtc_Documentation(el2);
             }
             catch (Exception e)
@@ -2111,8 +2159,14 @@ namespace SOA_DataAccessLib
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
                 var el1 = uncSpaceHelper.getElement("Start");
                 var el2 = uncSpaceHelper.getElement("End");
-                if (el1 != null) start = new Unc_Range_Start(el1, template, Variable_name);
-                if (el2 != null) end = new Unc_Range_End(el2, template, Variable_name);
+                if (el1 != null)
+                {
+                    start = new Unc_Range_Start(el1, template, Variable_name);
+                }
+                if (el2 != null)
+                {
+                    end = new Unc_Range_End(el2, template, Variable_name);
+                }
                 constants = new Unc_ConstantValues(datasource, template, functionName);
                 var rgsElement = uncSpaceHelper.getElement("Ranges");
                 ranges = (rgsElement != null) ? new Unc_Ranges(rgsElement, template, functionName) : new Unc_Ranges();
@@ -2313,8 +2367,14 @@ namespace SOA_DataAccessLib
             _name = uncSpaceHelper.getAttribute("name");
             var el1 = uncSpaceHelper.getElement("Start");
             var el2 = uncSpaceHelper.getElement("End");
-            if (el1 != null) start = new Unc_Range_Start(el1, template, _name);
-            if (el2 != null) end = new Unc_Range_End(el2, template, _name);
+            if (el1 != null)
+            {
+                start = new Unc_Range_Start(el1, template, _name);
+            }
+            if (el2 != null)
+            {
+                end = new Unc_Range_End(el2, template, _name);
+            }
         }
     }
 
@@ -2557,7 +2617,10 @@ namespace SOA_DataAccessLib
         {
             _name = new UncSpaceHelper(datasource).getAttribute("name");
             var el = new UomSpaceHelper(datasource).getElement("Quantity");
-            if (el != null) quantity = new Uom_Quantity(el);
+            if (el != null)
+            {
+                quantity = new Uom_Quantity(el);
+            }
         }
     }
 
@@ -2689,19 +2752,31 @@ namespace SOA_DataAccessLib
 
         private void loadName(XElement Assertion)
         {
-            if (Assertion != null) name = Assertion.Value;
+            if (Assertion != null)
+            {
+                name = Assertion.Value;
+            }
         }
 
         private void loadValue(XElement Assertion)
         {
-            if (Assertion != null) value = Assertion.Value;
+            if (Assertion != null)
+            {
+                value = Assertion.Value;
+            }
         }
 
         public void writeTo(XElement Case)
         {
             var Assertion = new UncSpaceHelper(Case).addChild("Assertion");
-            if (_type == null) _type = "";
-            if (_type != "") Assertion.setAttribute("type", type);
+            if (_type == null)
+            {
+                _type = "";
+            }
+            if (_type != "")
+            {
+                Assertion.setAttribute("type", type);
+            }
             Assertion.addChild("Name").Value = Name;
             Assertion.addChild("Value").Value = Value;
         }
@@ -2722,8 +2797,14 @@ namespace SOA_DataAccessLib
             _type = AssertionHelper.getAttribute("type");
             var el1 = AssertionHelper.getElement("Name");
             var el2 = AssertionHelper.getElement("Value");
-            if (el1 != null) loadName(el1);
-            if (el2 != null) loadValue(el2);
+            if (el1 != null)
+            {
+                loadName(el1);
+            }
+            if (el2 != null)
+            {
+                loadValue(el2);
+            }
         }
     }
 
@@ -2851,9 +2932,13 @@ namespace SOA_DataAccessLib
                 this.assertions = new Unc_Assertions(datasource);
                 var rgsElement = new UncSpaceHelper(datasource).getElement("Ranges");
                 if (rgsElement != null)
+                {
                     ranges = new Unc_Ranges(rgsElement, template, functionName);
+                }
                 else
+                {
                     ranges = new Unc_Ranges(datasource, template, functionName);
+                }
             }
             catch (Exception e)
             {
@@ -2950,7 +3035,10 @@ namespace SOA_DataAccessLib
 
         public Unc_Cases Remove(Unc_Case Case)
         {
-            if (cases.Contains(Case)) cases.Remove(Case);
+            if (cases.Contains(Case))
+            {
+                cases.Remove(Case);
+            }
             return this;
         }
 
@@ -2972,7 +3060,9 @@ namespace SOA_DataAccessLib
                 this.template = template;
                 loadCases(new UncSpaceHelper(datasource), template, functionName);
                 if (cases.Count() == 0)
+                {
                     loadRanges(datasource, template, functionName);
+                }
             }
             catch (Exception e)
             {
@@ -3043,7 +3133,10 @@ namespace SOA_DataAccessLib
                 foreach (var r in rngs)
                 {
                     variables.Add(r.Variable_name);
-                    if (r.Ranges != null) rStack.Push(r.Ranges);
+                    if (r.Ranges != null)
+                    {
+                        rStack.Push(r.Ranges);
+                    }
                 }
             }
             return variables.ToList();
@@ -3060,7 +3153,10 @@ namespace SOA_DataAccessLib
         public void writeTo(XElement Template)
         {
             var CMCFunction = new UncSpaceHelper(Template).addChild("CMCFunction").setAttribute("name", name);
-            if (Cases == null) Cases = new();
+            if (Cases == null)
+            {
+                Cases = new();
+            }
             Cases.writeTo(CMCFunction.Element);
         }
 
@@ -3135,7 +3231,10 @@ namespace SOA_DataAccessLib
 
         public Unc_CMCFunctions Remove(Unc_CMCFunction Function)
         {
-            if (functions.Contains(Function)) functions.Remove(Function);
+            if (functions.Contains(Function))
+            {
+                functions.Remove(Function);
+            }
             return this;
         }
 
@@ -3289,7 +3388,10 @@ namespace SOA_DataAccessLib
         public void setCMCFunctionSymbol(string functionName, string symbolName, double value)
         {
             var unc = getCMCUncertaintyByFunctionName(functionName);
-            if (unc != null) unc.setSymbol(symbolName, value);
+            if (unc != null)
+            {
+                unc.setSymbol(symbolName, value);
+            }
         }
 
         public IList<string> getCMCFunctionRangeVariables(string functionName)
@@ -3318,7 +3420,10 @@ namespace SOA_DataAccessLib
             {
                 var assertions = _case.Assertions;
                 int count = assertions.Where(a => assertionValues.Contains(a.Value)).Count();
-                if (count == assertionValues.Length) cases.Add(_case);
+                if (count == assertionValues.Length)
+                {
+                    cases.Add(_case);
+                }
             }
             return cases;
         }
@@ -3331,7 +3436,10 @@ namespace SOA_DataAccessLib
             {
                 var assertions = _case.Assertions;
                 int count = assertions.Where(a => a.Value == assertionValue).Count();
-                if (count > 0) cases.Add(_case);
+                if (count > 0)
+                {
+                    cases.Add(_case);
+                }
             }
             return cases;
         }
@@ -3374,7 +3482,10 @@ namespace SOA_DataAccessLib
                 influenceQuantities = new Unc_InfluenceQuantities(datasource);
                 UncSpaceHelper unsSpaceHelper = new UncSpaceHelper(datasource);
                 var el = unsSpaceHelper.getElement("Technique");
-                if (el != null) templateTechnique = new Unc_TemplateTechnique(el, this);
+                if (el != null)
+                {
+                    templateTechnique = new Unc_TemplateTechnique(el, this);
+                }
                 if (templateTechnique != null)
                 {
                     Unc_Technique uncTech = cMCs.Technique[templateTechnique.Name];
@@ -3514,7 +3625,10 @@ namespace SOA_DataAccessLib
             else
             {
                 var el2 = mtcSpaceHelper.getElement("DeviceType");
-                if (el2 != null) deviceTypes.Add(el2.Value);
+                if (el2 != null)
+                {
+                    deviceTypes.Add(el2.Value);
+                }
             }
         }
 
@@ -3593,9 +3707,15 @@ namespace SOA_DataAccessLib
                 this.cMCs = cMCs;
                 UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
                 var el = uncSpaceHelper.getElement("Category");
-                if (el != null) category = new Unc_CmcCategory(el);
+                if (el != null)
+                {
+                    category = new Unc_CmcCategory(el);
+                }
                 el = uncSpaceHelper.getElement("DUT");
-                if (el != null) dut = new Unc_DUT(el);
+                if (el != null)
+                {
+                    dut = new Unc_DUT(el);
+                }
                 templates = new Unc_Templates(datasource, cMCs);
             }
             catch (Exception e)
@@ -3745,10 +3865,16 @@ namespace SOA_DataAccessLib
                 if (ExternalDefintionHelper != null)
                 {
                     string link = ExternalDefintionHelper.getAttribute("uri");
-                    if (link != "") uri = new Uri(link);
+                    if (link != "")
+                    {
+                        uri = new Uri(link);
+                    }
                     XMLDataSource externaldefinition = new XMLDataSource();
                     OpResult result = externaldefinition.load(uri);
-                    if (!result.Success) throw new Exception(result.Error);
+                    if (!result.Success)
+                    {
+                        throw new Exception(result.Error);
+                    }
                     var ExternalTechniqueHelper = new MtcSpaceHelper(externaldefinition.Doc.Root);
                     technique = new Mtc_Technique(ExternalTechniqueHelper.getElement(), this, cMCs);
                 }
@@ -3932,10 +4058,16 @@ namespace SOA_DataAccessLib
             if (ExternalDefintionHelper != null)
             {
                 string link = ExternalDefintionHelper.getAttribute("uri");
-                if (link != "") uri = new Uri(link);
+                if (link != "")
+                {
+                    uri = new Uri(link);
+                }
                 XMLDataSource externaldefinition = new XMLDataSource();
                 OpResult result = externaldefinition.load(uri);
-                if (!result.Success) throw new Exception(result.Error);
+                if (!result.Success)
+                {
+                    throw new Exception(result.Error);
+                }
                 var ExternalHelper = new MtcSpaceHelper(externaldefinition.Doc.Root);
                 taxon = new Mtc_Taxon(this, ExternalHelper.getElement());
             }
@@ -4162,7 +4294,10 @@ namespace SOA_DataAccessLib
         {
             UncSpaceHelper uncSpaceHelper = new UncSpaceHelper(datasource);
             var el = uncSpaceHelper.getElement("CMCs");
-            if (el != null) _Unc_CMCs = new Unc_CMCs(el);
+            if (el != null)
+            {
+                _Unc_CMCs = new Unc_CMCs(el);
+            }
         }
     }
 
@@ -4537,9 +4672,15 @@ namespace SOA_DataAccessLib
             id = soaSpaceHelper.getAttribute("id");
             var el1 = soaSpaceHelper.getElement("OrganizationAddress");
             var el2 = soaSpaceHelper.getElement("ContactInfo");
-            if (el1 != null) organizationAddress = new Soa_CapabilityScope_Location_OrganizationAddress(el1);
+            if (el1 != null)
+            {
+                organizationAddress = new Soa_CapabilityScope_Location_OrganizationAddress(el1);
+            }
             contactName = soaSpaceHelper.getValue("ContactName");
-            if (el2 != null) contactInfo = new Soa_ContactInfo(el2);
+            if (el2 != null)
+            {
+                contactInfo = new Soa_ContactInfo(el2);
+            }
         }
     }
 
@@ -4949,7 +5090,10 @@ namespace SOA_DataAccessLib
                 if (soa == null)
                 {
                     OpResult opResult = build();
-                    if (!opResult.Success) throw new Exception(opResult.Error);
+                    if (!opResult.Success)
+                    {
+                        throw new Exception(opResult.Error);
+                    }
                     Doc = null; // no longer need doc
                 }
                 return soa;
@@ -4961,7 +5105,10 @@ namespace SOA_DataAccessLib
             OpResult opResult = new OpResult();
             try
             {
-                if (Doc == null) throw new Exception("XML not loaded");
+                if (Doc == null)
+                {
+                    throw new Exception("XML not loaded");
+                }
                 soa = new Soa(Doc);
             }
             catch (Exception e)

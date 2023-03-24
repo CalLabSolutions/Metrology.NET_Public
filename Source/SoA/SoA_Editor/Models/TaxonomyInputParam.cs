@@ -21,7 +21,11 @@ namespace SoA_Editor.Models
         public string Param
         {
             get { return _param; }
-            set { _param = value; NotifyOfPropertyChange(() => Param); }
+            set
+            {
+                _param = value;
+                NotifyOfPropertyChange(() => Param);
+            }
         }
 
         private string _quantity;
@@ -29,7 +33,11 @@ namespace SoA_Editor.Models
         public string Quantity
         {
             get { return _quantity; }
-            set { _quantity = value; NotifyOfPropertyChange(() => Quantity); }
+            set
+            {
+                _quantity = value;
+                NotifyOfPropertyChange(() => Quantity);
+            }
         }
 
         private string _optional;
@@ -37,7 +45,11 @@ namespace SoA_Editor.Models
         public string Optional
         {
             get { return _optional; }
-            set { _optional = value; NotifyOfPropertyChange(() => Optional); }
+            set
+            {
+                _optional = value;
+                NotifyOfPropertyChange(() => Optional);
+            }
         }
 
     }

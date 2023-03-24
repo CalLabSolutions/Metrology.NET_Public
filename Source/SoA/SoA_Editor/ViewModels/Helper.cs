@@ -64,9 +64,20 @@ namespace SoA_Editor.ViewModels
             CompanyM.CompanyInfo.Emails = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.EmailAccounts);
             CompanyM.CompanyInfo.Urls = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.Urls);
             CompanyM.CompanyInfo.PhoneNo = string.Join(",", SampleSoA.CapabilityScope.Locations[0].ContactInfo.PhoneNumbers);
-            if (CompanyM.CompanyInfo.Emails == null) CompanyM.CompanyInfo.Emails = "";
-            if (CompanyM.CompanyInfo.Urls == null) CompanyM.CompanyInfo.Urls = "";
-            if (CompanyM.CompanyInfo.PhoneNo == null) CompanyM.CompanyInfo.PhoneNo = "";
+            if (CompanyM.CompanyInfo.Emails == null)
+            {
+                CompanyM.CompanyInfo.Emails = "";
+            }
+
+            if (CompanyM.CompanyInfo.Urls == null)
+            {
+                CompanyM.CompanyInfo.Urls = "";
+            }
+
+            if (CompanyM.CompanyInfo.PhoneNo == null)
+            {
+                CompanyM.CompanyInfo.PhoneNo = "";
+            }
 
             CompanyM.CompanyInfo.Street = SampleSoA.CapabilityScope.Locations[0].Address.Street;
             CompanyM.CompanyInfo.City = SampleSoA.CapabilityScope.Locations[0].Address.City;

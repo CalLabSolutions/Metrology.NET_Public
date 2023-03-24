@@ -37,7 +37,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding FunctionName}" d:Text="Function Name" Margin="0 0 0 15"/>
                 <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Width="400" Margin="0 0 0 15">
-                    First, select Variable Ranges and Constants values.<LineBreak />
+                    First, select Variable Ranges and Constant values.<LineBreak />
                     Next, if applicable, enter or select Assertion values.<LineBreak />
                     Lastly, if applicable, select an Influence Quantity.
                 </TextBlock>

@@ -11,7 +11,10 @@ namespace SoA_Editor.Components
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             if (!regex.IsMatch(e.Text))
+            {
                 e.Handled = true;
+            }
+
             base.OnPreviewTextInput(e);
         }
     }

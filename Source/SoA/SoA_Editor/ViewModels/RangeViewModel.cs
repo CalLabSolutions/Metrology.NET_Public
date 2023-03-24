@@ -124,7 +124,11 @@ namespace SoA_Editor.ViewModels
             }
             set
             {
-                if (orginalFormula == null) orginalFormula = value;
+                if (orginalFormula == null)
+                {
+                    orginalFormula = value;
+                }
+
                 Set(ref _Formula2, value);
             }
         }
@@ -158,7 +162,10 @@ namespace SoA_Editor.ViewModels
         public async void EditRange(DataRowView row)
         {
             // No range selected, don't bother evaluating
-            if (range == null) return;
+            if (range == null)
+            {
+                return;
+            }
 
             if (!DialogHost.IsDialogOpen("RootDialog"))
             {
@@ -179,7 +186,11 @@ namespace SoA_Editor.ViewModels
                 r.End.ValueString = range.End.ValueString;
                 var pr = technique.Technique.ParameterRanges[range.Variable_name];
                 string minMax = "";
-                if (pr != null) minMax = string.Format("Overall Paramter Range: {0} to {1}", pr.Start.ValueString, pr.End.ValueString);
+                if (pr != null)
+                {
+                    minMax = string.Format("Overall Paramter Range: {0} to {1}", pr.Start.ValueString, pr.End.ValueString);
+                }
+
                 editSingleRangeDialog = new EditSingleRangeDialog()
                 {
                     DataContext = new EditSingleRangeDialogViewModel(r, minMax, pr.Start.Value, pr.End.Value)
@@ -297,7 +308,10 @@ namespace SoA_Editor.ViewModels
         private void updateValues()
         {
             // No range selected, don't bother evaluating
-            if (range == null) return;
+            if (range == null)
+            {
+                return;
+            }
 
             // reset eval engine
             template.resetCMCFunction(functionName);
@@ -307,7 +321,11 @@ namespace SoA_Editor.ViewModels
             {
                 // See if we have a value and that it is numeric
                 double test;
-                if (variable.Value == "" || variable.Value == null) return;
+                if (variable.Value == "" || variable.Value == null)
+                {
+                    return;
+                }
+
                 if (double.TryParse(variable.Value, styles, culture, out test))
                 {
                     template.setCMCFunctionSymbol(functionName, variable.Name, double.Parse(variable.Value, styles));
@@ -349,9 +367,13 @@ namespace SoA_Editor.ViewModels
             
             // see if we need to set a notation
             if (result < 1)
+            {
                 calculatedResult = result.ToString("E2");
+            }
             else
+            {
                 calculatedResult = result.ToString("0.##");
+            }
         }
 
         private void UpdateFormula(DataRow row)
@@ -404,7 +426,10 @@ namespace SoA_Editor.ViewModels
                 values.Add(rowData[name]);
             }
             var _case = template.getCasesByAssertionValues(functionName, values.ToArray());
-            if (_case.Count > 0) Case = _case[0];
+            if (_case.Count > 0)
+            {
+                Case = _case[0];
+            }
             // find our influence quantity it will not be apart of our variables or constats
             List<string> rangeVars = template.getCMCFunctionRangeVariables(functionName).ToList();
             var symbols = template.getCMCUncertaintyFunctionSymbols(functionName);
@@ -455,7 +480,11 @@ namespace SoA_Editor.ViewModels
                 bool foundRange = false;
                 foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
                 {
-                    if (foundRange) break;
+                    if (foundRange)
+                    {
+                        break;
+                    }
+
                     if (!fixed_qty && (range.Start.ValueString == qtys[0] && range.End.ValueString == qtys[1]))
                     {
                         foreach (SOA_DataAccessLib.Unc_Range _range in range.Ranges.getRanges())
@@ -497,8 +526,7 @@ namespace SoA_Editor.ViewModels
 
             // Just loop through the current ranges and find the correct range
             if (influence_qty == null && selected_param != null)
-            {
-                
+            {              
                 foreach (SOA_DataAccessLib.Unc_Range range in ranges.getRanges())
                 {
                     if (!fixed_param && (range.Start.ValueString == _param[0] && range.End.ValueString == _param[1]))
@@ -514,7 +542,10 @@ namespace SoA_Editor.ViewModels
                 }
             }
 
-            if (this.range == null) return;
+            if (this.range == null)
+            {
+                return;
+            }
 
             // lets update the fomula with the constant values
             string expression = Formula1;
@@ -535,7 +566,10 @@ namespace SoA_Editor.ViewModels
             bool withinRange = false;
 
             // see if we have a fixed range
-            if (range.Start.Value == range.End.Value) return true;
+            if (range.Start.Value == range.End.Value)
+            {
+                return true;
+            }
 
             if (range.Start.test == "at")
             {
@@ -559,30 +593,42 @@ namespace SoA_Editor.ViewModels
             {
                 decimal value = decimal.Parse(exp.Value, styles);
 
-                if (checkStartAt && checkEndAt)
+                if (checkStartAt &&
+                    checkEndAt &&
+                    value >= range.Start.Value &&
+                    value <= range.End.Value)
                 {
-                    if (value >= range.Start.Value && value <= range.End.Value)
-                        withinRange = true;
+                    withinRange = true;
                 }
 
-                if (checkStartAfter && checkEndAt)
+                if (checkStartAfter &&
+                    checkEndAt &&
+                    value > range.Start.Value &&
+                    value <= range.End.Value)
                 {
-                    if (value > range.Start.Value && value <= range.End.Value)
-                        withinRange = true;
+                    withinRange = true;
+                }
+ 
+                if (checkStartAt &&
+                    checkEndBefore &&
+                    value >= range.Start.Value &&
+                    value < range.End.Value)
+                {
+                    withinRange = true;
                 }
 
-                if (checkStartAt && checkEndBefore)
+                if (checkStartAfter &&
+                    checkEndBefore &&
+                    value > range.Start.Value &&
+                    value < range.End.Value)
                 {
-                    if (value >= range.Start.Value && value < range.End.Value)
-                        withinRange = true;
+                    withinRange = true;
                 }
 
-                if (checkStartAfter && checkEndBefore)
+                if (!withinRange)
                 {
-                    if (value > range.Start.Value && value < range.End.Value)
-                        withinRange = true;
+                    break;
                 }
-                if (!withinRange) break;
             }
 
             return withinRange;

@@ -18,14 +18,22 @@ namespace SoA_Editor.ViewModels
         public string AssertionName
         {
             get { return assertionName; }
-            set { assertionName = value; NotifyOfPropertyChange(() => AssertionName); }
+            set
+            {
+                assertionName = value;
+                NotifyOfPropertyChange(() => AssertionName);
+            }
         }
 
         private string error;
         public string Error
         {
             get { return error; }
-            set { error = value; NotifyOfPropertyChange(() => Error); }
+            set
+            {
+                error = value;
+                NotifyOfPropertyChange(() => Error);
+            }
         }
 
     }

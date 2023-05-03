@@ -113,7 +113,7 @@ namespace MT_DataAccessLib
         public string Definition
         {
             get { return definition; }
-            set { definition = TaxonomyFactory.Tools.Format(value); }
+            set { definition = Tools.Format(value); }
         }
 
         private Discipline discipline;

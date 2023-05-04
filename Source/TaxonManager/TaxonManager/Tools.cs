@@ -27,7 +27,7 @@ namespace CalLabSolutions.TaxonManager
         public static string BuildXml(string url)
         {
             XmlTextReader reader = new XmlTextReader(url);
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
             if (reader != null)
             {
                 while (reader.Read())
@@ -82,7 +82,7 @@ namespace CalLabSolutions.TaxonManager
         public static string CreateTaxonHtml(Taxon taxon, bool addSlug = true)
         {
             // text to send back
-            string text = string.Empty;
+            string taxonText = string.Empty;
 
             if (addSlug)
             {//Name and Slug
@@ -92,15 +92,15 @@ namespace CalLabSolutions.TaxonManager
                 string header = "<!--\nName: {name}\n\nSlug: {slug}\n\nHTML: -->\n";
                 header = header.Replace("{name}", name);
                 header = header.Replace("{slug}", slug);
-                text = header;
+                taxonText = header;
                 string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog";
                 string uom = "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database";
-                text += string.Format("<html xmnls:mtc=\"{0}\" xmlns:uom=\"{1}\">", mtc, uom);
-                text += "<head>";
-                text += "<meta http-equiv=\"ContentType\" content=\"text/html; charset=UTF-8\">";
-                text += "<link rel=\"stylesheet\" href=\"metrologytaxonomy.css\">";
-                text += "</head></body>";
-                text += "<h2>Metrology Taxon - " + taxon.Name + "</h2>";
+                taxonText += string.Format("<html xmnls:mtc=\"{0}\" xmlns:uom=\"{1}\">", mtc, uom);
+                taxonText += "<head>";
+                taxonText += "<meta http-equiv=\"ContentType\" content=\"text/html; charset=UTF-8\">";
+                taxonText += "<link rel=\"stylesheet\" href=\"metrologytaxonomy.css\">";
+                taxonText += "</head></body>";
+                taxonText += "<h2>Metrology Taxon - " + taxon.Name + "</h2>";
             }
             // html
             string definition = "<p>{definition}{deprecated}</p>\n\n<!--more-->\n\n";
@@ -113,7 +113,7 @@ namespace CalLabSolutions.TaxonManager
             {
                 definition = definition.Replace("{deprecated}", "");
             }
-            text += definition;
+            taxonText += definition;
 
             // seperate required and optional parameters
             List<Parameter> required = new List<Parameter>();
@@ -135,7 +135,7 @@ namespace CalLabSolutions.TaxonManager
             string nextli = "";
             if (required.Count > 0)
             {
-                text += "<strong>Required Parameters</strong>\n<ul>\n{required_params}\n</ul>\n";
+                taxonText += "<strong>Required Parameters</strong>\n<ul>\n{required_params}\n</ul>\n";
                 foreach (Parameter parameter in required)
                 {
                     nextli += li;
@@ -157,13 +157,13 @@ namespace CalLabSolutions.TaxonManager
                         nextli = nextli.Replace("{quantity}", "");
                     }
                 }
-                text = text.Replace("{required_params}", nextli);
+                taxonText = taxonText.Replace("{required_params}", nextli);
             }
             if (optional.Count > 0)
             {
                 li = "\t<li>{name}{definition}{quantity}</li>\n";
                 nextli = "";
-                text += "<strong>Optional Parameters</strong>\n<ul>\n{optional_params}\n</ul>\n";
+                taxonText += "<strong>Optional Parameters</strong>\n<ul>\n{optional_params}\n</ul>\n";
                 foreach (Parameter parameter in optional)
                 {
                     nextli += li;
@@ -185,7 +185,7 @@ namespace CalLabSolutions.TaxonManager
                         nextli = nextli.Replace("{quantity}", "");
                     }
                 }
-                text = text.Replace("{optional_params}", nextli);
+                taxonText = taxonText.Replace("{optional_params}", nextli);
             }
 
             // results
@@ -197,7 +197,7 @@ namespace CalLabSolutions.TaxonManager
                     type = "Measured";
                 }
 
-                text += "<strong>" + type + " Value &amp; Uncertainty</strong>\n<ul>\n{results}\n</ul>";
+                taxonText += "<strong>" + type + " Value &amp; Uncertainty</strong>\n<ul>\n{results}\n</ul>";
                 li = "\t<li>{name}{quantity}</li>\n";
                 nextli = "";
                 foreach (Result result in taxon.Results)
@@ -213,15 +213,17 @@ namespace CalLabSolutions.TaxonManager
                         nextli = nextli.Replace("{quantity}", "");
                     }
                 }
-                text = text.Replace("{results}", nextli);
+                taxonText = taxonText.Replace("{results}", nextli);
             }
             if (taxon.ExternalReferences != null)
             {
                 List<Reference> references = taxon.ExternalReferences.References;
+                taxonText += "<strong>References</strong>\n<ul>\n{references}\n</ul>";
+                li = "\t<li>\n{table1}</li>\n";
+                nextli = string.Empty;
                 foreach (Reference refer in references)
                 {
-                    text += "<strong>References</strong>\n<ul>\n{references}\n</ul>";
-                    li = "\t<li>\n{table1}</li>\n";
+                    nextli += li;
                     string table1 = "<table>\n<tbody>\n<tr><th>URL Name</th><th>URL</th></tr>\n";
                     string refUrl = refer.ReferenceUrl.UrlValue;
                     string refName = refer.ReferenceUrl.UrlName;
@@ -237,15 +239,15 @@ namespace CalLabSolutions.TaxonManager
                             {
                                 table1 += "<tr><td>" + catList[z].Name +"</td><td>" + catList[z].Value + "</td></tr>\n";
                             }
-                            table1 += "</tbody>\n</table>\n";
                         }
                     }
 
-                    li = li.Replace("{table1}", table1);
-                    text = text.Replace("{references}", li);
+                    table1 += "</tbody>\n</table>\n";
+                    nextli = nextli.Replace("{table1}", table1);
+                    taxonText = taxonText.Replace("{references}", nextli);
                 }
             }
-            return text;
+            return taxonText;
         }
 
     }

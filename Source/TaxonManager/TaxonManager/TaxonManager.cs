@@ -393,22 +393,18 @@ namespace CalLabSolutions.TaxonManager
 
                     // deserialize string
                     StreamReader stream = null;
-                    byte[] bytes = Encoding.ASCII.GetBytes(xml);
-                    stream = new StreamReader(new MemoryStream(bytes));
+                    byte[] bytes = Encoding.UTF8.GetBytes(xml);
+                    stream = new StreamReader(file.FullName);
                     if (addMultipleTaxons)
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(Taxonomy));
+                        XmlSerializer serializer = new(typeof(Taxonomy));
                         Taxonomy fromXml = (Taxonomy)serializer.Deserialize(stream);
                         int count = 0;
-                        if (taxonList.Count != 0)
-                        {
-                            count = taxonList.Count - 1;
-                        }
                         taxonList.InsertRange(count, fromXml.Taxons);
                     }
                     else
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(Taxon));
+                        XmlSerializer serializer = new(typeof(Taxon));
                         Taxon fromXml = (Taxon)serializer.Deserialize(stream);
                         taxonList.Add(fromXml);
                     }
@@ -495,22 +491,27 @@ namespace CalLabSolutions.TaxonManager
                     switch (cki.Key)
                     {
                         case ConsoleKey.D1:
+                        case ConsoleKey.NumPad1:
                             Compile();
                             break;
 
                         case ConsoleKey.D2:
+                        case ConsoleKey.NumPad2:
                             Decompile();
                             break;
 
                         case ConsoleKey.D3:
+                        case ConsoleKey.NumPad3:
                             Export();
                             break;
 
                         case ConsoleKey.D4:
+                        case ConsoleKey.NumPad4:
                             Import();
                             break;
 
                         default:
+                            GetHelpAndRestart();
                             break;
                     }
                 }
@@ -576,7 +577,7 @@ namespace CalLabSolutions.TaxonManager
             {
                 try
                 {
-                    if (cki.Key == ConsoleKey.D1)
+                    if (cki.Key == ConsoleKey.D1 || cki.Key == ConsoleKey.NumPad1)
                     {
                         if (Directory.Exists(taxonPath) && Directory.GetFiles(taxonPath).Length > 0)
                         {
@@ -585,9 +586,9 @@ namespace CalLabSolutions.TaxonManager
                             fileNames = files.ToList();
                         }
                     }
-                    else if (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.D3)
+                    else if (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.D3 || cki.Key == ConsoleKey.NumPad2 || cki.Key == ConsoleKey.NumPad3)
                     {
-                        string folderType = cki.Key == ConsoleKey.D2 ? "single taxon files are located" : "combined files are located";
+                        string folderType = (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.NumPad2) ? "single taxon files are located" : "combined files are located";
                         Console.WriteLine("Enter the path to the folder where the {0}.", folderType + ".\n");
                         taxonPath = Console.ReadLine();
                         Console.WriteLine("To add specific files rather than all files in the folder hit Enter otherwise hit any other key.\n");
@@ -606,7 +607,7 @@ namespace CalLabSolutions.TaxonManager
                             fileNames = fileList.ToList();
                         }
                     }
-                    TaxonomyList = FileToTaxonomyConverter(fileNames, (cki.Key == ConsoleKey.D2 ? false : true));
+                    TaxonomyList = FileToTaxonomyConverter(fileNames, (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.NumPad2 ? false : true));
 
                     if (TaxonomyList != null && taxonomy.Count > 0)
                     {
@@ -658,7 +659,7 @@ namespace CalLabSolutions.TaxonManager
             ConsoleKeyInfo cki = CreateAndValidateDecompileMenu();
             if (cki.Key != ConsoleKey.Escape)
             {
-                if (cki.Key == ConsoleKey.D1)
+                if (cki.Key == ConsoleKey.D1 || cki.Key == ConsoleKey.NumPad1)
                 {
                     string fileName = _localFullFileName + ".xml";
                     if (File.Exists(taxonomyPath + fileName))
@@ -666,16 +667,17 @@ namespace CalLabSolutions.TaxonManager
                         fileNames.Add(taxonomyPath + fileName);
                     }
                 }
-                else if (cki.Key == ConsoleKey.D2)
+                else if (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.NumPad2)
                 {
                     Console.WriteLine("Enter the path to the folder containing the file you want to decompile into individual taxon files.\n");
                     taxonomyPath = Console.ReadLine();
-                    Console.WriteLine("Enter the name of the specific file to decompile from that folder.\n");
                     DirectoryInfo di = Directory.CreateDirectory(taxonomyPath);
                     if (!di.FullName.EndsWith("\\"))
                     {
                         taxonomyPath = di.FullName + "\\";
                     }
+
+                    Console.WriteLine("Enter the name of the specific file to decompile from that folder.\n");
                     string fileName = taxonomyPath + Console.ReadLine();
                     if (!fileName.EndsWith(".xml"))
                     {
@@ -689,7 +691,7 @@ namespace CalLabSolutions.TaxonManager
                     TaxonomyList = FileToTaxonomyConverter(fileNames, true);
                     if (TaxonomyList != null && TaxonomyList.Count > 0)
                     {
-                        if (cki.Key == ConsoleKey.D2)
+                        if (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.NumPad2)
                         {
                             Console.WriteLine("Enter the path to where you want to save the taxon Files.\nFile names will be based on the individual Taxon.\n");
                             taxonPath = Console.ReadLine();
@@ -734,7 +736,7 @@ namespace CalLabSolutions.TaxonManager
             if (cki.Key != ConsoleKey.Escape)
             {
                 // XML Taxonomy export
-                if (cki.Key == ConsoleKey.D1)
+                if (cki.Key == ConsoleKey.D1 || cki.Key == ConsoleKey.NumPad1)
                 {
                     Console.WriteLine("Enter the full path including file name for the taxonomy to export.\n");
                     List<string> filePath = new List<string>();
@@ -762,7 +764,7 @@ namespace CalLabSolutions.TaxonManager
                         Console.WriteLine("Due to an error reloading main menu.\n");
                     }
                 }
-                else if (cki.Key == ConsoleKey.D2) // HTML Taxon export
+                else if (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.NumPad2) // HTML Taxon export
                 {
                     Console.WriteLine("Enter the full path including file name of the taxon to export.\n");
                     List<string> filePath = new List<string>();

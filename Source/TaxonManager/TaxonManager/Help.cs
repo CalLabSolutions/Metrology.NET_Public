@@ -29,18 +29,22 @@ namespace CalLabSolutions.TaxonManager
             switch (command)
             {
                 case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
                     CompileHelp();
                     break;
 
                 case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
                     DecompileHelp();
                     break;
 
                 case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
                     ExportHelp();
                     break;
 
                 case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
                     ImportHelp();
                     break;
 

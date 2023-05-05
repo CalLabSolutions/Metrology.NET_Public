@@ -273,10 +273,10 @@ namespace CalLabSolutions.TaxonManager
     }
 
     [Serializable]
-    [System.Xml.Serialization.XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
     public class ReferenceUrl
     {
-        private string name = string.Empty;
+        private string name = "";
 
         [XmlElement("name")]
         public string UrlName
@@ -285,7 +285,7 @@ namespace CalLabSolutions.TaxonManager
             set { name = value; }
         }
 
-        private string value = string.Empty;
+        private string value = "";
 
         [XmlElement("url")]
         public string UrlValue

@@ -32,7 +32,7 @@ namespace SoA_Editor.Model
                 selectedQty = value;
                 var range = selectedQty.Start.ValueString;
                 ParameterRange = "";
-                if (range != null || range != "")
+                if (!string.IsNullOrWhiteSpace(range))
                 {
                     ParameterRange = string.Format("{0} to {1}", selectedQty.Start.ValueString, selectedQty.End.ValueString);
                 }
@@ -43,25 +43,41 @@ namespace SoA_Editor.Model
         public List<Mtc_Range> InfQtys
         {
             get { return infQtys; }
-            set { infQtys = value; NotifyOfPropertyChange(() => InfQtys); }
+            set
+            {
+                infQtys = value;
+                NotifyOfPropertyChange(() => InfQtys);
+            }
         }
 
         public string Min
         {
             get { return min; }
-            set { min = value; NotifyOfPropertyChange(() => Min); }
+            set
+            {
+                min = value;
+                NotifyOfPropertyChange(() => Min);
+            }
         }
 
         public string Max
         {
             get { return max; }
-            set { max = value; NotifyOfPropertyChange(() => Max); }
+            set
+            {
+                max = value;
+                NotifyOfPropertyChange(() => Max);
+            }
         }        
 
         public string ParameterRange
         {
             get { return parameterRange; }
-            set{ parameterRange = value; NotifyOfPropertyChange(() => ParameterRange); }
+            set
+            {
+                parameterRange = value;
+                NotifyOfPropertyChange(() => ParameterRange);
+            }
         }
     }
 }

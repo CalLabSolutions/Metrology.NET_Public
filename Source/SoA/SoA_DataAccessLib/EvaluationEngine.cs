@@ -102,7 +102,9 @@ internal class EvaluatorCore
     {
         object result = null;
         if (Variables.ContainsKey(VariableName))
+        {
             result = Variables[VariableName].value;
+        }
         return result;
     }
 
@@ -113,20 +115,34 @@ internal class EvaluatorCore
         double dblval;
         decimal decval;
         if (long.TryParse(sval, out lval))
+        {
             value = lval;
+        }
         else if (decimal.TryParse(sval, NumberStyles.Float, CultureInfo.InvariantCulture, out decval))
+        {
             value = decval;
+        }
         else if (double.TryParse(sval, out dblval))
+        {
             value = dblval;
+        }
         else
+        {
             throw new Exception("value is not a valid numeric");
-        if (!Variables.ContainsKey(VariableName)) Variables.Add(VariableName, new Variable(VariableName));
+        }
+        if (!Variables.ContainsKey(VariableName))
+        {
+            Variables.Add(VariableName, new Variable(VariableName));
+        }
         Variables[VariableName].value = value;
     }
 
     public void RemoveVariable(string name)
     {
-        if (Variables.ContainsKey(name)) Variables.Remove(name);
+        if (Variables.ContainsKey(name))
+        {
+            Variables.Remove(name);
+        }
     }
 
 }
@@ -149,7 +165,10 @@ internal class LeftOperator : Operator { }
 internal class ScriptError : Exception
 {
     private Entity E;
-    public Entity Entity { get { return E; } }
+    public Entity Entity 
+    { 
+        get { return E; } 
+    }
     Dictionary<string, object> Details = new Dictionary<string, object>();
 
     public override System.Collections.IDictionary Data
@@ -174,7 +193,10 @@ internal class ScriptError : Exception
 internal class Comment
 {
     public string text { get; set; }
-    public Comment(string text) { this.text = text; }
+    public Comment(string text)
+    {
+        this.text = text;
+    }
     public override string ToString()
     {
         return text;
@@ -184,7 +206,10 @@ internal class Comment
 internal class Unexpected
 {
     public string text { get; set; }
-    public Unexpected(string text) { this.text = text; }
+    public Unexpected(string text)
+    {
+        this.text = text;
+    }
     public override string ToString()
     {
         return text;
@@ -195,7 +220,10 @@ internal class Variable
 {
     public string text { get; set; }
     public object value { get; set; }
-    public Variable(String text) { this.text = text; }
+    public Variable(String text)
+    {
+        this.text = text;
+    }
     public override string ToString()
     {
         return (value != null) ? value.ToString() : "unassigned";
@@ -206,9 +234,18 @@ internal class Constant
 {
     private string _text;
     private Object _value;
-    public string text { get { return _text; } }
-    public object value { get { return _value; } }
-    public Constant(string Text, object Value) { _text = Text; _value = Value; }
+    public string text 
+    { 
+        get { return _text; }
+    }
+    public object value
+    {
+        get { return _value; }
+    }
+    public Constant(string Text, object Value)
+    {
+        _text = Text; _value = Value;
+    }
     public override string ToString()
     {
         return value.ToString();
@@ -225,9 +262,18 @@ internal abstract class Function
     protected object GetValue(Entity E)
     {
         object o = null;
-        if (E.value is Variable) o = (E.value as Variable).value;
-        else o = E.value;
-        if (o is Entity) o = GetValue(o as Entity);
+        if (E.value is Variable)
+        {
+            o = (E.value as Variable).value;
+        }
+        else
+        {
+            o = E.value;
+        }
+        if (o is Entity)
+        {
+            o = GetValue(o as Entity);
+        }
         return o;
     }
 }
@@ -278,25 +324,122 @@ internal class ConstantDictionary : Dictionary<String, Constant> { }
 internal class VariableDictionary : Dictionary<String, Variable> { }
 internal class FunctionDictionary : Dictionary<String, Function> { }
 
-internal class OpenParenOperator : Operator { public OpenParenOperator() { _priority = -1; text = "("; _id = OperatorID.OpenParen; } }
-internal class CloseParenOperator : Operator { public CloseParenOperator() { _priority = -1; text = ")"; _id = OperatorID.CloseParen; } }
-internal class PositiveOperator : Operator { public PositiveOperator() { _priority = -1; text = "+"; _id = OperatorID.Positive; } }
+internal class OpenParenOperator : Operator
+{
+    public OpenParenOperator()
+    {
+        _priority = -1;
+        text = "("; _id = OperatorID.OpenParen;
+    }
+}
+internal class CloseParenOperator : Operator
+{
+    public CloseParenOperator()
+    {
+        _priority = -1;
+        text = ")";
+        _id = OperatorID.CloseParen;
+    }
+}
+internal class PositiveOperator : Operator
+{
+    public PositiveOperator()
+    {
+        _priority = -1;
+        text = "+";
+        _id = OperatorID.Positive;
+    }
+}
 
-internal class SemicolonSeperator : LeftOperator { public SemicolonSeperator() { _priority = 1; text = ";"; _id = OperatorID.Semicolon; } }
+internal class SemicolonSeperator : LeftOperator
+{
+    public SemicolonSeperator()
+    {
+        _priority = 1;
+        text = ";";
+        _id = OperatorID.Semicolon;
+    }
+}
 
-internal class AssignmentOperator : Operator { public AssignmentOperator() { _priority = 2; text = "="; _id = OperatorID.Assignment; } }
+internal class AssignmentOperator : Operator
+{
+    public AssignmentOperator()
+    {
+        _priority = 2;
+        text = "=";
+        _id = OperatorID.Assignment;
+    }
+}
 
-internal class AdditionOperator : Operator { public AdditionOperator() { _priority = 12; text = "+"; _id = OperatorID.Addition; } }
-internal class SubtractionOperator : Operator { public SubtractionOperator() { _priority = 124; text = "-"; _id = OperatorID.Subtraction; } }
+internal class AdditionOperator : Operator
+{
+    public AdditionOperator()
+    {
+        _priority = 12;
+        text = "+";
+        _id = OperatorID.Addition;
+    }
+}
 
-internal class MultiplicationOperator : Operator { public MultiplicationOperator() { _priority = 13; text = "*"; _id = OperatorID.Multiplication; } }
-internal class DivisionOperator : Operator { public DivisionOperator() { _priority = 13; text = "/"; _id = OperatorID.Division; } }
+internal class SubtractionOperator : Operator
+{
+    public SubtractionOperator()
+    {
+        _priority = 124;
+        text = "-";
+        _id = OperatorID.Subtraction;
+    }
+}
 
-internal class ExponentiationOperator : Operator { public ExponentiationOperator() { _priority = 14; text = "^"; _id = OperatorID.Exponentiation; } }
+internal class MultiplicationOperator : Operator
+{
+    public MultiplicationOperator()
+    {
+        _priority = 13;
+        text = "*";
+        _id = OperatorID.Multiplication;
+    }
+}
 
-internal class NegationOperator : Operator { public NegationOperator() { _priority = 15; text = "-"; _id = OperatorID.Negation; } }
+internal class DivisionOperator : Operator
+{
+    public DivisionOperator()
+    {
+        _priority = 13;
+        text = "/";
+        _id = OperatorID.Division;
+    }
+}
 
-internal class CommaSeperator : LeftOperator { public CommaSeperator() { _priority = 4; text = ","; _id = OperatorID.Comma; } }
+internal class ExponentiationOperator : Operator
+{
+    public ExponentiationOperator()
+    {
+        _priority = 14;
+        text = "^";
+        _id = OperatorID.Exponentiation;
+    }
+}
+
+internal class NegationOperator : Operator
+{
+    public NegationOperator()
+    {
+        _priority = 15;
+        text = "-";
+        _id = OperatorID.Negation;
+    }
+}
+
+internal class CommaSeperator : LeftOperator
+{
+    public CommaSeperator()
+    {
+        _priority = 4;
+        text = ",";
+        _id = OperatorID.Comma;
+    }
+}
 
 
 // An enhanced Queue of Entities; required to support looping and conditional blocks
@@ -306,7 +449,13 @@ internal class Elements : IEnumerable<Entity>
 
     public int HeadIndex { get; set; }
 
-    public int Count { get { return list.Count - HeadIndex; } }
+    public int Count
+    {
+        get
+        {
+            return list.Count - HeadIndex;
+        }
+    }
 
     public void Enqueue(Entity E)
     {
@@ -343,15 +492,23 @@ internal class Elements : IEnumerable<Entity>
     {
         int index = HeadIndex + Index;
         if ((index >= 0) && (index < list.Count))
+        {
             return list[HeadIndex + Index];
+        }
         else
+        {
             return new Entity(null, 0, 0);
+        }
     }
 
     public Entity LocateTo(int SourceCodePostion)
     {
         int I = list.Count() - 1;
-        while ((I > 0) && (list[I].SourceCodeIndex > SourceCodePostion)) I--;
+        while ((I > 0) && (list[I].SourceCodeIndex > SourceCodePostion))
+        {
+            I--;
+        }
+
         HeadIndex = I;
         return list[I];
     }
@@ -412,11 +569,14 @@ internal class Parser
             entity = new Entity(text as Object, offset, length);
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     // returns an integer if present in source string at offset position
-    bool GetInteger(String s, int offset, out int length, out Entity entity)
+    private bool GetInteger(String s, int offset, out int length, out Entity entity)
     {
         entity = null;
         string text = s.Substring(offset);
@@ -425,7 +585,10 @@ internal class Parser
             entity = new Entity(int.Parse(text) as Object, offset, length);
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     // returns a Floating Point number if present in source string at offset position
@@ -442,9 +605,15 @@ internal class Parser
                 entity = new Entity(dval, offset, length);
                 return true;
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     // returns a simple Operator if present in source string at offset position
@@ -473,7 +642,10 @@ internal class Parser
             entity = new Entity(oper, offset, length);
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     // returns a Function Operator if present in source string at offset position
@@ -499,7 +671,10 @@ internal class Parser
                         break;
                     }
                 }
-                if ((!result) && (!IgnoreErrors)) throw new ScriptError(new Entity(text, offset, length), "Unrecognized Function Name");
+                if ((!result) && (!IgnoreErrors))
+                {
+                    throw new ScriptError(new Entity(text, offset, length), "Unrecognized Function Name");
+                }
             }
         }
         return result;
@@ -556,7 +731,9 @@ internal class Parser
         Elements elements = new Elements();
         Boolean BinaryMode = false;
         Boolean unidentified = true;
-        if (input != null) while (offset < input.Length)
+        if (input != null)
+        {
+            while (offset < input.Length)
             {
                 if (GetWhitespace(input, offset, out length, out entity))
                 {
@@ -566,7 +743,11 @@ internal class Parser
                 else if (GetOperator(ref BinaryMode, input, offset, out length, out entity))
                 {
                     offset += length;
-                    if (!(entity.value is PositiveOperator)) elements.Enqueue(entity);
+                    if (!(entity.value is PositiveOperator))
+                    {
+                        elements.Enqueue(entity);
+                    }
+
                     BinaryMode = entity.value is CloseParenOperator;
                     unidentified = false;
                 }
@@ -588,15 +769,22 @@ internal class Parser
                 else if (IgnoreErrors)
                 {
                     if (!unidentified)
+                    {
                         elements.Enqueue(new Entity(new Unexpected(input[offset].ToString()), offset, 1));
+                    }
                     else
+                    {
                         elements.Peek().SourceCodeLength = elements.Peek().SourceCodeLength + 1;
+                    }
+
                     unidentified = true;
                     offset++;
                 }
                 else
                     throw new ScriptError(new Entity(input[offset], offset, 1), "Unexpected Character");
             }
+        }
+
         return elements;
     }
 }
@@ -614,15 +802,17 @@ internal class Compiler
         EntityStack Parens = new EntityStack();
         EntityStack IfsAndLoops = new EntityStack();
         EntityStack Ifs = new EntityStack();
-        Boolean ValueFlag = false;
+        bool ValueFlag = false;
         object O;
         {
             foreach (Entity E in Infix)
             {
                 E.BlockLevel = IfsAndLoops.Count;
                 O = E.value;
-                if (O is Unexpected) { }
-                else if (O is Comment) { }
+                if (O is Unexpected)
+                { }
+                else if (O is Comment)
+                { }
                 else if (O is Function)
                 {
                     PostFix.Enqueue(new Entity(new Terminator(), -1, -1));  // Terminators don't exist in source code
@@ -639,15 +829,24 @@ internal class Compiler
                     else if (O is CloseParenOperator)
                     {
                         if ((Parens.Count == 0) || !(Parens.Pop().value is OpenParenOperator))
+                        {
                             throw new ScriptError(E, "Missing or Misplaced \"(\"");
+                        }
+
                         while ((Operators.Count > 0) && (!(Operators.Peek().value is OpenParenOperator)))
                         {
                             e = Operators.Pop();
                             PostFix.Enqueue(e);
                         }
-                        if (Operators.Count > 0) Operators.Pop();  // Pop the OpenParen
+                        if (Operators.Count > 0)
+                        {
+                            Operators.Pop();  // Pop the OpenParen
+                        }
                         else
+                        {
                             throw new ScriptError(E, "Missing Open '('");
+                        }
+
                         ValueFlag = true;
                     }
                     else if (O is LeftOperator)
@@ -679,12 +878,18 @@ internal class Compiler
                 else
                 {
                     if (ValueFlag)
+                    {
                         throw new ScriptError(E, "Missing separator or operator");
+                    }
+
                     PostFix.Enqueue(E);
                     ValueFlag = true;
                 }
             }
-            while (Operators.Count > 0) PostFix.Enqueue(Operators.Pop());
+            while (Operators.Count > 0)
+            {
+                PostFix.Enqueue(Operators.Pop());
+            }
         }
         return PostFix;
     }
@@ -697,7 +902,11 @@ internal class PostfixEvaluator
     EvaluatorCore ScriptEngine;
 
     public PostfixEvaluator(EvaluatorCore ScriptEngine, VariableDictionary Variables, FunctionDictionary Functions)
-    { this.ScriptEngine = ScriptEngine; this.Variables = Variables; this.Functions = Functions; }
+    {
+        this.ScriptEngine = ScriptEngine;
+        this.Variables = Variables;
+        this.Functions = Functions;
+    }
 
     public object Evaluate(Elements Postfix)
     {
@@ -722,65 +931,123 @@ internal class PostfixEvaluator
                 }
                 (O as Function).self = E;
                 O = (O as Function).Execute(Arguments);
-                if (O != null) ValueStack.Push(new Entity(E, O));
+                if (O != null)
+                {
+                    ValueStack.Push(new Entity(E, O));
+                }
             }
             else if (O is Operator)
             {
                 switch ((O as Operator).id)
                 {
                     case OperatorID.OpenParen:
-                        break;
                     case OperatorID.Comma:
-                        break;
                     case OperatorID.Semicolon:
-                        break;
+                        {
+                            break;
+                        }
                     case OperatorID.Negation:
-                        ValueStack.Push(new Entity(E, Negate(PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "Operand of Improper Type for Negation");
-                        break;
+                        {
+                            ValueStack.Push(new Entity(E, Negate(PopValueOnStack(ValueStack))));
+                            if (ValueStack.Peek().value == null)
+                            {
+                                throw new ScriptError(E, "Operand of Improper Type for Negation");
+                            }
+                            break;
+                        }
                     case OperatorID.Addition:
-                        ValueStack.Push(new Entity(E, Add(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Addition");
-                        break;
+                        {
+                            ValueStack.Push(new Entity(E, Add(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
+                            if (ValueStack.Peek().value == null)
+                            {
+                                throw new ScriptError(E, "One or More Operands of Improper Type for Addition");
+                            }
+
+                            break;
+                        }
                     case OperatorID.Subtraction:
-                        ValueStack.Push(new Entity(E, Subtract(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Subtraction");
-                        break;
+                        {
+                            ValueStack.Push(new Entity(E, Subtract(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
+                            if (ValueStack.Peek().value == null)
+                            {
+                                throw new ScriptError(E, "One or More Operands of Improper Type for Subtraction");
+                            }
+
+                            break;
+                        }
                     case OperatorID.Multiplication:
-                        ValueStack.Push(new Entity(E, Multiply(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Multiplication");
-                        break;
+                        {
+                            ValueStack.Push(new Entity(E, Multiply(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
+                            if (ValueStack.Peek().value == null)
+                            {
+                                throw new ScriptError(E, "One or More Operands of Improper Type for Multiplication");
+                            }
+
+                            break;
+                        }
                     case OperatorID.Division:
-                        ValueStack.Push(new Entity(E, Divide(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Division");
-                        break;
+                        {
+                            ValueStack.Push(new Entity(E, Divide(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
+                            if (ValueStack.Peek().value == null)
+                            {
+                                throw new ScriptError(E, "One or More Operands of Improper Type for Division");
+                            }
+
+                            break;
+                        }
                     case OperatorID.Exponentiation:
-                        ValueStack.Push(new Entity(E, Raise(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
-                        if (ValueStack.Peek().value == null) throw new ScriptError(E, "One or More Operands of Improper Type for Exponentiation");
-                        break; ;
+                        {
+                            ValueStack.Push(new Entity(E, Raise(PopValueOnStack(ValueStack), PopValueOnStack(ValueStack))));
+                            if (ValueStack.Peek().value == null)
+                            {
+                                throw new ScriptError(E, "One or More Operands of Improper Type for Exponentiation");
+                            }
+
+                            break;
+                        }
                     case OperatorID.Assignment:
-                        if (ValueStack.Count == 2) // example "A = 1"; assigns 1 to A
                         {
-                            Assign(ValueStack.Pop(), ValueStack.Pop(), Variables);
+                            if (ValueStack.Count == 2) // example "A = 1"; assigns 1 to A
+                            {
+                                Assign(ValueStack.Pop(), ValueStack.Pop(), Variables);
+                            }
+                            else
+                            {
+                                if (ValueStack.Count == 1) // example "= 1"; the expression result is 1
+                                {
+                                    ValueStack.Push(new Entity(E, Assign(ValueStack.Pop(), null, Variables)));
+                                }
+
+                                if ((ValueStack.Count == 0) || ((ValueStack.Count > 0) && (ValueStack.Peek().value == null)))
+                                {
+                                    throw new ScriptError(E, "One or More Operands of Improper Type");
+                                }
+
+                                if (ValueStack.Count > 2)
+                                {
+                                    throw new ScriptError(E, "Too Many values on ValueStack.  Something went terribly wrong!");
+                                }
+                            }
+                            break;
                         }
-                        else
-                        {
-                            if (ValueStack.Count == 1) // example "= 1"; the expression result is 1
-                                ValueStack.Push(new Entity(E, Assign(ValueStack.Pop(), null, Variables)));
-                            if ((ValueStack.Count == 0) || ((ValueStack.Count > 0) && (ValueStack.Peek().value == null)))
-                                throw new ScriptError(E, "One or More Operands of Improper Type");
-                            if (ValueStack.Count > 2)
-                                throw new ScriptError(E, "Too Many values on ValueStack.  Something went terribly wrong!");
-                        }
-                        break;
                 }
             }
             else
             {
-                if (O is Constant) O = (O as Constant).value;
-                else if ((O is Variable) && Variables.ContainsKey((O as Variable).text)) O = Variables[(O as Variable).text];
+                if (O is Constant)
+                {
+                    O = (O as Constant).value;
+                }
+                else if ((O is Variable) && Variables.ContainsKey((O as Variable).text))
+                {
+                    O = Variables[(O as Variable).text];
+                }
+
                 ValueStack.Push(new Entity(E, O));
-                if (ValueStack.Peek() == null) throw new ScriptError(E, "Improper use of Unassigned Variable");
+                if (ValueStack.Peek() == null)
+                {
+                    throw new ScriptError(E, "Improper use of Unassigned Variable");
+                }
             }
         }
         return (ValueStack.Count == 0) ? null : GetValue(ValueStack.Pop());
@@ -789,109 +1056,230 @@ internal class PostfixEvaluator
     object GetValue(Entity E)
     {
         object o = null;
-        if (E.value is Variable) o = (E.value as Variable).value;
-        else o = E.value;
-        if (o is Entity) o = GetValue(o as Entity);
+        if (E.value is Variable)
+        {
+            o = (E.value as Variable).value;
+        }
+        else
+        {
+            o = E.value;
+        }
+
+        if (o is Entity)
+        {
+            o = GetValue(o as Entity);
+        }
+
         return o;
     }
 
     object PopValueOnStack(EntityStack ValueStack)
     {
-        if (ValueStack.Count > 0)
-            return GetValue(ValueStack.Pop());
-        else
-            return null;
+        return ValueStack.Count > 0 ? GetValue(ValueStack.Pop()) : null;
     }
 
     object PeekValueOnStack(EntityStack ValueStack)
     {
-        if (ValueStack.Count > 0)
-            return GetValue(ValueStack.Peek());
-        else
-            return null;
+        return ValueStack.Count > 0 ? GetValue(ValueStack.Peek()) : null;
     }
 
     object Negate(object o)
     {
-        if (o is int) o = -(long)o;
-        else if (o is decimal) o = -(decimal)o;
-        else if (o is double) o = -(double)o;
-        else o = null;
+        if (o is int)
+        {
+            o = -(long)o;
+        }
+        else if (o is decimal)
+        {
+            o = -(decimal)o;
+        }
+        else if (o is double)
+        {
+            o = -(double)o;
+        }
+        else
+        {
+            o = null;
+        }
+
         return o;
     }
 
     object Add(object o1, object o2)
     {
         object o;
-        if ((o1 is long) && (o2 is long)) o = (long)o2 + (long)(o1);
-        else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 + (decimal)o1;
-        else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 + (long)o1;
-        else if ((o1 is decimal) && (o2 is int)) o = (long)o2 + (decimal)o1;
-        else if ((o1 is double) && (o2 is double)) o = (double)o2 + (double)o1;
-        else if ((o1 is long) && (o2 is double)) o = (double)o2 + (long)o1;
-        else if ((o1 is double) && (o2 is int)) o = (long)o2 + (double)o1;
-        else if ((o1 is decimal) && (o2 is double)) o = (double)o2 + (double)o1;
-        else if ((o1 is double) && (o2 is decimal)) o = (double)o2 + (double)o1;
-        else
-            o = null;
+        switch (o1)
+        {
+            case long when o2 is long:
+                o = (long)o2 + (long)o1;
+                break;
+            case decimal when o2 is decimal:
+                o = (decimal)o2 + (decimal)o1;
+                break;
+            case long when o2 is decimal:
+                o = (decimal)o2 + (long)o1;
+                break;
+            case decimal when o2 is int:
+                o = (long)o2 + (decimal)o1;
+                break;
+            case double when o2 is double:
+                o = (double)o2 + (double)o1;
+                break;
+            case long when o2 is double:
+                o = (double)o2 + (long)o1;
+                break;
+            case double when o2 is int:
+                o = (long)o2 + (double)o1;
+                break;
+            case decimal when o2 is double:
+                o = (double)o2 + (double)o1;
+                break;
+            case double when o2 is decimal:
+                o = (double)o2 + (double)o1;
+                break;
+            default:
+                o = null;
+                break;
+        }
+
         return o;
     }
 
     object Subtract(object o1, object o2)
     {
         object o;
-        if ((o1 is long) && (o2 is long)) o = (long)o2 - (long)(o1);
-        else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 - (decimal)o1;
-        else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 - (long)o1;
-        else if ((o1 is decimal) && (o2 is int)) o = (long)o2 - (decimal)o1;
-        else if ((o1 is double) && (o2 is double)) o = (double)o2 - (double)o1;
-        else if ((o1 is long) && (o2 is double)) o = (double)o2 - (long)o1;
-        else if ((o1 is double) && (o2 is int)) o = (long)o2 - (double)o1;
-        else if ((o1 is decimal) && (o2 is double)) o = (double)o2 - (double)o1;
-        else if ((o1 is double) && (o2 is decimal)) o = (double)o2 - (double)o1;
-        else
-            o = null;
+        switch (o1)
+        {
+            case long when o2 is long:
+                o = (long)o2 - (long)o1;
+                break;
+            case decimal when o2 is decimal:
+                o = (decimal)o2 - (decimal)o1;
+                break;
+            case long when o2 is decimal:
+                o = (decimal)o2 - (long)o1;
+                break;
+            case decimal when o2 is int:
+                o = (long)o2 - (decimal)o1;
+                break;
+            case double when o2 is double:
+                o = (double)o2 - (double)o1;
+                break;
+            case long when o2 is double:
+                o = (double)o2 - (long)o1;
+                break;
+            case double when o2 is int:
+                o = (long)o2 - (double)o1;
+                break;
+            case decimal when o2 is double:
+                o = (double)o2 - (double)o1;
+                break;
+            case double when o2 is decimal:
+                o = (double)o2 - (double)o1;
+                break;
+            default:
+                o = null;
+                break;
+        }
         return o;
     }
 
     object Multiply(object o1, object o2)
     {
         object o;
-        if ((o1 is long) && (o2 is long)) o = (long)o2 * (long)(o1);
-        if ((o1 is decimal) && o2 is long) o = (long)o2 * (decimal)o1;
-        else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 * (decimal)o1;
-        else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 * (long)o1;
-        else if ((o1 is decimal) && (o2 is int)) o = (long)o2 * (decimal)o1;
-        else if ((o1 is int) && (o2 is decimal)) o = (decimal)o2 * (int)o1;
-        else if ((o1 is int) && (o2 is long)) o = (long)o2 * (int)o1;
-        else if ((o1 is double) && (o2 is double)) o = (double)o2 * (double)o1;
-        else if ((o1 is long) && (o2 is double)) o = (double)o2 * (long)o1;
-        else if ((o1 is double) && (o2 is int)) o = (int)o2 * (double)o1;
-        else if ((o1 is decimal) && (o2 is double)) o = (double)o2 * (double)o1;
-        else if ((o1 is double) && (o2 is decimal)) o = (double)o2 * (double)o1;
-        else
-            o = null;
+        switch (o1)
+        {
+            case long when o2 is long:
+                o = (long)o2 * (long)o1;
+                break;
+            case decimal when o2 is long:
+                o = (long)o2 * (decimal)o1;
+                break;
+            case decimal when o2 is decimal:
+                o = (decimal)o2 * (decimal)o1;
+                break;
+            case long when o2 is decimal:
+                o = (decimal)o2 * (long)o1;
+                break;
+            case decimal when o2 is int:
+                o = (long)o2 * (decimal)o1;
+                break;
+            case int when o2 is decimal:
+                o = (decimal)o2 * (int)o1;
+                break;
+            case int when o2 is long:
+                o = (long)o2 * (int)o1;
+                break;
+            case double when o2 is double:
+                o = (double)o2 * (double)o1;
+                break;
+            case long when o2 is double:
+                o = (double)o2 * (long)o1;
+                break;
+            case double when o2 is int:
+                o = (int)o2 * (double)o1;
+                break;
+            case decimal when o2 is double:
+                o = (double)o2 * (double)o1;
+                break;
+            case double when o2 is decimal:
+                o = (double)o2 * (double)o1;
+                break;
+            default:
+                o = null;
+                break;
+        }
         return o;
     }
 
     object Divide(object o1, object o2)
     {
         object o;
-        if ((o1 is long) && (o2 is long)) o = (long)o2 / (long)(o1);
-        else if ((o1 is decimal) && (o2 is decimal)) o = (decimal)o2 / (decimal)o1;
-        else if ((o1 is long) && (o2 is decimal)) o = (decimal)o2 / (long)o1;
-        else if ((o1 is decimal) && (o2 is int)) o = (long)o2 / (decimal)o1;
-        else if ((o1 is decimal) && (o2 is long)) o = (long)o2 / (decimal)o1;
-        else if ((o1 is int) && (o2 is decimal)) o = (decimal)o2 / (int)o1;
-        else if ((o1 is int) && (o2 is int)) o = (int)o2 / (int)o1;
-        else if ((o1 is int) && (o2 is long)) o = (long)o2 / (int)o1;
-        else if ((o1 is double) && (o2 is double)) o = (double)o2 / (double)o1;
-        else if ((o1 is long) && (o2 is double)) o = (double)o2 / (long)o1;
-        else if ((o1 is double) && (o2 is int)) o = (long)o2 / (double)o1;
-        else if ((o1 is decimal) && (o2 is double)) o = (double)o2 / (double)o1;
-        else if ((o1 is double) && (o2 is decimal)) o = (double)o2 / (double)o1;
-        else
-            o = null;
+        switch (o1)
+        {
+            case long when o2 is long:
+                o = (long)o2 / (long)o1;
+                break;
+            case decimal when o2 is decimal:
+                o = (decimal)o2 / (decimal)o1;
+                break;
+            case long when o2 is decimal:
+                o = (decimal)o2 / (long)o1;
+                break;
+            case decimal when o2 is int:
+                o = (long)o2 / (decimal)o1;
+                break;
+            case decimal when o2 is long:
+                o = (long)o2 / (decimal)o1;
+                break;
+            case int when o2 is decimal:
+                o = (decimal)o2 / (int)o1;
+                break;
+            case int when o2 is int:
+                o = (int)o2 / (int)o1;
+                break;
+            case int when o2 is long:
+                o = (long)o2 / (int)o1;
+                break;
+            case double when o2 is double:
+                o = (double)o2 / (double)o1;
+                break;
+            case long when o2 is double:
+                o = (double)o2 / (long)o1;
+                break;
+            case double when o2 is int:
+                o = (long)o2 / (double)o1;
+                break;
+            case decimal when o2 is double:
+                o = (double)o2 / (double)o1;
+                break;
+            case double when o2 is decimal:
+                o = (double)o2 / (double)o1;
+                break;
+            default:
+                o = null;
+                break;
+        }
         return o;
 
     }
@@ -899,17 +1287,39 @@ internal class PostfixEvaluator
     object Raise(object o1, object o2)
     {
         object o;
-        if ((o1 is long) && (o2 is long)) o = Math.Pow((long)o2, (long)(o1));
-        else if ((o1 is decimal) && (o2 is decimal)) o = DecimalMath.Pow((decimal)o2, (decimal)o1);
-        else if ((o1 is long) && (o2 is decimal)) o = DecimalMath.Pow((decimal)o2, (long)o1);
-        else if ((o1 is decimal) && (o2 is int)) o = DecimalMath.Pow((long)o2, (decimal)o1);
-        else if ((o1 is double) && (o2 is double)) o = Math.Pow((double)o2, (double)o1);
-        else if ((o1 is long) && (o2 is double)) o = Math.Pow((double)o2, (long)o1);
-        else if ((o1 is double) && (o2 is int)) o = Math.Pow((long)o2, (double)o1);
-        else if ((o1 is decimal) && (o2 is double)) o = Math.Pow((double)o2, (double)o1);
-        else if ((o1 is double) && (o2 is decimal)) o = Math.Pow((double)o2, (double)o1);
-        else
-            o = null;
+        switch (o1)
+        {
+            case long when o2 is long:
+                o = Math.Pow((long)o2, (long)o1);
+                break;
+            case decimal when o2 is decimal:
+                o = DecimalMath.Pow((decimal)o2, (decimal)o1);
+                break;
+            case long when o2 is decimal:
+                o = DecimalMath.Pow((decimal)o2, (long)o1);
+                break;
+            case decimal when o2 is int:
+                o = DecimalMath.Pow((long)o2, (decimal)o1);
+                break;
+            case double when o2 is double:
+                o = Math.Pow((double)o2, (double)o1);
+                break;
+            case long when o2 is double:
+                o = Math.Pow((double)o2, (long)o1);
+                break;
+            case double when o2 is int:
+                o = Math.Pow((long)o2, (double)o1);
+                break;
+            case decimal when o2 is double:
+                o = Math.Pow((double)o2, (double)o1);
+                break;
+            case double when o2 is decimal:
+                o = Math.Pow((double)o2, (double)o1);
+                break;
+            default:
+                o = null;
+                break;
+        }
         return o;
     }
 
@@ -920,19 +1330,29 @@ internal class PostfixEvaluator
         {
             if (e2.value is Variable) // example "A = B"; assigns B to A
             {
-                if (!Variables.ContainsKey((e2.value as Variable).text)) Variables.Add((e2.value as Variable).text, (e2.value as Variable));
+                if (!Variables.ContainsKey((e2.value as Variable).text))
+                {
+                    Variables.Add((e2.value as Variable).text, (e2.value as Variable));
+                } 
+                
                 (e2.value as Variable).value = GetValue(e1);
                 o = GetValue(e1);
             }
             else
+            {
                 throw new ScriptError(e2, "Can't make sense of this assignment");
+            }
         }
         else
         {
             if (e1.value is Variable) // example "= A"; the expression result is value of A
+            {
                 o = GetValue(e1);
+            }
             else
+            {
                 throw new ScriptError(e1, "Can't make sense of this assignment");
+            }
         }
         return o;
     }
@@ -977,7 +1397,11 @@ public class DecimalMath
     // logarithm base 10
     public static decimal Log10(decimal number)
     {
-        if (log10 == 0.0m) log10 = LogN(10.0m);
+        if (log10 == 0.0m)
+        {
+            log10 = LogN(10.0m);
+        }
+
         return LogN(number)/log10;
     }
 
@@ -1037,19 +1461,29 @@ internal class Abs : Function
         {
             Arg = Args.Pop();
             value = GetValue(Arg);
-            if (value is int)
-                result = Math.Abs((int)value);
-            else if (value is long)
-                result = Math.Abs((long)value);
-            else if (value is decimal)
-                result = Math.Abs((decimal)value);
-            else if (value is double)
-                result = Math.Abs((double)value);
-            else
-                throw new ScriptError(Arg, "Argument must be a numeric type");
+            switch (value)
+            {
+                case int:
+                    result = Math.Abs((int)value);
+                    break;
+                case long:
+                    result = Math.Abs((long)value);
+                    break;
+                case decimal:
+                    result = Math.Abs((decimal)value);
+                    break;
+                case double:
+                    result = Math.Abs((double)value);
+                    break;
+                default:
+                    throw new ScriptError(Arg, "Argument must be a numeric type");
+            }
         }
         else
+        {
             throw new ScriptError(self, "Abs() Requires one numeric argument");
+        }
+
         return result;
     }
 }
@@ -1067,10 +1501,18 @@ internal class Average : Function
         {
             Entity E = Args.Pop();
             object o = GetValue(E);
-            if ((o is int)) Values.Add((int)o);
-            else if ((o is decimal)) Values.Add((decimal)o);
+            if ((o is int))
+            {
+                Values.Add((int)o);
+            }
+            else if ((o is decimal))
+            {
+                Values.Add((decimal)o);
+            }
             else
+            {
                 throw new ScriptError(E, "Encountered a non-numeric Argument");
+            }
         }
         if (Values.Count > 0)
         {
@@ -1079,7 +1521,10 @@ internal class Average : Function
             result = average;
         }
         else
+        {
             throw new ScriptError(self, "Improper Argument List");
+        }
+
         return result;
     }
 }
@@ -1097,18 +1542,33 @@ internal class Max : Function
         {
             Entity E = Args.Pop();
             object o = GetValue(E);
-            if ((o is int)) Values.Add((int)o);
-            else if ((o is decimal)) Values.Add((decimal)o);
+            if ((o is int))
+            {
+                Values.Add((int)o);
+            }
+            else if ((o is decimal))
+            {
+                Values.Add((decimal)o);
+            }
             else
+            {
                 throw new ScriptError(E, "Encountered a non-numeric Argument");
+            }
         }
         if (Values.Count > 0)
         {
-            foreach (decimal d in Values) max = Math.Max(max, d);
+            foreach (decimal d in Values)
+            {
+                max = Math.Max(max, d);
+            }
+
             result = max;
         }
         else
+        {
             throw new ScriptError(self, "Improper Argument List");
+        }
+
         return result;
     }
 }
@@ -1126,18 +1586,33 @@ internal class Min : Function
         {
             Entity E = Args.Pop();
             object o = GetValue(E);
-            if ((o is int)) Values.Add((int)o);
-            else if ((o is decimal)) Values.Add((decimal)o);
+            if ((o is int))
+            {
+                Values.Add((int)o);
+            }
+            else if ((o is decimal))
+            {
+                Values.Add((decimal)o);
+            }
             else
+            {
                 throw new ScriptError(E, "Encountered a non-numeric Argument");
+            }
         }
         if (Values.Count > 0)
         {
-            foreach (decimal d in Values) min = Math.Min(min, d);
+            foreach (decimal d in Values)
+            {
+                min = Math.Min(min, d);
+            }
+
             result = min;
         }
         else
+        {
             throw new ScriptError(self, "Improper Argument List");
+        }
+
         return result;
     }
 }
@@ -1155,20 +1630,35 @@ internal class Round : Function
             Arg1 = Args.Pop();
             value1 = GetValue(Arg1);
             if (value1 is decimal)
+            {
                 result = (int)Math.Round((decimal)value1);
+            }
             else
+            {
                 throw new ScriptError(Arg1, "Argument must be a floating point numeric type");
+            }
         }
         else if (Args.Count == 2)
         {
             Arg1 = Args.Pop(); Arg2 = Args.Pop();
             value1 = GetValue(Arg1); value2 = GetValue(Arg2);
-            if (!(value1 is decimal)) throw new ScriptError(Arg1, "First Argument must be a floating point numeric type");
-            if (!(value2 is int)) throw new ScriptError(Arg1, "Second Argument must be an integer numeric type");
+            if (!(value1 is decimal))
+            {
+                throw new ScriptError(Arg1, "First Argument must be a floating point numeric type");
+            }
+
+            if (!(value2 is int))
+            {
+                throw new ScriptError(Arg1, "Second Argument must be an integer numeric type");
+            }
+
             result = Math.Round((decimal)value1, (int)value2);
         }
         else
+        {
             throw new ScriptError(self, "Improper Argument List");
+        }
+
         return result;
     }
 }
@@ -1186,18 +1676,33 @@ internal class Sum : Function
         {
             Entity E = Args.Pop();
             object o = GetValue(E);
-            if ((o is int)) Values.Add((int)o);
-            else if ((o is decimal)) Values.Add((decimal)o);
+            if ((o is int))
+            {
+                Values.Add((int)o);
+            }
+            else if ((o is decimal))
+            {
+                Values.Add((decimal)o);
+            }
             else
+            {
                 throw new ScriptError(E, "Encountered a non-numeric Argument");
+            }
         }
         if (Values.Count > 0)
         {
-            foreach (decimal d in Values) sum = sum + d;
+            foreach (decimal d in Values)
+            {
+                sum = sum + d;
+            }
+
             result = sum;
         }
         else
+        {
             throw new ScriptError(self, "Improper Argument List");
+        }
+
         return result;
     }
 }
@@ -1216,20 +1721,39 @@ internal class StdDev : Function
         {
             Entity E = Args.Pop();
             object o = GetValue(E);
-            if ((o is int)) Values.Add((int)o);
-            else if ((o is decimal)) Values.Add((decimal)o);
+            if ((o is int))
+            {
+                Values.Add((int)o);
+            }
+            else if ((o is decimal))
+            {
+                Values.Add((decimal)o);
+            }
             else
+            {
                 throw new ScriptError(E, "Encountered a non-numeric Argument");
+            }
         }
         if (Values.Count > 0)
         {
-            foreach (decimal v in Values) sum += v;
+            foreach (decimal v in Values)
+            {
+                sum += v;
+            }
+
             average = sum / Values.Count;
-            foreach (decimal v in Values) variance += (v - average) * (v - average);
+            foreach (decimal v in Values)
+            {
+                variance += (v - average) * (v - average);
+            }
+
             result = Sqrt(variance / (Values.Count - 1)); 
         }
         else
+        {
             throw new ScriptError(self, "Improper Argument List");
+        }
+
         return result;
     }
 
@@ -1241,11 +1765,8 @@ internal class StdDev : Function
         var ourGuess = guess.GetValueOrDefault(x / 2m);
         var result = x / ourGuess;
         var average = (ourGuess + result) / 2m;
-
-        if (average == ourGuess) // This checks for the maximum precision possible with a decimal.
-            return average;
-        else
-            return Sqrt(x, average);
+        // This checks for the maximum precision possible with a decimal.
+        return average == ourGuess ? average : Sqrt(x, average);
     }
 }
 
@@ -1261,13 +1782,15 @@ internal class Truncate : Function
         {
             Arg = Args.Pop();
             value = GetValue(Arg);
-            if (value is decimal)
-                result = (int)Math.Truncate((decimal)value);
-            else
-                throw new ScriptError(Arg, "Argument must be a floating point numeric type");
+            result = value is decimal
+                ? (int)Math.Truncate((decimal)value)
+                : throw new ScriptError(Arg, "Argument must be a floating point numeric type");
         }
         else
+        {
             throw new ScriptError(self, "Truncate() Requires one floating point numeric argument");
+        }
+
         return result;
     }
 }

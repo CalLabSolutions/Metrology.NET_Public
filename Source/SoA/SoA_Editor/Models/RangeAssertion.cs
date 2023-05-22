@@ -10,13 +10,21 @@ namespace SoA_Editor.Models
         public string Name
         {
             get { return name; }
-            set { name = value; NotifyOfPropertyChange(() => Name); }
+            set
+            {
+                name = value;
+                NotifyOfPropertyChange(() => Name);
+            }
         }
 
         public string Values
         {
             get { return values; }
-            set { values = value; NotifyOfPropertyChange(() => Values); }
+            set
+            {
+                values = value;
+                NotifyOfPropertyChange(() => Values);
+            }
         }
     }
 }

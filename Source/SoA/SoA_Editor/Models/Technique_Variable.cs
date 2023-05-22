@@ -15,7 +15,11 @@ namespace SoA_Editor.Models
         public string Value
         {
             get { return _Value; }
-            set { _Value = value; NotifyOfPropertyChange(() => Value); }
+            set
+            {
+                _Value = value;
+                NotifyOfPropertyChange(() => Value);
+            }
         }
 
         private string _Type;
@@ -23,7 +27,11 @@ namespace SoA_Editor.Models
         public string Type
         {
             get { return _Type; }
-            set { _Type = value; NotifyOfPropertyChange(() => Type); }
+            set
+            {
+                _Type = value;
+                NotifyOfPropertyChange(() => Type);
+            }
         }
     }
 }

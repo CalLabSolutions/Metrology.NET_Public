@@ -18,7 +18,7 @@
              FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="25">Are you sure you want to delete this Taxon? This can not be undone.</TextBlock>
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="25">Are you sure you want to delete this Taxon? This cannot be undone.</TextBlock>
             <TextBlock TextAlignment="Center" FontSize="25" FontWeight="Bold" d:Text="Taxon to Delete" Text="{Binding Taxon.Name}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25,0,0">
                 <Button x:Name="Yes" Background="Red" Width="85" Margin="0,0,25,0">Yes</Button>

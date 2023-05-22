@@ -136,7 +136,7 @@
         </Grid>
         
 
-        <Label Content="Copyright 2020, Cal Lab Solutions, LLC" 
+        <Label Content="{Binding Copyright}" 
                FontSize="11" FontFamily="Calibri" Foreground="White"
                FontWeight="Light" Background="{StaticResource MaterialDesignDarkBackground}"
                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"

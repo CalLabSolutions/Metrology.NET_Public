@@ -41,7 +41,9 @@ namespace SoA_Editor.ViewModels
             foreach (Taxon taxon in taxonFactory.GetAllTaxons())
             {
                 if (!names.Contains(taxon.Name))
+                {
                     taxonsFromServer.Add(taxon);
+                }
             }
 
             //select a default value
@@ -101,7 +103,11 @@ namespace SoA_Editor.ViewModels
             get { return _selectedTaxon; }
             set
             {
-                if (value == null) return;
+                if (value == null)
+                {
+                    return;
+                }
+
                 _selectedTaxon = value;
 
                 foreach (Taxon taxon in Taxons)
@@ -149,7 +155,6 @@ namespace SoA_Editor.ViewModels
                         Results.Add(result);
                     }
                 }
-                
 
                 NotifyOfPropertyChange(() => RequiredParameters);
                 NotifyOfPropertyChange(() => OptionalParameters);

@@ -75,7 +75,11 @@ namespace SoA_Editor.Models
 
         // Children are required to use this in a TreeView
         //public IList<Node> Children { get { return mChildren; } set { } }
-        public ObservableCollection<Node> Children { get { return mChildren; } set { } }
+        public ObservableCollection<Node> Children
+        {
+            get { return mChildren; }
+            set { }
+        }
 
         // Parent is optional. Include if you need to climb the tree
         // from code. Not usually necessary.

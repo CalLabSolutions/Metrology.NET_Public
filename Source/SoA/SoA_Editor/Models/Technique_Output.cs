@@ -23,7 +23,11 @@ namespace SoA_Editor.Models
         public string Output
         {
             get { return _Output; }
-            set { _Output = value; NotifyOfPropertyChange(() => Output); }
+            set
+            {
+                _Output = value;
+                NotifyOfPropertyChange(() => Output);
+            }
         }
 
         private string _Min;
@@ -31,7 +35,11 @@ namespace SoA_Editor.Models
         public string Min
         {
             get { return _Min; }
-            set { _Min = value; NotifyOfPropertyChange(() => Min); }
+            set
+            {
+                _Min = value;
+                NotifyOfPropertyChange(() => Min);
+            }
         }
 
         private string _Max;
@@ -39,7 +47,11 @@ namespace SoA_Editor.Models
         public string Max
         {
             get { return _Max; }
-            set { _Max = value; NotifyOfPropertyChange(() => Max); }
+            set
+            {
+                _Max = value;
+                NotifyOfPropertyChange(() => Max);
+            }
         }
 
         private string _TestMin;
@@ -47,7 +59,11 @@ namespace SoA_Editor.Models
         public string TestMin
         {
             get { return _TestMin; }
-            set { _TestMin = value; NotifyOfPropertyChange(() => TestMin); }
+            set
+            {
+                _TestMin = value;
+                NotifyOfPropertyChange(() => TestMin);
+            }
         }
 
         private string _TestMax;
@@ -55,7 +71,11 @@ namespace SoA_Editor.Models
         public string TestMax
         {
             get { return _TestMax; }
-            set { _TestMax = value; NotifyOfPropertyChange(() => TestMax); }
+            set
+            {
+                _TestMax = value;
+                NotifyOfPropertyChange(() => TestMax);
+            }
         }
     }
 }

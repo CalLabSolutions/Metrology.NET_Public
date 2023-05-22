@@ -69,7 +69,7 @@ xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatal
                                 </xsl:for-each>
                                 <xsl:if test="mtc:Discipline">
                                     <br/>
-                                    <span style="font-weight: bold; text-decoration: underline">Disicpline</span>
+                                    <span style="font-weight: bold; text-decoration: underline">Discipline</span>
                                     <p>
                                         <xsl:value-of select="mtc:Discipline/@name"/>
                                     </p>

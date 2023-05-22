@@ -60,7 +60,10 @@ namespace SOA_DataAccessLib
                 opResult.Success = false;
                 opResult.Error = e.Message;
             }
-            if (!opResult.Success) doc = null;
+            if (!opResult.Success)
+            {
+                doc = null;
+            }
             return opResult;
         }
 
@@ -91,7 +94,10 @@ namespace SOA_DataAccessLib
                 opResult.Success = false;
                 opResult.Error = e.Message;
             }
-            if (!opResult.Success) doc = null;
+            if (!opResult.Success)
+            {
+                doc = null;
+            }
             return opResult;
         }
 
@@ -152,7 +158,9 @@ namespace SOA_DataAccessLib
                             presentation = reader.ReadInnerXml();
                         }
                         else
+                        {
                             presentation = "";
+                        }
                     }
                     return presentation;
                 }
@@ -238,7 +246,10 @@ namespace SOA_DataAccessLib
                             presentation = reader.ReadInnerXml();
                         }
                         else
+
+                        {
                             presentation = "";
+                        }
                     }
                     return presentation;
                 }
@@ -251,19 +262,28 @@ namespace SOA_DataAccessLib
             /// <returns></returns>
             private Boolean hasAlias(String symbol)
             {
-                if (aliasCache.Count() == 0) loadAliases();
+                if (aliasCache.Count() == 0)
+                {
+                    loadAliases();
+                }
                 return aliasCache.Keys.Contains(symbol);
             }
 
             public decimal ConvertToBase(decimal value)
             {
-                if (tobase == null) getConverters();
+                if (tobase == null)
+                {
+                    getConverters();
+                }
                 return Math.Round(tobase(value), 28);
             }
 
             public decimal ConvertFromBase(decimal value)
             {
-                if (frombase == null) getConverters();
+                if (frombase == null)
+                {
+                    getConverters();
+                }
                 return Math.Round(frombase(value), 28);
             }
             /// <summary>
@@ -273,8 +293,14 @@ namespace SOA_DataAccessLib
             /// <returns></returns>
             public string getPresentation(String symbol)
             {
-                if (this.symbol == symbol) return Presentation;
-                if (hasAlias(symbol)) return aliasCache[symbol].Presentation;
+                if (this.symbol == symbol)
+                {
+                    return Presentation;
+                }
+                if (hasAlias(symbol))
+                {
+                    return aliasCache[symbol].Presentation;
+                }
                 throw new Exception("invalid symbol");
             }
 
@@ -286,8 +312,13 @@ namespace SOA_DataAccessLib
             public Boolean hasSymbol(String symbol)
             {
                 if (this.symbol == symbol)
+                {
                     return true;
-                else return hasAlias(symbol);
+                }
+                else
+                {
+                    return hasAlias(symbol);
+                }
             }
 
 
@@ -298,7 +329,10 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (aliasCache.Count() == 0) loadAliases();
+                    if (aliasCache.Count() == 0)
+                    {
+                        loadAliases();
+                    }
                     List<String> list = new List<String>();
                     list.Add(symbol);
                     list.AddRange(aliasCache.Keys);
@@ -347,7 +381,10 @@ namespace SOA_DataAccessLib
             /// <returns></returns>
             private Boolean hasAlias(String symbol)
             {
-                if (aliasCache.Count() == 0) loadAliases();
+                if (aliasCache.Count() == 0)
+                {
+                    loadAliases();
+                }
                 return aliasCache.Keys.Contains(symbol);
             }
 
@@ -365,7 +402,9 @@ namespace SOA_DataAccessLib
                             presentation = reader.ReadInnerXml();
                         }
                         else
+                        {
                             presentation = "";
+                        }
                     }
                     return presentation;
                 }
@@ -375,7 +414,10 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (_name == null) _name = UomElement.Attribute("base_name").Value;
+                    if (_name == null)
+                    {
+                        _name = UomElement.Attribute("base_name").Value;
+                    }
                     return _name;
                 }
             }
@@ -384,7 +426,10 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (_symbol == null) _symbol = UomElement.Attribute("symbol").Value;
+                    if (_symbol == null)
+                    {
+                        _symbol = UomElement.Attribute("symbol").Value;
+                    }
                     return _symbol;
                 }
             }
@@ -397,8 +442,13 @@ namespace SOA_DataAccessLib
             public Boolean hasSymbol(String symbol)
             {
                 if (this.symbol == symbol)
+                {
                     return true;
-                else return hasAlias(symbol);
+                }
+                else
+                {
+                    return hasAlias(symbol);
+                }
             }
 
             /// <summary>
@@ -408,8 +458,14 @@ namespace SOA_DataAccessLib
             /// <returns></returns>
             public string getPresentation(String symbol)
             {
-                if (this.symbol == symbol) return Presentation;
-                if (hasAlias(symbol)) return aliasCache[symbol].Presentation;
+                if (this.symbol == symbol)
+                {
+                    return Presentation;
+                }
+                if (hasAlias(symbol))
+                {
+                    return aliasCache[symbol].Presentation;
+                }
                 throw new Exception("invalid symbol");
             }
 
@@ -420,7 +476,10 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (aliasCache.Count() == 0) loadAliases();
+                    if (aliasCache.Count() == 0)
+                    {
+                        loadAliases();
+                    }
                     List<String> list = new List<String>();
                     list.Add(symbol);
                     list.AddRange(aliasCache.Keys);
@@ -452,7 +511,10 @@ namespace SOA_DataAccessLib
                     if (_name == "")
                     {
                         var atrName = QtyElement.Attribute("name");
-                        if (atrName != null) _name = atrName.Value;
+                        if (atrName != null)
+                        {
+                            _name = atrName.Value;
+                        }
                     }
                     return _name;
                 }
@@ -480,14 +542,20 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (_UoM == null) _UoM = new UofM(UomElement);
+                    if (_UoM == null)
+                    {
+                        _UoM = new UofM(UomElement);
+                    }
                     return _UoM;
                 }
             }
 
             public Alternative getAlternative(string alternativeName)
             {
-                if (altCache.Count() == 0) loadAlternatives();
+                if (altCache.Count() == 0)
+                {
+                    loadAlternatives();
+                }
                 if (!altCache.Keys.Contains(alternativeName))
                 {
                     throw new Exception("invalid alternative");
@@ -497,7 +565,10 @@ namespace SOA_DataAccessLib
 
             public Boolean hasAlternative(string alternativeName)
             {
-                if (altCache.Count() == 0) loadAlternatives();
+                if (altCache.Count() == 0)
+                {
+                    loadAlternatives();
+                }
                 return altCache.Keys.Contains(alternativeName);
             }
 
@@ -505,7 +576,10 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (altCache.Count() == 0) loadAlternatives();
+                    if (altCache.Count() == 0)
+                    {
+                        loadAlternatives();
+                    }
                     return altCache.Values;
                 }
             }
@@ -514,7 +588,10 @@ namespace SOA_DataAccessLib
             {
                 get
                 {
-                    if (altCache.Count() == 0) loadAlternatives();
+                    if (altCache.Count() == 0)
+                    {
+                        loadAlternatives();
+                    }
                     return altCache.Keys.ToList();
                 }
             }
@@ -635,7 +712,10 @@ namespace SOA_DataAccessLib
             if (uom_alternative != "")
             {
                 var alt = quantity.getAlternative(uom_alternative);
-                if (alt == null) throw new Exception("invalid UOM alternative");
+                if (alt == null)
+                {
+                    throw new Exception("invalid UOM alternative");
+                }
                 value = alt.ConvertToBase(value);
             }
             return value;
@@ -647,7 +727,10 @@ namespace SOA_DataAccessLib
             if (uom_alternative != "")
             {
                 var alt = quantity.getAlternative(uom_alternative);
-                if (alt == null) throw new Exception("invalid UOM alternative");
+                if (alt == null)
+                {
+                    throw new Exception("invalid UOM alternative");
+                }
                 value = alt.ConvertFromBase(value);
             }
             return value;
@@ -686,7 +769,10 @@ namespace SOA_DataAccessLib
             set
             {
                 decimal old_base_value = 0.0m;
-                if ((valueString != "") && (quantity == null)) throw new Exception("invalid quantity");
+                if ((valueString != "") && (quantity == null))
+                {
+                    throw new Exception("invalid quantity");
+                }
                 if (_uom_alternative != value)
                 {   // new alternative
                     if (valueString != "")
@@ -729,7 +815,10 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                if (quantity == null) throw new Exception("invalid quantity");
+                if (quantity == null)
+                {
+                    throw new Exception("invalid quantity");
+                }
                 return quantity.AlternativeNames;
             }
         }
@@ -738,14 +827,20 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                if ((valueString != "") && (quantity == null)) throw new Exception("invalid quantity");
+                if ((valueString != "") && (quantity == null))
+                {
+                    throw new Exception("invalid quantity");
+                }
                 if (_uom_alternative == "")
                 {
                     return quantity.UoM.symbols;
                 }
                 else
                 {
-                    if (!quantity.hasAlternative(_uom_alternative)) throw new Exception("invalid uom_alternative");
+                    if (!quantity.hasAlternative(_uom_alternative))
+                    {
+                        throw new Exception("invalid uom_alternative");
+                    }
                     var alternative = quantity.getAlternative(_uom_alternative);
                     return alternative.symbols;
                 }
@@ -757,27 +852,42 @@ namespace SOA_DataAccessLib
             get { return _symbol; }
             set
             {
-                if ((valueString != "") && (quantity == null)) throw new Exception("invalid quantity");
+                if ((valueString != "") && (quantity == null))
+                {
+                    throw new Exception("invalid quantity");
+                }
                 if (quantity != null)
                 {
                     if (_uom_alternative == "")
                     {
                         var UoM = quantity.UoM;
                         if (UoM.hasSymbol(value))
+                        {
                             _symbol = value;
+                        }
                         else if (value == "")
+                        {
                             _symbol = UoM.symbol;
+                        }
                         else
+                        {
                             throw new Exception("invalid symbol");
+                        }
                     }
                     else
                     {
                         if (alternative.hasSymbol(value))
+                        {
                             _symbol = value;
+                        }
                         else if (value == "")
+                        {
                             _symbol = alternative.symbol;
+                        }
                         else
+                        {
                             throw new Exception("invalid symbol");
+                        }
                     }
                 }
             }
@@ -797,7 +907,7 @@ namespace SOA_DataAccessLib
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    throw;
                 }
 
             }
@@ -809,7 +919,10 @@ namespace SOA_DataAccessLib
             set
             {
                 decimal v;
-                if (!decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("improper value");
+                if (!decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out v))
+                {
+                    throw new Exception("improper value");
+                }
                 this.valueString = value;
             }
         }
@@ -819,7 +932,10 @@ namespace SOA_DataAccessLib
             get
             {
                 decimal v;
-                if (!decimal.TryParse(valueString, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("improper value");
+                if (!decimal.TryParse(valueString, NumberStyles.Float, CultureInfo.InvariantCulture, out v))
+                {
+                    throw new Exception("improper value");
+                }
                 return v;
             }
             set
@@ -832,9 +948,15 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                if (quantity == null) throw new Exception("invalid quantity");
+                if (quantity == null)
+                {
+                    throw new Exception("invalid quantity");
+                }
                 decimal v;
-                if (!decimal.TryParse(ValueString, NumberStyles.Float, CultureInfo.InvariantCulture, out v)) throw new Exception("improper value");
+                if (!decimal.TryParse(ValueString, NumberStyles.Float, CultureInfo.InvariantCulture, out v))
+                {
+                    throw new Exception("improper value");
+                }
                 return toBase(v);
             }
         }
@@ -843,7 +965,10 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                if (quantity == null) throw new Exception("invalid quantity");
+                if (quantity == null)
+                {
+                    throw new Exception("invalid quantity");
+                }
                 decimal value = BaseValue;
                 string units;
                 if (uom_alternative != "")
@@ -862,7 +987,10 @@ namespace SOA_DataAccessLib
 
         protected void loadValue(XElement datasource)
         {
-            if (datasource != null) valueString = datasource.Value;
+            if (datasource != null)
+            {
+                valueString = datasource.Value;
+            }
         }
 
         public virtual void writeTo(XElement myElement)
@@ -871,13 +999,22 @@ namespace SOA_DataAccessLib
             if (alternative != null)
             {
                 me.setAttribute("uom_alternative", uom_alternative);
-                if (alternative.symbol != symbol) me.setAttribute("uom_alias_symbol", symbol);
+                if (alternative.symbol != symbol)
+                {
+                    me.setAttribute("uom_alias_symbol", symbol);
+                }
             }
             else  // no alternative
             {
-                if (quantity.UoM.symbol != symbol) me.setAttribute("uom_alias_symbol", symbol);
+                if (quantity.UoM.symbol != symbol)
+                {
+                    me.setAttribute("uom_alias_symbol", symbol);
+                }
             }
-            if (format != "") me.setAttribute("format", format);
+            if (format != "")
+            {
+                me.setAttribute("format", format);
+            }
             me.Value = ValueString;
         }
 

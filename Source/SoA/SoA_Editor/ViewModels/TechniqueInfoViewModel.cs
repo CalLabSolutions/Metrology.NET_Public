@@ -343,8 +343,16 @@ namespace SoA_Editor.ViewModels
 
                 cmc.DUT.DeviceTypes.Add(deviceName);
             }
-            if (measure.DeviceTypes.Count > 0) roles.Add(measure);
-            if (source.DeviceTypes.Count > 0) roles.Add(source);
+            if (measure.DeviceTypes.Count > 0)
+            {
+                roles.Add(measure);
+            }
+
+            if (source.DeviceTypes.Count > 0)
+            {
+                roles.Add(source);
+            }
+
             uncTechnique.Technique.RequiredEquipment.Roles = roles;
         }
     }

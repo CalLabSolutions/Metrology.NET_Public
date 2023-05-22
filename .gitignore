@@ -250,3 +250,8 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# Project files to ignore. These are the XML/XSD files. These could be a user's specifically modified version.
+# Users should pull in the default version if this is the first time they are loading the editor
+Source/Executables/MT_Editor/Resources/*.xml
+Source/Executables/MT_Editor/Resources/*.xsd

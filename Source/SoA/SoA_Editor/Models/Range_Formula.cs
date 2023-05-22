@@ -19,7 +19,11 @@ namespace SoA_Editor.Models
         public string FormulaVariable
         {
             get { return _FormulaVariable; }
-            set { _FormulaVariable = value; NotifyOfPropertyChange(() => FormulaVariable); }
+            set
+            {
+                _FormulaVariable = value;
+                NotifyOfPropertyChange(() => FormulaVariable);
+            }
         }
 
         private string _FormulaValue;
@@ -27,7 +31,11 @@ namespace SoA_Editor.Models
         public string FormulaValue
         {
             get { return _FormulaValue; }
-            set { _FormulaValue = value; NotifyOfPropertyChange(() => FormulaValue); }
+            set
+            {
+                _FormulaValue = value;
+                NotifyOfPropertyChange(() => FormulaValue);
+            }
         }
     }
 }

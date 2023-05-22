@@ -23,7 +23,9 @@ namespace SoA_Editor.ViewModels
             {
                 // Format for Display
                 if (entry.Value != null)
+                {
                     quantities.Add(Quantity.FormatUomQuantity(entry.Value));
+                }
             }
             if (qty != "")
             {

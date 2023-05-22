@@ -39,7 +39,11 @@ namespace SoA_Editor.Models
         public  ObservableCollection<string> VariableTypes
         {
             get { return _VariableTypes; }
-            set { _VariableTypes = value; NotifyOfPropertyChange(() => VariableTypes); }
+            set
+            {
+                _VariableTypes = value;
+                NotifyOfPropertyChange(() => VariableTypes);
+            }
         }
 
         private string _InputParam;
@@ -47,7 +51,11 @@ namespace SoA_Editor.Models
         public string InputParam
         {
             get { return _InputParam; }
-            set { _InputParam = value; NotifyOfPropertyChange(() => InputParam); }
+            set
+            {
+                _InputParam = value;
+                NotifyOfPropertyChange(() => InputParam);
+            }
         }
 
         private string _Quantity;
@@ -55,7 +63,11 @@ namespace SoA_Editor.Models
         public string Quantity
         {
             get { return _Quantity; }
-            set { _Quantity = value; NotifyOfPropertyChange(() => Quantity); }
+            set
+            {
+                _Quantity = value;
+                NotifyOfPropertyChange(() => Quantity);
+            }
         }
 
         private string optional;

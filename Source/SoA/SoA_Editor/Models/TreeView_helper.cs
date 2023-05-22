@@ -17,13 +17,17 @@ namespace SoA_Editor.Models
             for (int taxonIndex = 0; taxonIndex < SampleSOA.CapabilityScope.Activities[0].Taxons.Count(); taxonIndex++)
             {
                 if (nodeName.ToUpper().Equals(SampleSOA.CapabilityScope.Activities[0].Taxons[taxonIndex].name.ToUpper()))
+                {
                     return "taxonomy";
+                }
             }
 
             for (int techniqueIndex = 0; techniqueIndex < SampleSOA.CapabilityScope.Activities[0].Techniques.Count(); techniqueIndex++)
             {
                 if (nodeName.ToUpper().Equals(SampleSOA.CapabilityScope.Activities[0].Techniques[techniqueIndex].Name.ToUpper()))
+                {
                     return "technique";
+                }
             }
 
 
@@ -33,7 +37,9 @@ namespace SoA_Editor.Models
                 for (int assertIndex = 0; assertIndex < SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[0].Assertions.Count(); assertIndex++)
                 {
                     if (nodeName.ToUpper().Equals(SampleSOA.CapabilityScope.Activities[0].Templates[0].CMCUncertaintyFunctions[0].Cases[rangeIndex].Assertions[assertIndex].Value.ToUpper()))
+                    {
                         return "range";
+                    }
                 }
             }
 
@@ -49,7 +55,9 @@ namespace SoA_Editor.Models
                 for (int assertIndex = 0; assertIndex < function.Cases[0].Assertions.Count(); assertIndex++)
                 {
                     if (nodeName.ToUpper().Equals(function.Cases[rangeIndex].Assertions[assertIndex].Value.ToUpper()))
+                    {
                         return assertIndex;
+                    }
                 }
             }
 

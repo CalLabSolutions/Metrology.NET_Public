@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace MT_DataAccessLib
@@ -164,12 +165,14 @@ namespace MT_DataAccessLib
 
         #region File IO
 
-        private readonly static string Path = Directory.GetCurrentDirectory() + "\\Resources\\";
-        private const string XmlFromServer = Namespaces.BASE_UIR + "MetrologyTaxonomyCatalog.xml";
+        public readonly static string LocalPath = Directory.GetCurrentDirectory() + "\\Resources\\";
+        public const string Catalog = "MetrologyTaxonomyCatalog";
+        private const string CatalogXml = Catalog + ".xml";
+        private const string XmlFromServer = Namespaces.BASE_UIR + Catalog + ".xml";
+        private const string XsdFromServer = Namespaces.BASE_UIR + Catalog + ".xsd";
         private const string CSS = "metrologytaxonomy.css";
         private const string JS = "metrologytaxonomy.js";
         private const string XSL = "metrologytaxonomy.xsl";
-        private const string XmlOut = "MTC_Local.xml";
         private const string XmlWithXsl = "Local MetrologyTaxonomy.xml";
 
         // Add the files needed to use XSLT
@@ -201,17 +204,17 @@ namespace MT_DataAccessLib
 
                 // add xsl transformation
                 File.Create(selectedPath + XSL).Close();
-                string text = File.ReadAllText(Path + XSL);
+                string text = File.ReadAllText(LocalPath + XSL);
                 await File.WriteAllTextAsync(selectedPath + XSL, text);
 
                 // add css transformation
                 File.Create(selectedPath + CSS).Close();
-                text = File.ReadAllText(Path + CSS);
+                text = File.ReadAllText(LocalPath + CSS);
                 await File.WriteAllTextAsync(selectedPath + CSS, text);
 
                 // add js transformation
                 File.Create(selectedPath + JS).Close();
-                text = File.ReadAllText(Path + JS);
+                text = File.ReadAllText(LocalPath + JS);
                 await File.WriteAllTextAsync(selectedPath + JS, text);
 
                 return true;
@@ -270,9 +273,9 @@ namespace MT_DataAccessLib
 
         public async void ReplaceLocal(string xml)
         {
-            if (File.Exists(Path + XmlOut))
+            if (File.Exists(LocalPath + CatalogXml))
             {
-                await File.WriteAllTextAsync(Path + XmlOut, xml);
+                await File.WriteAllTextAsync(LocalPath + CatalogXml, xml);
             }
             else
             {
@@ -283,11 +286,11 @@ namespace MT_DataAccessLib
 
         private async void SaveLocal(string xml)
         {
-            if (!File.Exists(Path + XmlOut))
+            if (!File.Exists(LocalPath + CatalogXml))
             {
-                File.Create(Path + XmlOut);
+                File.Create(LocalPath + CatalogXml);
             }
-            await File.WriteAllTextAsync(Path + XmlOut, xml);
+            await File.WriteAllTextAsync(LocalPath + CatalogXml, xml);
             Reload();
         }
 
@@ -454,21 +457,22 @@ namespace MT_DataAccessLib
                 {
                     FileInfo file = null;
                     string xml = "";
-                    if (!File.Exists(Path + XmlOut) || fromServer)
+                    if (!File.Exists(LocalPath + CatalogXml) || fromServer)
                     {
                         // create local xml file
                         xml = Tools.BuildXml(XmlFromServer);
                         if (!readOnly) // Make a file
                         {
-                            File.Create(Path + XmlOut).Close();
-                            File.WriteAllText(Path + XmlOut, xml);
-                            file = new FileInfo(Path + XmlOut);
+                            File.Create(LocalPath + CatalogXml).Close();
+                            File.WriteAllText(LocalPath + CatalogXml, xml);
+                            file = new FileInfo(LocalPath + CatalogXml);
+                            Tools.SaveLocalXSD(XsdFromServer);
                         }
                         LoadedFromServer = true;
                     }
                     else
                     {
-                        file = new FileInfo(Path + XmlOut);
+                        file = new FileInfo(LocalPath + CatalogXml);
                         if (readOnly)
                         {
                             // Open the stream and read it back.
@@ -518,42 +522,6 @@ namespace MT_DataAccessLib
         #endregion Async Loader
 
         #region Tools
-
-        internal static class Tools
-        {
-            public static string Format(string value)
-            {
-                value = value.Replace("\t", "");
-                value = value.Replace("\r", "");
-                string[] lines = value.Split('\n');
-                List<string> newValue = new List<string>();
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    lines[i] = lines[i].Trim();
-                    if (lines[i].Length > 0)
-                    {
-                        newValue.Add(lines[i]);
-                    }
-                }
-                return newValue.Count > 0 ? string.Join(" ", newValue) : value;
-            }
-
-            public static string BuildXml(string url)
-            {
-                XmlTextReader reader = new XmlTextReader(url);
-                StringBuilder sb = new StringBuilder();
-                if (reader != null)
-                {
-                    while (reader.Read())
-                    {
-                        sb.AppendLine(reader.ReadOuterXml());
-                    }
-
-                    return sb.ToString();
-                }
-                return string.Empty;
-            }
-        }
     }
 
     #endregion Tools

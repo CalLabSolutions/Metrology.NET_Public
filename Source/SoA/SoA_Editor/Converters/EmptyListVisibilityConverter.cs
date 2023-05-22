@@ -12,7 +12,9 @@ namespace SoA_Editor.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
+            {
                 return Visibility.Collapsed;
+            }
             else
             {
                 ICollection list = value as ICollection;
@@ -28,7 +30,9 @@ namespace SoA_Editor.Converters
                     }
                 }
                 else
+                {
                     return Visibility.Visible;
+                }
             }
         }
 

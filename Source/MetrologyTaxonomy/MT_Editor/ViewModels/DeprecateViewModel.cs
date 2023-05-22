@@ -26,7 +26,11 @@ namespace MT_Editor.ViewModels
         public Taxon Taxon
         {
             get { return taxon; }
-            set { taxon = value; NotifyOfPropertyChange(() => Taxon); }
+            set
+            {
+                taxon = value;
+                NotifyOfPropertyChange(() => Taxon);
+            }
         }
 
         private Taxon selectedTaxon;

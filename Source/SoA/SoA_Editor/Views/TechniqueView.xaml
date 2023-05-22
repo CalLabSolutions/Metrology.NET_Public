@@ -302,7 +302,7 @@
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     VerticalScrollBarVisibility="Auto"
-                    materialDesign:HintAssist.Hint="Select a value from the varuable list to add it to the Fomula"
+                    materialDesign:HintAssist.Hint="Select a value from the variable list to add it to the Fomula"
                     materialDesign:HintAssist.HelperText="Please use a space between all variables and symbols"
                     Height="80" />
 

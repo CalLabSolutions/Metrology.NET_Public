@@ -133,10 +133,8 @@ namespace SOA_DataAccessLib
 
         public string getAttribute(string attributeName)
         {
-            string value = "";
             var atr = element.Attribute(attributeName);
-            value = (atr != null) ? atr.Value : "";
-            return value;
+            return (atr != null) ? atr.Value : "";
         }
 
         public String Value
@@ -204,7 +202,10 @@ namespace SOA_DataAccessLib
                 var ns = element.GetDefaultNamespace();
                 return new XmlNameSpaceHelper(element, ns.NamespaceName);
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
 
         public String Value
@@ -270,8 +271,15 @@ namespace SOA_DataAccessLib
             XmlNameSpaceElement child = new XmlNameSpaceElement(name, ns);
             if (datasource != null)
             {
-                if (datasource is XElement) (datasource as XElement).Add(child.Element);
-                if (datasource is XDocument) (datasource as XDocument).Add(child.Element);
+                if (datasource is XElement)
+                {
+                    (datasource as XElement).Add(child.Element);
+                }
+
+                if (datasource is XDocument)
+                {
+                    (datasource as XDocument).Add(child.Element);
+                }
             }
             return child;
         }

@@ -62,6 +62,10 @@ namespace SOA_DataAccessLib
                 opResult.Success = false;
                 opResult.Error = e.Message;
             }
+            finally
+            {
+                GC.Collect();
+            }
             if (!opResult.Success)
             {
                 doc = null;

@@ -5092,7 +5092,7 @@ namespace SOA_DataAccessLib
                     OpResult opResult = build();
                     if (!opResult.Success)
                     {
-                        throw new Exception(opResult.Error);
+                        throw new TypeLoadException(opResult.Error);
                     }
                     Doc = null; // no longer need doc
                 }

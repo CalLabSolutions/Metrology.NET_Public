@@ -43,13 +43,15 @@ namespace SOA_DataAccessLib
                     using (Stream stream = response.GetResponseStream())
                     {
                         opResult = load(stream);
+                        stream.Close();
                     }
                 }
                 else if (File.Exists(source))
                 {
-                    using (FileStream stream = new FileStream(source, FileMode.Open))
+                    using (FileStream stream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         opResult = load(stream);
+                        stream.Close();
                     }
                 }
                 else
@@ -59,6 +61,10 @@ namespace SOA_DataAccessLib
             {
                 opResult.Success = false;
                 opResult.Error = e.Message;
+            }
+            finally
+            {
+                GC.Collect();
             }
             if (!opResult.Success)
             {

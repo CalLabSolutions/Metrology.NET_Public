@@ -1165,6 +1165,10 @@ namespace SOA_DataAccessLib
             if (el1 != null)
             {
                 deviceTypes = new UncSpaceHelper(el1).getValues("DeviceType");
+                if (deviceTypes == null || deviceTypes.Count() == 0)
+                {
+                    deviceTypes = new MtcSpaceHelper(el1).getValues("DeviceType");
+                }
             }
             else
             {

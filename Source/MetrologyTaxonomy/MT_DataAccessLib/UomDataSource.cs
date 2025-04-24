@@ -131,7 +131,8 @@ namespace MT_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xml";
+                    //"http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml";
             }
 
             set
@@ -763,7 +764,8 @@ namespace MT_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
+            get { return "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xml"; }
+                // "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
         }
 
         public static string NamespaceKey(string value)

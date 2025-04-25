@@ -66,7 +66,8 @@ namespace SOA_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
+            get { return "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xml"; }
+                //"http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
         }
 
         public static string NamespaceKey(string value)

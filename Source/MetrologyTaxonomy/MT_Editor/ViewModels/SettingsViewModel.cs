@@ -66,8 +66,8 @@ namespace MT_Editor.ViewModels
             var taxonomy = factory.GetAllTaxons();
             string text = string.Empty;
             // Create Header
-            string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog";
-            string uom = "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database";
+            string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog";
+            string uom = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database";
             text += string.Format("<html xmnls:mtc=\"{0}\" xmlns:uom=\"{1}\">", mtc, uom);
             text += "<head>";
             text += "<meta http-equiv=\"ContentType\" content=\"text/html; charset=UTF-8\">";

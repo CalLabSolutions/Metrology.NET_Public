@@ -166,7 +166,7 @@ namespace MT_DataAccessLib
         #region File IO
 
         public readonly static string LocalPath = Directory.GetCurrentDirectory() + "\\Resources\\";
-        public const string Catalog = "MetrologyTaxonomyCatalog";
+        public const string Catalog = "MeasurandTaxonomyCatalog";
         private const string CatalogXml = Catalog + ".xml";
         private const string XmlFromServer = Namespaces.BASE_UIR + Catalog + ".xml";
         private const string XsdFromServer = Namespaces.BASE_UIR + Catalog + ".xsd";

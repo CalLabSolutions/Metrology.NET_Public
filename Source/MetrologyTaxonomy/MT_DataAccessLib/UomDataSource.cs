@@ -131,7 +131,7 @@ namespace MT_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database.xml";
                     //"http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml";
             }
 
@@ -711,11 +711,11 @@ namespace MT_DataAccessLib
             {"soa", @"https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"},
             {"xsi", @"http://www.w3.org/2001/XMLSchema-instance"},
             {"xi", @"http://www.w3.org/2001/XInclude"},
-            {"uom", @"http://schema.metrology.net/UOM_Database"},
+            {"uom", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database"},
             {"unc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"},
             {"mml", @"http://www.w3.org/1998/Math/MathML"},
             {"xhtml", @"http://www.w3.org/1999/xhtml"},
-            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog"}
+            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog"}
         };
 
         public string this[string key]
@@ -764,7 +764,7 @@ namespace MT_DataAccessLib
 
         public static String UomDatabaseURL
         {
-            get { return "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xml"; }
+            get { return "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database.xml"; }
                 // "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml"; }
         }
 

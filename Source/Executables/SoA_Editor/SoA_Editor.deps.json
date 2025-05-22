@@ -735,7 +735,10 @@
       },
       "MT_DataAccessLib/1.0.0": {
         "runtime": {
-          "MT_DataAccessLib.dll": {}
+          "MT_DataAccessLib.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "SoA_DataAccessLib/1.0.0": {
@@ -743,7 +746,10 @@
           "MT_DataAccessLib": "1.0.0"
         },
         "runtime": {
-          "SoA_DataAccessLib.dll": {}
+          "SoA_DataAccessLib.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

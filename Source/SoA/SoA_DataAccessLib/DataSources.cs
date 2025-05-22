@@ -132,7 +132,7 @@ namespace SOA_DataAccessLib
         {
             get
             {
-                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xml";
+                return (uomDatabaseFilePath != null) ? uomDatabaseFilePath : "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database.xml";
                 // "http://testsite2.callabsolutions.com/UnitsOfMeasure/UOM_database.xml";
             }
 

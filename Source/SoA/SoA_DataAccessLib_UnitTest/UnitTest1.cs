@@ -19,15 +19,15 @@ namespace SoA_DataAccessLib_UnitTest
             // An SOA_DataAccess object can be loaded from a string, stream, local file, or remote file
 
             // uncomment next 5 lines if using local files 
-            //string binDebugPath = new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath;      
-            //string DataFilesPath = binDebugPath.Replace(@"\Source\SOA_DataAccessLib\UnitTestLoad\bin\Debug", @"\Data Files\");
+            string binDebugPath = new System.Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath;      
+            string DataFilesPath = binDebugPath.Replace(@"Source\SoA\SoA_DataAccessLib_UnitTest\bin\Debug\net5.0", @"Data Files\");
             //UomDataSource.DatabasePath = DataFilesPath + "UOM_Database.xml";
-            //op = dao.load( DataFilesPath + "SOASample_TwoParameter_SixCases_TwoAssertions_ComplexFormula.xml"); 
-            //Assert.IsTrue(op.Success, "local files test " + op.Error);
+            op = dao.load( DataFilesPath + @"SOAs\sample.xml"); 
+            Assert.IsTrue(op.Success, "local files test " + op.Error);
 
             //uncomment next 2 lines if using remote files
-            op = dao.load("https://cls-schemas.s3.us-west-1.amazonaws.com/sample.xml");
-            Assert.IsTrue(op.Success, "remote file test " + op.Error);
+            //op = dao.load("https://cls-schemas.s3.us-west-1.amazonaws.com/sample.xml");
+            //Assert.IsTrue(op.Success, "remote file test " + op.Error);
 
             // Once the SOA_DataAccess object is loaded, the Object Model is accessed via the SOA_DataAccess object's SOADataMaster property
             Soa SampleSOA = dao.SOADataMaster;
@@ -106,8 +106,8 @@ namespace SoA_DataAccessLib_UnitTest
             // "Resolution" and "Connection" are the Assertion Names
             // The values of these assertions will be used in the selection a Range subordinate to this template
             var assertionNames = template.getCMCFunctionAssertionNames(functionName);
-            Assert.AreEqual(2, assertionNames.Count, "Failed Distinct AssertionNames");
-            Assert.IsTrue(assertionNames.Contains("Resolution") && assertionNames.Contains("Connection"), "Failed Get AssertionNames");
+            Assert.AreEqual(3, assertionNames.Count, "Failed Distinct AssertionNames");
+            Assert.IsTrue(assertionNames.Contains("Resolution") && assertionNames.Contains("Connection") && assertionNames.Contains("Impedance"), "Failed Get AssertionNames");
 
 
             // "2 Wire" and "4 Wire" are the set of expected values for the Assertion named "Connection".

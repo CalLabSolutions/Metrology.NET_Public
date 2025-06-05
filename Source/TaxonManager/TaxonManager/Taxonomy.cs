@@ -9,8 +9,8 @@ namespace CalLabSolutions.TaxonManager
 {
     static class Namespaces
     {
-        public const string BASE_UIR = "https://cls-schemas.s3.us-west-1.amazonaws.com/";
-        public const string MTC = BASE_UIR + "MetrologyTaxonomyCatalog";
+        public const string BASE_UIR = "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/";
+        public const string MTC = BASE_UIR + "MeasurandTaxonomyCatalog";
         public const string UOM = BASE_UIR + "UOM_Database";
         public const string MathML_NS = "http://www.w3.org/1998/Math/MathML";
         public const string MathML_SL = "http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";

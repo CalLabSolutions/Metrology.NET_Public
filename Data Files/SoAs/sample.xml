@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<soa:SOADataMaster xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uom="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database" xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mtc="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog" xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile.xsd">
+<soa:SOADataMaster xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog" xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_DataFile.xsd">
   <soa:AB_ID>85686</soa:AB_ID>
   <soa:AB_Logo-Signature>Image goes here</soa:AB_Logo-Signature>
   <soa:Scope_ID_Number>52542</soa:Scope_ID_Number>
@@ -28,8 +28,8 @@
     <soa:Activities>
       <soa:Activity>
         <unc:CMCs>
-          <unc:Taxon name="TestProcess.Measure.Voltage.AC">
-            <mtc:Taxon name="TestProcess.Measure.Voltage.AC">
+          <unc:Taxon name="Measure.Voltage.AC">
+            <mtc:Taxon name="Measure.Voltage.AC">
               <mtc:Result name="Volts">
                 <uom:Quantity name="voltage" />
               </mtc:Result>
@@ -42,8 +42,8 @@
               <mtc:Definition>Measure.Voltage</mtc:Definition>
             </mtc:Taxon>
           </unc:Taxon>
-          <unc:Taxon name="TestProcess.Measure.Voltage.DC">
-            <mtc:Taxon name="TestProcess.Measure.Voltage.DC">
+          <unc:Taxon name="Measure.Voltage.DC">
+            <mtc:Taxon name="Measure.Voltage.DC">
               <mtc:Result name="Volts">
                 <uom:Quantity name="voltage" />
               </mtc:Result>
@@ -53,8 +53,8 @@
               <mtc:Definition>This test process measures the DC (Direct Current) voltage sourced from the UUT.</mtc:Definition>
             </mtc:Taxon>
           </unc:Taxon>
-          <unc:Technique name="Measure.Voltage.AC.LowVoltage" taxon="TestProcess.Measure.Voltage.AC">
-            <mtc:Technique name="Measure.Voltage.AC.LowVoltage" taxon="TestProcess.Measure.Voltage.AC">
+          <unc:Technique name="Measure.Voltage.AC.LowVoltage" taxon="Measure.Voltage.AC">
+            <mtc:Technique name="Measure.Voltage.AC.LowVoltage" taxon="Measure.Voltage.AC">
               <mtc:ResultRange name="Volts">
                 <mtc:Start test="at">0</mtc:Start>
                 <mtc:End uom_alternative="kilovolts" test="at">0.110</mtc:End>
@@ -120,8 +120,8 @@
               <mtc:Documentation></mtc:Documentation>
             </mtc:Technique>
           </unc:Technique>
-          <unc:Technique name="Test VDC" taxon="TestProcess.Measure.Voltage.DC">
-            <mtc:Technique name="Test VDC" taxon="TestProcess.Measure.Voltage.DC">
+          <unc:Technique name="Test VDC" taxon="Measure.Voltage.DC">
+            <mtc:Technique name="Test VDC" taxon="Measure.Voltage.DC">
               <mtc:ResultRange name="Volts">
                 <mtc:Start test="at" format="0">0</mtc:Start>
                 <mtc:End format="10" test="at">10</mtc:End>

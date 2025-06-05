@@ -2,13 +2,13 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
     vc:minVersion="1.0" vc:maxVersion="1.1" 
-    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database"
     xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"
     xmlns:soa="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"
     targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile">
     
     <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty.xsd"/>
-    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd"/>
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database.xsd"/>
     
     
     <xs:element name="SOADataMaster">

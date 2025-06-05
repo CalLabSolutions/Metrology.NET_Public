@@ -1,292 +1,265 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright Cal Lab Solutions 2015 all rights reserved -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.0" vc:maxVersion="1.1"
-    xmlns:mml="http://www.w3.org/1998/Math/MathML"
-    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
-    targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
-    elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <xs:annotation>
-        <xs:documentation>Copyright Cal Lab Solutions 2015 all rights reserved</xs:documentation>
-    </xs:annotation>
-    
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace"
-        schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
-    
-    <xs:import namespace="http://www.w3.org/1998/Math/MathML"
-        schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd"/>
-    
-    <xs:element name="UOMDatabase">
-        <xs:annotation>
-            <xs:documentation>Copyright Cal Lab Solutions 2015 all rights
-                reserved</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="Categories">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="Category" maxOccurs="unbounded">
-                                <xs:annotation>
-                                    <xs:documentation> Categrory names must start with a lower case
-                                        letter and contain only lower case letters or hyphens (-)</xs:documentation>
-                                </xs:annotation>
-                                <xs:complexType>
-                                    <xs:attribute name="id" use="required" form="unqualified">
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:ID">
-                                                <xs:pattern value="\p{Ll}[\-\p{Ll}]*"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                    <xs:unique name="NoDuplicateCategories">
-                        <xs:selector xpath="uom:Category"/>
-                        <xs:field xpath="@id"/>
-                    </xs:unique>
-                </xs:element>
-                <xs:element name="Dimensions">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="Dimension" type="uom:Dimension_type"
-                                maxOccurs="unbounded">
-                                <xs:annotation>
-                                    <xs:documentation>Dimension attributes represent the exponents of the base SI units for a Dimension.  Mathematically, all UOMs having the same Dimension are in the same vector space.
-                                        As a set, the attributes for Dimensions must be globally unique.</xs:documentation>
-                                </xs:annotation>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                    <xs:unique name="NoDuplicateDimensions">
-                        <xs:selector xpath="uom:Dimension"/>
-                        <xs:field xpath="@m"/>
-                        <xs:field xpath="@kg"/>
-                        <xs:field xpath="@s"/>
-                        <xs:field xpath="@A"/>
-                        <xs:field xpath="@K"/>
-                        <xs:field xpath="@mol"/>
-                        <xs:field xpath="@cd"/>
-                    </xs:unique>
-                    <xs:unique name="NoDuplicateUOMBaseNames">
-                        <xs:selector xpath="./uom:Dimension/uom:UOMs/uom:UOM"/>
-                        <xs:field xpath="@base_name"/>
-                    </xs:unique>
-                    <xs:unique name="NoDuplicateQuantities">
-                        <xs:selector xpath="./uom:Dimension/UOMs/UOM/Quantities/Quantity"/>
-                        <xs:field xpath="@name"/>
-                    </xs:unique>
-                </xs:element>
-            </xs:sequence>
-            <!-- <xs:attribute ref="xml:base"/> -->
-        </xs:complexType>
-    </xs:element>
-    <xs:complexType name="Dimension_type">
-        <xs:annotation>
-            <xs:documentation> Attribute values represent exponents for the SI base units
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="UOMs">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="UOM" type="uom:UOM_type" maxOccurs="unbounded">
-                            <xs:annotation>
-                                <xs:documentation> UOM base_names, must start with a lower case
-                                    letter, contain only lower case letters, or hyphens (-) and be globally unique.
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="m" type="xs:integer" use="required"/>
-        <xs:attribute name="kg" type="xs:integer" use="required"/>
-        <xs:attribute name="s" type="xs:integer" use="required"/>
-        <xs:attribute name="A" type="xs:integer" use="required"/>
-        <xs:attribute name="K" type="xs:integer" use="required"/>
-        <xs:attribute name="mol" type="xs:integer" use="required"/>
-        <xs:attribute name="cd" type="xs:integer" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="UOM_type">
-        <xs:sequence>
-            <xs:element name="Quantities">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" ref="uom:Quantity"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="CategoryReferences" minOccurs="0">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="CategoryReference" maxOccurs="unbounded" minOccurs="0">
-                            <xs:complexType>
-                                <xs:attribute name="ref" type="xs:IDREF" use="required"/>
-                            </xs:complexType>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-                <xs:unique name="NoDuplicateCategoryReferences">
-                    <xs:selector xpath="uom:CategoryReference"/>
-                    <xs:field xpath="@ref"/>
-                </xs:unique>
-            </xs:element>
-            <xs:element name="Presentation" minOccurs="0">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element ref="mml:math"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element minOccurs="0" name="Aliases">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" name="Alias" minOccurs="0">
-                            <xs:complexType>
-                                <xs:sequence>
-                                    <xs:element name="Presentation" minOccurs="0">
-                                        <xs:complexType>
-                                            <xs:sequence>
-                                                <xs:element ref="mml:math"/>
-                                            </xs:sequence>
-                                        </xs:complexType>
-                                    </xs:element>
-                                </xs:sequence>
-                                <xs:attribute name="symbol" type="xs:string"/>
-                            </xs:complexType>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-                <xs:unique name="NoDuplicateAliasSymbols">
-                    <xs:selector xpath="uom:Alias"/>
-                    <xs:field xpath="@symbol"/>
-                </xs:unique>
-            </xs:element>
-            <xs:element name="Alternatives" minOccurs="0">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="Alternative" minOccurs="0" maxOccurs="unbounded">
-                            <xs:annotation>
-                                <xs:documentation> Alternative names must start with a lower case
-                                    letter, contain only lower case letters, or hyphens (-)
-                                </xs:documentation>
-                            </xs:annotation>
-                            <xs:complexType>
-                                <xs:sequence>
-                                    <xs:group minOccurs="0" ref="uom:Conversions"/>
-                                    <xs:element name="Presentation" minOccurs="0">
-                                        <xs:complexType>
-                                            <xs:sequence>
-                                                <xs:element ref="mml:math"/>
-                                            </xs:sequence>
-                                        </xs:complexType>
-                                    </xs:element>
-                                    <xs:element minOccurs="0" name="Aliases">
-                                        <xs:complexType>
-                                            <xs:sequence>
-                                                <xs:element maxOccurs="unbounded" name="Alias"
-                                                    minOccurs="0">
-                                                    <xs:complexType>
-                                                        <xs:sequence>
-                                                            <xs:element name="Presentation" minOccurs="0">
-                                                                <xs:complexType>
-                                                                    <xs:sequence>
-                                                                        <xs:element ref="mml:math"/>
-                                                                    </xs:sequence>
-                                                                </xs:complexType>
-                                                            </xs:element>
-                                                        </xs:sequence>
-                                                        <xs:attribute name="symbol" type="xs:string"
-                                                            use="required"/>
-                                                    </xs:complexType>
-                                                </xs:element>
-                                            </xs:sequence>
-                                        </xs:complexType>
-                                        <xs:unique name="newUnique">
-                                            <xs:selector xpath="uom:Alias"/>
-                                            <xs:field xpath="@symbol"/>
-                                        </xs:unique>
-                                    </xs:element>
-                                </xs:sequence>
-                                <xs:attribute name="name" use="required">
-                                    <xs:simpleType>
-                                        <xs:restriction base="xs:token">
-                                            <xs:pattern value="[a-z][a-z\-]*"/>
-                                        </xs:restriction>
-                                    </xs:simpleType>
-                                </xs:attribute>
-                                <xs:attribute name="symbol" type="xs:string" use="required"/>
-                                <xs:attribute name="metric" type="xs:boolean" use="required"/>
-                            </xs:complexType>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-                <xs:unique name="NoDuplicateAlternatives">
-                    <xs:selector xpath="uom:Alternative"/>
-                    <xs:field xpath="@name"/>
-                </xs:unique>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="base_name" use="required">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:pattern value="[a-z][a-z-]*"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
-        <xs:attribute name="symbol" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:group name="Conversions">
-        <xs:choice>
-            <xs:element name="LinearConverter">
-                <xs:annotation>
-                    <xs:documentation>By default Offset=0 and ScaleFactor=1.0</xs:documentation>
-                    <xs:documentation>Conversion To Base: base_value = (value - Offset) *
-                        ScaleFactor</xs:documentation>
-                    <xs:documentation>Conversion From Base: value = (base_value / ScaleFactor) +
-                        Offset</xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:attribute default="1.0" name="ScaleFactor" type="xs:double"/>
-                    <xs:attribute default="0.0" name="Offset" type="xs:double"/>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="LogarithmicConverter">
-                <xs:annotation>
-                    <xs:documentation>By default LinScaleFactor and LogScaleFactor =
-                        1.0</xs:documentation>
-                    <xs:documentation>Conversion To Base:
-                        base_value = LinScaleFactor * (10.0 ^ (value/LogScaleFactor))
-                    </xs:documentation>
-                    <xs:documentation>Conversion From Base: 
-                        value = LogScaleFactor * Log10(base_value / LinScaleFactor)
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:attribute name="LinScaleFactor" default="1.0" type="xs:double"/>
-                    <xs:attribute name="LogScaleFactor" default="1.0" type="xs:double"/>
-                </xs:complexType>
-            </xs:element>
-        </xs:choice>
-    </xs:group>
-    <xs:element name="Quantity">
-        <xs:annotation>
-            <xs:documentation> Quantity names must start with a lower case
-                letter, contain only lower case letters, hyphens (-), or colons
-                (:) and be globally unique.</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:attribute name="name" use="required">
-                <xs:simpleType>
-                    <xs:restriction base="xs:token">
-                        <xs:pattern value="[a-z][a-z\-:]*"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:attribute>
-        </xs:complexType>
-    </xs:element>
+<!--  Copyright Cal Lab Solutions 2015 all rights reserved  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" 
+xmlns:mml="http://www.w3.org/1998/Math/MathML" 
+xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" vc:minVersion="1.0" vc:maxVersion="1.1" 
+targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:annotation>
+<xs:documentation>Copyright Cal Lab Solutions 2015 all rights reserved</xs:documentation>
+</xs:annotation>
+<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
+<xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd"/>
+<xs:element name="UOMDatabase">
+<xs:annotation>
+<xs:documentation>Copyright Cal Lab Solutions 2015 all rights reserved</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Categories">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Category" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation> Categrory names must start with a lower case letter and contain only lower case letters or hyphens (-)</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:attribute name="id" use="required" form="unqualified">
+<xs:simpleType>
+<xs:restriction base="xs:ID">
+<xs:pattern value="\p{Ll}[\-\p{Ll}]*"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:unique name="NoDuplicateCategories">
+<xs:selector xpath="uom:Category"/>
+<xs:field xpath="@id"/>
+</xs:unique>
+</xs:element>
+<xs:element name="Dimensions">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Dimension" type="uom:Dimension_type" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Dimension attributes represent the exponents of the base SI units for a Dimension. Mathematically, all UOMs having the same Dimension are in the same vector space. As a set, the attributes for Dimensions must be globally unique.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:unique name="NoDuplicateDimensions">
+<xs:selector xpath="uom:Dimension"/>
+<xs:field xpath="@m"/>
+<xs:field xpath="@kg"/>
+<xs:field xpath="@s"/>
+<xs:field xpath="@A"/>
+<xs:field xpath="@K"/>
+<xs:field xpath="@mol"/>
+<xs:field xpath="@cd"/>
+</xs:unique>
+<xs:unique name="NoDuplicateUOMBaseNames">
+<xs:selector xpath="./uom:Dimension/uom:UOMs/uom:UOM"/>
+<xs:field xpath="@base_name"/>
+</xs:unique>
+<xs:unique name="NoDuplicateQuantities">
+<xs:selector xpath="./uom:Dimension/UOMs/UOM/Quantities/Quantity"/>
+<xs:field xpath="@name"/>
+</xs:unique>
+</xs:element>
+</xs:sequence>
+<xs:attribute ref="xml:base"/>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="Dimension_type">
+<xs:annotation>
+<xs:documentation> Attribute values represent exponents for the SI base units </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="UOMs">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="UOM" type="uom:UOM_type" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation> UOM base_names, must start with a lower case letter, contain only lower case letters, or hyphens (-) and be globally unique. </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+<xs:attribute name="m" type="xs:integer" use="required"/>
+<xs:attribute name="kg" type="xs:integer" use="required"/>
+<xs:attribute name="s" type="xs:integer" use="required"/>
+<xs:attribute name="A" type="xs:integer" use="required"/>
+<xs:attribute name="K" type="xs:integer" use="required"/>
+<xs:attribute name="mol" type="xs:integer" use="required"/>
+<xs:attribute name="cd" type="xs:integer" use="required"/>
+</xs:complexType>
+<xs:complexType name="UOM_type">
+<xs:sequence>
+<xs:element name="Quantities">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" ref="uom:Quantity"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="CategoryReferences" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="CategoryReference" maxOccurs="unbounded" minOccurs="0">
+<xs:complexType>
+<xs:attribute name="ref" type="xs:IDREF" use="required"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:unique name="NoDuplicateCategoryReferences">
+<xs:selector xpath="uom:CategoryReference"/>
+<xs:field xpath="@ref"/>
+</xs:unique>
+</xs:element>
+<xs:element name="Presentation" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="mml:math"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element minOccurs="0" name="Aliases">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="Alias" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Presentation" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="mml:math"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+<xs:attribute name="symbol" type="xs:string"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:unique name="NoDuplicateAliasSymbols">
+<xs:selector xpath="uom:Alias"/>
+<xs:field xpath="@symbol"/>
+</xs:unique>
+</xs:element>
+<xs:element name="Alternatives" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Alternative" minOccurs="0" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation> Alternative names must start with a lower case letter, contain only lower case letters, or hyphens (-) </xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:group minOccurs="0" ref="uom:Conversions"/>
+<xs:element name="Presentation" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="mml:math"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element minOccurs="0" name="Aliases">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="Alias" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Presentation" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="mml:math"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+<xs:attribute name="symbol" type="xs:string" use="required"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:unique name="newUnique">
+<xs:selector xpath="uom:Alias"/>
+<xs:field xpath="@symbol"/>
+</xs:unique>
+</xs:element>
+</xs:sequence>
+<xs:attribute name="name" use="required">
+<xs:simpleType>
+<xs:restriction base="xs:token">
+<xs:pattern value="[a-z][a-z\-]*"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+<xs:attribute name="symbol" type="xs:string" use="required"/>
+<xs:attribute name="metric" type="xs:boolean" use="required"/>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:unique name="NoDuplicateAlternatives">
+<xs:selector xpath="uom:Alternative"/>
+<xs:field xpath="@name"/>
+</xs:unique>
+</xs:element>
+</xs:sequence>
+<xs:attribute name="base_name" use="required">
+<xs:simpleType>
+<xs:restriction base="xs:string">
+<xs:pattern value="[a-z][a-z-]*"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+<xs:attribute name="symbol" type="xs:string" use="required"/>
+</xs:complexType>
+<xs:group name="Conversions">
+<xs:choice>
+<xs:element name="LinearConverter">
+<xs:annotation>
+<xs:documentation>By default Offset=0 and ScaleFactor=1.0</xs:documentation>
+<xs:documentation>Conversion To Base: base_value = (value - Offset) * ScaleFactor</xs:documentation>
+<xs:documentation>Conversion From Base: value = (base_value / ScaleFactor) + Offset</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:attribute default="1.0" name="ScaleFactor" type="xs:double"/>
+<xs:attribute default="0.0" name="Offset" type="xs:double"/>
+</xs:complexType>
+</xs:element>
+<xs:element name="LogarithmicConverter">
+<xs:annotation>
+<xs:documentation>By default LinScaleFactor and LogScaleFactor = 1.0</xs:documentation>
+<xs:documentation>Conversion To Base: base_value = LinScaleFactor * (10.0 ^ (value/LogScaleFactor)) </xs:documentation>
+<xs:documentation>Conversion From Base: value = LogScaleFactor * Log10(base_value / LinScaleFactor) </xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:attribute name="LinScaleFactor" default="1.0" type="xs:double"/>
+<xs:attribute name="LogScaleFactor" default="1.0" type="xs:double"/>
+</xs:complexType>
+</xs:element>
+</xs:choice>
+</xs:group>
+<xs:element name="Quantity">
+<xs:annotation>
+<xs:documentation> Quantity names must start with a lower case letter, contain only lower case letters, hyphens (-), or colons (:) and be globally unique.</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:attribute name="name" use="required">
+<xs:simpleType>
+<xs:restriction base="xs:token">
+<xs:pattern value="[a-z][a-z\-:]*"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+</xs:complexType>
+</xs:element>
 </xs:schema>

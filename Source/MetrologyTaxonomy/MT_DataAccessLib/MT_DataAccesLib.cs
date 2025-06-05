@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 using System.Xml;
 using System.Xml.Serialization;
+using static MT_DataAccessLib.Parameter;
 
 namespace MT_DataAccessLib
 {
     static class Namespaces
     {
         public const string BASE_UIR = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/";
-        public const string MTC = BASE_UIR + "MeasurandTaxonomyCatalog";
+        public const string MTC = BASE_UIR + "Test/MeasurandTaxonomyCatalog";
         public const string UOM = BASE_UIR + "UOM_Database";
         public const string MathML_NS = "http://www.w3.org/1998/Math/MathML";
         public const string MathML_SL = "http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd";
@@ -100,6 +104,8 @@ namespace MT_DataAccessLib
             set { parameters = value; }
         }
 
+        private Discipline discipline;
+
         [XmlElement("Discipline", IsNullable = false)]
         public Discipline Discipline
         {
@@ -115,8 +121,6 @@ namespace MT_DataAccessLib
             get { return definition; }
             set { definition = Tools.Format(value); }
         }
-
-        private Discipline discipline;
 
         public object Clone()
         {
@@ -153,6 +157,24 @@ namespace MT_DataAccessLib
         {
             get { return quantity; }
             set { quantity = value; }
+        }
+
+        private mLayer mlayer;
+
+        [XmlElement("mLayer", Namespace = Namespaces.MTC)]
+        public mLayer MLayer
+        {
+            get { return mlayer; }
+            set { mlayer = value; }
+        }
+
+        private ExternalQuantityType externalQuantityType;
+
+        [XmlElement("ExternalQuantityType", Namespace = Namespaces.MTC)]
+        public ExternalQuantityType ExtQuantityType
+        {
+            get { return externalQuantityType; }
+            set { externalQuantityType = value; }
         }
     }
 
@@ -193,6 +215,45 @@ namespace MT_DataAccessLib
         {
             get { return definition; }
             set { definition = value; }
+        }
+
+        private mLayer mlayer;
+
+        [XmlElement("mLayer", Namespace = Namespaces.MTC)]
+        public mLayer MLayer
+        {
+            get { return mlayer; }
+            set { mlayer = value; }
+        }
+
+        private List<ExternalQuantityType> externalQuantityType;
+
+        [XmlElement("ExternalQuantityType", Namespace = Namespaces.MTC)]
+        public List<ExternalQuantityType> ExtQuantityType
+        {
+            get { return externalQuantityType; }
+            set { externalQuantityType = value; }
+        }
+    }
+
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.UOM)]
+    public class mLayer
+    {
+        private string aspect;
+        private string id;
+
+        [XmlAttribute("aspect")]
+        public string Aspect
+        {
+            get { return aspect; }
+            set { aspect = value; }
+        }
+        [XmlAttribute("id")]
+        public string Id
+        {
+            get { return id; }
+            set { id = value; }
         }
     }
 
@@ -314,5 +375,57 @@ namespace MT_DataAccessLib
             get { return value; }
             set { this.value = value; }
         }
+    }
+
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    public class ExternalQuantityType
+    {
+        private quantityCodeSystemType quantityCodeSystem;
+
+        [XmlElement(ElementName ="quantityCodeSystem", Namespace =Namespaces.MTC)]
+        public quantityCodeSystemType QuantityCodeSystem
+        {
+            get { return quantityCodeSystem; }
+            set { quantityCodeSystem = value; }
+        }
+
+        private string quantityName = "";
+
+        [XmlAttribute("quantityName")]
+        public string QuantityName
+        {
+            get { return quantityName; }
+            set { quantityName = value; }
+        }
+        private string quantityCode = "";
+
+        [XmlAttribute("quantityCode")]
+        public string QuantityCode
+        {
+            get { return quantityCode; }
+            set { quantityCode = value; }
+        }
+    }
+
+    [Serializable]
+    public enum quantityCodeSystemType
+    {
+        [XmlEnum("Electropedia.org")]
+        ELECTROPEDIA_ORG,
+        [XmlEnum("si-digital-framework.org")]
+        SI_DIGITAL_FRAMEWORK_ORG,
+        [XmlEnum("mLayer.org")]
+        MLAYER_ORG,
+        [XmlEnum("QUDT.org")]
+        QUDT_ORG,
+        [XmlEnum("ISO/IEC 80000")]
+        ISO_IEC_80000,
+        [XmlEnum("UCUM.org")]
+        UCUM_ORG,
+        [XmlEnum("PTB.de")]
+        PTB_DE,
+        [XmlEnum("Other")]
+        Other
     }
 }

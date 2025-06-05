@@ -17,7 +17,7 @@ namespace CalLabSolutions.TaxonManagerTest
             TaxonManager.TaxonManager tm = new TaxonManager.TaxonManager(args);
             List<string> fileNames = new List<string>();
             string dir = Directory.GetCurrentDirectory();
-            fileNames.Add(dir + "..\\..\\..\\..\\Mocks\\MetrologyTaxonomyCatalog.xml");
+            fileNames.Add(dir + "..\\..\\..\\..\\Mocks\\MeasurandTaxonomyCatalog.xml");
             List<Taxon> taxons = TaxonManager.TaxonManager.FileToTaxonomyConverter(fileNames, true);
             Assert.IsTrue(taxons.Count > 1, "Multiple taxons not created");
             fileNames.RemoveAt(0);

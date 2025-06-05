@@ -49,8 +49,8 @@ namespace CalLabSolutions.TaxonManager
         {
             string text = string.Empty;
             // Create Header
-            string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog";
-            string uom = "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database";
+            string mtc = "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog";
+            string uom = "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database";
             text += string.Format("<html xmnls:mtc=\"{0}\" xmlns:uom=\"{1}\">", mtc, uom);
             text += "<head>";
             text += "<meta http-equiv=\"ContentType\" content=\"text/html; charset=UTF-8\">";
@@ -93,8 +93,8 @@ namespace CalLabSolutions.TaxonManager
                 header = header.Replace("{name}", name);
                 header = header.Replace("{slug}", slug);
                 taxonText = header;
-                string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog";
-                string uom = "https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database";
+                string mtc = "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog";
+                string uom = "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database";
                 taxonText += string.Format("<html xmnls:mtc=\"{0}\" xmlns:uom=\"{1}\">", mtc, uom);
                 taxonText += "<head>";
                 taxonText += "<meta http-equiv=\"ContentType\" content=\"text/html; charset=UTF-8\">";

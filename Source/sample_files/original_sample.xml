@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soa:SOADataMaster xmlns:soa="http://schema.metrology.net/ScopeOfAccreditation"
+<soa:SOADataMaster xmlns:soa="ttps://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude"
-    xmlns:uom="http://schema.metrology.net/UnitsOfMeasure"
-    xmlns:unc="http://schema.metrology.net/Uncertainty"
+    xmlns:uom="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOMDatabase"
+    xmlns:unc="ttps://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"
     xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:mtc="http://schema.metrology.net/MetrologyTaxonomyCatalog"
-    xsi:schemaLocation="http://schema.metrology.net/ScopeOfAccreditation http://schema.metrology.net/SOA_Master_Datafile.xsd">
+    xmlns:mtc="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog"
+    xsi:schemaLocation="ttps://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile ttps://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile.xsd">
     <soa:AB_ID/>
     <soa:AB_Logo-Signature/>
     <soa:Scope_ID_Number/>

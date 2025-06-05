@@ -168,8 +168,8 @@ namespace MT_DataAccessLib
         public readonly static string LocalPath = Directory.GetCurrentDirectory() + "\\Resources\\";
         public const string Catalog = "MeasurandTaxonomyCatalog";
         private const string CatalogXml = Catalog + ".xml";
-        private const string XmlFromServer = Namespaces.BASE_UIR + Catalog + ".xml";
-        private const string XsdFromServer = Namespaces.BASE_UIR + Catalog + ".xsd";
+        private const string XmlFromServer = Namespaces.BASE_UIR + @"Test/" + Catalog + ".xml?";
+        private const string XsdFromServer = Namespaces.BASE_UIR + @"Test/" + Catalog + ".xsd?";
         private const string CSS = "metrologytaxonomy.css";
         private const string JS = "metrologytaxonomy.js";
         private const string XSL = "metrologytaxonomy.xsl";
@@ -310,7 +310,7 @@ namespace MT_DataAccessLib
 
             // html
             string definition = "HTML: -->\n<p>{definition}{deprecated}</p>\n\n<!--more-->\n\n";
-            definition = definition.Replace("{definition}", taxon.Definition);
+            definition = definition.Replace("{definition}", Tools.HexConverter(taxon.Definition));
             if (taxon.Deprecated)
             {
                 definition = definition.Replace("{deprecated}", "\nDeprecated - " + taxon.Replacement);
@@ -348,7 +348,7 @@ namespace MT_DataAccessLib
                     nextli = nextli.Replace("{name}", parameter.Name);
                     if (parameter.Definition != null && parameter.Definition != "")
                     {
-                        nextli = nextli.Replace("{definition}", " - " + parameter.Definition);
+                        nextli = nextli.Replace("{definition}", " - " + Tools.HexConverter(parameter.Definition));
                     }
                     else
                     {
@@ -376,7 +376,7 @@ namespace MT_DataAccessLib
                     nextli = nextli.Replace("{name}", parameter.Name);
                     if (parameter.Definition != null && parameter.Definition != "")
                     {
-                        nextli = nextli.Replace("{definition}", " - " + parameter.Definition);
+                        nextli = nextli.Replace("{definition}", " - " + Tools.HexConverter(parameter.Definition));
                     }
                     else
                     {
@@ -479,7 +479,7 @@ namespace MT_DataAccessLib
                             using (StreamReader sr = file.OpenText())
                             {
                                 string s = "";
-                                var sb = new StringBuilder();
+                                StringBuilder sb = new StringBuilder();
                                 while ((s = sr.ReadLine()) != null)
                                 {
                                     sb.AppendLine(s);
@@ -494,7 +494,7 @@ namespace MT_DataAccessLib
                     StreamReader stream = null;
                     if (readOnly)
                     {
-                        byte[] bytes = Encoding.ASCII.GetBytes(xml);
+                        byte[] bytes = Encoding.UTF8.GetBytes(xml);
                         stream = new StreamReader(new MemoryStream(bytes));
                     }
                     else
@@ -502,6 +502,17 @@ namespace MT_DataAccessLib
                         stream = new StreamReader(file.FullName);
                     }
                     XmlSerializer serializer = new(typeof(Taxonomy));
+                    serializer.UnknownNode += (s, e) => {
+                        string nodeError = $"[Debug] Unknown Node: {e.Name} ({e.NodeType}) at L{e.LineNumber}:C{e.LinePosition}";
+                    };
+                    serializer.UnknownAttribute += (s, e) => {
+                        string attError = $"[Debug] Unknown Attribute: {e.Attr?.Name} on {e.ObjectBeingDeserialized?.GetType().Name} at L{e.LineNumber}:C{e.LinePosition}";
+                    };
+                    serializer.UnknownElement += (s, e) =>
+                    {
+                        string elementErr = $"[Debug] Unknown Element: {e.Element?.Name} (Expected: {e.ExpectedElements}) at L{e.LineNumber}:C{e.LinePosition}";
+                    };
+
                     Taxonomy fromXml = (Taxonomy)serializer.Deserialize(stream);
                     foreach (Taxon taxon in fromXml.Taxons)
                     {

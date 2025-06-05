@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
@@ -67,6 +69,12 @@ namespace MT_DataAccessLib
                 Console.Write("ERROR: ");
 
             Console.WriteLine(args.Message);
+        }
+
+        public static string HexConverter(string input)
+        {
+            string val = WebUtility.HtmlEncode(input);
+            return val;
         }
     }
 }

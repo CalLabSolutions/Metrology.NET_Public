@@ -462,6 +462,11 @@ namespace CalLabSolutions.TaxonManager
             string xmlOut = fileName + (htmlFile ? ".html" : ".xml");
             try
             {
+                DirectoryInfo di = new DirectoryInfo(path);
+                if (!di.Exists)
+                {
+                    di.Create();
+                }
                 await File.WriteAllTextAsync(path + xmlOut, content);
             }
             catch (IOException e)

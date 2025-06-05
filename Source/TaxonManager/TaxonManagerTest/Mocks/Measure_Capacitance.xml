@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Taxon xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" name="Measure.Capacitance" deprecated="false" replacement="">
+<Taxon xmlns:mtc="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog" xmlns:uom="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database" name="Measure.Capacitance" deprecated="false" replacement="">
   <mtc:Result name="Capacitance">
     <uom:Quantity name="capacitance" />
   </mtc:Result>

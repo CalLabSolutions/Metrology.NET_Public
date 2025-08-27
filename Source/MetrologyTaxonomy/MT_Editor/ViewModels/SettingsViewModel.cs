@@ -66,7 +66,7 @@ namespace MT_Editor.ViewModels
             var taxonomy = factory.GetAllTaxons();
             string text = string.Empty;
             // Create Header
-            string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog";
+            string mtc = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/Test/MeasurandTaxonomyCatalog";
             string uom = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database";
             text += string.Format("<html xmnls:mtc=\"{0}\" xmlns:uom=\"{1}\">", mtc, uom);
             text += "<head>";
@@ -154,7 +154,7 @@ namespace MT_Editor.ViewModels
                 }
 
                 // Parameters
-                string li = "\t<li>{name}{definition}{quantity}</li>\n";
+                string li = "\t<li>{name}{definition}{quantity}{mlayer}</li>\n";
                 string nextli = "";
                 if (required.Count > 0)
                 {
@@ -179,12 +179,20 @@ namespace MT_Editor.ViewModels
                         {
                             nextli = nextli.Replace("{quantity}", "");
                         }
+                        if (parameter.MLayer != null && parameter.MLayer.Aspect != "")
+                        {
+                            nextli = nextli.Replace("{mlayer}", "<br>mLayer - Aspect - " + parameter.MLayer.Aspect + ", ID - " + parameter.MLayer.Id);
+                        }
+                        else
+                        {
+                            nextli = nextli.Replace("{mlayer}", "");
+                        }
                     }
                     taxonText = taxonText.Replace("{required_params}", nextli);
                 }
                 if (optional.Count > 0)
                 {
-                    li = "\t<li>{name}{definition}{quantity}</li>\n";
+                    li = "\t<li>{name}{definition}{quantity}{mlayer}</li>\n";
                     nextli = "";
                     taxonText += "<strong>Optional Parameters</strong>\n<ul>\n{optional_params}\n</ul>\n";
                     foreach (Parameter parameter in optional)
@@ -206,6 +214,14 @@ namespace MT_Editor.ViewModels
                         else
                         {
                             nextli = nextli.Replace("{quantity}", "");
+                        }
+                        if (parameter.MLayer != null && parameter.MLayer.Aspect != "")
+                        {
+                            nextli = nextli.Replace("{mlayer}", "<br>mLayer - Aspect - " + parameter.MLayer.Aspect + ", ID - " + parameter.MLayer.Id);
+                        }
+                        else
+                        {
+                            nextli = nextli.Replace("{mlayer}", "");
                         }
                     }
                     taxonText = taxonText.Replace("{optional_params}", nextli);

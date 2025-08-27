@@ -1,9 +1,9 @@
 <!--Version 7/2/2017 23:38-->
-<uom:UOMDatabase xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database"
+<uom:UOMDatabase xmlns:uom="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
 	xmlns:m="http://www.w3.org/1998/Math/MathML"
-	xsi:schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd">
+	xsi:schemaLocation="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database.xsd">
 	<uom:Categories>
 		<uom:Category id="physical"/>
 		<uom:Category id="optical"/>

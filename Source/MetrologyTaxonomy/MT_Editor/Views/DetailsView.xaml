@@ -67,7 +67,15 @@
                                     <Border BorderBrush="Transparent" BorderThickness="4">
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Name}" />
+                                                <TextBlock FontSize="14" FontWeight="SemiBold" >
+                                                    <TextBlock.Text>
+                                                        <Binding Path="Name">
+                                                            <Binding.Converter>
+                                                                <converters:FormatDotSpaceConverter/>
+                                                            </Binding.Converter>
+                                                        </Binding>
+                                                       </TextBlock.Text>
+                                                </TextBlock>
                                                 <TextBlock Text="(Optional)" FontWeight="Bold" Margin="15,0,0,0"
                                        Visibility="{Binding Optional, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                             </StackPanel>
@@ -78,6 +86,65 @@
                                             <StackPanel Orientation="Horizontal" Visibility="{Binding Quantity, Converter={StaticResource NullableToVisibilityConverter}}">
                                                 <TextBlock Text="Quantity:"/>
                                                 <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Visibility="{Binding MLayer, Converter={StaticResource NullableToVisibilityConverter}}">
+                                                <TextBlock Text="mLayer:" />
+                                                <TextBlock Margin="15,0,0,0">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="Aspect - {0}">
+                                                            <Binding Path="MLayer.Aspect" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                                <TextBlock Margin="15,0,0,0">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="ID - {0}">
+                                                            <Binding Path="MLayer.Id" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Visibility="{Binding ExtQuantityType, Converter={StaticResource EmptyListVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="Quantity Type Ref:" FontSize="14" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ItemsControl ItemsSource="{Binding ExtQuantityType}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Vertical">
+                                                                    <TextBlock Margin="15,0,0,0">
+                                                                        <TextBlock.Text>
+                                                                            <Binding Path="QuantityCodeSystem">
+                                                                                <Binding.Converter>
+                                                                                    <converters:QuantityCodeSystemConverter/>
+                                                                                </Binding.Converter>
+                                                                            </Binding>
+                                                                        </TextBlock.Text>
+                                                                    </TextBlock>
+                                                                    <TextBlock Margin="15,0,0,0">
+                                                                        <TextBlock.Text>
+                                                                            <Binding Path="QuantityName">
+                                                                                <Binding.Converter>
+                                                                                    <converters:QuantityNameConverter/>
+                                                                                </Binding.Converter>
+                                                                            </Binding>
+                                                                        </TextBlock.Text>
+                                                                    </TextBlock>
+                                                                    <TextBlock Margin="15,0,0,0">
+                                                                        <TextBlock.Text>
+                                                                            <Binding Path="QuantityCode">
+                                                                                <Binding.Converter>
+                                                                                    <converters:QuantityCodeConverter/>
+                                                                                </Binding.Converter>
+                                                                            </Binding>
+                                                                        </TextBlock.Text>
+                                                                    </TextBlock>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
                                             </StackPanel>
                                         </StackPanel>
                                     </Border>

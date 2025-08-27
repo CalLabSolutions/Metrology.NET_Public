@@ -5,6 +5,7 @@ using MT_Editor.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Windows;
 using static MT_Editor.Helper;
 using Parameter = MT_DataAccessLib.Parameter;
@@ -44,50 +45,50 @@ namespace MT_Editor.ViewModels
             dialog = new();
 
             // Set up Details Tab
-            Definition = TaxonToSave.Definition;
+            Definition = Helper.TaxonToSave.Definition;
             quantitiesDic = UomDataSource.getQuantities();
 
             // parse out taxon name
             parsing = true;
-            if (TaxonToSave.Name.Length > 0)
+            if (Helper.TaxonToSave.Name.Length > 0)
             {
-                if (TaxonToSave.Name.Contains("TestProcess", System.StringComparison.CurrentCulture))
+                if (Helper.TaxonToSave.Name.Contains("TestProcess", System.StringComparison.CurrentCulture))
                 {
-                    TaxonToSave.Name.Replace("TestProcess.", "");
+                    Helper.TaxonToSave.Name.Replace("TestProcess.", "");
                 }
-                ParseTaxon(TaxonToSave);
+                ParseTaxon(Helper.TaxonToSave);
             }
             else
-                TaxonToSave.Name = "";
+                Helper.TaxonToSave.Name = "";
 
             // Set up Parameter Tab
-            if (TaxonToSave.Parameters == null)
+            if (Helper.TaxonToSave.Parameters == null)
             {
-                TaxonToSave.Parameters = new List<Parameter>();
+                Helper.TaxonToSave.Parameters = new List<Parameter>();
             }
-            Parameters = new ObservableCollection<Parameter>(TaxonToSave.Parameters);
+            Parameters = new ObservableCollection<Parameter>(Helper.TaxonToSave.Parameters);
 
             // Set up Results Tab
-            if (TaxonToSave.Results == null)
+            if (Helper.TaxonToSave.Results == null)
             {
-                TaxonToSave.Results = new List<Result>();
+                Helper.TaxonToSave.Results = new List<Result>();
             }
-            Results = new ObservableCollection<Result>(TaxonToSave.Results);
+            Results = new ObservableCollection<Result>(Helper.TaxonToSave.Results);
 
             // Set up Discipline Tab
-            if (TaxonToSave.Discipline == null)
+            if (Helper.TaxonToSave.Discipline == null)
             {
-                TaxonToSave.Discipline = new Discipline
+                Helper.TaxonToSave.Discipline = new Discipline
                 {
                     SubDisciplines = new List<string>()
                 };
             }
-            else if (TaxonToSave.Discipline != null && TaxonToSave.Discipline.SubDisciplines == null)
+            else if (Helper.TaxonToSave.Discipline != null && Helper.TaxonToSave.Discipline.SubDisciplines == null)
             {
-                TaxonToSave.Discipline.SubDisciplines = new List<string>();
+                Helper.TaxonToSave.Discipline.SubDisciplines = new List<string>();
             }
-            DisciplineName = TaxonToSave.Discipline.Name;
-            SubDisciplines = new ObservableCollection<string>(TaxonToSave.Discipline.SubDisciplines);
+            DisciplineName = Helper.TaxonToSave.Discipline.Name;
+            SubDisciplines = new ObservableCollection<string>(Helper.TaxonToSave.Discipline.SubDisciplines);
 
             CategoryTags = new ObservableCollection<CategoryTag>();
 
@@ -98,18 +99,18 @@ namespace MT_Editor.ViewModels
             dialog.Image = MessageBoxImage.Error;
 
             // Setup External References - Test Code
-            if (TaxonToSave.ExternalReferences == null)
+            if (Helper.TaxonToSave.ExternalReferences == null)
             {
-                TaxonToSave.ExternalReferences = new ExternalReferences()
+                Helper.TaxonToSave.ExternalReferences = new ExternalReferences()
                 {
                     References = new List<Reference>()
                 };
             }
-            else if (TaxonToSave.ExternalReferences != null && TaxonToSave.ExternalReferences.References == null)
+            else if (Helper.TaxonToSave.ExternalReferences != null && Helper.TaxonToSave.ExternalReferences.References == null)
             {
-                TaxonToSave.ExternalReferences.References = new List<Reference>();
+                Helper.TaxonToSave.ExternalReferences.References = new List<Reference>();
             }
-            References = new ObservableCollection<Reference>(TaxonToSave.ExternalReferences.References);
+            References = new ObservableCollection<Reference>(Helper.TaxonToSave.ExternalReferences.References);
         }
 
         private string addEdit;
@@ -136,13 +137,13 @@ namespace MT_Editor.ViewModels
             {
                 if (edit)
                 {
-                    var taxonomy = factory.Edit(TaxonToSave, SelectedTaxon.Name);
+                    var taxonomy = factory.Edit(Helper.TaxonToSave, SelectedTaxon.Name);
                     factory.Save(taxonomy, SaveLocal);
                     Navigate(MenuItem.ALL);
                 }
                 else
                 {
-                    var taxonomy = factory.Add(TaxonToSave);
+                    var taxonomy = factory.Add(Helper.TaxonToSave);
                     factory.Save(taxonomy, SaveLocal);
                     Navigate(MenuItem.ALL);
                 }
@@ -170,19 +171,19 @@ namespace MT_Editor.ViewModels
             }
 
             // make sure it does not already exist
-            if (!edit && factory.GetAllTaxons().Where(w => w.Name.ToLower().Equals(TaxonToSave.Name.ToLower())).ToList().Count > 0)
+            if (!edit && factory.GetAllTaxons().Where(w => w.Name.ToLower().Equals(Helper.TaxonToSave.Name.ToLower())).ToList().Count > 0)
             {
-                dialog.Message = string.Format("Taxon \"{0}\" already exists.", TaxonToSave.Name);
+                dialog.Message = string.Format("Taxon \"{0}\" already exists.", Helper.TaxonToSave.Name);
                 return false;
             }
 
             // Make sure we have at least 1 Parameter and 1 Result
-            if (TaxonToSave.Parameters == null || TaxonToSave.Parameters.Count == 0)
+            if (Helper.TaxonToSave.Parameters == null || Helper.TaxonToSave.Parameters.Count == 0)
             {
                 dialog.Message = "You must have at least 1 Parameter";
                 return false;
             }
-            if (TaxonToSave.Results == null || TaxonToSave.Results.Count == 0)
+            if (Helper.TaxonToSave.Results == null || Helper.TaxonToSave.Results.Count == 0)
             {
                 dialog.Message = "You must have at least 1 Result";
                 return false;
@@ -255,7 +256,7 @@ namespace MT_Editor.ViewModels
             set
             {
                 definition = value;
-                TaxonToSave.Definition = definition;
+                Helper.TaxonToSave.Definition = definition;
                 NotifyOfPropertyChange(() => Definition);
             }
         }
@@ -387,8 +388,8 @@ namespace MT_Editor.ViewModels
 
                 
 
-                qname = qname.Replace(" ", "-").ToLower();
-                var UomQuantity = UomDataSource.getQuantity(qname);
+                qname = qname.Replace(" ", "-");
+                var UomQuantity = UomDataSource.getQuantity(qname.ToLower());
                 if (UomQuantity != null)
                 {
                     SelectedQuantity = Quantity.FormatUomQuantity(UomQuantity);
@@ -419,7 +420,7 @@ namespace MT_Editor.ViewModels
                 {
                     name += Process;
                 }
-                TaxonToSave.Name = name;
+                Helper.TaxonToSave.Name = name;
             }
         }
 
@@ -450,7 +451,7 @@ namespace MT_Editor.ViewModels
             get { return paramDefinition; }
             set
             {
-                paramDefinition = value;
+                paramDefinition = WebUtility.HtmlEncode(value);
                 NotifyOfPropertyChange(() => ParamDefinition);
             }
         }
@@ -560,7 +561,7 @@ namespace MT_Editor.ViewModels
                     Quantity = q
                 };
                 Parameters.Add(param);
-                TaxonToSave.Parameters = new List<Parameter>(Parameters);
+                Helper.TaxonToSave.Parameters = new List<Parameter>(Parameters);
             }
             else
             {
@@ -575,7 +576,7 @@ namespace MT_Editor.ViewModels
                 return;
             }
             Parameters.RemoveAll(p => p.Name.ToLower().Equals(name.ToLower()));
-            TaxonToSave.Parameters = new List<Parameter>(Parameters);
+            Helper.TaxonToSave.Parameters = new List<Parameter>(Parameters);
         }
 
         #endregion Parameters Methods
@@ -694,7 +695,7 @@ namespace MT_Editor.ViewModels
                     Quantity = q
                 };
                 Results.Add(result);
-                TaxonToSave.Results = new List<Result>(Results);
+                Helper.TaxonToSave.Results = new List<Result>(Results);
             }
             else
             {
@@ -709,7 +710,7 @@ namespace MT_Editor.ViewModels
                 return;
             }
             Results.RemoveAll(p => p.Name.ToLower().Equals(name.ToLower()));
-            TaxonToSave.Results = new List<Result>(Results);
+            Helper.TaxonToSave.Results = new List<Result>(Results);
         }
 
         #endregion Results Methods
@@ -728,7 +729,7 @@ namespace MT_Editor.ViewModels
             set
             {
                 disciplineName = value;
-                TaxonToSave.Discipline.Name = value;
+                Helper.TaxonToSave.Discipline.Name = value;
                 NotifyOfPropertyChange(() => DisciplineName);
             }
         }
@@ -775,7 +776,7 @@ namespace MT_Editor.ViewModels
                 return;
             }
             SubDisciplines.Add(subName);
-            TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
+            Helper.TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
         }
 
         public void DeleteSub(string subName)
@@ -785,7 +786,7 @@ namespace MT_Editor.ViewModels
                 return;
             }
             SubDisciplines.RemoveAll(s => s.ToLower().Equals(subName.ToLower()));
-            TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
+            Helper.TaxonToSave.Discipline.SubDisciplines = new List<string>(SubDisciplines);
         }
 
         #endregion Discipline Methods
@@ -917,7 +918,7 @@ namespace MT_Editor.ViewModels
                 {
                     updateList.Add(item);
                 }
-                TaxonToSave.ExternalReferences.References = updateList;
+                Helper.TaxonToSave.ExternalReferences.References = updateList;
                 NotifyOfPropertyChange(() => References);
             }
         }
@@ -1011,7 +1012,7 @@ namespace MT_Editor.ViewModels
                     ShowAddReference = true;
                     SelectAdd = true;
                 }
-                TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+                Helper.TaxonToSave.ExternalReferences.References = new List<Reference>(References);
             }
         }
 
@@ -1063,7 +1064,7 @@ namespace MT_Editor.ViewModels
             }
             SelectedCategoryTags.Add(catTag);
             References[SelectedIndex].CategoryTagList = new List<CategoryTag>(SelectedCategoryTags);
-            TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            Helper.TaxonToSave.ExternalReferences.References = new List<Reference>(References);
             CategoryTag = new CategoryTag();
 
         }
@@ -1080,7 +1081,7 @@ namespace MT_Editor.ViewModels
             }
             SelectedCategoryTags.RemoveAll(c => c.Value.ToLower().Equals(catTag.Value.ToLower()));
             References[SelectedIndex].CategoryTagList = new List<CategoryTag>(SelectedCategoryTags);
-            TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            Helper.TaxonToSave.ExternalReferences.References = new List<Reference>(References);
             CategoryTag = new CategoryTag();
         }
 
@@ -1269,7 +1270,7 @@ namespace MT_Editor.ViewModels
                 reference.CategoryTagList = new List<CategoryTag>(CategoryList);
             }
             References.Add(reference);
-            TaxonToSave.ExternalReferences.References = new List<Reference>(References);
+            Helper.TaxonToSave.ExternalReferences.References = new List<Reference>(References);
             // Hide add reference tab
             ShowAddReference = false;
             SelectAdd = false;

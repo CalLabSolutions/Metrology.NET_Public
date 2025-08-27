@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" 
-    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" 
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" 
     xmlns:unc="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" 
-    xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" 
+    xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog" 
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty" elementFormDefault="qualified" vc:minVersion="1.0" vc:maxVersion="1.1">
     
@@ -10,10 +10,10 @@
         schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd"/>
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" 
         schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
-    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog" 
-        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog.xsd"/>
-    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" 
-        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database.xsd"/>
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog" 
+        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog.xsd"/>
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" 
+        schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database.xsd"/>
     
     <xs:element name="CMCs">
         <xs:complexType>

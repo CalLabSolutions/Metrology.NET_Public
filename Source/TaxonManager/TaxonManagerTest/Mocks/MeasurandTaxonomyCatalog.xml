@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<mtc:Taxonomy xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/UOM_Database" xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MetrologyTaxonomyCatalog">
+<mtc:Taxonomy xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" 
+              xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog">
   <mtc:Taxon name="Measure.Acceleration" deprecated="false" replacement="">
     <mtc:ExternalReference name="">
       <mtc:url />

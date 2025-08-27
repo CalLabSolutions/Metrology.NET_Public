@@ -124,6 +124,22 @@
                                                             <TextBlock Text="Quantity:" />
                                                             <TextBlock Text="{Binding Quantity.Name}" Margin="15,0,0,0" />
                                                         </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Visibility="{Binding MLayer, Converter={StaticResource NullableToVisibilityConverter}}">
+                                                            <TextBlock>
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding StringFormat="Aspect - {0}">
+                                                                        <Binding Path="MLayer.Aspect" />
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                            <TextBlock>
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding StringFormat="ID - {0}">
+                                                                        <Binding Path="MLayer.Aspect" />
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </StackPanel>
                                                     </StackPanel>
                                                     <Button Grid.Column="1" Background="Transparent" HorizontalAlignment="Right"  BorderBrush="Transparent">
                                                         <materialDesign:PackIcon Kind="TrashCan" Foreground="red" Height="24" Width="24"/>

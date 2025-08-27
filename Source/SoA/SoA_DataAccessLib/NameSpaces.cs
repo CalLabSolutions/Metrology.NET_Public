@@ -17,7 +17,7 @@ namespace SOA_DataAccessLib
             {"unc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"},
             {"mml", @"http://www.w3.org/1998/Math/MathML"},
             {"xhtml", @"http://www.w3.org/1999/xhtml"},
-            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog"}
+            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MII/Test/MeasurandTaxonomyCatalog"}
         };
 
         public string this[string key]

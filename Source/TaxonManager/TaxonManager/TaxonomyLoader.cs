@@ -10,10 +10,7 @@ namespace CalLabSolutions.TaxonManager
 {
     class TaxonomyLoader
     {
-        //TODO: Update to point to AWS.
-        // Temp fix until authentication can be built into this app for AWS access
-        //private const string XmlFromServer = "c:/_Programming/mii-taxonomy/MetrologyTaxonomyCatalog.xml";
-        private const string XmlFromServer = Namespaces.BASE_UIR + "MetrologyTaxonomyCatalog.xml";
+        private const string XmlFromServer = Namespaces.BASE_UIR + "MeasurandTaxonomyCatalog.xml";
 
         private const string XmlOut = "MTC_Local.xml";
 

@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Taxon xmlns:mtc="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog" xmlns:uom="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOM_Database" name="Measure.Capacitance" deprecated="false" replacement="">
+<mtc:Taxon name="Measure.Capacitance" deprecated="false" replacement=""
+       xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog"
+       xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database">
   <mtc:Result name="Capacitance">
     <uom:Quantity name="capacitance" />
   </mtc:Result>
@@ -17,4 +19,4 @@
   </mtc:Parameter>
   <mtc:Discipline name="Electrical" />
   <mtc:Definition>The process of measuring the capacitance of a device.</mtc:Definition>
-</Taxon>
+</mtc:Taxon>

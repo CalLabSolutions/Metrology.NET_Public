@@ -9,7 +9,7 @@ namespace CalLabSolutions.TaxonManager
 {
     static class Namespaces
     {
-        public const string BASE_UIR = "https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/";
+        public const string BASE_UIR = "https://cls-schemas.s3.us-west-1.amazonaws.com/MII/";
         public const string MTC = BASE_UIR + "MeasurandTaxonomyCatalog";
         public const string UOM = BASE_UIR + "UOM_Database";
         public const string MathML_NS = "http://www.w3.org/1998/Math/MathML";
@@ -33,6 +33,7 @@ namespace CalLabSolutions.TaxonManager
 
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.MTC)]
+    [XmlRoot(Namespace = Namespaces.MTC, IsNullable = true)]
     public class Taxon : ICloneable
     {
         public Taxon() { }

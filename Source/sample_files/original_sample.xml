@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <soa:SOADataMaster xmlns:soa="ttps://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude"
-    xmlns:uom="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/UOMDatabase"
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOMDatabase"
     xmlns:unc="ttps://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"
     xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:mtc="https://raw.githubusercontent.com/NCSLI-MII/measurand-taxonomy/main/MeasurandTaxonomyCatalog"
+    xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog"
     xsi:schemaLocation="ttps://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile ttps://cls-schemas.s3.us-west-1.amazonaws.com/SOA_Master_Datafile.xsd">
     <soa:AB_ID/>
     <soa:AB_Logo-Signature/>

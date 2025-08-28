@@ -3884,7 +3884,8 @@ namespace SOA_DataAccessLib
                 }
                 else
                 {
-                    var localTechnique = new MtcSpaceHelper(Technique).getElement("Technique");
+                    MtcSpaceHelper msh = new MtcSpaceHelper(Technique);
+                    var localTechnique = msh.getElement("Technique");
                     if (localTechnique != null)
                     {
                         technique = new Mtc_Technique(localTechnique, this, cMCs);
@@ -4817,8 +4818,14 @@ namespace SOA_DataAccessLib
             measuringEntity = soaSpaceHelper.getValue("MeasuringEntity");
             var el1 = soaSpaceHelper.getElement("Locations");
             var el2 = soaSpaceHelper.getElement("Activities");
-            if (el1 != null) locations = new Soa_CapabilityScope_Locations(el1);
-            if (el2 != null) activities = new Soa_Activities(el2);
+            if (el1 != null)
+            {
+                locations = new Soa_CapabilityScope_Locations(el1);
+            }
+            if (el2 != null)
+            {
+                activities = new Soa_Activities(el2);
+            }
             scopeNotes = soaSpaceHelper.getValue("ScopeNotes");
             version = soaSpaceHelper.getValue("Version");
             localLanguage = soaSpaceHelper.getValue("LocalLanguage");
@@ -5021,12 +5028,18 @@ namespace SOA_DataAccessLib
             root.addChild("AB_ID").setValue(Ab_ID);
             root.addChild("AB_Logo-Signature").setValue(Ab_Logo_Signature);
             root.addChild("Scope_ID_Number").setValue(Scope_ID_Number);
-            if (scopeUrls != null) scopeUrls.writeTo(root.Element);
+            if (scopeUrls != null)
+            {
+                scopeUrls.writeTo(root.Element);
+            }
             root.addChild("Criteria").setValue(Criteria);
             root.addChild("EffectiveDate").setValue(EffectiveDate);
             root.addChild("ExpirationDate").setValue(ExpirationDate);
             root.addChild("Statement").setValue(this.Statement);
-            if (capabilityScope != null) capabilityScope.writeTo(root.Element);
+            if (capabilityScope != null)
+            {
+                capabilityScope.writeTo(root.Element);
+            }
             root.addChild("HumanReadableDocument").setValue(HumanReadableDocument);
             root.addChild("VisualAidsScript").setValue(VisualAidsScript);
         }
@@ -5053,13 +5066,19 @@ namespace SOA_DataAccessLib
             ab_Logo_Signature = getValue("AB_Logo-Signature");
             scope_ID_Number = getValue("Scope_ID_Number");
             var el1 = getElement("ScopeURLs");
-            if (el1 != null) scopeUrls = new Soa_ScopeUrls(el1);
+            if (el1 != null)
+            {
+                scopeUrls = new Soa_ScopeUrls(el1);
+            }
             criteria = getValue("Criteria");
             effectiveDate = getValue("EffectiveDate");
             expirationDate = getValue("ExpirationDate");
             statement = getValue("Statement");
             var el2 = getElement("CapabilityScope");
-            if (el2 != null) capabilityScope = new Soa_CapabilityScope(el2);
+            if (el2 != null)
+            {
+                capabilityScope = new Soa_CapabilityScope(el2);
+            }
             humanReadableDocument = getValue("HumanReadableDocument");
             visualAidsScript = getValue("VisualAidsScript");
         }

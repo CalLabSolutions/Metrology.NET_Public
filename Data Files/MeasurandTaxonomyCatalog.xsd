@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    # Copyright
+    Copyright © 2023 by NCSL International. All rights reserved
+    # Permission To Reproduce
+    NCSL International (NCSLI) grants permission to make fair use of the material contained in this publication, including reproduction of part or all of its pages, according to the Creative Commons Attribution 4.0 license and under the following conditions:
+    1) The NCSLI copyright notice appears at the beginning of the publication.
+    2) The words “NCSL International Technical Publication” appears on each page reproduced.
+    3) The disclaimer hereafter is incorporated and understood by all persons or organizations reproducing the publication.
+    # Permission To Translate
+    Permission to translate part or all of this publication is granted provided that the following conditions are met:
+    1) The NCSLI copyright notice appears at the beginning of the translation.
+    2) The words “Translated by [translator's name]” appear on each page translated.
+    3) The following disclaimer is included and understood by all persons or organizations translating this publication. If the translation is copyrighted, the translation must carry a copyright notice for both the translation and for the publication from which it is translated.
+    # Disclaimer
+    The materials and information contained herein are provided and promulgated as an industry aid and guide, and are based on standards, formulae, and techniques recognized by NCSL International. The materials are prepared without reference to any specific federal, state, or local laws or regulations, and NCSL International does not warrant or guarantee any specific result when relied upon. The materials provide a guide or recommended practices and are not all-inclusive.
+    From time-to-time commercial equipment, instruments, or materials are identified in technical publications to foster understanding. Such identification does not imply recommendation or endorsement by the NCSL International, nor does it imply that the materials or equipment identified are necessarily the best available for the purpose.
+    Non-binding CC license summary: https://creativecommons.org/licenses/by-sa/4.0/
+    Legal license: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.0" vc:maxVersion="1.1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:uom="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database"
+    xmlns:mtc="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog"
+    elementFormDefault="qualified" attributeFormDefault="unqualified"
+    targetNamespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog">
+    
+    <xs:import namespace="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database" schemaLocation="https://cls-schemas.s3.us-west-1.amazonaws.com/MII/UOM_Database.xsd"/>
+
+    <xs:element name="Taxonomy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="mtc:Taxon"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="mLayer">
+      <xs:complexType>
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="aspect" type="xs:Name" use="required"/>
+        <xs:attribute name="id" type="xs:Name" use="required"/>
+      </xs:complexType>
+    </xs:element>
+
+  <!-- The "quantityCodeSystemType" is from the 
+	     https://github.com/TC-IM-1448/DCC-Tables/blob/main/dcx.xsd
+		 When this library is complete Reference should be syncronized with the 
+		 work done by DCC-Tables (DCX)
+  -->
+     <xs:simpleType name="quantityCodeSystemType">
+          <xs:annotation>
+              <xs:documentation>
+              </xs:documentation>
+          </xs:annotation>
+          <xs:restriction base="xs:string">
+              <xs:enumeration value="ISO/IEC 80000" /> 
+              <xs:enumeration value="si-digital-framework.org" /> 
+              <xs:enumeration value="electropedia.org"/>
+              <xs:enumeration value="mlayer.org" /> 
+              <xs:enumeration value="qudt.org" /> 
+              <xs:enumeration value="ucum.org" /> 
+              <xs:enumeration value="ptb.de" /> 
+              <xs:enumeration value="other" /> 
+          </xs:restriction>
+      </xs:simpleType>
+
+  <xs:element name="ExternalQuantityType">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="quantityCodeSystem" type="mtc:quantityCodeSystemType" minOccurs="0" maxOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="quantityName" type="xs:string" use="required"/>
+        <xs:attribute name="quantityCode" type="xs:string" use="required"/>
+      </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Result">
+        <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="uom:Quantity" maxOccurs="1" minOccurs="0"/>
+              <xs:element ref="mtc:mLayer" maxOccurs="1" minOccurs="0"/>
+              <xs:element ref="mtc:ExternalQuantityType"  minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:Name" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Parameter">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Definition" type="xs:string" minOccurs="0"/>
+                <xs:element ref="uom:Quantity" maxOccurs="1" minOccurs="0"/>
+                <xs:element ref="mtc:mLayer" maxOccurs="1" minOccurs="0" />
+                <xs:element ref="mtc:ExternalQuantityType" maxOccurs="1" minOccurs="0"/>
+            </xs:sequence>            
+            <xs:attribute name="name" type="xs:Name" use="required"/>
+            <xs:attribute default="false" name="optional" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element>
+
+  <xs:element name="ExternalReferences">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element minOccurs="1" ref="mtc:Reference" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Reference">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element minOccurs="0" ref="mtc:CategoryTag" />
+          <xs:element  minOccurs="1" ref="mtc:ReferenceUrl" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ReferenceUrl">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="name" type="xs:string" />
+          <xs:element name="url" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+  <xs:element name="CategoryTag">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="value" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Discipline">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="SubDiscipline" type="xs:string" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Taxon">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:ExternalReferences"/>
+                <xs:element maxOccurs="unbounded" ref="mtc:Result"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:Parameter"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="mtc:Discipline"/>
+                <xs:element minOccurs="0" maxOccurs="1" name="Definition" type="xs:string"/>
+            </xs:sequence>
+            <xs:attribute form="unqualified" name="name" type="xs:Name" use="required"/>
+            <xs:attribute default="false" name="deprecated" type="xs:boolean"/>
+            <xs:attribute default="false" name="replacement" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

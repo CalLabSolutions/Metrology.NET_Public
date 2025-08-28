@@ -790,7 +790,7 @@ namespace SOA_DataAccessLib
                     {
                         _uom_alternative = "";
                     }
-                    else if (quantity.hasAlternative(value))
+                    else if (quantity != null && quantity.hasAlternative(value))
                     {
                         _uom_alternative = value;
                     }

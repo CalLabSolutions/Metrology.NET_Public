@@ -664,7 +664,8 @@ namespace MT_DataAccessLib
             {
                 if (Database != null)
                 {
-                    var qtys = Database.Descendants(ns + "Quantity");
+                    
+                    var qtys = Database.Descendants(ns + "Quantity").ToList();
                     if (qtys != null)
                     {
                         foreach (XElement el in qtys)
@@ -715,7 +716,7 @@ namespace MT_DataAccessLib
             {"unc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/Uncertainty"},
             {"mml", @"http://www.w3.org/1998/Math/MathML"},
             {"xhtml", @"http://www.w3.org/1999/xhtml"},
-            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MII/Test/MeasurandTaxonomyCatalog"}
+            {"mtc", @"https://cls-schemas.s3.us-west-1.amazonaws.com/MII/MeasurandTaxonomyCatalog"}
         };
 
         public string this[string key]
